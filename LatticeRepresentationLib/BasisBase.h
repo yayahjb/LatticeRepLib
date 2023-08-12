@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "rhrand.h"
+#include "VecN.h"
 
 class LRL_Cell;
 class C3;
@@ -24,7 +25,7 @@ T CreateUnitOrthogonalVector(const T& t) {
    T temp;
    for (size_t i = 0; i < 6; ++i) temp[i] = ran.urand() - 0.5;
    temp /= temp.norm();
-   const double d = dot(VecN(base.GetVector()), VecN(temp.GetVector()));
+   const double d = VecN(base.GetVector()).dot(VecN(temp.GetVector()));
    const T ortho = temp - d * base;
    return ortho / ortho.norm();
 }

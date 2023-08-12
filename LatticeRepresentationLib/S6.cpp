@@ -397,6 +397,77 @@ S6 S6::InvertCoord(const size_t n) const {
    temp[n] = -temp[n];
    return temp;
 }
+
+S6 S6::ReZeroScalars(const double delta, const S6& din) {
+  S6 temp(din);
+  if (temp[0] >= -delta && temp[0] <= delta) temp[0]=0.;
+  if (temp[1] >= -delta && temp[1] <= delta) temp[1]=0.;
+  if (temp[2] >= -delta && temp[2] <= delta) temp[2]=0.;
+  if (temp[3] >= -delta && temp[3] <= delta) temp[3]=0.;
+  if (temp[4] >= -delta && temp[4] <= delta) temp[4]=0.;
+  if (temp[5] >= -delta && temp[5] <= delta) temp[5]=0.;
+  return temp;
+}
+
+S6 S6::ReZeroScalars(const S6& din) {
+  double delta, tdelta;
+  S6 temp(din);
+  delta = (temp[0]>0.)?temp[0]:-temp[0];
+  tdelta = (temp[1]>0.)?temp[1]:-temp[1];
+  if (tdelta > delta) delta=tdelta;
+  tdelta = (temp[2]>0.)?temp[2]:-temp[2];
+  if (tdelta > delta) delta=tdelta;
+  tdelta = (temp[3]>0.)?temp[3]:-temp[3];
+  if (tdelta > delta) delta=tdelta;
+  tdelta = (temp[4]>0.)?temp[4]:-temp[4];
+  if (tdelta > delta) delta=tdelta;
+  tdelta = (temp[5]>0.)?temp[5]:-temp[5];
+  if (tdelta > delta) delta=tdelta;
+  delta *= 1.e-9;
+  if (temp[0] >= -delta && temp[0] <= delta) temp[0]=0.;
+  if (temp[1] >= -delta && temp[1] <= delta) temp[1]=0.;
+  if (temp[2] >= -delta && temp[2] <= delta) temp[2]=0.;
+  if (temp[3] >= -delta && temp[3] <= delta) temp[3]=0.;
+  if (temp[4] >= -delta && temp[4] <= delta) temp[4]=0.;
+  if (temp[5] >= -delta && temp[5] <= delta) temp[5]=0.;
+  return temp;
+}
+
+S6 S6::ReZeroScalars(const double delta) {
+  S6 temp(*this);
+  if (temp[0] >= -delta && temp[0] <= delta) temp[0]=0.;
+  if (temp[1] >= -delta && temp[1] <= delta) temp[1]=0.;
+  if (temp[2] >= -delta && temp[2] <= delta) temp[2]=0.;
+  if (temp[3] >= -delta && temp[3] <= delta) temp[3]=0.;
+  if (temp[4] >= -delta && temp[4] <= delta) temp[4]=0.;
+  if (temp[5] >= -delta && temp[5] <= delta) temp[5]=0.;
+  return temp;
+}
+
+S6 S6::ReZeroScalars(void) {
+  double delta, tdelta;
+  S6 temp(*this);
+  delta = (temp[0]>0.)?temp[0]:-temp[0];
+  tdelta = (temp[1]>0.)?temp[1]:-temp[1];
+  if (tdelta > delta) delta=tdelta;
+  tdelta = (temp[2]>0.)?temp[2]:-temp[2];
+  if (tdelta > delta) delta=tdelta;
+  tdelta = (temp[3]>0.)?temp[3]:-temp[3];
+  if (tdelta > delta) delta=tdelta;
+  tdelta = (temp[4]>0.)?temp[4]:-temp[4];
+  if (tdelta > delta) delta=tdelta;
+  tdelta = (temp[5]>0.)?temp[5]:-temp[5];
+  if (tdelta > delta) delta=tdelta;
+  delta *= 1.e-9;
+  if (temp[0] >= -delta && temp[0] <= delta) temp[0]=0.;
+  if (temp[1] >= -delta && temp[1] <= delta) temp[1]=0.;
+  if (temp[2] >= -delta && temp[2] <= delta) temp[2]=0.;
+  if (temp[3] >= -delta && temp[3] <= delta) temp[3]=0.;
+  if (temp[4] >= -delta && temp[4] <= delta) temp[4]=0.;
+  if (temp[5] >= -delta && temp[5] <= delta) temp[5]=0.;
+  return temp;
+}
+
 std::string S6::Signature(const S6& s6) {
    std::string s;
    for (size_t i = 0; i < 6; ++i) {
