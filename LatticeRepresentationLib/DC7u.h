@@ -70,15 +70,20 @@ public:
       return vertices; 
    }
 
+   std::vector<double> GetAreas() const;
    std::vector<std::string> GetStringIndices();
    static  std::string GetName()  { return "DC7u"; }
    size_t size() const { return m_vec.size(); }
 
+   LRL_Cell GetCell() const { return m_cell; }
 
 private:
+   LRL_Cell m_cell;
    std::string m_lattice;
    bool m_cellIsValid;
+   VecN m_dirCellAreas;
    size_t m_dim;
+   std::vector<std::pair<int, std::pair<std::vector<int>, double> > > m_hashedAreaList;
    VecN m_vec;
 
 };

@@ -56,7 +56,9 @@ void DC7u::FromCellToDC7u(const LRL_Cell& cell) {
 }
 
 DC7u::DC7u(const LRL_Cell& cell)
-   : m_cellIsValid(cell.IsValid())
+   : m_cell(cell)
+   , m_lattice("P")
+   , m_cellIsValid(cell.IsValid())
 {
    FromCellToDC7u(cell);
 }
@@ -225,6 +227,8 @@ DC7u& DC7u::operator= (const LRL_Cell& v) {
 DC7u& DC7u::operator= (const DC7u& v) {
    m_dim = v.m_dim;
    m_cellIsValid = v.m_cellIsValid;
+   m_cell = v.m_cell;
+   m_lattice = v.m_lattice;
    m_vec = v.m_vec;
    return *this;
 }
