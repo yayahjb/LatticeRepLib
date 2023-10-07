@@ -57,39 +57,39 @@ void DC7u::FromCellToDC7u(const LRL_Cell& cell) {
 }
 
 DC7u::DC7u(const LRL_Cell& cell)
-   : m_cell(cell)
+   : m_dim(7)
+   , m_cell(cell)
    , m_cellIsValid(cell.IsValid())
-   , m_dim(7)
+   , m_lattice("P")
 {
    FromCellToDC7u(cell);
-   m_lattice = "P";
 }
 
 DC7u::DC7u(const DC7u& u)
-   : m_cellIsValid(u.m_cellIsValid)
+   : m_dim(7)
+   , m_cellIsValid(u.m_cellIsValid)
    , m_vec(u.m_vec)
-   , m_dim(7)
 {
    m_cellIsValid = IsValid();
 }
 
 DC7u::DC7u( void )
-   : m_cellIsValid(false)
-   , m_dim(0)
+   : m_dim(0)
+   , m_cellIsValid(false)
 {
    m_vec.resize(7);
 }
 
 DC7u::DC7u(const VecN& v)
-   : m_vec(v)
-   , m_dim(7)
+   : m_dim(7)
+   , m_vec(v)
 {
   m_cellIsValid = IsValid();
 }
 
 DC7u::DC7u(const std::vector<double>& v)
-   : m_vec(v)
-   , m_dim(7)
+   : m_dim(7)
+   , m_vec(v)
 {
   m_cellIsValid = IsValid();
 }
@@ -240,4 +240,16 @@ double DistanceBetween(const DC7u& v1, const DC7u& v2) {
 
 DC7u operator* (const double d, const DC7u& dc7u) {
    return dc7u * d;
+}
+
+bool DC7u::IsReduced() const {
+   const DC7u& dc7u = *this;
+   int error = 0;
+   const double delta = std::fabs(dc7u[DC7u_AA_idx]) * 1.e-10;
+   for (size_t ii = 0; ii < 7; ii++) {
+      if (dc7u[ii] < delta) error++;
+   }
+   if (dc7u[DC7u_AA_idx] > dc7u[DC7u_BB_idx] + delta ||
+      dc7u[DC7u_BB_idx] > dc7u[DC7u_CC_idx] + delta) error++;
+   return error == 0;
 }
