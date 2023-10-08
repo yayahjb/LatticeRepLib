@@ -1,4 +1,6 @@
 
+LRL_WEB_BINDEST ?= $(HOME)/public_html/cgi-bin/
+
 COMMANDS  =  \
 	CheckInput \
 	CmdCmplx \
@@ -22,10 +24,14 @@ COMMANDS  =  \
 
 BIN	= $(PWD)/bin
 
-all:	$(COMMANDS)
+all:	$(BIN) $(COMMANDS) $(LRL_WEB_BINDEST)
+	cp $(BIN)/* $(LRL_WEB_BINDEST)
 
 $(BIN):
 	mkdir -p $(BIN)
 
+$(LRL_WEB_BINDEST):
+	mkdir -p $(LRL_WEB_BINDEST)
+
 $(COMMANDS):  $(BIN)/$@
-	(cd $@; make all; mv $@ $(BIN))
+	(cd $@; make all; cp $@ $(BIN))

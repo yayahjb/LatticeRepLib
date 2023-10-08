@@ -195,7 +195,7 @@ LRL_WEB Lattice Representation Library Tool Web Page
 <br /> Lawrence C. Andrews, Herbert J. Bernstein, Ronin Institute for Independent Scholarship,
 <br /><A HREF=mailto:lawrence.andrews@ronininstitute.org>lawrence.andrews@ronininstitute.org</A>
 <a href=mailto:yayahjb@gmail.com>yayahjb@gmail.com</a><br />
-<FORM method=POST ACTION="http://192.168.1.222/~yaya/cgi-bin/lrl_web.cgi">
+<FORM method=POST ACTION="http://blondie.arcib.org:8083/~yaya/cgi-bin/lrl_web.cgi">
 <br />
 Assorted tools to do various calculations for crystallographic lattices.
 <br />
@@ -213,7 +213,7 @@ Please read the <a href="#notice">NOTICE</a> below before use of this web page
   <table>
   <tr>
   <td colspan=3 align="center">
-  <label for="numops">Number of operations: </label>
+  <label for="numops">Number of operation windows: </label>
   <select name="numops" id="numops" onchange="changenumops()" size="1">
   <option selected value="1">1</option>
   <option value="2">2</option>
@@ -242,8 +242,7 @@ Please read the <a href="#notice">NOTICE</a> below before use of this web page
   <div id="block_01a" style="display:inline"> 
   <label for="operation_01">Select an operation:</label><br/>
   <select name="operation_01" id="operation_01" size="19">
-  <option value="NoOp">No operation</option>
-  <option value="CmdCmplx">generate four C6 test cells</option>
+  <option value="NoOp">Check Input</option>
   <option value="CmdDelone">compute Selling-reduced primitive cells</option>
   <option value="CmdDists">compute NCDist and CS6Dist distances</option>
   <option value="CmdLM">apply Lattice Matching algorithm to listed cells</option>
@@ -257,8 +256,8 @@ Please read the <a href="#notice">NOTICE</a> below before use of this web page
   <option value="CmdToCell"> compute side-angle cells (a, b, c, &alpha;, &beta;, &gamma;)</option>
   <option value="CmdToD13"> compute raw Dirichlet cells (DC13)</option>
   <option value="CmdToDC"> computed sorted Dirichlet cells (DC)</option>
-  <option value="CmdToG6"> compute Niggli-reduced cells (G6)</option>
-  <option value="CmdToS6"> compute Selling-reduced cells (S6)</option>
+  <option value="CmdToG6"> compute G6 version of cells</option>
+  <option value="CmdToS6"> compute S6 version of cells</option>
   <option value="CmdToU"> compute unsorted Dirichlet cells (dc7unsrt)</option>
   <option value="CmdVolume"> compute volumes of listed cells</option>
   </select>
@@ -294,8 +293,7 @@ Please read the <a href="#notice">NOTICE</a> below before use of this web page
   <div id="block_02a" style="display:none"> 
   <label for="operation_02">Select an operation:</label><br/>
   <select name="operation_02" id="operation_02" size="19">
-  <option selected value="NoOp">No operation</option>
-  <option value="CmdCmplx">generate four C6 test cells</option>
+  <option selected value="NoOp">Check Input</option>
   <option value="CmdDelone">compute Selling-reduced primitive cells</option>
   <option value="CmdDists">compute NCDist and CS6Dist distances</option>
   <option value="CmdLM">apply Lattice Matching algorithm to listed cells</option>
@@ -309,8 +307,8 @@ Please read the <a href="#notice">NOTICE</a> below before use of this web page
   <option value="CmdToCell"> compute side-angle cells (a, b, c, &alpha;, &beta;, &gamma;)</option>
   <option value="CmdToD13"> compute raw Dirichlet cells (DC13)</option>
   <option value="CmdToDC"> computed sorted Dirichlet cells (DC)</option>
-  <option value="CmdToG6"> compute Niggli-reduced cells (G6)</option>
-  <option value="CmdToS6"> compute Selling-reduced cells (S6)</option>
+  <option value="CmdToG6"> compute G6 version of cells</option>
+  <option value="CmdToS6"> compute S6 version of cells</option>
   <option value="CmdToU"> compute unsorted Dirichlet cells (dc7unsrt)</option>
   <option value="CmdVolume"> compute volumes of listed cells</option>
   </select>
@@ -346,8 +344,7 @@ Please read the <a href="#notice">NOTICE</a> below before use of this web page
   <div id="block_03a" style="display:none"> 
   <label for="operation_03">Select an operation:</label><br/>
   <select name="operation_03" id="operation_03" size="19">
-  <option selected value="NoOp">No operation</option>
-  <option value="CmdCmplx">generate four C6 test cells</option>
+  <option selected value="NoOp">Check Input</option>
   <option value="CmdDelone">compute Selling-reduced primitive cells</option>
   <option value="CmdDists">compute NCDist and CS6Dist distances</option>
   <option value="CmdLM">apply Lattice Matching algorithm to listed cells</option>
@@ -361,8 +358,8 @@ Please read the <a href="#notice">NOTICE</a> below before use of this web page
   <option value="CmdToCell"> compute side-angle cells (a, b, c, &alpha;, &beta;, &gamma;)</option>
   <option value="CmdToD13"> compute raw Dirichlet cells (DC13)</option>
   <option value="CmdToDC"> computed sorted Dirichlet cells (DC)</option>
-  <option value="CmdToG6"> compute Niggli-reduced cells (G6)</option>
-  <option value="CmdToS6"> compute Selling-reduced cells (S6)</option>
+  <option value="CmdToG6"> compute G6 version of cells</option>
+  <option value="CmdToS6"> compute S6 version of cells</option>
   <option value="CmdToU"> compute unsorted Dirichlet cells (dc7unsrt)</option>
   <option value="CmdVolume"> compute volumes of listed cells</option>
   </select>
@@ -398,8 +395,7 @@ Please read the <a href="#notice">NOTICE</a> below before use of this web page
   <div id="block_04a" style="display:none"> 
   <label for="operation_04">Select an operation:</label><br/>
   <select name="operation_04" id="operation_04" size="19">
-  <option selected value="NoOp">No operation</option>
-  <option value="CmdCmplx">generate four C6 test cells</option>
+  <option selected value="NoOp">Check Input</option>
   <option value="CmdDelone">compute Selling-reduced primitive cells</option>
   <option value="CmdDists">compute NCDist and CS6Dist distances</option>
   <option value="CmdLM">apply Lattice Matching algorithm to listed cells</option>
@@ -413,8 +409,8 @@ Please read the <a href="#notice">NOTICE</a> below before use of this web page
   <option value="CmdToCell"> compute side-angle cells (a, b, c, &alpha;, &beta;, &gamma;)</option>
   <option value="CmdToD13"> compute raw Dirichlet cells (DC13)</option>
   <option value="CmdToDC"> computed sorted Dirichlet cells (DC)</option>
-  <option value="CmdToG6"> compute Niggli-reduced cells (G6)</option>
-  <option value="CmdToS6"> compute Selling-reduced cells (S6)</option>
+  <option value="CmdToG6"> compute G6 version of cells</option>
+  <option value="CmdToS6"> compute S6 version of cells</option>
   <option value="CmdToU"> compute unsorted Dirichlet cells (dc7unsrt)</option>
   <option value="CmdVolume"> compute volumes of listed cells</option>
   </select>
@@ -450,8 +446,7 @@ Please read the <a href="#notice">NOTICE</a> below before use of this web page
   <div id="block_05a" style="display:none"> 
   <label for="operation_05">Select an operation:</label><br/>
   <select name="operation_05" id="operation_05" size="19">
-  <option selected value="NoOp">No operation</option>
-  <option value="CmdCmplx">generate four C6 test cells</option>
+  <option selected value="NoOp">Check Input</option>
   <option value="CmdDelone">compute Selling-reduced primitive cells</option>
   <option value="CmdDists">compute NCDist and CS6Dist distances</option>
   <option value="CmdLM">apply Lattice Matching algorithm to listed cells</option>
@@ -465,8 +460,8 @@ Please read the <a href="#notice">NOTICE</a> below before use of this web page
   <option value="CmdToCell"> compute side-angle cells (a, b, c, &alpha;, &beta;, &gamma;)</option>
   <option value="CmdToD13"> compute raw Dirichlet cells (DC13)</option>
   <option value="CmdToDC"> computed sorted Dirichlet cells (DC)</option>
-  <option value="CmdToG6"> compute Niggli-reduced cells (G6)</option>
-  <option value="CmdToS6"> compute Selling-reduced cells (S6)</option>
+  <option value="CmdToG6"> compute G6 version of cells</option>
+  <option value="CmdToS6"> compute S6 version of cells</option>
   <option value="CmdToU"> compute unsorted Dirichlet cells (dc7unsrt)</option>
   <option value="CmdVolume"> compute volumes of listed cells</option>
   </select>
@@ -502,8 +497,7 @@ Please read the <a href="#notice">NOTICE</a> below before use of this web page
   <div id="block_06a" style="display:none"> 
   <label for="operation_06">Select an operation:</label><br/>
   <select name="operation_06" id="operation_06" size="19">
-  <option selected value="NoOp">No operation</option>
-  <option value="CmdCmplx">generate four C6 test cells</option>
+  <option selected value="NoOp">Check Input</option>
   <option value="CmdDelone">compute Selling-reduced primitive cells</option>
   <option value="CmdDists">compute NCDist and CS6Dist distances</option>
   <option value="CmdLM">apply Lattice Matching algorithm to listed cells</option>
@@ -517,8 +511,8 @@ Please read the <a href="#notice">NOTICE</a> below before use of this web page
   <option value="CmdToCell"> compute side-angle cells (a, b, c, &alpha;, &beta;, &gamma;)</option>
   <option value="CmdToD13"> compute raw Dirichlet cells (DC13)</option>
   <option value="CmdToDC"> computed sorted Dirichlet cells (DC)</option>
-  <option value="CmdToG6"> compute Niggli-reduced cells (G6)</option>
-  <option value="CmdToS6"> compute Selling-reduced cells (S6)</option>
+  <option value="CmdToG6"> compute G6 version of cells</option>
+  <option value="CmdToS6"> compute S6 version of cells</option>
   <option value="CmdToU"> compute unsorted Dirichlet cells (dc7unsrt)</option>
   <option value="CmdVolume"> compute volumes of listed cells</option>
   </select>
@@ -554,8 +548,7 @@ Please read the <a href="#notice">NOTICE</a> below before use of this web page
   <div id="block_07a" style="display:none"> 
   <label for="operation_07">Select an operation:</label><br/>
   <select name="operation_07" id="operation_07" size="19">
-  <option selected value="NoOp">No operation</option>
-  <option value="CmdCmplx">generate four C6 test cells</option>
+  <option selected value="NoOp">Check Input</option>
   <option value="CmdDelone">compute Selling-reduced primitive cells</option>
   <option value="CmdDists">compute NCDist and CS6Dist distances</option>
   <option value="CmdLM">apply Lattice Matching algorithm to listed cells</option>
@@ -569,8 +562,8 @@ Please read the <a href="#notice">NOTICE</a> below before use of this web page
   <option value="CmdToCell"> compute side-angle cells (a, b, c, &alpha;, &beta;, &gamma;)</option>
   <option value="CmdToD13"> compute raw Dirichlet cells (DC13)</option>
   <option value="CmdToDC"> computed sorted Dirichlet cells (DC)</option>
-  <option value="CmdToG6"> compute Niggli-reduced cells (G6)</option>
-  <option value="CmdToS6"> compute Selling-reduced cells (S6)</option>
+  <option value="CmdToG6"> compute G6 version of cells</option>
+  <option value="CmdToS6"> compute S6 version of cells</option>
   <option value="CmdToU"> compute unsorted Dirichlet cells (dc7unsrt)</option>
   <option value="CmdVolume"> compute volumes of listed cells</option>
   </select>
@@ -606,8 +599,7 @@ Please read the <a href="#notice">NOTICE</a> below before use of this web page
   <div id="block_08a" style="display:none"> 
   <label for="operation_08">Select an operation:</label><br/>
   <select name="operation_08" id="operation_08" size="19">
-  <option selected value="NoOp">No operation</option>
-  <option value="CmdCmplx">generate four C6 test cells</option>
+  <option selected value="NoOp">Check Input</option>
   <option value="CmdDelone">compute Selling-reduced primitive cells</option>
   <option value="CmdDists">compute NCDist and CS6Dist distances</option>
   <option value="CmdLM">apply Lattice Matching algorithm to listed cells</option>
@@ -621,8 +613,8 @@ Please read the <a href="#notice">NOTICE</a> below before use of this web page
   <option value="CmdToCell"> compute side-angle cells (a, b, c, &alpha;, &beta;, &gamma;)</option>
   <option value="CmdToD13"> compute raw Dirichlet cells (DC13)</option>
   <option value="CmdToDC"> computed sorted Dirichlet cells (DC)</option>
-  <option value="CmdToG6"> compute Niggli-reduced cells (G6)</option>
-  <option value="CmdToS6"> compute Selling-reduced cells (S6)</option>
+  <option value="CmdToG6"> compute G6 version of cells</option>
+  <option value="CmdToS6"> compute S6 version of cells</option>
   <option value="CmdToU"> compute unsorted Dirichlet cells (dc7unsrt)</option>
   <option value="CmdVolume"> compute volumes of listed cells</option>
   </select>
@@ -658,8 +650,7 @@ Please read the <a href="#notice">NOTICE</a> below before use of this web page
   <div id="block_09a" style="display:none"> 
   <label for="operation_09">Select an operation:</label><br/>
   <select name="operation_09" id="operation_09" size="19">
-  <option selected value="NoOp">No operation</option>
-  <option value="CmdCmplx">generate four C6 test cells</option>
+  <option selected value="NoOp">Check Input</option>
   <option value="CmdDelone">compute Selling-reduced primitive cells</option>
   <option value="CmdDists">compute NCDist and CS6Dist distances</option>
   <option value="CmdLM">apply Lattice Matching algorithm to listed cells</option>
@@ -673,8 +664,8 @@ Please read the <a href="#notice">NOTICE</a> below before use of this web page
   <option value="CmdToCell"> compute side-angle cells (a, b, c, &alpha;, &beta;, &gamma;)</option>
   <option value="CmdToD13"> compute raw Dirichlet cells (DC13)</option>
   <option value="CmdToDC"> computed sorted Dirichlet cells (DC)</option>
-  <option value="CmdToG6"> compute Niggli-reduced cells (G6)</option>
-  <option value="CmdToS6"> compute Selling-reduced cells (S6)</option>
+  <option value="CmdToG6"> compute G6 version of cells</option>
+  <option value="CmdToS6"> compute S6 version of cells</option>
   <option value="CmdToU"> compute unsorted Dirichlet cells (dc7unsrt)</option>
   <option value="CmdVolume"> compute volumes of listed cells</option>
   </select>
@@ -710,8 +701,7 @@ Please read the <a href="#notice">NOTICE</a> below before use of this web page
   <div id="block_10a" style="display:none"> 
   <label for="operation_10">Select an operation:</label><br/>
   <select name="operation_10" id="operation_10" size="19">
-  <option selected value="NoOp">No operation</option>
-  <option value="CmdCmplx">generate four C6 test cells</option>
+  <option selected value="NoOp">Check Input</option>
   <option value="CmdDelone">compute Selling-reduced primitive cells</option>
   <option value="CmdDists">compute NCDist and CS6Dist distances</option>
   <option value="CmdLM">apply Lattice Matching algorithm to listed cells</option>
@@ -725,8 +715,8 @@ Please read the <a href="#notice">NOTICE</a> below before use of this web page
   <option value="CmdToCell"> compute side-angle cells (a, b, c, &alpha;, &beta;, &gamma;)</option>
   <option value="CmdToD13"> compute raw Dirichlet cells (DC13)</option>
   <option value="CmdToDC"> computed sorted Dirichlet cells (DC)</option>
-  <option value="CmdToG6"> compute Niggli-reduced cells (G6)</option>
-  <option value="CmdToS6"> compute Selling-reduced cells (S6)</option>
+  <option value="CmdToG6"> compute G6 version of cells</option>
+  <option value="CmdToS6"> compute S6 version of cells</option>
   <option value="CmdToU"> compute unsorted Dirichlet cells (dc7unsrt)</option>
   <option value="CmdVolume"> compute volumes of listed cells</option>
   </select>
@@ -858,24 +848,127 @@ FILE OR FILES AND NOT WITH AUTHORS OF THE PROGRAMS OR DOCUMENTS.
 <H2>Access to the source of LRL_WEB</H2>
 
 <p>
+<h2>History</h2>
+<p>Human fascination with crystals has a long history. 105,000 years ago, someone had a collection 
+of calcite crystals (Iceland spar) <a href="#Wilkins2021">[Wilkins <i>et al.</i> 2021]</a>. 
+Theophrastus (ca. 372-287 B.C.), a 
+student of Plato and successor to Aristotle, wrote the first known treatise on gems (“On Stones”) 
+<a href="#Wikipedia2022">[Wikipedia contributors 2022]</a>.
+
+Figure 1 notes a few key events in cataloging crystal properties. We start with <a href="#Kepler1611">[Kepler 1611]</a> 
+(translated in <a href="#Kepler1966">[Kepler <i>et al.</i> 1966]) and Steno (see <a href="#Authier2013">[Authier 2013]</a> who conjectured on the structures 
+of crystals. <a name="Hauey1800">[Ha&uuml;y 1800]</a> created the first catalog of minerals.
+<p>
+<img align="left" src=/~yaya/images/timeline.jpg />
+<p>
+Fig. 1. Some key dates in the history of modern crystallography
+<p>
+
+<h2>References to Sources for Information about the Calculations</h2>
+<ol>
+<li>Check Input: simply check the input for errors</li>
+<li>compute Selling-reduced primitive cells: Delone/Delaunay/Selling reduction <a href="#Delaunay1933">[Delaunay 1933]</a>
+<a href="#Delone1975">[Delone <i>et al.</i> 1975]</a> <a href="#Andrews2019a">[Andrews <i>et al.</i> 2019a]</a></li>
+<li>compute NCDist and CS6Dist distances <a href="#Andrews2014">[Andrews and Bernstein 2014]</a>
+<a href="#Andrews2019b">[Andrews <i>et al.</i> 2019b]</a></li>
+<li>apply Lattice Matching algorithm to listed cells <a href="#Mighell2002">[Mighell 2002]</a>
+<a href="#Andrews2021">[Andrews and Bernstein 2021]</a></li>
+<li>compute Niggli-reduced primitive cells <a href="#Niggli1928">[Niggli 1928]</a></li>
+<li>compute path between pairs of cells
+<a href="#Andrews2023a">[Andrews and Bernstein 2023a]</a></li>
+<li>compute perturbed versions of input cells <a href="#Andrews2022">[Andrews and Bernstein 2022]</a></li>
+<li>apply S6 reflections to input cells <a href="#Andrews2019b">[Andrews <i>et al.</i> 2019b]</a></li>
+<li>apply Sella algorithm <a href="#Andrews2023b">[Andrews <i>et al.</i> 2023b]</a></li>
+<li>compute Bravais tetrahedron (B4) <a href="#Delone1975">[Delone <i>et al.</i> 1975]</a></li>
+<li>compute Selling-reduced complex cell presentation (C3) <a href="#Andrews2019b">[Andrews <i>et al.</i> 2019b]</li>
+<li>compute side-angle cells (a, b, c, &alpha;, &beta;, &gamma;)</li>
+<li>compute raw Dirichlet cells (DC13)</li>
+<li>computed sorted Dirichlet cells (DC) <a href=#Andrews2021>[Andrews and Bernstein 2021]</li>
+<li>compute G6 version of cells (G6) <a href=#Andrews1988>[Andrews and Bernstein 1988]</a></li>
+<li>compute Selling-reduced cells (S6)</li>
+<li>compute unsorted Dirichlet cells (dc7unsrt) <a href="Bernstein2023">[Bernstein <i>et al.</i> 2023]</a></li>
+<li>compute volumes of listed cells</li>
+</ol>
+
+<p>
 <a name="references"></a>
 <h2>References</h2>
 <p>
-
-<a name="Andrews1988">[1]</a> L. C. Andrews and H. J. Bernstein. Lattices and reduced cells as points in 
-6-space and selection of Bravais lattice type by projections. Acta Crystallogr., A44:10091018, 1988.<br />
-
-<a name="Andrews2012">[2]</a> L. C. Andrews and H. J. Bernstein. The Geometry of Niggli Reduction. arXiv, 
-1203.5146v1 [math-ph], 2012. <a href="http://arxiv.org/abs/1203.5146">arxiv.org/abs/1203.5146</a>.<br />
-
-<a name="Zimmermann1985">[3]</a> H. Zimmermann and H. Burzlaff. DELOS A computer program for the 
+<a name="Andrews1988">[Andrews and Bernstein 1988]</a> L. C. Andrews and H. J. Bernstein (1988) Lattices and reduced cells as points in 
+6-space and selection of Bravais lattice type by projections. Acta Cryst., A44:6 1009 -- 1018.<br />
+<p>
+<a name="Andrews2014">[Andrews and Bernstein 2014]</a> L. C. Andrews and H. J. Bernstein (2014). 
+The geometry of Niggli reduction: BGAOL–embedding Niggli reduction and analysis of boundaries.
+J. Appl. Cryst., 47(1), 346 -- 359.
+<p>
+<a name="Andrews2021">[Andrews and Bernstein 2021]</a> L. C. Andrews and H. J. Bernstein (2021). 
+DC 7, a very efficient lattice comparison metric. Acta Cryst. A77(a2), C809.
+<p>
+<a name="Andrews2022">[Andrews and Bernstein 2022]</a> L. C. Andrews and H. J. Bernstein (2022).
+Generating random unit cells.  J. Appl. Cryst. 55(4) 782 -- 786.
+<p>
+<a name="Andrews2023a">[Andrews and Bernstein 2023a]</a> L. C. Andrews and H. J. Bernstein (2023).  
+The Follower algorithm and a program using it to explore spaces, Cambridge Open Engage preprint
+<a href=
+"https://web.archive.org/web/20230308145808id_/https://www.cambridge.org/engage/api-gateway/coe/assets/orp/resource/item/63f41c579da0bc6b3344e7f3/original/the-follower-algorithm-and-a-program-using-it-to-explore-spaces.pdf">
+https://web.archive.org/web/20230308145808id_/https://www.cambridge.org/engage/api-gateway/coe/assets/orp/resource/item/63f41c579da0bc6b3344e7f3/original/the-follower-algorithm-and-a-program-using-it-to-explore-spaces.pdf</a>
+<p>
+<a name="Andrews2019a">[Andrews <i>et al.</i> 2019a]</a> L. C. Andrews, H. J. Bernstein, H. J. and N. K. Sauter (2019).
+Selling reduction versus Niggli reduction for crystallographic lattices. Acta Cryst.  A75, 115 -- 120.
+<p>
+<a name="Andrews2019b">[Andrews <i>et al.</i> 2019b]</a> L. C. Andrews, H. J. Bernstein and N. K.Sauter (2019).
+A space for lattice representation and clustering. Acta Cryst. A75(3), 593 -- 599. 
+<p>
+<a name="Andrews2023b">[Andrews <i>et al.</i> 2023b]</a> L. C. Andrews, H. J. Bernstein and N. K. Sauter (2023).
+SELLA - A Program for Determining Bravais Lattice Types. arXiv preprint
+<a href="https://arxiv.org/pdf/2303.03122.pdf">
+https://arxiv.org/pdf/2303.03122.pdf</a>.
+<p>
+<a name="Authier2013">[Authier 2013]</a> A. Authier  (2013). Early days of X-ray crystallography. OUP Oxford.
+<p>
+<a name="Bernstein2023">[Bernstein <i>et al.</i> 2023]</a> H. J. Bernstein, L. C. Andrews and M. Xerri (2023).
+An invertible seven-dimensional Dirichlet cell characterization of lattices. Acta Cryst. A79(4), 369 -- 380.
+<p>
+<a name="Delaunay1933">[Delaunay 1933]</a> B. N. Delaunay (1933).
+Neue Darstellung der geometrischen Kristallographie: Erste Abhandlung.
+ Z. Krist. 84, 109 -- 149.
+<p>
+<a name="Delone1975">[Delone <i>et al.</i> 1975]</a> B. N. Delone, R. V. Galiulin and M. I. Shtogrin, (1975).
+On the Bravais types of lattices.
+ J. Sov. Math. 4(1), 79 -- 156.
+<p>
+<a name="Hauey1800">[Ha&uuml;y 1800]</a>  R. J. Ha&uuml;y (1800). Addition au m&eacute;moire sur l’arragonite: 
+ins&eacute;r&eacute; dans le tome XI des annnales (p. 241 et suiv.).
+<p>
+<a name="Kepler1611">[Kepler 1611]</a> Kepler, J. (1611). Strena Seude Niue Sexangula. Godefridum Tampach.
+<p>
+<a name="Kepler1966">[Kepler <i>et al.</i> 1966]</a> J. Kepler,C. G. Hardie, B. J. Mason and L. L. Whyte  (1966). 
+The Six-cornered Snowflake.[Edited and Translated by Colin Hardie. With Essays by L. L. Whyte and B. J. Mason. 
+With Illustrations.] Lat. & Eng. Clarendon Press.
+<p>
+<a name="Mighell2002">[Mighell 2002]</a> A. D. Mighell (2002).
+Lattice Matching (LM) -- Prevention of Inadvertent Duplicate Publications of Crystal Structures.
+J. Res. Natl. Inst. Stand. Technol. 107(5), 425 – 430.
+<p>
+<a name="Niggli1928">[Niggli 1928]</a> P. Niggli (1928). Krystallographische und Strukturtheoretische Grundbegriffe, 
+Handbuch der Experimentalphysik, Vol. 7, part 1. Akademische Verlagsgesellschaft, Leipzig.
+<p>
+<a name="Wikipedia2022">[Wikipedia contributors 2022]</a> Wikipedia contributors, (2022). Theophrastus — Wikipedia, the 
+free encyclopedia. [Online; accessed 17-October-2022]. https://en.wikipedia.org/w/index.php?title=Theophrastus&oldid=1114534722
+<p>
+<a name="Wilkins2021">[Wilkins <i>et al.</i> 2021]</a> J. Wilkins, B. J. Schoville, R. Pickering, L. Gliganic, B. Collins,
+K. S.  Brown, J. von der Meden, W. Khumalo, M. C. Meyer, S. Maape, and A. F. Blackwood,  2021. Innovative 
+Homo sapiens behaviours 105,000 years ago in a wetter Kalahari. Nature, 592(7853), 248 -- 252.
+<p>
+<a name="Zimmermann1985">[Zimmermann and Burzlaff 1985]</a> H. Zimmermann and H. Burzlaff. DELOS A computer program for the 
 determination of a unique conventional cell. Zeitschrift f&uuml;r Kristallographie, 170:241 246, 1985.
+
 <p>
 <hr />
 </center>
 
 <hr>
-Updated 26 August 2023.
+Updated 5 October 2023.
 </font>
 </body>
 </html>
