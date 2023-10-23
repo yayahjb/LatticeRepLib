@@ -5,7 +5,6 @@
 #include "DeloneTypeList.h"
 #include "DeloneType.h"
 #include "LRL_Cell_Degrees.h"
-#include "LRL_ToString.h"
 #include "LRL_MaximaTools.h"
 #include "LRL_StringTools.h"
 #include "LabeledSellaMatrices.h"
@@ -114,6 +113,24 @@ DeloneFitResults Sella::SellaFitXXXXXX(
    double bestFit = DBL_MAX;
    const std::vector<MatS6> perps = sptype->GetSellaPerps();
    const std::vector<MatS6> prjs = sptype->GetSellaProjectors();
+
+   if (prjs.size() != perps.size()) {
+      std::cout << name << "  there are not the same number of lattice types in prjs"
+         "as in perps  " << __FILE__ << std::endl;
+      throw("prj count != perp count");
+   }
+
+   int errors = 0;
+
+   for (size_t i = 0; i < prjs.size(); ++i) {
+      if (prjs.size() != perps.size()) {
+         ++errors;
+         std::cout << "prjs" << prjs[i].GetName() << " " << prjs.size() << std::endl;
+         std::cout << "perps" << perps[i].GetName() << " " << perps.size() << std::endl << std::endl;
+      }
+   }
+
+   if (errors != 0) throw("prjs[i] count != perps[i] count");
 
 
 

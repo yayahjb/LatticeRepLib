@@ -13,7 +13,7 @@
 #include <string>
  #include <vector>
 //
-const std::vector<std::string> DeloneTypeList::typelist{ "C1","C3","C5","R1","R3","T1","T2","T5","O1A","O1B","O2",/*"O3",*/"O4",/*"O4B",*/"O5","M1A","M1B","M2A"/*,"M2B"*//*,"M3"*/,"M4"/*,"A1","A2","A3"*/,"H4" };
+const std::vector<std::string> DeloneTypeList::typelist{ "C1","C3","C5","R1","R3","T1","T2","T5","O1A","O1B","O2",/*"O3",*/"O4","O4B","O5","M1A","M1B","M2A"/*,"M2B"*//*,"M3"*/,"M4"/*,"A1","A2","A3"*/,"H4" };
 
 std::vector<std::pair<std::string, std::string> > DeloneTypeList::CreateBravaisTypeList() {
    std::vector<std::pair<std::string, std::string> > v;
@@ -153,6 +153,9 @@ DeloneTypeList::DeloneTypeList(const bool build)
    static const std::vector<std::pair<std::string, std::vector<MatS6> > >   prj = CreateAllPrjs( );
    static const std::vector<std::pair<std::string, std::vector<MatS6> > >   perp = CreateAllPerps( );
    static const std::vector<std::pair<std::string, std::vector<MatS6> > >   toCanon = CreateAllToCanon( );
+
+
+
 
    static std::vector<std::pair<std::string, MatricesForOneDeloneType> > matrices;
 
