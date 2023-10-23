@@ -2,6 +2,7 @@
 #include "DeloneFitResults.h"
 #include "FileOperations.h"
 #include "LRL_CreateFileName.h"
+#include "LRL_DataToSVG.h"
 #include "LRL_ToString.h"
 #include "S6.h"
 #include "S6BoundaryTransforms.h"
@@ -213,20 +214,25 @@ std::string BravaisHeirarchy::BoilerPlate_1() {
       ;
 }
 
-void SendSellaToFile(const std::string& s) {
-   std::cout << "Send Sella Plot To File " << std::endl;
-   std::string filename = LRL_CreateFileName::Create("SEL_", "svg");
-   std::cout << filename << std::endl;
+void SendSellaToFile(const std::string& s, const size_t ordinal) {
+   std::cout << std::endl << ";Send Sella Plot To File " << std::endl;
+   //std::string filename = LRL_CreateFileName::Create("SEL_", "svg");
+   //std::cout << filename << std::endl;
    std::ofstream fileout;
    int count = 0;
 
-   while ( !FileOperations::OpenOutputFile(fileout, filename) ||
-      (filename == LRL_CreateFileName::Create("SEL_", "svg") && count < 100000))
-   {
-      filename = LRL_CreateFileName::Create("SEL_", "svg");
-      //std::cout << filename << "  " << count << "\n";
-      ++count;
-   }
+   const std::string suffix = LRL_DataToSVG(ordinal);
+   const std::string filename = LRL_CreateFileName::Create("SEL_", suffix, "svg", true);
+   std::cout << filename << std::endl;
+
+
+   //while ( !FileOperations::OpenOutputFile(fileout, filename) ||
+   //   (filename == LRL_CreateFileName::Create("SEL_", "svg") && count < 100000))
+   //{
+   //   filename = LRL_CreateFileName::Create("SEL_", "svg");
+   //   //std::cout << filename << "  " << count << "\n";
+   //   ++count;
+   //}
       FileOperations::OpenOutputFile(fileout, filename);
 
    if (fileout.is_open())
@@ -304,7 +310,7 @@ bool BravaisHeirarchy::CheckOneBravaisChain(
       {
          errorList.emplace_back(error);
          okCheck = false;
-         std::cout << std::endl << "################ Bravais chain failure  "
+         std::cout << std::endl << ";################ Bravais chain failure  "
             << name1 << " " << value1 << " "
             << name2 << " " << value2 << "  \ts6 "
             << v[i].GetOriginalInput() << "\tP "
@@ -329,17 +335,15 @@ std::string BravaisHeirarchy::ProduceSVG(
 
    std::string s =
       BravaisHeirarchy::BoilerPlate_1() +
-         inputText +
-         reduced +
-         FormatCellData(input, reducedCell) +
-         BravaisHeirarchy::ScoreLabels(scores) +
-         BravaisHeirarchy::BoilerPlate_2();
+      inputText +
+      reduced +
+      FormatCellData(input, reducedCell) +
+      BravaisHeirarchy::ScoreLabels(scores) +
+      BravaisHeirarchy::BoilerPlate_2();
 
-   ;
-
-   SendSellaToFile(s);
+   SendSellaToFile(s, input.GetOrdinal());
    return s;
-   }
+}
 
 
 
@@ -391,12 +395,17 @@ std::map<std::string, double> BravaisHeirarchy::GetBestOfEachBravaisType(
    return bravaisMap;
 }
 
+void AnalyseDeloneFitResultsForBravaisChainErrors
+(const std::vector<DeloneFitResults>& v) {
+
+}
 
 bool BravaisHeirarchy::CheckBravaisChains(const std::vector<DeloneFitResults>& v)
 {
    //for (size_t i = 0; i < v.size(); ++i)
    //{
-   //   std::cout << "CheckBravaisChains  DeloneFitResults= " << v[i].GetGeneralType() << " " << v[i].GetRawFit() << std::endl;
+   //   std::cout << "CheckBravaisChains  DeloneFitResults= \n" << v[i]
+   //      << std::endl;
    //}
 
    std::vector<std::string> errorList;
@@ -409,6 +418,7 @@ bool BravaisHeirarchy::CheckBravaisChains(const std::vector<DeloneFitResults>& v
          okCheck = false;
       }
    }
+
    return okCheck;
 }
 
