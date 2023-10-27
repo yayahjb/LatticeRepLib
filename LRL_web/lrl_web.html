@@ -109,14 +109,14 @@ function changenumops(){
 }
 
 function pfloat(pfield){
-    // validate for non-negative float   
+    // validate for non-negative float
     var charsAllowed="0123456789.+";
     var allowed;
     var plusfound;
     var dotfound;
     plusfound = 0;
     dotfound = 0;
-    for(var i=0;i<pfield.value.length;i++){       
+    for(var i=0;i<pfield.value.length;i++){
         allowed=false;
         for(var j=0;j<charsAllowed.length;j++){
             if( pfield.value.charAt(i)==charsAllowed.charAt(j) ){ 
@@ -186,10 +186,11 @@ LRL_WEB Lattice Representation Library Tool Web Page
 </HEAD> 
 
 
-<BODY>
+<BODY onload="changenumops()">
 <font face="Arial,Helvetica,Times" size="3">
 <hr />
 <center>
+<img src="http://blondie.arcib.org:8083/~yaya/images/dragon1a.gif" />
 <H2> LRL_WEB, Lattice Representation Library Tool Web Page</H2>
 <br /> by
 <br /> Lawrence C. Andrews, Herbert J. Bernstein, Ronin Institute for Independent Scholarship,
@@ -967,9 +968,6 @@ determination of a unique conventional cell. Zeitschrift f&uuml;r Kristallograph
 
 <p>
 <hr />
-</center>
-
-<hr>
 Updated 5 October 2023.
 </font>
 </body>
