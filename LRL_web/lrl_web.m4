@@ -399,12 +399,28 @@ int main(int argc,
 
     std::cout << "<hr />" << std::endl;
     std::cout << "<center>" << std::endl;
-    std::cout << "<img src=\"http://"+LRL_WEB_HOST+"/~"+LRL_WEB_USER+"/images/dragon1a.gif\" />" <<std::endl;
+    std::cout << "<table border=0>" <<std::endl;
+    std::cout << "<tr>" <<std::endl;
+    std::cout << "<td align=left valign=top><a name=\"celticknots\"><img src=\"http://"+LRL_WEB_HOST+"/~"+LRL_WEB_USER+"/images/leftcorner.gif\" /></a></td>" <<std::endl;
+    std::cout << "<td width=150>&nbsp;</td>" <<std::endl;
+    std::cout << "<td align=center><img src=\"http://"+LRL_WEB_HOST+"/~"+LRL_WEB_USER+"/images/dragon1a.gif\" /></td>" <<std::endl;
+    std::cout << "<td width=150>&nbsp;</td>" <<std::endl;
+    std::cout << "<td align=right valign=top><img src=\"http://"+LRL_WEB_HOST+"/~"+LRL_WEB_USER+"/images/rightcorner.gif\" /></td>" <<std::endl;
+    std::cout << "</tr>" <<std::endl;
+    std::cout << "</table>" <<std::endl;
     std::cout << h2(" LRL_WEB, Lattice Representation Library Tool Web Page") << std::endl;
     std::cout << "<br /> by" << std::endl;
     std::cout << "<br /> Lawrence C. Andrews, Herbert J. Bernstein, Ronin Institute for Independent Scholarship," << std::endl;
     std::cout << "<br /><A HREF=mailto:lawrence.andrews@ronininstitute.org>lawrence.andrews@ronininstitute.org</A>" << std::endl;
     std::cout << "<a href=mailto:yayahjb@gmail.com>yayahjb@gmail.com</a><br />" << std::endl;
+    std::cout << "<P>" << std::endl;
+    std::cout << "<tr>" << std::endl;
+    std::cout << "<td colspan=3 align=center><font size=\"-1\">" << std::endl;
+    std::cout << "<a href=\"#timeline\">Timeline image</a> by Elizabeth Kincaid, Elizabeth Kincaid Watercolors, <br />" << std::endl;
+    std::cout << "<a href=\"#celticknot\">Celtic knots</a> by Susan Jones Davis, Blue Seahorse Studio, <br />" << std::endl;
+    std::cout << "Sleeping Dragon line art image by Gordon Dylan Johnson, " << std::endl;
+    std::cout << "<a href=\"https://openclipart.org/detail/226147/sleeping-dragon-line-art\">https://openclipart.org/detail/226147/sleeping-dragon-line-art</a></font></td>" << std::endl;
+    std::cout << "</tr>" << std::endl;
     xactstr=std::string("<FORM method=POST ACTION=\"http://"+LRL_WEB_HOST+"/~");
     xactstr+=LRL_WEB_USER;
     xactstr+=std::string("/cgi-bin/lrl_web.cgi\">");
@@ -1197,6 +1213,15 @@ int main(int argc,
     std::cout << "<a name=\"source\"></a>" << std::endl;
     std::cout << "<H2>Access to the source of LRL_WEB</H2>" << std::endl;
     std::cout << "" << std::endl;
+    std::cout << "This open sorce software is maintained on github:" << std::endl;
+    std::cout << "<p>" << std::endl;
+    std::cout << "<center>" << std::endl;
+    std::cout << "<a href=\"http://github.com/duck10/LatticeRepLib\">http://github.com/duck10/LatticeRepLib</a>" << std::endl;
+    std::cout << "</center>" << std::endl;
+    std::cout << "<p>" << std::endl;
+    std::cout << "If you are interested in contributing, please make your own fork and writeup an issue when" << std::endl;
+    std::cout << "you think you have something to suggest for a pull request." << std::endl;
+    std::cout << "" << std::endl;
     std::cout << "<p>" << std::endl;
     std::cout << "<h2>History</h2>" << std::endl;
     std::cout << "<p>Human fascination with crystals has a long history. 105,000 years ago, someone had a collection " << std::endl;
@@ -1210,7 +1235,7 @@ int main(int argc,
     std::cout << "of crystals. <a name=\"Hauey1800\">[Ha&uuml;y 1800]</a> created the first catalog of minerals." << std::endl;
     std::cout << "<p>" << std::endl;
     std::cout << "<center>" << std::endl;
-    std::cout << "<img src=/~]]]LRLWEBUSER[[[/images/timeline.jpg />" << std::endl;
+    std::cout << "<a name=\"timeline\"><img src=/~]]]LRLWEBUSER[[[/images/timeline.jpg /></a>" << std::endl;
     std::cout << "<p>" << std::endl;
     std::cout << "Fig. 1. Some key dates in the history of modern crystallography" << std::endl;
     std::cout << "</center>" << std::endl;
@@ -1513,12 +1538,28 @@ LRL_WEB Lattice Representation Library Tool Web Page
 <font face="Arial,Helvetica,Times" size="3">
 <hr />
 <center>
-<img src="http://]]]LRLWEBHOST[[[/~]]]LRLWEBUSER[[[/images/dragon1a.gif" />
+<table border=0>
+<tr>
+<td align=left valign=top><a name="celticknots"><img src=http://]]]LRLWEBHOST[[[/~]]]LRLWEBUSER[[[/images/leftcorner.gif /></a></td>
+<td width=150>&nbsp;</td>
+<td align=center><img src="http://]]]LRLWEBHOST[[[/~]]]LRLWEBUSER[[[/images/dragon1a.gif" /></td>
+<td width=150>&nbsp;</td>
+<td align=right valign=top><img src=http://]]]LRLWEBHOST[[[/~]]]LRLWEBUSER[[[/images/rightcorner.gif /></td>
+</tr>
+</table>
 <H2> LRL_WEB, Lattice Representation Library Tool Web Page</H2>
 <br /> by
 <br /> Lawrence C. Andrews, Herbert J. Bernstein, Ronin Institute for Independent Scholarship,
 <br /><A HREF=mailto:lawrence.andrews@ronininstitute.org>lawrence.andrews@ronininstitute.org</A>
 <a href=mailto:yayahjb@gmail.com>yayahjb@gmail.com</a><br />
+<P>
+<tr>
+<td colspan=3 align=center><font size="-1">
+<a href="#timeline">Timeline image</a> by Elizabeth Kincaid, Elizabeth Kincaid Watercolors, <br />
+<a href="#celticknot">Celtic knots</a> by Susan Jones Davis, Blue Seahorse Studio, <br />
+Sleeping Dragon line art image by Gordon Dylan Johnson, 
+<a href="https://openclipart.org/detail/226147/sleeping-dragon-line-art">https://openclipart.org/detail/226147/sleeping-dragon-line-art</a></font></td>
+</tr>
 <FORM method=POST ACTION="http://]]]LRLWEBHOST[[[/~]]]LRLWEBUSER[[[/cgi-bin/lrl_web.cgi">
 <br />
 Assorted tools to do various calculations for crystallographic lattices.
@@ -2171,6 +2212,14 @@ FILE OR FILES AND NOT WITH AUTHORS OF THE PROGRAMS OR DOCUMENTS.
 <a name="source"></a>
 <H2>Access to the source of LRL_WEB</H2>
 
+This open sorce software is maintained on github:
+<p>
+<center>
+<a href="http://github.com/duck10/LatticeRepLib">http://github.com/duck10/LatticeRepLib</a>
+</center>
+<p>
+If you are interested in contributing, please make your own fork and writeup an issue when
+you think you have something to suggest for a pull request.
 <p>
 <h2>History</h2>
 <p>Human fascination with crystals has a long history. 105,000 years ago, someone had a collection 
@@ -2184,7 +2233,7 @@ Figure 1 notes a few key events in cataloging crystal properties. We start with 
 of crystals. <a name="Hauey1800">[Ha&uuml;y 1800]</a> created the first catalog of minerals.
 <p>
 <center>
-<img src=/~]]]LRLWEBUSER[[[/images/timeline.jpg />
+<a name="timeline"><img src=/~]]]LRLWEBUSER[[[/images/timeline.jpg /></a>
 <p>
 Fig. 1. Some key dates in the history of modern crystallography
 </center>
@@ -2291,7 +2340,7 @@ determination of a unique conventional cell. Zeitschrift f&uuml;r Kristallograph
 
 <p>
 <hr />
-Updated 5 October 2023.
+Updated 29 October 2023.
 </font>
 </body>
 </html>]]])
