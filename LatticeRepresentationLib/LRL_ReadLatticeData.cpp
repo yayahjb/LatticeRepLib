@@ -201,6 +201,10 @@ std::vector<double> LRL_ReadLatticeData::GetFieldsForCellFromString(const std::s
       m_inputDataType = LRL_StringTools::strToupper(m_inputDataType);
       m_lattice = m_inputDataType[0];
       double onefield;
+      if (m_inputDataType == "RANDOM") {
+         toReturn.emplace_back(m_inputDataType != "RANDOM");
+         return toReturn;
+      }
       while (iss) {
          iss >> onefield;
          if (iss) toReturn.push_back(onefield);
@@ -259,6 +263,10 @@ void LRL_ReadLatticeData::CellReader(const std::string& s) {
    const std::string strupper = LRL_StringTools::strToupper(s.substr(0, 5));
    std::vector<double> fields = GetFieldsForCellFromString(s);
    if (s[0] == ';') m_incomingSemicolons += "\n" +m_strCell;
+   if (fields.empty() && s.length() != 0 && s[0] != ';') {
+      std::cout << "; input line rejected(E), insufficient data  " << std::endl;
+      return;
+   }
    if (fields.empty() || s.length() == 0 || s[0] == ';') return;
    if (!fields.empty() && fields.size() < 6 && strupper !="RANDO") {
       std::cout << fields.size() << " " << s << std::endl;
@@ -322,7 +330,7 @@ LRL_ReadLatticeData LRL_ReadLatticeData::CreateLatticeData(const std::string& s)
 }
 
 std::string replaceTabsAndCommas(std::string str) {
-   std::regex reg("[^a-zA-Z0-9.; ]");
+   std::regex reg("[^a-zA-Z0-9.+-; ]");
    return std::regex_replace(str, reg, " ");
 }
 
