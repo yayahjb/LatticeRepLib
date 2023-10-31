@@ -395,11 +395,13 @@ int main(int argc,
     std::cout << "<table border=0>" <<std::endl;
     std::cout << "<tr>" <<std::endl;
     std::cout << "<td align=left valign=top><a name=\"celticknots\"><img src=\"http://"+LRL_WEB_HOST+"/~"+LRL_WEB_USER+"/images/leftcorner.gif\" /></a></td>" <<std::endl;
-    std::cout << "<td width=150>&nbsp;</td>" <<std::endl;
-    std::cout << "<td align=center><img src=\"http://"+LRL_WEB_HOST+"/~"+LRL_WEB_USER+"/images/dragon1a.gif\" /></td>" <<std::endl;
-    std::cout << "<td width=150>&nbsp;</td>" <<std::endl;
+    std::cout << "<td width=150 rowspan=\"2\">&nbsp;</td>" <<std::endl;
+    std::cout << "<td align=center rowspan=\"2\"><img src=\"http://"+LRL_WEB_HOST+"/~"+LRL_WEB_USER+"/images/dragon1a.gif\" /></td>" <<std::endl;
+    std::cout << "<td width=150 rowspan=\"2\">&nbsp;</td>" <<std::endl;
     std::cout << "<td align=right valign=top><img src=\"http://"+LRL_WEB_HOST+"/~"+LRL_WEB_USER+"/images/rightcorner.gif\" /></td>" <<std::endl;
     std::cout << "</tr>" <<std::endl;
+    std::cout << "<tr> <td align=left valign=bottom><img src=\"http://blondie.arcib.org:8083/~yaya/images/leftbottomcorner.gif\" /></td>" <<std::endl;
+    std::cout << "<td align=right valign=bottom><img src=\"http://blondie.arcib.org:8083/~yaya/images/rightbottomcorner.gif\" /></td></tr>" <<std::endl;
     std::cout << "</table>" <<std::endl;
     std::cout << h2(" LRL_WEB, Lattice Representation Library Tool Web Page") << std::endl;
     std::cout << "<br /> by" << std::endl;
@@ -1108,7 +1110,6 @@ int main(int argc,
       std::cout << "  </tr>" << std::endl;
     }
     if (prevoutbuflen > 0 && prevoutbuf) free(prevoutbuf);
-
     std::cout << "    </table>" << std::endl;
     std::cout << "</td>" << std::endl;
     std::cout << "<tr>" << std::endl;
@@ -1347,7 +1348,7 @@ int main(int argc,
     std::cout << "" << std::endl;
     std::cout << "<p>" << std::endl;
     std::cout << "<hr />" << std::endl;
-    std::cout << "Updated 29 October 2023." << std::endl;
+    std::cout << "Updated 30 October 2023." << std::endl;
     std::cout << "</font>" << std::endl;
  }
 

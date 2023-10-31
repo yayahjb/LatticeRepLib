@@ -342,14 +342,14 @@ void Process(const std::string& lattice, const std::vector<std::string>& params)
 }
 
 bool isNumber(const std::string& s) {
-   const std::regex reg("^-?(?:\d+|\d*\.\d+)([eE][-+]?\d+)?$");
+   const std::regex reg("^-?(?:[0-9]+|[0-9]*\\.[0-9]+)([eE][-+]?[0-9]+)?$");
    return  std::regex_match(s, reg);
 }
 
 using namespace std;
 
 bool is_valid_float(string str) {
-   regex regex("^([-+]?((([0-9]+)|[0-9]*\.([0-9]+)?)([\e?\E][-+]?[0-9]+)?)|([0-9]*\.[0-9]+))");
+   regex regex("^([-+]?((([0-9]+)|[0-9]*\\.([0-9]+)?)([e?E][-+]?[0-9]+)?)|([0-9]*\\.[0-9]+))");
    return regex_match(str, regex);
 }
 
