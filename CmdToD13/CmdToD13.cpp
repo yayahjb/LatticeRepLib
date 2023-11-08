@@ -143,7 +143,7 @@ void FollowerStyleTest(const S6& s1, const S6& s2, const size_t cycles) {
 
 int main()
 {
-   std::cout << "; To DC13\n";
+   std::cout << "; To DC13 (linear) \n";
    const std::vector<LRL_ReadLatticeData> inputList = LRL_ReadLatticeData().ReadLatticeData();
    LRL_Cell cell1 = inputList[0].GetCell();
    //LRL_Cell cell2;
@@ -161,6 +161,6 @@ int main()
    //store.ShowResults();
    //std::cout << "store: unique keys = " << store.size() << std::endl;
    for (size_t i = 0; i < inputList.size(); ++i) {
-      std::cout << D13(inputList[i].GetCell()) << std::endl;
+      std::cout << "DC13 " << D13(inputList[i].GetCell()) << std::endl;
    }
 }
