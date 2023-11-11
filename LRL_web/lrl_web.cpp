@@ -16,7 +16,8 @@
 #define NUMOPS_MAX 10
 #define LRL_WEB_HOST std::string("blondie.arcib.org:8083")
 #define LRL_WEB_USER std::string("yaya")
-
+#define LRL_WEB_CGI std::string("lrl_web.cgi")
+#define LRL_WEB_TMP std::string("tmp")
 using namespace std;
 using namespace cgicc;
 
@@ -30,7 +31,7 @@ int main(int argc,
 {
    char buf[1024];
    std::string xbufstr;
-   xbufstr=std::string("/home/")+LRL_WEB_USER+std::string("/public_html/cgi-bin/make_lrl_web_prefix.bash");
+   xbufstr=std::string("/home/")+LRL_WEB_USER+std::string("/public_html/cgi-bin/make_lrl_web_prefix_2.bash "+LRL_WEB_USER+" "+LRL_WEB_TMP);
    if (do_exec_to_buffer(xbufstr.c_str(),buf,1024)!=0)
        exit(-1);
    tmp_lrl_web=std::string(buf);
@@ -40,7 +41,8 @@ int main(int argc,
       // Send HTTP header
       std::cout << HTTPHTMLHeader() << std::endl;
 
-      // Set up the HTML document" << std::endl;
+      // Set up the HTML document"
+      std::cout << cgicc::HTMLDoctype() << std::endl;
       std::cout << html() << std::endl;
       std::cout << "<HEAD>" << std::endl;
       std::cout << "	<meta charset=\"utf-8\">" << std::endl;
@@ -110,6 +112,7 @@ int main(int argc,
       std::cout << "    let priornum=rownum-1;" << std::endl;
       std::cout << "    if (document.getElementById(\"chain_\"+twodig(rownum)).value==\"chain_input\") {" << std::endl;
       std::cout << "      document.getElementById(\"block_\"+twodig(priornum)+\"c\").style=\"display:inline\";" << std::endl;
+      std::cout << "      document.getElementById(\"block_\"+twodig(priornum)+\"d\").style=\"display:inline\";" << std::endl;
       std::cout << "      document.getElementById(\"block_\"+twodig(rownum)+\"b\").style=\"display:none\";" << std::endl;
       std::cout << "    } else {" << std::endl;
       std::cout << "      document.getElementById(\"block_\"+twodig(rownum)+\"b\").style=\"display:inline\";" << std::endl;
@@ -139,6 +142,7 @@ int main(int argc,
       std::cout << "    }" << std::endl;
       std::cout << "    document.getElementById(\"block_\"+twodig(ii)+\"c\").style=\"display:inline\";" << std::endl;
       std::cout << "    document.getElementById(\"block_\"+twodig(ii)+\"d\").style=\"display:inline\";" << std::endl;
+      std::cout << "    changeoperation(twodig(ii));" << std::endl;
       std::cout << "  }" << std::endl;
       std::cout << "  if (mynumops < "<<NUMOPS_MAX<<") {" << std::endl;
       std::cout << "  for (ii=mynumops+1; ii<"<<NUMOPS_MAX+1<<";ii++) {" << std::endl;
@@ -152,6 +156,22 @@ int main(int argc,
       std::cout << "  }" << std::endl;
       std::cout << "  return true;" << std::endl;
       std::cout << "" << std::endl;
+      std::cout << "}" << std::endl;
+      std::cout << "" << std::endl;
+      std::cout << "function changeoperation(rownum) {" << std::endl;
+      std::cout << " var ii;"  << std::endl;
+      std::cout << " let operation=document.getElementById(\"operation_\"+rownum).value;" << std::endl;
+      std::cout << " if (operation==\"CmdGen\") {" << std::endl;
+      std::cout << "   document.getElementById(\"block_\"+rownum+\"b_cmdgen\").style=\"display:inline\";" << std::endl;
+      std::cout << "   document.getElementById(\"block_\"+rownum+\"b_cmdperturb\").style=\"display:none\";" << std::endl;
+      std::cout << " } else if (operation==\"CmdPerturb\") {" << std::endl;
+      std::cout << "   document.getElementById(\"block_\"+rownum+\"b_cmdgen\").style=\"display:none\";" << std::endl;
+      std::cout << "   document.getElementById(\"block_\"+rownum+\"b_cmdperturb\").style=\"display:inline\";" << std::endl;
+      std::cout << " } else {" << std::endl;
+      std::cout << "   document.getElementById(\"block_\"+rownum+\"b_cmdgen\").style=\"display:none\";" << std::endl;
+      std::cout << "   document.getElementById(\"block_\"+rownum+\"b_cmdperturb\").style=\"display:none\";" << std::endl;
+      std::cout << " }" << std::endl;
+      std::cout << " return true;" << std::endl;
       std::cout << "}" << std::endl;
       std::cout << "" << std::endl;
       std::cout << "function pfloat(pfield){" << std::endl;
@@ -232,7 +252,7 @@ int main(int argc,
       std::cout << "</HEAD> " << std::endl;
       std::cout << "" << std::endl;
       std::cout << "" << std::endl;
-      std::cout << "<BODY>" << std::endl;
+      std::cout << "<BODY onload=\"changenumops();changeoperation('01');changeoperation('02');changeoperation('03');changeoperation('04');changeoperation('05');changeoperation('06');changeoperation('07');changeoperation('08');changeoperation('09');changeoperation('10');\">" << std::endl;
       std::cout << "<font face=\"Arial,Helvetica,Times\" size=\"3\">" << std::endl;
       std::cout << "<hr />" << std::endl;
       std::cout << "<center>" << std::endl;
@@ -268,10 +288,10 @@ int main(int argc,
       c=src[ii];
       switch (c) {
         case('\n'):
-          dst.append("<br/>");
+          dst.append("<br />");
           break;
         case('\r'):
-          dst.append("<br/>");
+          dst.append("<br />");
           if(ii<srclen-1 && src[ii+1]=='\n') ii++;
           break;
         case('&'):
@@ -324,6 +344,10 @@ int main(int argc,
     cgicc::const_form_iterator lrl_web_output_iter;
     cgicc::const_form_iterator chain_iter;
     cgicc::const_form_iterator operation_iter;
+    cgicc::const_form_iterator lrl_web_data_cmdgen_ngen_iter;
+    cgicc::const_form_iterator lrl_web_data_cmdgen_ltype_iter;
+    cgicc::const_form_iterator lrl_web_data_cmdperturb_npert_iter;
+    cgicc::const_form_iterator lrl_web_data_cmdperturb_ppk_iter;
     ofstream lrl_web_data_file;
     std::string lrl_web_data_data;
     std::string chain;
@@ -422,7 +446,7 @@ int main(int argc,
     std::cout << "</tr>" << std::endl;
     xactstr=std::string("<FORM method=POST ACTION=\"http://"+LRL_WEB_HOST+"/~");
     xactstr+=LRL_WEB_USER;
-    xactstr+=std::string("/cgi-bin/lrl_web.cgi\">");
+    xactstr+=std::string("/cgi-bin/"+LRL_WEB_CGI+"\">");
     std::cout << xactstr  << std::endl;
     std::cout << "<br />" << std::endl;
     std::cout << "Assorted tools to do various calculations for crystallographic lattices." << std::endl;
@@ -973,6 +997,10 @@ int main(int argc,
       std::string lwd=string(tmp_lrl_web+"lwd_"+twodig_array[numop]);
       std::string prioroutput=currentoutput;
       std::string currentoutput=lrl_web_output;
+      std::string lrl_web_data_cmdgen_ngen;
+      std::string lrl_web_data_cmdgen_ltype;
+      std::string lrl_web_data_cmdperturb_npert;
+      std::string lrl_web_data_cmdperturb_ppk;
       if(numop > numops) active=std::string("\"display:none\"");
       chain_iter =  formData.getElement("chain_"+twodig_array[numop]);
       if (chain_iter == formData.getElements().end()) {
@@ -993,6 +1021,7 @@ int main(int argc,
       }
       std::string at=std::string("");
       std::string path=std::string(tmp_lrl_web+"/lrl_web_data_"+twodig_array[numop]);
+      std::string opmod=std::string("");
       if(string_to_file(at.c_str(), path.c_str(), lrl_web_data_data.c_str())) exit(-1);
       lrl_web_output_iter = formData.getElement("lrl_web_output"+twodig_array[numop]);
       operation_iter = formData.getElement("operation_"+twodig_array[numop]);
@@ -1001,8 +1030,28 @@ int main(int argc,
       } else {
         operation = operation_iter->getValue();
       }
+      lrl_web_data_cmdgen_ngen=std::string("1");
+      lrl_web_data_cmdgen_ltype=std::string("all");
+      lrl_web_data_cmdperturb_npert=std::string("20");
+      lrl_web_data_cmdperturb_ppk=std::string("1");
+      
+      if (operation=="CmdGen") {
+        lrl_web_data_cmdgen_ngen_iter=formData.getElement("lrl_web_data_"+twodig_array[numop]+"_cmdgen_ngen");
+        lrl_web_data_cmdgen_ltype_iter=formData.getElement("lrl_web_data_"+twodig_array[numop]+"_cmdgen_ltype");
+        lrl_web_data_cmdgen_ngen = (lrl_web_data_cmdgen_ngen_iter==formData.getElements().end())?std::string("1"):lrl_web_data_cmdgen_ngen_iter->getValue();
+        lrl_web_data_cmdgen_ltype = (lrl_web_data_cmdgen_ltype_iter==formData.getElements().end())?std::string("all"):lrl_web_data_cmdgen_ltype_iter->getValue();
+        opmod=(std::string(" ")+lrl_web_data_cmdgen_ngen+std::string(" ")+lrl_web_data_cmdgen_ltype);
+        // std::cout << "<tr><td colspan=\"3\">" << "lrl_web_data_"+twodig_array[numop]+"_cmdgen_ngen" << (opmod).c_str() <<"</td></tr>" << std::endl;
+      } else if (operation=="CmdPerturb") {
+        lrl_web_data_cmdperturb_npert_iter=formData.getElement("lrl_web_data_"+twodig_array[numop]+"_cmdperturb_npert");
+        lrl_web_data_cmdperturb_ppk_iter=formData.getElement("lrl_web_data_"+twodig_array[numop]+"_cmdperturb_ppk");
+        lrl_web_data_cmdperturb_npert = (lrl_web_data_cmdperturb_npert_iter==formData.getElements().end())?std::string("20"):lrl_web_data_cmdperturb_npert_iter->getValue();
+        lrl_web_data_cmdperturb_ppk = (lrl_web_data_cmdperturb_ppk_iter==formData.getElements().end())?std::string("1"):lrl_web_data_cmdperturb_ppk_iter->getValue();
+        opmod=(std::string(" ")+lrl_web_data_cmdperturb_npert+std::string(" ")+lrl_web_data_cmdperturb_ppk);
+        // std::cout << "<tr><td colspan=\"3\">" << "lrl_web_data_"+twodig_array[numop]+"_cmdperturb_npert" << (opmod).c_str() <<"</td></tr>" << std::endl;
+      }
       std::string oppath=std::string(tmp_lrl_web+"/operation_"+twodig_array[numop]);
-      if(string_to_file(at.c_str(), oppath.c_str(), operation.c_str())) {
+      if(string_to_file(at.c_str(), oppath.c_str(), (operation+opmod).c_str())) {
          std::cout << "<tr><td colspan=\"3\">string_to_file of"+tmp_lrl_web+"/operation_"+twodig_array[numop]+" failed</td></tr>"<<std::endl;
       }
       std::string xprocess_next_output=
@@ -1022,7 +1071,7 @@ int main(int argc,
       std::cout << "  <tr>" << std::endl;
       std::cout << "  <td>" << std::endl;
       std::cout << "  <div id=\"block_"+twodig_array[numop]+"\" style="+active+">" << std::endl; 
-      std::cout << "  <label for=\"chain_"+twodig_array[numop]+"\">Source of data:</label><br/>" << std::endl;
+      std::cout << "  <label for=\"chain_"+twodig_array[numop]+"\">Source of data:</label><br />" << std::endl;
       std::cout << "  <select name=\"chain_"+twodig_array[numop]+"\" id=\"chain_"+twodig_array[numop]+
           "\" size=\"1\" onchange=\"setchaininput('" << numop << "')\">" << std::endl;
       selected=chain.compare("new_input")==0?"selected ":"";
@@ -1032,34 +1081,29 @@ int main(int argc,
       std::cout << "  </select>" << std::endl;
       std::cout << "  <br />" << std::endl;
       std::cout << "  <br />" << std::endl;
-      std::cout << "  <label for=\"submit_"+twodig_array[numop]+"\">Submit all data:</label><br/>" << std::endl;
+      std::cout << "  <label for=\"submit_"+twodig_array[numop]+"\">Submit all data:</label><br />" << std::endl;
       std::cout << "  <INPUT type=\"submit\">" << std::endl;
       std::cout << "  </div>" << std::endl;
       std::cout << "  </td>" << std::endl;
       std::cout << "  <td align=left>" << std::endl;
       std::cout << "  <div id=\"block_"+twodig_array[numop]+"a\" style="+active+">" << std::endl; 
-      std::cout << "  <label for=\"operation_"+twodig_array[numop]+"\">Select an operation:</label><br/>" << std::endl;
-      std::cout << "  <select name=\"operation_"+twodig_array[numop]+"\" id=\"operation_"+twodig_array[numop]+"\" size=\"19\">" << std::endl;
+      std::cout << "  <label for=\"operation_"+twodig_array[numop]+"\">Select an operation:</label><br />" << std::endl;
+      std::cout << "  <select name=\"operation_"+twodig_array[numop]+"\" id=\"operation_"+twodig_array[numop]+"\" size=\"25\" onchange=\"changeoperation(\'"+twodig_array[numop]+"')\">" << std::endl;
+      std::cout << "  <optgroup label=\"Information\">" << std::endl;
       selected=operation.compare("NoOp")==0?"selected ":"";
       std::cout << "  <option "+selected+"value=\"NoOp\">Check Input</option>" << std::endl;
-      selected=operation.compare("CmdDelone")==0?"selected ":"";
-      std::cout << "  <option "+selected+"value=\"CmdDelone\">compute Selling-reduced primitive cells</option>" << std::endl;
       selected=operation.compare("CmdDists")==0?"selected ":"";
       std::cout << "  <option "+selected+"value=\"CmdDists\">compute NCDist and CS6Dist distances</option>" << std::endl;
-      selected=operation.compare("CmdGen")==0?"selected ":"";
-      std::cout << "  <option "+selected+"value=\"CmdGen\">Generate cells of a particular type or types</option>" << std::endl;
-      selected=operation.compare("CmdLM")==0?"selected ":"";
-      std::cout << "  <option "+selected+"value=\"CmdLM\">apply Lattice Matching algorithm to listed cells</option>" << std::endl;
-      selected=operation.compare("CmdNiggli")==0?"selected ":"";
-      std::cout << "  <option "+selected+"value=\"CmdNiggli\">compute Niggli-reduced primitive cells</option>" << std::endl;
-      selected=operation.compare("CmdPath")==0?"selected ":"";
-      std::cout << "  <option "+selected+"value=\"CmdPath\">compute path between pairs of cells</option>" << std::endl;
-      selected=operation.compare("CmdPerturb")==0?"selected ":"";
-      std::cout << "  <option "+selected+"value=\"CmdPerturb\">compute perturbed versions of input cells</option>" << std::endl;
-      selected=operation.compare("CmdS6Refl")==0?"selected ":"";
-      std::cout << "  <option "+selected+"value=\"CmdS6Refl\">apply S6 reflections to input cells</option>" << std::endl;
+      selected=(operation.compare("CmdVolume")==0)?"selected ":"";
+      std::cout << "  <option "+selected+"value=\"CmdVolume\"> compute volumes of listed cells</option>" << std::endl;
       selected=operation.compare("CmdSella")==0?"selected ":"";
       std::cout << "  <option "+selected+"value=\"CmdSella\"> apply Sella algorithm</option>" << std::endl;
+      std::cout << "  </optgroup>" << std::endl;
+      std::cout << "  <optgroup label=\"Output Only\">"  << std::endl;
+      selected=operation.compare("CmdGen")==0?"selected ":"";
+      std::cout << "  <option "+selected+"value=\"CmdGen\">Generate cells of a particular type or types</option>" << std::endl;
+      std::cout << "  </optgroup>" << std::endl;
+      std::cout << "  <optgroup label=\"Type Conversion\">" << std::endl;
       selected=operation.compare("CmdToB4")==0?"selected ":"";
       std::cout << "  <option "+selected+"value=\"CmdToB4\"> compute Bravais tetrahedron (B4)</option>" << std::endl;
       selected=operation.compare("CmdToC3")==0?"selected ":"";
@@ -1076,12 +1120,53 @@ int main(int argc,
       std::cout << "  <option "+selected+"value=\"CmdToS6\"> compute S6 version of cells</option>" << std::endl;
       selected=operation.compare("CmdToU")==0?"selected ":"";
       std::cout << "  <option "+selected+"value=\"CmdToU\"> compute unsorted Dirichlet cells (dc7unsrt)</option>" << std::endl;
-      selected=(operation.compare("CmdVolume")==0)?"selected ":"";
-      std::cout << "  <option "+selected+"value=\"CmdVolume\"> compute volumes of listed cells</option>" << std::endl;
+      std::cout << "  </optgroup>" << std::endl;
+      std::cout << "  <optgroup label=\"Reduction\">" << std::endl;
+      selected=operation.compare("CmdDelone")==0?"selected ":"";
+      std::cout << "  <option "+selected+"value=\"CmdDelone\">compute Selling-reduced primitive cells</option>" << std::endl;
+      selected=operation.compare("CmdNiggli")==0?"selected ":"";
+      std::cout << "  <option "+selected+"value=\"CmdNiggli\">compute Niggli-reduced primitive cells</option>" << std::endl;
+      std::cout << "  </optgroup>" << std::endl;
+      std::cout << "  <optgroup label=\"Modify Input\">" << std::endl;
+      selected=operation.compare("CmdLM")==0?"selected ":"";
+      std::cout << "  <option "+selected+"value=\"CmdLM\">apply Lattice Matching algorithm to listed cells</option>" << std::endl;
+      selected=operation.compare("CmdPath")==0?"selected ":"";
+      std::cout << "  <option "+selected+"value=\"CmdPath\">compute path between pairs of cells</option>" << std::endl;
+      selected=operation.compare("CmdPerturb")==0?"selected ":"";
+      std::cout << "  <option "+selected+"value=\"CmdPerturb\">compute perturbed versions of input cells</option>" << std::endl;
+      selected=operation.compare("CmdS6Refl")==0?"selected ":"";
+      std::cout << "  <option "+selected+"value=\"CmdS6Refl\">apply S6 reflections to input cells</option>" << std::endl;
+      std::cout << "  </optgroup>" << std::endl;
       std::cout << "  </select>" << std::endl;
       std::cout << "  </div>" << std::endl;
       std::cout << "  </td>" << std::endl;
       std::cout << "  <td align=left>" << std::endl;
+      if (operation.compare("CmdGen")==0) {
+        std::cout << "  <div id=\"block_"+twodig_array[numop]+"b_cmdgen\" style=\"display:inline\">"  <<  std::endl;
+      } else {
+        std::cout << "  <div id=\"block_"+twodig_array[numop]+"b_cmdgen\" style=\"display:none\">"  <<  std::endl;
+      }
+      std::cout << "  <label for=\"lrl_web_data_"+twodig_array[numop]+"_cmdgen_ngen\">Number of each type:</label>&nbsp;"  <<  std::endl;
+      std::cout << "  <input id=\"lrl_web_data_"+twodig_array[numop]+"_cmdgen_ngen\" name=\"lrl_web_data_"+twodig_array[numop]+"_cmdgen_ngen\" type=\"text\" value=\""
+        +lrl_web_data_cmdgen_ngen+"\" number />&nbsp;&nbsp;"  <<  std::endl;
+      std::cout << "  <label for=\"lrl_web_data_"+twodig_array[numop]+"_cmdgen_ltype\">Lattice type:</label>&nbsp;"  <<  std::endl;
+      std::cout << "  <input id=\"lrl_web_data_"+twodig_array[numop]+"_cmdgen_ltype\" name=\"lrl_web_data_"+twodig_array[numop]+"_cmdgen_ltype\" type=\"text\" value=\""
+        +lrl_web_data_cmdgen_ltype+"\" />"  <<  std::endl;
+      std::cout << "  <br />"  <<  std::endl;
+      std::cout << "  </div>"  <<  std::endl;
+      if (operation.compare("CmdPerturb")==0) {
+        std::cout << "  <div id=\"block_"+twodig_array[numop]+"b_cmdperturb\" style=\"display:inline\">"  <<  std::endl;
+      } else {
+        std::cout << "  <div id=\"block_"+twodig_array[numop]+"b_cmdperturb\" style=\"display:none\">"  <<  std::endl;
+      }
+      std::cout << "  <label for=\"lrl_web_data_"+twodig_array[numop]+"_cmdperturb_npert\">Number of perturbations:</label>&nbsp;"  <<  std::endl;
+      std::cout << "  <input id=\"lrl_web_data_"+twodig_array[numop]+"_cmdperturb_npert\" name=\"lrl_web_data_"+twodig_array[numop]+"_cmdperturb_npert\" type=\"text\" value=\""
+        +lrl_web_data_cmdperturb_npert+"\" number min=\"1\"/>&nbsp;&nbsp;" <<  std::endl;
+      std::cout << "  <label for=\"lrl_web_data_"+twodig_array[numop]+"_cmdperturb_ppk\">Parts per 1000:</label>&nbsp;"  <<  std::endl;
+      std::cout << "  <input id=\"lrl_web_data_"+twodig_array[numop]+"_cmdperturb_ppk\" name=\"lrl_web_data_"+twodig_array[numop]+"_cmdperturb_ppk\" type=\"text\" value=\""
+        +lrl_web_data_cmdperturb_ppk+"\" number min=\"1\" max=\"1000\"/>"  <<  std::endl;
+      std::cout << "  <br />"  << std::endl;
+      std::cout << "  </div>"  << std::endl;
       if (chain.compare("new_input")==0 || numop < 2) {
         std::cout << "  <div id=\"block_"+twodig_array[numop]+"b"+"\" style="+active+"> " << std::endl;
       } else {
@@ -1370,7 +1455,7 @@ int main(int argc,
     std::cout << "" << std::endl;
     std::cout << "<p>" << std::endl;
     std::cout << "<hr />" << std::endl;
-    std::cout << "Updated 31 October 2023." << std::endl;
+    std::cout << "Updated 5 November 2023." << std::endl;
     std::cout << "</font>" << std::endl;
  }
 
