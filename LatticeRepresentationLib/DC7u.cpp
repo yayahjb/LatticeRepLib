@@ -48,11 +48,16 @@ void DC7u::FromCellToDC7u(const LRL_Cell& cell) {
    if (red[G6_2BC_idx] > delta && red[G6_2AC_idx] > delta && red[G6_2AB_idx] > delta ) {
       m_vec[DC7u_MIN_ABC_diagsq_idx] += 2.*std::min(std::min(red[G6_2BC_idx],red[G6_2AC_idx]),red[G6_2AB_idx]);
    }
+
    error=0;
    for (size_t ii=0; ii < 7; ii++) {
      if (m_vec[ii] < delta) error++;
    }
-   if (error > 0) throw std::invalid_argument( "invalid unsorted DC7 cell" );
+   if (error > 0) 
+   {
+      std::cout << "; invalid unsorted DC7 cell" << std::endl;;
+   }
+   SetValid( error == 0 );
    m_dim = 7;
 }
 

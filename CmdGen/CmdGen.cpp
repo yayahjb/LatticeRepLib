@@ -7,6 +7,7 @@
 #include "Niggli.h"
 #include "GenerateLatticeTypeExamples.h"
 #include "S6BoundaryTransforms.h"
+#include "LRL_StringTools.h"
 
 // how many examples of each type to generate
 static int ngen = 1;
@@ -47,6 +48,28 @@ G6 TryToGetAGoodProjection(const T& pt,
       ++count;
    }
    return probe;
+}
+
+G6 TryToGetAGoodProjection( const MatS6& projector, const int trials = 500) {
+   S6 probe;
+   probe.SetValid(false);
+   int count = 0;
+   while ((!LRL_Cell(probe).IsValid()) || (count > trials) ) {
+      const S6 start = S6::rand();
+      Selling::Reduce(start, probe);
+      probe = projector * probe;
+      ++count;
+   }
+   //std::cout << "in TryToGetAGoodProjection, probe=  " << probe << std::endl;
+   //std::cout << "in TryToGetAGoodProjection, probe=  " << G6(probe) << std::endl;
+   return probe;
+}
+
+G6 Generate(const MatS6& pt) {
+   const G6 probe = TryToGetAGoodProjection(pt, 50);
+
+   //const G6 test = pt->GetToCenter() * probe;
+   return probe;;
 }
 
 template<typename T>
@@ -110,10 +133,10 @@ void ForDeloneInput(
       const std::shared_ptr<GenerateDeloneBase> pt = vglb[lat];
       std::cout << "; lattice type = " << pt->GetName() << std::endl;
       for (size_t i = 0; i < ngen; ++i) {
-         const G6 g = Generate(vglb[lat]);
+         const G6 g = Generate(MatS6((*(vglb[lat])).GetPrj()));
          std::cout << "G6 "
             << g << " "
-            << " IT# = " << pt->GetName() << "  "
+            << " Delone# = " << pt->GetName() << "  "
             << pt->GetBravaisType()
             << std::endl;
       }
@@ -142,6 +165,10 @@ int main(int argc, char* argv[])
       }
    }
 
+   if (LRL_StringTools::strToupper(name) == "ALL") {
+      name = "";
+   }
+
    if (name.length() > 1 && g_DeloneTypes.find(name) != std::string::npos) {
       std::vector<std::shared_ptr<GenerateDeloneBase> > DeloneTypes =
          GenerateDeloneBase().Select(name);
@@ -159,11 +186,14 @@ int main(int argc, char* argv[])
    //   ForComplexInput(ComplexType);
    }
    else {
-      std::vector<std::shared_ptr<GenerateNiggliBase> > NiggiTypes =
+      const std::vector<std::shared_ptr<GenerateNiggliBase> > NiggiTypes =
          GenerateNiggliBase().Select(name);
+      const std::vector<std::shared_ptr<GenerateDeloneBase> > DeloneTypes =
+         GenerateDeloneBase().Select(name);
       std::cout << "; Niggli lattice type requested " << std::endl;
       ForNiggliInput(NiggiTypes);
-      if (NiggiTypes.empty()) std::cout << "; unable to match type \"" << name << "\"" << std::endl;
+      ForDeloneInput(DeloneTypes);
+      if (NiggiTypes.empty() && DeloneTypes.empty()) std::cout << "; unable to match type \"" << name << "\"" << std::endl;
    }
 
 }
