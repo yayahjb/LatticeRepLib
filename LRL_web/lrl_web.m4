@@ -3,7 +3,14 @@ define([[[LRLWEBHOST]]],[[[lrl_web_host]]])dnl
 define([[[LRLWEBUSER]]],[[[lrl_web_user]]])dnl
 define([[[LRLWEBCGI]]],[[[lrl_web.cgi]]])dnl
 define([[[LRLWEBTMP]]],[[[tmp]]])dnl
-define([[[LRLWEBCHECKINPUT]]],[[[[[[LRL_Web Data Inputs:  There are 5 types of input lines Except for “END”, they can be combined in in any order. All these are case-insensitive. If a particular input lattice is invalid, it is rejected with a message.$1---  RANDOM: Random (valid) unit cell;$1---  Crystal lattice input: “A”, “B”, “C”, “P”, “R”, “F”, “I” followed by three axis lengths and three angles (in degrees);$1---  semicolon: lines beginning with a semicolon are treated as comments$1---  Vector Input: g (or v or g6) for G6 vectors; d (or d7) for D7 vectors; s (or s6) for S6, Delone/Selling scalars, C3 for C3 input (without parentheses or commas, “C” would be interpreted as a C-centered unit cell), u for unsorted Dirichlet 7-cells.$1---  END: ends the data input section$1$1Examples of unit cell inputs$1$1P 10 20 30 90 111 90$1G 100 400 900 0 -215.02 0$1S6 0 -107.51 0 7.51 -400 -792.49 ; this is a comment$1end]]]]]])dnl
+define([[[LRLWEBCHECKINPUT]]],[[[[[[LRL_Web Data Inputs:  There are 5 types of input lines Except for “END”, they can be combined in any order. All these are case-insensitive. If a particular input lattice is invalid, it is rejected with a message.$1---  RANDOM: Random (valid) unit cell;$1---  Crystal lattice input: “A”, “B”, “C”, “P”, “R”, “F”, “I” followed by three axis lengths and three angles (in degrees);$1---  semicolon: lines beginning with a semicolon are treated as comments$1---  Vector Input: g (or v or g6) for G6 vectors; d (or d7) for D7 vectors; s (or s6) for S6, Delone/Selling scalars, C3 for C3 input (without parentheses or commas, “C” would be interpreted as a C-centered unit cell), u for unsorted Dirichlet 7-cells.$1---  END: ends the data input section$1$1Examples of unit cell inputs$1$1P 10 20 30 90 111 90$1G 100 400 900 0 -215.02 0$1S6 0 -107.51 0 7.51 -400 -792.49 ; this is a comment$1end]]]]]])dnl
+define([[[LRLWEBRUNNING]]],[[[[[[
+$1<div name=$2"block_$4_running$2" id=$2"block_$4_running$2" style=$2"display:none$2">$3
+$1<label for=$2"progress_img_$4$2">Running:</label><br />$3
+$1<img src=$2"http://$5/images/progress.gif$2" id=$2"progress_img_$4$2" alt=$2"running$2" />$3
+$1<br />$3
+$1</div>$3
+]]]]]])dnl
 ifdef([[[lrlwebhost]]],define([[[LRLWEBHOST]]],[[[lrlwebhost]]]))dnl
 ifdef([[[lrlwebuser]]],define([[[LRLWEBUSER]]],[[[lrlwebuser]]]))dnl
 ifdef([[[lrlwebcgi]]],define([[[LRLWEBCGI]]],[[[lrlwebcgi]]]))dnl
@@ -154,20 +161,47 @@ int main(int argc,
       std::cout << "    }" << std::endl;
       std::cout << "    document.getElementById(\"block_\"+twodig(ii)+\"c\").style=\"display:inline\";" << std::endl;
       std::cout << "    document.getElementById(\"block_\"+twodig(ii)+\"d\").style=\"display:inline\";" << std::endl;
+      std::cout << "    if (ii > 1) {" << std::endl;
+      std::cout << "      document.getElementById(\"hrule_\"+twodig(ii)).style=\"display:inline\";" << std::endl;
+      std::cout << "    }" << std::endl;
       std::cout << "    changeoperation(twodig(ii));" << std::endl;
       std::cout << "  }" << std::endl;
       std::cout << "  if (mynumops < "<<NUMOPS_MAX<<") {" << std::endl;
       std::cout << "  for (ii=mynumops+1; ii<"<<NUMOPS_MAX+1<<";ii++) {" << std::endl;
       std::cout << "    // alert(\"disable block_\"+twodig(ii));" << std::endl;
+      std::cout << "    if (ii > 1) {" << std::endl;
+      std::cout << "      document.getElementById(\"hrule_\"+twodig(ii)).style=\"display:none\";" << std::endl;
+      std::cout << "    }" << std::endl;
       std::cout << "    document.getElementById(\"block_\"+twodig(ii)).style=\"display:none\";" << std::endl;
       std::cout << "    document.getElementById(\"block_\"+twodig(ii)+\"a\").style=\"display:none\";" << std::endl;
       std::cout << "    document.getElementById(\"block_\"+twodig(ii)+\"b\").style=\"display:none\";" << std::endl;
       std::cout << "    document.getElementById(\"block_\"+twodig(ii)+\"c\").style=\"display:none\";" << std::endl;
       std::cout << "    document.getElementById(\"block_\"+twodig(ii)+\"d\").style=\"display:none\";" << std::endl;
+      std::cout << "    if (ii > 1) {" << std::endl;
+      std::cout << "      document.getElementById(\"hrule_\"+twodig(ii)).style=\"display:none\";" << std::endl;
+      std::cout << "    }" << std::endl;
       std::cout << "  }" << std::endl;
       std::cout << "  }" << std::endl;
       std::cout << "  return true;" << std::endl;
       std::cout << "" << std::endl;
+      std::cout << "}" << std::endl;
+      std::cout << "" << std::endl;
+      std::cout << "function running(rownum) {" << std::endl;
+      std::cout << "  var ii;" << std::endl;
+      std::cout << "  let mynumops=parseInt(document.getElementById(\"numops\").value);" << std::endl;
+      std::cout << "  if (mynumops < 1) mynumops=1;" << std::endl;
+      std::cout << "  if (mynumops > 10) mynumops=10;" << std::endl;
+      std::cout << "  document.getElementById(\"numops\").value=mynumops.toString();" << std::endl;
+      std::cout << "  document.getElementById(\"submit_00\").disabled=true;" << std::endl;
+      std::cout << "  document.getElementById(\"submit_000\").disabled=true;" << std::endl;
+      std::cout << "  for (ii=1; ii<mynumops+1;ii++) {" << std::endl;
+      std::cout << "      document.getElementById(\"block_\"+twodig(ii)+\"_running\").style=\"display:inline\";" << std::endl;
+      std::cout << "      document.getElementById(\"submit_\"+twodig(ii)).disabled=true;" << std::endl;
+      std::cout << "      document.getElementById(\"running_img\"+twodig(ii)).src=\"http://]]]LRLWEBHOST[[[/~]]]LRLWEBUSER[[[/images/progress.gif\";";
+      std::cout << std::endl;
+      std::cout << "  }" << std::endl;
+      std::cout << "  document.getElementById(\"ScrollTo\").value=rownum;" << std::endl;
+      std::cout << "  return true;" << std::endl;
       std::cout << "}" << std::endl;
       std::cout << "" << std::endl;
       std::cout << "function changeoperation(rownum) {" << std::endl;
@@ -264,7 +298,17 @@ int main(int argc,
       std::cout << "</HEAD> " << std::endl;
       std::cout << "" << std::endl;
       std::cout << "" << std::endl;
-      std::cout << "<BODY onload=\"changenumops();changeoperation('01');changeoperation('02');changeoperation('03');changeoperation('04');changeoperation('05');changeoperation('06');changeoperation('07');changeoperation('08');changeoperation('09');changeoperation('10');\">" << std::endl;
+
+      cgicc::const_form_iterator scrollto_iter;
+      std::string scrollto;
+      scrollto_iter = cgi.getElement("ScrollTo");
+      if (scrollto_iter == cgi.getElements().end()) {
+        scrollto = std::string("submit_01");
+      } else {
+        scrollto = std::string("submit_")+scrollto_iter->getValue();
+      }
+
+      std::cout << "<BODY onload=\"document.getElementById('"+scrollto+"').scrollIntoView();changenumops();changeoperation('01');changeoperation('02');changeoperation('03');changeoperation('04');changeoperation('05');changeoperation('06');changeoperation('07');changeoperation('08');changeoperation('09');changeoperation('10');\">" << std::endl;
       std::cout << "<font face=\"Arial,Helvetica,Times\" size=\"3\">" << std::endl;
       std::cout << "<hr />" << std::endl;
       std::cout << "<center>" << std::endl;
@@ -286,8 +330,7 @@ int main(int argc,
 }
 
 // Convert line breaks and special characters to HTML 
- std::string plaintext2html(std::string & dst, std::string src)
-{
+std::string plaintext2html(std::string & dst, std::string src){
     size_t dstlen, srclen, ii;
     char c;
     srclen=src.length();
@@ -458,7 +501,7 @@ int main(int argc,
     std::cout << "</tr>" << std::endl;
     xactstr=std::string("<FORM method=POST ACTION=\"http://"+LRL_WEB_HOST+"/~");
     xactstr+=LRL_WEB_USER;
-    xactstr+=std::string("/cgi-bin/"+LRL_WEB_CGI+"\">");
+    xactstr+=std::string("/cgi-bin/"+LRL_WEB_CGI+"\" onsubmit=\"return running('00')\" >");
     std::cout << xactstr  << std::endl;
     std::cout << "<br />" << std::endl;
     std::cout << "Assorted tools to do various calculations for crystallographic lattices." << std::endl;
@@ -468,15 +511,10 @@ int main(int argc,
     std::cout << "</STRONG>" << std::endl;
     std::cout << "<p>" << std::endl;
     std::cout << "<a name=\"search\"></a>" << std::endl;
-    std::cout << "<INPUT type=\"submit\">" << std::endl;
+    std::cout << "<INPUT type=\"submit\" id=\"submit_00\" onsubmit=\"running('00')\">" << std::endl;
     std::cout << "<INPUT type=\"reset\">" << std::endl;
     std::cout << "<br />" << std::endl;
-    std::cout << "<input type=hidden name=\"OutputStyle\" value=\"TEXT\" />" << std::endl;
-    std::cout << "<table border=2>" << std::endl;
-    std::cout << "<tr><td valign=top>" << std::endl;
-    std::cout << "  <table>" << std::endl;
-    std::cout << "  <tr>" << std::endl;
-    std::cout << "  <td colspan=3 align=\"center\">" << std::endl;
+    std::cout << "<center>" << std::endl;
     std::cout << "  <label for=\"numops\">Number of operation windows: </label>" << std::endl;
     std::cout << "  <select name=\"numops\" id=\"numops\" onchange=\"changenumops()\" size=\"1\">" << std::endl;
     if (numops==1) {
@@ -993,8 +1031,17 @@ int main(int argc,
     }
 #endif
     std::cout << "  </select>" << std::endl;
+    std::cout << "</center>" << std::endl;
+    std::cout << "<br />" << std::endl;
+    std::cout << "<input type=hidden name=\"OutputStyle\" value=\"TEXT\" />" << std::endl;
+    std::cout << "<input type=hidden name=\"ScrollTo\" value=\"000\" />" << std::endl;
+    std::cout << "  <tr>" << std::endl;
+    std::cout << "  <td colspan=3 align=\"center\">" << std::endl;
     std::cout << "  </td>" << std::endl;
     std::cout << "  </tr>" << std::endl;
+    std::cout << "<table border=2>" << std::endl;
+    std::cout << "<tr><td valign=top>" << std::endl;
+    std::cout << "  <table>" << std::endl;
     std::string currentoutput=string("");
     char * prevoutbuf = (char *)malloc(1);
     size_t prevoutbuflen = 1;
@@ -1003,7 +1050,6 @@ int main(int argc,
       std::string chain;
       std::string operation;
       std::string selected;
-      std::string active=std::string("\"display:inline\"");
       std::string lrl_web_data=string(tmp_lrl_web+"/lrl_web_data_"+twodig_array[numop]);
       std::string lrl_web_output=string(tmp_lrl_web+"/lrl_web_output_"+twodig_array[numop]);
       std::string lwd=string(tmp_lrl_web+"lwd_"+twodig_array[numop]);
@@ -1013,6 +1059,7 @@ int main(int argc,
       std::string lrl_web_data_cmdgen_ltype;
       std::string lrl_web_data_cmdperturb_npert;
       std::string lrl_web_data_cmdperturb_ppk;
+      std::string active=std::string("\"display:inline\"");
       if(numop > numops) active=std::string("\"display:none\"");
       chain_iter =  formData.getElement("chain_"+twodig_array[numop]);
       if (chain_iter == formData.getElements().end()) {
@@ -1046,7 +1093,6 @@ int main(int argc,
       lrl_web_data_cmdgen_ltype=std::string("all");
       lrl_web_data_cmdperturb_npert=std::string("20");
       lrl_web_data_cmdperturb_ppk=std::string("1");
-      
       if (operation=="CmdGen") {
         lrl_web_data_cmdgen_ngen_iter=formData.getElement("lrl_web_data_"+twodig_array[numop]+"_cmdgen_ngen");
         lrl_web_data_cmdgen_ltype_iter=formData.getElement("lrl_web_data_"+twodig_array[numop]+"_cmdgen_ltype");
@@ -1080,6 +1126,11 @@ int main(int argc,
       // std::cout << "<tr><td colspan=\"3\">" << xprocess_next_output << "</td></tr>" << std::endl;
       // std::cout << "<tr><td colspan=\"3\">" << outlen << "</td></tr>" << std::endl;
       selected = "";
+      if (numop > 1) {
+        std::cout << "    <tr><td colspan=3><div name=\"hrule_"+twodig_array[numop]+"\" id=\"hrule_"+twodig_array[numop]+"\" style="+active+">" << std::endl;
+        std::cout << "    <hr />" << std::endl;
+        std::cout << "    </div></tr></tr>" << std::endl;
+      }
       std::cout << "  <tr>" << std::endl;
       std::cout << "  <td>" << std::endl;
       std::cout << "  <div id=\"block_"+twodig_array[numop]+"\" style="+active+">" << std::endl; 
@@ -1094,8 +1145,11 @@ int main(int argc,
       std::cout << "  <br />" << std::endl;
       std::cout << "  <br />" << std::endl;
       std::cout << "  <label for=\"submit_"+twodig_array[numop]+"\">Submit all data:</label><br />" << std::endl;
-      std::cout << "  <INPUT type=\"submit\">" << std::endl;
+      std::cout << "  <INPUT type=\"submit\" id=\"submit_"+twodig_array[numop]+"\" onsubmit=\"return running('"+twodig_array[numop]+"')\">" << std::endl;
+      std::cout << "  <br />" << std::endl;
+      std::cout << "  <br />" << std::endl;
       std::cout << "  </div>" << std::endl;
+LRLWEBRUNNING([[[      std::cout << "  ]]],[[[\]]],[[[" << std::endl;]]],[[["+twodig_array[numop]+"]]],LRLWEBHOST/~LRLWEBUSER)
       std::cout << "  </td>" << std::endl;
       std::cout << "  <td align=left>" << std::endl;
       std::cout << "  <div id=\"block_"+twodig_array[numop]+"a\" style="+active+">" << std::endl; 
@@ -1235,7 +1289,7 @@ int main(int argc,
     std::cout << "<td>" << std::endl;
     std::cout << "<center>" << std::endl;
     std::cout << "<INPUT type=\"hidden\" NAME=\"Flush\" VALUE=\"DUMMY\">" << std::endl;
-    std::cout << "<INPUT type=\"submit\">" << std::endl;
+    std::cout << "<INPUT type=\"submit\" id=\"submit_000\" onsubmit=\"return running('000')\">" << std::endl;
     std::cout << "<INPUT type=\"reset\">" << std::endl;
     std::cout << "</Form> <hr>" << std::endl;
     std::cout << "</center>" << std::endl;
@@ -1467,7 +1521,7 @@ int main(int argc,
     std::cout << "" << std::endl;
     std::cout << "<p>" << std::endl;
     std::cout << "<hr />" << std::endl;
-    std::cout << "Updated 5 November 2023." << std::endl;
+    std::cout << "Updated 19 November 2023." << std::endl;
     std::cout << "</font>" << std::endl;
  }
 ]]],
@@ -1571,9 +1625,12 @@ function changenumops(){
     }
     document.getElementById("block_"+twodig(ii)+"c").style="display:inline";
     document.getElementById("block_"+twodig(ii)+"d").style="display:inline";
+    document.getElementById("block_"+twodig(ii)+"_running").style="display:none";
+    if (ii > 1) {
+      document.getElementById("hrule_"+twodig(ii)).style="display:inline";
+    }
     changeoperation(twodig(ii));
   }
-  if (mynumops < 10) {
   for (ii=mynumops+1; ii<11;ii++) {
     // alert("disable block_"+twodig(ii));
     document.getElementById("block_"+twodig(ii)).style="display:none";
@@ -1581,8 +1638,28 @@ function changenumops(){
     document.getElementById("block_"+twodig(ii)+"b").style="display:none";
     document.getElementById("block_"+twodig(ii)+"c").style="display:none";
     document.getElementById("block_"+twodig(ii)+"d").style="display:none";
+    document.getElementById("block_"+twodig(ii)+"_running").style="display:none";
+    if (ii > 1) {
+      document.getElementById("hrule_"+twodig(ii)).style="display:none";
+    }
   }
+  return true;
+}
+
+function running(rownum) {
+  var ii;
+  let mynumops=parseInt(document.getElementById("numops").value);
+  if (mynumops < 1) mynumops=1;
+  if (mynumops > 10) mynumops=10;
+  document.getElementById("numops").value=mynumops.toString();
+  document.getElementById("submit_00").disabled=true;
+  document.getElementById("submit_000").disabled=true;
+  for (ii=1; ii<mynumops+1;ii++) {
+      document.getElementById("block_"+twodig(ii)+"_running").style="display:inline";      
+      document.getElementById("submit_"+twodig(ii)).disabled=true;
+      document.getElementById("running_img"+twodig(ii)).src="http://]]]LRLWEBHOST[[[/~]]]LRLWEBUSER[[[/images/progress.gif";      
   }
+  document.getElementById("ScrollTo").value=rownum;
   return true;
 }
 
@@ -1680,7 +1757,7 @@ LRL_WEB Lattice Representation Library Tool Web Page
 </HEAD> 
 
 
-<BODY onload="changenumops();changeoperation('01');changeoperation('02');changeoperation('03');changeoperation('04');changeoperation('05');changeoperation('06');changeoperation('07');changeoperation('08');changeoperation('09');changeoperation('10');">
+<BODY onload="document.getElementById(submit_00).scrollIntoView();changenumops();changeoperation('01');changeoperation('02');changeoperation('03');changeoperation('04');changeoperation('05');changeoperation('06');changeoperation('07');changeoperation('08');changeoperation('09');changeoperation('10');">
 <font face="Arial,Helvetica,Times" size="3">
 <hr />
 <center>
@@ -1708,7 +1785,8 @@ LRL_WEB Lattice Representation Library Tool Web Page
 Sleeping Dragon line art image by Gordon Dylan Johnson, 
 <a href="https://openclipart.org/detail/226147/sleeping-dragon-line-art">https://openclipart.org/detail/226147/sleeping-dragon-line-art</a></font></td>
 </tr>
-<FORM method=POST ACTION="http://]]]LRLWEBHOST[[[/~]]]LRLWEBUSER[[[/cgi-bin/]]]LRLWEBCGI[[[">
+<FORM method=POST onsubmit="return running('00')" 
+  ACTION="http://]]]LRLWEBHOST[[[/~]]]LRLWEBUSER[[[/cgi-bin/]]]LRLWEBCGI[[[">
 <br />
 Assorted tools to do various calculations for crystallographic lattices.
 <br />
@@ -1717,30 +1795,29 @@ Please read the <a href="#notice">NOTICE</a> below before use of this web page
 </STRONG>
 <p>
 <a name="search"></a>
-<INPUT type="submit">
+<INPUT type="submit" id="submit_00" onsubmit="return running('00')">
 <INPUT type="reset">
 <br />
+<center>
+<label for="numops">Number of operation windows: </label>
+<select name="numops" id="numops" onchange="changenumops()" size="1">
+<option selected value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="4">4</option>
+<option value="5">5</option>
+<option value="6">6</option>
+<option value="7">7</option>
+<option value="8">8</option>
+<option value="9">9</option>
+<option value="10">10</option>
+</select>
+</center>
 <input type=hidden name="OutputStyle" value="TEXT" />
+<br />
 <table border=2>
 <tr><td valign=top>
   <table>
-  <tr>
-  <td colspan=3 align="center">
-  <label for="numops">Number of operation windows: </label>
-  <select name="numops" id="numops" onchange="changenumops()" size="1">
-  <option selected value="1">1</option>
-  <option value="2">2</option>
-  <option value="3">3</option>
-  <option value="4">4</option>
-  <option value="5">5</option>
-  <option value="6">6</option>
-  <option value="7">7</option>
-  <option value="8">8</option>
-  <option value="9">9</option>
-  <option value="10">10</option>
-  </select>
-  </td>
-  </tr>
   <tr>
   <td>
   <div id="block_01" style="display:inline"> 
@@ -1752,8 +1829,11 @@ Please read the <a href="#notice">NOTICE</a> below before use of this web page
   <br />
   <br />
   <label for=submit_01>Submit all data:</label><br />
-  <INPUT type="submit">
+  <INPUT type="submit" id="submit_01" onsubmit="return running('01')">
+  <br />
+  <br />
   </div>
+LRLWEBRUNNING([[[]]],[[[]]],[[[]]],[[[01]]],LRLWEBHOST/~LRLWEBUSER)
   </td>
   <td align=left>
   <div id="block_01a" style="display:inline"> 
@@ -1829,8 +1909,10 @@ Please read the <a href="#notice">NOTICE</a> below before use of this web page
   </div>
   </td>
   </tr>
-  <tr>
-  <td>
+  <tr><td colspan=3><div name="hrule_02" id="hrule_02" style="display:none">
+  <hr />
+  </div></td></tr>
+  <tr>  <td>
   <div id="block_02" style="display:none"> 
   <label for="chain_02">Source of data:</label><br />
   <select name="chain_02" id="chain_02" size="1" onchange="setchaininput('2')">
@@ -1840,8 +1922,11 @@ Please read the <a href="#notice">NOTICE</a> below before use of this web page
   <br />
   <br />
   <label for=submit_02>Submit all data:</label><br />
-  <INPUT type="submit">
+  <INPUT type="submit" id="submit_02" onsubmit="return running('02')">
+  <br />
+  <br />
   </div>
+LRLWEBRUNNING([[[]]],[[[]]],[[[]]],[[[02]]],LRLWEBHOST/~LRLWEBUSER)
   </td>
   <td align=left>
   <div id="block_02a" style="display:none"> 
@@ -1915,9 +2000,11 @@ Please read the <a href="#notice">NOTICE</a> below before use of this web page
 ]]])[[[
   </textarea>
   </div>
-
   </td>
   </tr>
+  <tr><td colspan=3><div name="hrule_03" id="hrule_03" style="display:none">
+  <hr />
+  </div></td></tr>
   <tr>
   <td>
   <div id="block_03" style="display:none"> 
@@ -1929,8 +2016,11 @@ Please read the <a href="#notice">NOTICE</a> below before use of this web page
   <br />
   <br />
   <label for=submit_03>Submit all data:</label><br />
-  <INPUT type="submit">
+  <INPUT type="submit" id="submit_03" onsubmit="return running('03')">
+  <br />
+  <br />
   </div>
+LRLWEBRUNNING([[[]]],[[[]]],[[[]]],[[[03]]],LRLWEBHOST/~LRLWEBUSER)
   </td>
   <td align=left>
   <div id="block_03a" style="display:none"> 
@@ -2004,9 +2094,11 @@ Please read the <a href="#notice">NOTICE</a> below before use of this web page
 ]]])[[[
   </textarea>
   </div>
-
   </td>
   </tr>
+  <tr><td colspan=3><div name=hrule_04" id="hrule_04" style="display:none">
+  <hr />
+  </div></td></tr>
   <tr>
   <td>
   <div id="block_04" style="display:none"> 
@@ -2018,8 +2110,11 @@ Please read the <a href="#notice">NOTICE</a> below before use of this web page
   <br />
   <br />
   <label for=submit_04>Submit all data:</label><br />
-  <INPUT type="submit">
+  <INPUT type="submit" id="submit_04" /onsubmit="return running('04')">
+  <br />
+  <br />
   </div>
+LRLWEBRUNNING([[[]]],[[[]]],[[[]]],[[[04]]],LRLWEBHOST/~LRLWEBUSER)
   </td>
   <td align=left>
   <div id="block_04a" style="display:none"> 
@@ -2093,9 +2188,11 @@ Please read the <a href="#notice">NOTICE</a> below before use of this web page
 ]]])[[[
   </textarea>
   </div>
-
   </td>
   </tr>
+  <tr><td colspan=3><div name="hrule_05" id="hrule_05" style="display:none">
+  <hr />
+  </div></td></tr>
   <tr>
   <td>
   <div id="block_05" style="display:none"> 
@@ -2107,8 +2204,11 @@ Please read the <a href="#notice">NOTICE</a> below before use of this web page
   <br />
   <br />
   <label for=submit_05>Submit all data:</label><br />
-  <INPUT type="submit">
+  <INPUT type="submit" id="submit_05"  onsubmit="return running('05')">
+  <br />
+  <br />
   </div>
+LRLWEBRUNNING([[[]]],[[[]]],[[[]]],[[[05]]],LRLWEBHOST/~LRLWEBUSER)
   </td>
   <td align=left>
   <div id="block_05a" style="display:none"> 
@@ -2183,9 +2283,11 @@ Please read the <a href="#notice">NOTICE</a> below before use of this web page
 ]]])[[[
   </textarea>
   </div>
-
   </td>
   </tr>
+  <tr><td colspan=3><div name="hrule_06" id="hrule_06" style="display:none">
+  <hr />
+  </div></td></tr>
   <tr>
   <td>
   <div id="block_06" style="display:none"> 
@@ -2196,9 +2298,12 @@ Please read the <a href="#notice">NOTICE</a> below before use of this web page
   </select>
   <br />
   <br />
-  <label for=submit_06>Submit all data:</label><br />
-  <INPUT type="submit">
+  <label for=submit_06">Submit all data:</label><br />
+  <INPUT type="submit" id="submit_06" onsubmit="return running('06')">
+  <br />
+  <br />
   </div>
+LRLWEBRUNNING([[[]]],[[[]]],[[[]]],[[[06]]],LRLWEBHOST/~LRLWEBUSER)
   </td>
   <td align=left>
   <div id="block_06a" style="display:none"> 
@@ -2272,9 +2377,11 @@ Please read the <a href="#notice">NOTICE</a> below before use of this web page
 ]]])[[[
   </textarea>
   </div>
-
   </td>
   </tr>
+  <tr><td colspan=3><div name="hrule_07" id="hrule_07" style="display:none">
+  <hr />
+  </div></td></tr>
   <tr>
   <td>
   <div id="block_07" style="display:none"> 
@@ -2286,8 +2393,11 @@ Please read the <a href="#notice">NOTICE</a> below before use of this web page
   <br />
   <br />
   <label for=submit_07>Submit all data:</label><br />
-  <INPUT type="submit">
+  <INPUT type="submit" id="submit_07" onsubmit="return running('07')">
+  <br />
+  <br />
   </div>
+LRLWEBRUNNING([[[]]],[[[]]],[[[]]],[[[07]]],LRLWEBHOST/~LRLWEBUSER)
   </td>
   <td align=left>
   <div id="block_07a" style="display:none"> 
@@ -2361,9 +2471,12 @@ Please read the <a href="#notice">NOTICE</a> below before use of this web page
 ]]])[[[
   </textarea>
   </div>
-
   </td>
   </tr>
+  <tr><td colspan=3>
+  <div name="hrule_08" id="hrule_08" style="display:none">
+  <hr />
+  </div></td></tr>
   <tr>
   <td>
   <div id="block_08" style="display:none"> 
@@ -2374,9 +2487,12 @@ Please read the <a href="#notice">NOTICE</a> below before use of this web page
   </select>
   <br />
   <br />
-  <label for=submit_08>Submit all data:</label><br />∑
-  <INPUT type="submit">
+  <label for=submit_08>Submit all data:</label><br />
+  <INPUT type="submit" id="submit_08" onsubmit="return running('08')">
+  <br />
+  <br />
   </div>
+LRLWEBRUNNING([[[]]],[[[]]],[[[]]],[[[08]]],LRLWEBHOST/~LRLWEBUSER)
   </td>
   <td align=left>
   <div id="block_08a" style="display:none"> 
@@ -2451,9 +2567,12 @@ Please read the <a href="#notice">NOTICE</a> below before use of this web page
 ]]])[[[
   </textarea>
   </div>
-
   </td>
   </tr>
+  <tr><td colspan=3>
+  <div name="hrule_09" id="hrule_09" style="display:none">
+  <hr />
+  </div></td></tr>
   <tr>
   <td>
   <div id="block_09" style="display:none"> 
@@ -2465,8 +2584,11 @@ Please read the <a href="#notice">NOTICE</a> below before use of this web page
   <br />
   <br />
   <label for=submit_09>Submit all data:</label><br />
-  <INPUT type="submit">
+  <INPUT type="submit" id="submit_09" onsubmit="return running('09')">
+  <br />
+  <br />
   </div>
+LRLWEBRUNNING([[[]]],[[[]]],[[[]]],[[[09]]],LRLWEBHOST/~LRLWEBUSER)
   </td>
   <td align=left>
   <div id="block_09a" style="display:none"> 
@@ -2541,9 +2663,12 @@ Please read the <a href="#notice">NOTICE</a> below before use of this web page
 ]]])[[[
   </textarea>
   </div>
-
   </td> 
   </tr>
+  <tr><td colspan=3>
+  <div name="hrule_10" id="hrule_10" style="display:none">
+  <hr />
+  </div></td></tr>
   <tr>
   <td>
   <div id="block_10" style="display:none"> 
@@ -2555,7 +2680,9 @@ Please read the <a href="#notice">NOTICE</a> below before use of this web page
   <br />
   <br />
   <label for=submit_10>Submit all data:</label><br />
-  <INPUT type="submit">
+  <INPUT type="submit" id="submit_10" onsubmit="return running('10')">
+  <br />
+  <br />
   </div>
   </td>
   <td  align=left>
@@ -2640,7 +2767,7 @@ Please read the <a href="#notice">NOTICE</a> below before use of this web page
 <td>
 <center>
 <INPUT type="hidden" NAME="Flush" VALUE="DUMMY">
-<INPUT type="submit">
+<INPUT type="submit" id="submit_000" onsubmit="return running('000')>
 <INPUT type="reset">
 </Form> <hr>
 </center>
@@ -2872,7 +2999,7 @@ determination of a unique conventional cell. Zeitschrift f&uuml;r Kristallograph
 
 <p>
 <hr />
-Updated 5 November 2023.
+Updated 19 November 2023.
 </font>
 </body>
 </html>]]])

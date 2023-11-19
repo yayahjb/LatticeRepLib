@@ -98,9 +98,12 @@ function changenumops(){
     }
     document.getElementById("block_"+twodig(ii)+"c").style="display:inline";
     document.getElementById("block_"+twodig(ii)+"d").style="display:inline";
+    document.getElementById("block_"+twodig(ii)+"_running").style="display:none";
+    if (ii > 1) {
+      document.getElementById("hrule_"+twodig(ii)).style="display:inline";
+    }
     changeoperation(twodig(ii));
   }
-  if (mynumops < 10) {
   for (ii=mynumops+1; ii<11;ii++) {
     // alert("disable block_"+twodig(ii));
     document.getElementById("block_"+twodig(ii)).style="display:none";
@@ -108,8 +111,28 @@ function changenumops(){
     document.getElementById("block_"+twodig(ii)+"b").style="display:none";
     document.getElementById("block_"+twodig(ii)+"c").style="display:none";
     document.getElementById("block_"+twodig(ii)+"d").style="display:none";
+    document.getElementById("block_"+twodig(ii)+"_running").style="display:none";
+    if (ii > 1) {
+      document.getElementById("hrule_"+twodig(ii)).style="display:none";
+    }
   }
+  return true;
+}
+
+function running(rownum) {
+  var ii;
+  let mynumops=parseInt(document.getElementById("numops").value);
+  if (mynumops < 1) mynumops=1;
+  if (mynumops > 10) mynumops=10;
+  document.getElementById("numops").value=mynumops.toString();
+  document.getElementById("submit_00").disabled=true;
+  document.getElementById("submit_000").disabled=true;
+  for (ii=1; ii<mynumops+1;ii++) {
+      document.getElementById("block_"+twodig(ii)+"_running").style="display:inline";      
+      document.getElementById("submit_"+twodig(ii)).disabled=true;
+      document.getElementById("running_img"+twodig(ii)).src="http://blondie.arcib.org:8083/~yaya/images/progress.gif";      
   }
+  document.getElementById("ScrollTo").value=rownum;
   return true;
 }
 
@@ -207,7 +230,7 @@ LRL_WEB Lattice Representation Library Tool Web Page
 </HEAD> 
 
 
-<BODY onload="changenumops();changeoperation('01');changeoperation('02');changeoperation('03');changeoperation('04');changeoperation('05');changeoperation('06');changeoperation('07');changeoperation('08');changeoperation('09');changeoperation('10');">
+<BODY onload="document.getElementById(submit_00).scrollIntoView();changenumops();changeoperation('01');changeoperation('02');changeoperation('03');changeoperation('04');changeoperation('05');changeoperation('06');changeoperation('07');changeoperation('08');changeoperation('09');changeoperation('10');">
 <font face="Arial,Helvetica,Times" size="3">
 <hr />
 <center>
@@ -235,7 +258,8 @@ LRL_WEB Lattice Representation Library Tool Web Page
 Sleeping Dragon line art image by Gordon Dylan Johnson, 
 <a href="https://openclipart.org/detail/226147/sleeping-dragon-line-art">https://openclipart.org/detail/226147/sleeping-dragon-line-art</a></font></td>
 </tr>
-<FORM method=POST ACTION="http://blondie.arcib.org:8083/~yaya/cgi-bin/lrl_web.cgi">
+<FORM method=POST onsubmit="return running('00')" 
+  ACTION="http://blondie.arcib.org:8083/~yaya/cgi-bin/lrl_web.cgi">
 <br />
 Assorted tools to do various calculations for crystallographic lattices.
 <br />
@@ -244,30 +268,29 @@ Please read the <a href="#notice">NOTICE</a> below before use of this web page
 </STRONG>
 <p>
 <a name="search"></a>
-<INPUT type="submit">
+<INPUT type="submit" id="submit_00" onsubmit="return running('00')">
 <INPUT type="reset">
 <br />
+<center>
+<label for="numops">Number of operation windows: </label>
+<select name="numops" id="numops" onchange="changenumops()" size="1">
+<option selected value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="4">4</option>
+<option value="5">5</option>
+<option value="6">6</option>
+<option value="7">7</option>
+<option value="8">8</option>
+<option value="9">9</option>
+<option value="10">10</option>
+</select>
+</center>
 <input type=hidden name="OutputStyle" value="TEXT" />
+<br />
 <table border=2>
 <tr><td valign=top>
   <table>
-  <tr>
-  <td colspan=3 align="center">
-  <label for="numops">Number of operation windows: </label>
-  <select name="numops" id="numops" onchange="changenumops()" size="1">
-  <option selected value="1">1</option>
-  <option value="2">2</option>
-  <option value="3">3</option>
-  <option value="4">4</option>
-  <option value="5">5</option>
-  <option value="6">6</option>
-  <option value="7">7</option>
-  <option value="8">8</option>
-  <option value="9">9</option>
-  <option value="10">10</option>
-  </select>
-  </td>
-  </tr>
   <tr>
   <td>
   <div id="block_01" style="display:inline"> 
@@ -279,8 +302,17 @@ Please read the <a href="#notice">NOTICE</a> below before use of this web page
   <br />
   <br />
   <label for=submit_01>Submit all data:</label><br />
-  <INPUT type="submit">
+  <INPUT type="submit" id="submit_01" onsubmit="return running('01')">
+  <br />
+  <br />
   </div>
+
+<div name="block_01_running" id="block_01_running" style="display:none">
+<label for="progress_img_01">Running:</label><br />
+<img src="http://blondie.arcib.org:8083/~yaya/images/progress.gif" id="progress_img_01" alt="running" />
+<br />
+</div>
+
   </td>
   <td align=left>
   <div id="block_01a" style="display:inline"> 
@@ -350,7 +382,7 @@ Please read the <a href="#notice">NOTICE</a> below before use of this web page
   <br />
   <label for="lrl_web_help_01">Tool Help:</label><br />
   <textarea name="lrl_web_help_01" id="lrl_web_help_01" rows="9" cols="100" readonly>
-LRL_Web Data Inputs:  There are 5 types of input lines Except for “END”, they can be combined in in any order. All these are case-insensitive. If a particular input lattice is invalid, it is rejected with a message.
+LRL_Web Data Inputs:  There are 5 types of input lines Except for “END”, they can be combined in any order. All these are case-insensitive. If a particular input lattice is invalid, it is rejected with a message.
 ---  RANDOM: Random (valid) unit cell;
 ---  Crystal lattice input: “A”, “B”, “C”, “P”, “R”, “F”, “I” followed by three axis lengths and three angles (in degrees);
 ---  semicolon: lines beginning with a semicolon are treated as comments
@@ -367,8 +399,10 @@ end
   </div>
   </td>
   </tr>
-  <tr>
-  <td>
+  <tr><td colspan=3><div name="hrule_02" id="hrule_02" style="display:none">
+  <hr />
+  </div></td></tr>
+  <tr>  <td>
   <div id="block_02" style="display:none"> 
   <label for="chain_02">Source of data:</label><br />
   <select name="chain_02" id="chain_02" size="1" onchange="setchaininput('2')">
@@ -378,8 +412,17 @@ end
   <br />
   <br />
   <label for=submit_02>Submit all data:</label><br />
-  <INPUT type="submit">
+  <INPUT type="submit" id="submit_02" onsubmit="return running('02')">
+  <br />
+  <br />
   </div>
+
+<div name="block_02_running" id="block_02_running" style="display:none">
+<label for="progress_img_02">Running:</label><br />
+<img src="http://blondie.arcib.org:8083/~yaya/images/progress.gif" id="progress_img_02" alt="running" />
+<br />
+</div>
+
   </td>
   <td align=left>
   <div id="block_02a" style="display:none"> 
@@ -449,7 +492,7 @@ end
   <br />
   <label for="lrl_web_help_02">Tool Help:</label><br />
   <textarea name="lrl_web_help_02" id="lrl_web_help_02" rows="9" cols="100" readonly>
-    LRL_Web Data Inputs:  There are 5 types of input lines Except for “END”, they can be combined in in any order. All these are case-insensitive. If a particular input lattice is invalid, it is rejected with a message.
+    LRL_Web Data Inputs:  There are 5 types of input lines Except for “END”, they can be combined in any order. All these are case-insensitive. If a particular input lattice is invalid, it is rejected with a message.
 ---  RANDOM: Random (valid) unit cell;
 ---  Crystal lattice input: “A”, “B”, “C”, “P”, “R”, “F”, “I” followed by three axis lengths and three angles (in degrees);
 ---  semicolon: lines beginning with a semicolon are treated as comments
@@ -464,9 +507,11 @@ S6 0 -107.51 0 7.51 -400 -792.49 ; this is a comment
 end
   </textarea>
   </div>
-
   </td>
   </tr>
+  <tr><td colspan=3><div name="hrule_03" id="hrule_03" style="display:none">
+  <hr />
+  </div></td></tr>
   <tr>
   <td>
   <div id="block_03" style="display:none"> 
@@ -478,8 +523,17 @@ end
   <br />
   <br />
   <label for=submit_03>Submit all data:</label><br />
-  <INPUT type="submit">
+  <INPUT type="submit" id="submit_03" onsubmit="return running('03')">
+  <br />
+  <br />
   </div>
+
+<div name="block_03_running" id="block_03_running" style="display:none">
+<label for="progress_img_03">Running:</label><br />
+<img src="http://blondie.arcib.org:8083/~yaya/images/progress.gif" id="progress_img_03" alt="running" />
+<br />
+</div>
+
   </td>
   <td align=left>
   <div id="block_03a" style="display:none"> 
@@ -549,7 +603,7 @@ end
   <br />
   <label for="lrl_web_help_03">Tool Help:</label><br />
   <textarea name="lrl_web_help_03" id="lrl_web_help_03" rows="9" cols="100" readonly>
-    LRL_Web Data Inputs:  There are 5 types of input lines Except for “END”, they can be combined in in any order. All these are case-insensitive. If a particular input lattice is invalid, it is rejected with a message.
+    LRL_Web Data Inputs:  There are 5 types of input lines Except for “END”, they can be combined in any order. All these are case-insensitive. If a particular input lattice is invalid, it is rejected with a message.
 ---  RANDOM: Random (valid) unit cell;
 ---  Crystal lattice input: “A”, “B”, “C”, “P”, “R”, “F”, “I” followed by three axis lengths and three angles (in degrees);
 ---  semicolon: lines beginning with a semicolon are treated as comments
@@ -564,9 +618,11 @@ S6 0 -107.51 0 7.51 -400 -792.49 ; this is a comment
 end
   </textarea>
   </div>
-
   </td>
   </tr>
+  <tr><td colspan=3><div name=hrule_04" id="hrule_04" style="display:none">
+  <hr />
+  </div></td></tr>
   <tr>
   <td>
   <div id="block_04" style="display:none"> 
@@ -578,8 +634,17 @@ end
   <br />
   <br />
   <label for=submit_04>Submit all data:</label><br />
-  <INPUT type="submit">
+  <INPUT type="submit" id="submit_04" /onsubmit="return running('04')">
+  <br />
+  <br />
   </div>
+
+<div name="block_04_running" id="block_04_running" style="display:none">
+<label for="progress_img_04">Running:</label><br />
+<img src="http://blondie.arcib.org:8083/~yaya/images/progress.gif" id="progress_img_04" alt="running" />
+<br />
+</div>
+
   </td>
   <td align=left>
   <div id="block_04a" style="display:none"> 
@@ -649,7 +714,7 @@ end
   <br />
   <label for="lrl_web_help_04">Tool Help:</label><br />
   <textarea name="lrl_web_help_04" id="lrl_web_help_04" rows="9" cols="100" readonly>
-   LRL_Web Data Inputs:  There are 5 types of input lines Except for “END”, they can be combined in in any order. All these are case-insensitive. If a particular input lattice is invalid, it is rejected with a message.
+   LRL_Web Data Inputs:  There are 5 types of input lines Except for “END”, they can be combined in any order. All these are case-insensitive. If a particular input lattice is invalid, it is rejected with a message.
 ---  RANDOM: Random (valid) unit cell;
 ---  Crystal lattice input: “A”, “B”, “C”, “P”, “R”, “F”, “I” followed by three axis lengths and three angles (in degrees);
 ---  semicolon: lines beginning with a semicolon are treated as comments
@@ -664,9 +729,11 @@ S6 0 -107.51 0 7.51 -400 -792.49 ; this is a comment
 end
   </textarea>
   </div>
-
   </td>
   </tr>
+  <tr><td colspan=3><div name="hrule_05" id="hrule_05" style="display:none">
+  <hr />
+  </div></td></tr>
   <tr>
   <td>
   <div id="block_05" style="display:none"> 
@@ -678,8 +745,17 @@ end
   <br />
   <br />
   <label for=submit_05>Submit all data:</label><br />
-  <INPUT type="submit">
+  <INPUT type="submit" id="submit_05"  onsubmit="return running('05')">
+  <br />
+  <br />
   </div>
+
+<div name="block_05_running" id="block_05_running" style="display:none">
+<label for="progress_img_05">Running:</label><br />
+<img src="http://blondie.arcib.org:8083/~yaya/images/progress.gif" id="progress_img_05" alt="running" />
+<br />
+</div>
+
   </td>
   <td align=left>
   <div id="block_05a" style="display:none"> 
@@ -750,7 +826,7 @@ end
   <br />
   <label for="lrl_web_help_05">Tool Help:</label><br />
   <textarea name="lrl_web_help_05" id="lrl_web_help_05" rows="9" cols="100" readonly>
-   LRL_Web Data Inputs:  There are 5 types of input lines Except for “END”, they can be combined in in any order. All these are case-insensitive. If a particular input lattice is invalid, it is rejected with a message.
+   LRL_Web Data Inputs:  There are 5 types of input lines Except for “END”, they can be combined in any order. All these are case-insensitive. If a particular input lattice is invalid, it is rejected with a message.
 ---  RANDOM: Random (valid) unit cell;
 ---  Crystal lattice input: “A”, “B”, “C”, “P”, “R”, “F”, “I” followed by three axis lengths and three angles (in degrees);
 ---  semicolon: lines beginning with a semicolon are treated as comments
@@ -765,9 +841,11 @@ S6 0 -107.51 0 7.51 -400 -792.49 ; this is a comment
 end
   </textarea>
   </div>
-
   </td>
   </tr>
+  <tr><td colspan=3><div name="hrule_06" id="hrule_06" style="display:none">
+  <hr />
+  </div></td></tr>
   <tr>
   <td>
   <div id="block_06" style="display:none"> 
@@ -778,9 +856,18 @@ end
   </select>
   <br />
   <br />
-  <label for=submit_06>Submit all data:</label><br />
-  <INPUT type="submit">
+  <label for=submit_06">Submit all data:</label><br />
+  <INPUT type="submit" id="submit_06" onsubmit="return running('06')">
+  <br />
+  <br />
   </div>
+
+<div name="block_06_running" id="block_06_running" style="display:none">
+<label for="progress_img_06">Running:</label><br />
+<img src="http://blondie.arcib.org:8083/~yaya/images/progress.gif" id="progress_img_06" alt="running" />
+<br />
+</div>
+
   </td>
   <td align=left>
   <div id="block_06a" style="display:none"> 
@@ -850,7 +937,7 @@ end
   <br />
   <label for="lrl_web_help_06">Tool Help:</label><br />
   <textarea name="lrl_web_help_06" id="lrl_web_help_06" rows="9" cols="100" readonly>
-   LRL_Web Data Inputs:  There are 5 types of input lines Except for “END”, they can be combined in in any order. All these are case-insensitive. If a particular input lattice is invalid, it is rejected with a message.
+   LRL_Web Data Inputs:  There are 5 types of input lines Except for “END”, they can be combined in any order. All these are case-insensitive. If a particular input lattice is invalid, it is rejected with a message.
 ---  RANDOM: Random (valid) unit cell;
 ---  Crystal lattice input: “A”, “B”, “C”, “P”, “R”, “F”, “I” followed by three axis lengths and three angles (in degrees);
 ---  semicolon: lines beginning with a semicolon are treated as comments
@@ -865,9 +952,11 @@ S6 0 -107.51 0 7.51 -400 -792.49 ; this is a comment
 end
   </textarea>
   </div>
-
   </td>
   </tr>
+  <tr><td colspan=3><div name="hrule_07" id="hrule_07" style="display:none">
+  <hr />
+  </div></td></tr>
   <tr>
   <td>
   <div id="block_07" style="display:none"> 
@@ -879,8 +968,17 @@ end
   <br />
   <br />
   <label for=submit_07>Submit all data:</label><br />
-  <INPUT type="submit">
+  <INPUT type="submit" id="submit_07" onsubmit="return running('07')">
+  <br />
+  <br />
   </div>
+
+<div name="block_07_running" id="block_07_running" style="display:none">
+<label for="progress_img_07">Running:</label><br />
+<img src="http://blondie.arcib.org:8083/~yaya/images/progress.gif" id="progress_img_07" alt="running" />
+<br />
+</div>
+
   </td>
   <td align=left>
   <div id="block_07a" style="display:none"> 
@@ -950,7 +1048,7 @@ end
   <br />
   <label for="lrl_web_help_07">Tool Help:</label><br />
   <textarea name="lrl_web_help_07" id="lrl_web_help_07" rows="9" cols="100" readonly>
-   LRL_Web Data Inputs:  There are 5 types of input lines Except for “END”, they can be combined in in any order. All these are case-insensitive. If a particular input lattice is invalid, it is rejected with a message.
+   LRL_Web Data Inputs:  There are 5 types of input lines Except for “END”, they can be combined in any order. All these are case-insensitive. If a particular input lattice is invalid, it is rejected with a message.
 ---  RANDOM: Random (valid) unit cell;
 ---  Crystal lattice input: “A”, “B”, “C”, “P”, “R”, “F”, “I” followed by three axis lengths and three angles (in degrees);
 ---  semicolon: lines beginning with a semicolon are treated as comments
@@ -965,9 +1063,12 @@ S6 0 -107.51 0 7.51 -400 -792.49 ; this is a comment
 end
   </textarea>
   </div>
-
   </td>
   </tr>
+  <tr><td colspan=3>
+  <div name="hrule_08" id="hrule_08" style="display:none">
+  <hr />
+  </div></td></tr>
   <tr>
   <td>
   <div id="block_08" style="display:none"> 
@@ -978,9 +1079,18 @@ end
   </select>
   <br />
   <br />
-  <label for=submit_08>Submit all data:</label><br />∑
-  <INPUT type="submit">
+  <label for=submit_08>Submit all data:</label><br />
+  <INPUT type="submit" id="submit_08" onsubmit="return running('08')">
+  <br />
+  <br />
   </div>
+
+<div name="block_08_running" id="block_08_running" style="display:none">
+<label for="progress_img_08">Running:</label><br />
+<img src="http://blondie.arcib.org:8083/~yaya/images/progress.gif" id="progress_img_08" alt="running" />
+<br />
+</div>
+
   </td>
   <td align=left>
   <div id="block_08a" style="display:none"> 
@@ -1051,7 +1161,7 @@ end
   <br />
   <label for="lrl_web_help_08">Tool Help:</label><br />
   <textarea name="lrl_web_help_08" id="lrl_web_help_08" rows="9" cols="100" readonly>
-    LRL_Web Data Inputs:  There are 5 types of input lines Except for “END”, they can be combined in in any order. All these are case-insensitive. If a particular input lattice is invalid, it is rejected with a message.
+    LRL_Web Data Inputs:  There are 5 types of input lines Except for “END”, they can be combined in any order. All these are case-insensitive. If a particular input lattice is invalid, it is rejected with a message.
 ---  RANDOM: Random (valid) unit cell;
 ---  Crystal lattice input: “A”, “B”, “C”, “P”, “R”, “F”, “I” followed by three axis lengths and three angles (in degrees);
 ---  semicolon: lines beginning with a semicolon are treated as comments
@@ -1066,9 +1176,12 @@ S6 0 -107.51 0 7.51 -400 -792.49 ; this is a comment
 end
   </textarea>
   </div>
-
   </td>
   </tr>
+  <tr><td colspan=3>
+  <div name="hrule_09" id="hrule_09" style="display:none">
+  <hr />
+  </div></td></tr>
   <tr>
   <td>
   <div id="block_09" style="display:none"> 
@@ -1080,8 +1193,17 @@ end
   <br />
   <br />
   <label for=submit_09>Submit all data:</label><br />
-  <INPUT type="submit">
+  <INPUT type="submit" id="submit_09" onsubmit="return running('09')">
+  <br />
+  <br />
   </div>
+
+<div name="block_09_running" id="block_09_running" style="display:none">
+<label for="progress_img_09">Running:</label><br />
+<img src="http://blondie.arcib.org:8083/~yaya/images/progress.gif" id="progress_img_09" alt="running" />
+<br />
+</div>
+
   </td>
   <td align=left>
   <div id="block_09a" style="display:none"> 
@@ -1152,7 +1274,7 @@ end
   <br />
   <label for="lrl_web_help_09">Tool Help:</label><br />
   <textarea name="lrl_web_help_09" id="lrl_web_help_09" rows="9" cols="100" readonly>
-   LRL_Web Data Inputs:  There are 5 types of input lines Except for “END”, they can be combined in in any order. All these are case-insensitive. If a particular input lattice is invalid, it is rejected with a message.
+   LRL_Web Data Inputs:  There are 5 types of input lines Except for “END”, they can be combined in any order. All these are case-insensitive. If a particular input lattice is invalid, it is rejected with a message.
 ---  RANDOM: Random (valid) unit cell;
 ---  Crystal lattice input: “A”, “B”, “C”, “P”, “R”, “F”, “I” followed by three axis lengths and three angles (in degrees);
 ---  semicolon: lines beginning with a semicolon are treated as comments
@@ -1167,9 +1289,12 @@ S6 0 -107.51 0 7.51 -400 -792.49 ; this is a comment
 end
   </textarea>
   </div>
-
   </td> 
   </tr>
+  <tr><td colspan=3>
+  <div name="hrule_10" id="hrule_10" style="display:none">
+  <hr />
+  </div></td></tr>
   <tr>
   <td>
   <div id="block_10" style="display:none"> 
@@ -1181,7 +1306,9 @@ end
   <br />
   <br />
   <label for=submit_10>Submit all data:</label><br />
-  <INPUT type="submit">
+  <INPUT type="submit" id="submit_10" onsubmit="return running('10')">
+  <br />
+  <br />
   </div>
   </td>
   <td  align=left>
@@ -1253,7 +1380,7 @@ end
   <br />
   <label for="lrl_web_help_10">Tool Help:</label><br />
   <textarea name="lrl_web_help_10" id="lrl_web_help_10" rows="9" cols="100" readonly>
-   LRL_Web Data Inputs:  There are 5 types of input lines Except for “END”, they can be combined in in any order. All these are case-insensitive. If a particular input lattice is invalid, it is rejected with a message.
+   LRL_Web Data Inputs:  There are 5 types of input lines Except for “END”, they can be combined in any order. All these are case-insensitive. If a particular input lattice is invalid, it is rejected with a message.
 ---  RANDOM: Random (valid) unit cell;
 ---  Crystal lattice input: “A”, “B”, “C”, “P”, “R”, “F”, “I” followed by three axis lengths and three angles (in degrees);
 ---  semicolon: lines beginning with a semicolon are treated as comments
@@ -1277,7 +1404,7 @@ end
 <td>
 <center>
 <INPUT type="hidden" NAME="Flush" VALUE="DUMMY">
-<INPUT type="submit">
+<INPUT type="submit" id="submit_000" onsubmit="return running('000')>
 <INPUT type="reset">
 </Form> <hr>
 </center>
@@ -1509,7 +1636,7 @@ determination of a unique conventional cell. Zeitschrift f&uuml;r Kristallograph
 
 <p>
 <hr />
-Updated 5 November 2023.
+Updated 19 November 2023.
 </font>
 </body>
 </html>
