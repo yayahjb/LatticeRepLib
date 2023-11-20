@@ -167,6 +167,10 @@ int main(int argc,
       std::cout << "" << std::endl;
       std::cout << "}" << std::endl;
       std::cout << "" << std::endl;
+      std::cout << "function noop(){" << std::endl;
+      std::cout << "  return true;" << std::endl;
+      std::cout << "}" << std::endl;
+      std::cout << "" << std::endl;
       std::cout << "function running(rownum) {" << std::endl;
       std::cout << "  var ii;" << std::endl;
       std::cout << "  let mynumops=parseInt(document.getElementById(\"numops\").value);" << std::endl;
@@ -178,10 +182,9 @@ int main(int argc,
       std::cout << "  for (ii=1; ii<mynumops+1;ii++) {" << std::endl;
       std::cout << "      document.getElementById(\"block_\"+twodig(ii)+\"_running\").style=\"display:inline\";" << std::endl;
       std::cout << "      document.getElementById(\"submit_\"+twodig(ii)).disabled=true;" << std::endl;
-      std::cout << "      document.getElementById(\"running_img\"+twodig(ii)).src=\"http://blondie.arcib.org:8083/~yaya/images/progress.gif\";";
-      std::cout << std::endl;
       std::cout << "  }" << std::endl;
       std::cout << "  document.getElementById(\"ScrollTo\").value=rownum;" << std::endl;
+      std::cout << "  let timerId = setTimeout(noop,500);" << std::endl;
       std::cout << "  return true;" << std::endl;
       std::cout << "}" << std::endl;
       std::cout << "" << std::endl;
@@ -284,12 +287,13 @@ int main(int argc,
       std::string scrollto;
       scrollto_iter = cgi.getElement("ScrollTo");
       if (scrollto_iter == cgi.getElements().end()) {
-        scrollto = std::string("submit_01");
+        scrollto = std::string("mark_01");
       } else {
-        scrollto = std::string("submit_")+scrollto_iter->getValue();
+        scrollto = std::string("mark_")+scrollto_iter->getValue();
       }
 
       std::cout << "<BODY onload=\"document.getElementById('"+scrollto+"').scrollIntoView();changenumops();changeoperation('01');changeoperation('02');changeoperation('03');changeoperation('04');changeoperation('05');changeoperation('06');changeoperation('07');changeoperation('08');changeoperation('09');changeoperation('10');\">" << std::endl;
+      std::cout << "<a name=\"mark_00\" id=\"mark_00\" />" << std::endl;
       std::cout << "<font face=\"Arial,Helvetica,Times\" size=\"3\">" << std::endl;
       std::cout << "<hr />" << std::endl;
       std::cout << "<center>" << std::endl;
@@ -1114,6 +1118,10 @@ std::string plaintext2html(std::string & dst, std::string src){
       }
       std::cout << "  <tr>" << std::endl;
       std::cout << "  <td>" << std::endl;
+      std::cout << "  <a name=\"mark_"+twodig_array[numop]+"\" id=\"mark_"+twodig_array[numop]+"\" />" << std::endl;
+      if (numop ==NUMOPS_MAX) {
+        std::cout << "  <a name=\"mark_000\" id=\"mark_000\" />" << std::endl;
+      }
       std::cout << "  <div id=\"block_"+twodig_array[numop]+"\" style="+active+">" << std::endl; 
       std::cout << "  <label for=\"chain_"+twodig_array[numop]+"\">Source of data:</label><br />" << std::endl;
       std::cout << "  <select name=\"chain_"+twodig_array[numop]+"\" id=\"chain_"+twodig_array[numop]+
@@ -1508,7 +1516,7 @@ std::string plaintext2html(std::string & dst, std::string src){
     std::cout << "" << std::endl;
     std::cout << "<p>" << std::endl;
     std::cout << "<hr />" << std::endl;
-    std::cout << "Updated 19 November 2023." << std::endl;
+    std::cout << "Updated 5 November 2023." << std::endl;
     std::cout << "</font>" << std::endl;
  }
 

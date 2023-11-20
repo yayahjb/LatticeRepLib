@@ -119,6 +119,10 @@ function changenumops(){
   return true;
 }
 
+function noop(){
+  return true;
+}
+
 function running(rownum) {
   var ii;
   let mynumops=parseInt(document.getElementById("numops").value);
@@ -130,9 +134,9 @@ function running(rownum) {
   for (ii=1; ii<mynumops+1;ii++) {
       document.getElementById("block_"+twodig(ii)+"_running").style="display:inline";      
       document.getElementById("submit_"+twodig(ii)).disabled=true;
-      document.getElementById("running_img"+twodig(ii)).src="http://blondie.arcib.org:8083/~yaya/images/progress.gif";      
   }
   document.getElementById("ScrollTo").value=rownum;
+  let timerId = setTimeout(noop,500);
   return true;
 }
 
@@ -231,6 +235,7 @@ LRL_WEB Lattice Representation Library Tool Web Page
 
 
 <BODY onload="document.getElementById(submit_00).scrollIntoView();changenumops();changeoperation('01');changeoperation('02');changeoperation('03');changeoperation('04');changeoperation('05');changeoperation('06');changeoperation('07');changeoperation('08');changeoperation('09');changeoperation('10');">
+<a name="mark_00" id="mark_00" />
 <font face="Arial,Helvetica,Times" size="3">
 <hr />
 <center>
@@ -293,6 +298,7 @@ Please read the <a href="#notice">NOTICE</a> below before use of this web page
   <table>
   <tr>
   <td>
+  <a name="mark_01" id="mark_01" />
   <div id="block_01" style="display:inline"> 
   <label for="chain_01">Source of data:</label><br />
   <select name="chain_01" id="chain_01" size="1" onchange="setchaininput('1')">
@@ -403,6 +409,7 @@ end
   <hr />
   </div></td></tr>
   <tr>  <td>
+  <a name="mark_02" id="mark_02" />
   <div id="block_02" style="display:none"> 
   <label for="chain_02">Source of data:</label><br />
   <select name="chain_02" id="chain_02" size="1" onchange="setchaininput('2')">
@@ -514,6 +521,7 @@ end
   </div></td></tr>
   <tr>
   <td>
+  <a name="mark_03" id="mark_03" />
   <div id="block_03" style="display:none"> 
   <label for="chain_03">Source of data:</label><br />
   <select name="chain_03" id="chain_03" size="1" onchange="setchaininput('3')">
@@ -625,6 +633,7 @@ end
   </div></td></tr>
   <tr>
   <td>
+  <a name="mark_04" id="mark_04" />
   <div id="block_04" style="display:none"> 
   <label for="chain_04">Source of data:</label><br />
   <select name="chain_04" id="chain_04" size="1" onchange="setchaininput('4')">
@@ -736,6 +745,7 @@ end
   </div></td></tr>
   <tr>
   <td>
+  <a name="mark_05" id="mark_05" />
   <div id="block_05" style="display:none"> 
   <label for="chain_05">Source of data:</label><br />
   <select name="chain_05" id="chain_05" size="1" onchange="setchaininput('5')">
@@ -848,6 +858,7 @@ end
   </div></td></tr>
   <tr>
   <td>
+  <a name="mark_06" id="mark_06" />
   <div id="block_06" style="display:none"> 
   <label for="chain_06">Source of data:</label><br />
   <select name="chain_06" id="chain_06" size="1" onchange="setchaininput('6')">
@@ -959,6 +970,7 @@ end
   </div></td></tr>
   <tr>
   <td>
+  <a name="mark_07" id="mark_07" />
   <div id="block_07" style="display:none"> 
   <label for="chain_07">Source of data:</label><br />
   <select name="chain_07" id="chain_07" size="1" onchange="setchaininput('7')">
@@ -1071,6 +1083,7 @@ end
   </div></td></tr>
   <tr>
   <td>
+  <a name="mark_08" id="mark_08" />
   <div id="block_08" style="display:none"> 
   <label for="chain_08">Source of data:</label><br />
   <select name="chain_08" id="chain_08" size="1" onchange="setchaininput('8')">
@@ -1184,6 +1197,7 @@ end
   </div></td></tr>
   <tr>
   <td>
+  <a name="mark_09" id="mark_09" />
   <div id="block_09" style="display:none"> 
   <label for="chain_09">Source of data:</label><br />
   <select name="chain_09" id="chain_09" size="1" onchange="setchaininput('9')">
@@ -1297,6 +1311,8 @@ end
   </div></td></tr>
   <tr>
   <td>
+  <a name="mark_10" id="mark_10" />
+  <a name="mark_000" id="mark_000" />
   <div id="block_10" style="display:none"> 
   <label for="chain_10">Source of data:</label><br />
   <select name="chain_10" id="chain_10" size="1" onchange="setchaininput('10')">
@@ -1636,7 +1652,7 @@ determination of a unique conventional cell. Zeitschrift f&uuml;r Kristallograph
 
 <p>
 <hr />
-Updated 19 November 2023.
+Updated 5 November 2023.
 </font>
 </body>
 </html>

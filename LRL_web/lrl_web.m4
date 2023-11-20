@@ -186,6 +186,10 @@ int main(int argc,
       std::cout << "" << std::endl;
       std::cout << "}" << std::endl;
       std::cout << "" << std::endl;
+      std::cout << "function noop(){" << std::endl;
+      std::cout << "  return true;" << std::endl;
+      std::cout << "}" << std::endl;
+      std::cout << "" << std::endl;
       std::cout << "function running(rownum) {" << std::endl;
       std::cout << "  var ii;" << std::endl;
       std::cout << "  let mynumops=parseInt(document.getElementById(\"numops\").value);" << std::endl;
@@ -197,10 +201,9 @@ int main(int argc,
       std::cout << "  for (ii=1; ii<mynumops+1;ii++) {" << std::endl;
       std::cout << "      document.getElementById(\"block_\"+twodig(ii)+\"_running\").style=\"display:inline\";" << std::endl;
       std::cout << "      document.getElementById(\"submit_\"+twodig(ii)).disabled=true;" << std::endl;
-      std::cout << "      document.getElementById(\"running_img\"+twodig(ii)).src=\"http://]]]LRLWEBHOST[[[/~]]]LRLWEBUSER[[[/images/progress.gif\";";
-      std::cout << std::endl;
       std::cout << "  }" << std::endl;
       std::cout << "  document.getElementById(\"ScrollTo\").value=rownum;" << std::endl;
+      std::cout << "  let timerId = setTimeout(noop,500);" << std::endl;
       std::cout << "  return true;" << std::endl;
       std::cout << "}" << std::endl;
       std::cout << "" << std::endl;
@@ -303,12 +306,13 @@ int main(int argc,
       std::string scrollto;
       scrollto_iter = cgi.getElement("ScrollTo");
       if (scrollto_iter == cgi.getElements().end()) {
-        scrollto = std::string("submit_01");
+        scrollto = std::string("mark_01");
       } else {
-        scrollto = std::string("submit_")+scrollto_iter->getValue();
+        scrollto = std::string("mark_")+scrollto_iter->getValue();
       }
 
       std::cout << "<BODY onload=\"document.getElementById('"+scrollto+"').scrollIntoView();changenumops();changeoperation('01');changeoperation('02');changeoperation('03');changeoperation('04');changeoperation('05');changeoperation('06');changeoperation('07');changeoperation('08');changeoperation('09');changeoperation('10');\">" << std::endl;
+      std::cout << "<a name=\"mark_00\" id=\"mark_00\" />" << std::endl;
       std::cout << "<font face=\"Arial,Helvetica,Times\" size=\"3\">" << std::endl;
       std::cout << "<hr />" << std::endl;
       std::cout << "<center>" << std::endl;
@@ -1133,6 +1137,10 @@ std::string plaintext2html(std::string & dst, std::string src){
       }
       std::cout << "  <tr>" << std::endl;
       std::cout << "  <td>" << std::endl;
+      std::cout << "  <a name=\"mark_"+twodig_array[numop]+"\" id=\"mark_"+twodig_array[numop]+"\" />" << std::endl;
+      if (numop ==NUMOPS_MAX) {
+        std::cout << "  <a name=\"mark_000\" id=\"mark_000\" />" << std::endl;
+      }
       std::cout << "  <div id=\"block_"+twodig_array[numop]+"\" style="+active+">" << std::endl; 
       std::cout << "  <label for=\"chain_"+twodig_array[numop]+"\">Source of data:</label><br />" << std::endl;
       std::cout << "  <select name=\"chain_"+twodig_array[numop]+"\" id=\"chain_"+twodig_array[numop]+
@@ -1521,7 +1529,7 @@ LRLWEBRUNNING([[[      std::cout << "  ]]],[[[\]]],[[[" << std::endl;]]],[[["+tw
     std::cout << "" << std::endl;
     std::cout << "<p>" << std::endl;
     std::cout << "<hr />" << std::endl;
-    std::cout << "Updated 19 November 2023." << std::endl;
+    std::cout << "Updated 5 November 2023." << std::endl;
     std::cout << "</font>" << std::endl;
  }
 ]]],
@@ -1646,6 +1654,10 @@ function changenumops(){
   return true;
 }
 
+function noop(){
+  return true;
+}
+
 function running(rownum) {
   var ii;
   let mynumops=parseInt(document.getElementById("numops").value);
@@ -1657,9 +1669,9 @@ function running(rownum) {
   for (ii=1; ii<mynumops+1;ii++) {
       document.getElementById("block_"+twodig(ii)+"_running").style="display:inline";      
       document.getElementById("submit_"+twodig(ii)).disabled=true;
-      document.getElementById("running_img"+twodig(ii)).src="http://]]]LRLWEBHOST[[[/~]]]LRLWEBUSER[[[/images/progress.gif";      
   }
   document.getElementById("ScrollTo").value=rownum;
+  let timerId = setTimeout(noop,500);
   return true;
 }
 
@@ -1758,6 +1770,7 @@ LRL_WEB Lattice Representation Library Tool Web Page
 
 
 <BODY onload="document.getElementById(submit_00).scrollIntoView();changenumops();changeoperation('01');changeoperation('02');changeoperation('03');changeoperation('04');changeoperation('05');changeoperation('06');changeoperation('07');changeoperation('08');changeoperation('09');changeoperation('10');">
+<a name="mark_00" id="mark_00" />
 <font face="Arial,Helvetica,Times" size="3">
 <hr />
 <center>
@@ -1820,6 +1833,7 @@ Please read the <a href="#notice">NOTICE</a> below before use of this web page
   <table>
   <tr>
   <td>
+  <a name="mark_01" id="mark_01" />
   <div id="block_01" style="display:inline"> 
   <label for="chain_01">Source of data:</label><br />
   <select name="chain_01" id="chain_01" size="1" onchange="setchaininput('1')">
@@ -1913,6 +1927,7 @@ LRLWEBRUNNING([[[]]],[[[]]],[[[]]],[[[01]]],LRLWEBHOST/~LRLWEBUSER)
   <hr />
   </div></td></tr>
   <tr>  <td>
+  <a name="mark_02" id="mark_02" />
   <div id="block_02" style="display:none"> 
   <label for="chain_02">Source of data:</label><br />
   <select name="chain_02" id="chain_02" size="1" onchange="setchaininput('2')">
@@ -2007,6 +2022,7 @@ LRLWEBRUNNING([[[]]],[[[]]],[[[]]],[[[02]]],LRLWEBHOST/~LRLWEBUSER)
   </div></td></tr>
   <tr>
   <td>
+  <a name="mark_03" id="mark_03" />
   <div id="block_03" style="display:none"> 
   <label for="chain_03">Source of data:</label><br />
   <select name="chain_03" id="chain_03" size="1" onchange="setchaininput('3')">
@@ -2101,6 +2117,7 @@ LRLWEBRUNNING([[[]]],[[[]]],[[[]]],[[[03]]],LRLWEBHOST/~LRLWEBUSER)
   </div></td></tr>
   <tr>
   <td>
+  <a name="mark_04" id="mark_04" />
   <div id="block_04" style="display:none"> 
   <label for="chain_04">Source of data:</label><br />
   <select name="chain_04" id="chain_04" size="1" onchange="setchaininput('4')">
@@ -2195,6 +2212,7 @@ LRLWEBRUNNING([[[]]],[[[]]],[[[]]],[[[04]]],LRLWEBHOST/~LRLWEBUSER)
   </div></td></tr>
   <tr>
   <td>
+  <a name="mark_05" id="mark_05" />
   <div id="block_05" style="display:none"> 
   <label for="chain_05">Source of data:</label><br />
   <select name="chain_05" id="chain_05" size="1" onchange="setchaininput('5')">
@@ -2290,6 +2308,7 @@ LRLWEBRUNNING([[[]]],[[[]]],[[[]]],[[[05]]],LRLWEBHOST/~LRLWEBUSER)
   </div></td></tr>
   <tr>
   <td>
+  <a name="mark_06" id="mark_06" />
   <div id="block_06" style="display:none"> 
   <label for="chain_06">Source of data:</label><br />
   <select name="chain_06" id="chain_06" size="1" onchange="setchaininput('6')">
@@ -2384,6 +2403,7 @@ LRLWEBRUNNING([[[]]],[[[]]],[[[]]],[[[06]]],LRLWEBHOST/~LRLWEBUSER)
   </div></td></tr>
   <tr>
   <td>
+  <a name="mark_07" id="mark_07" />
   <div id="block_07" style="display:none"> 
   <label for="chain_07">Source of data:</label><br />
   <select name="chain_07" id="chain_07" size="1" onchange="setchaininput('7')">
@@ -2479,6 +2499,7 @@ LRLWEBRUNNING([[[]]],[[[]]],[[[]]],[[[07]]],LRLWEBHOST/~LRLWEBUSER)
   </div></td></tr>
   <tr>
   <td>
+  <a name="mark_08" id="mark_08" />
   <div id="block_08" style="display:none"> 
   <label for="chain_08">Source of data:</label><br />
   <select name="chain_08" id="chain_08" size="1" onchange="setchaininput('8')">
@@ -2575,6 +2596,7 @@ LRLWEBRUNNING([[[]]],[[[]]],[[[]]],[[[08]]],LRLWEBHOST/~LRLWEBUSER)
   </div></td></tr>
   <tr>
   <td>
+  <a name="mark_09" id="mark_09" />
   <div id="block_09" style="display:none"> 
   <label for="chain_09">Source of data:</label><br />
   <select name="chain_09" id="chain_09" size="1" onchange="setchaininput('9')">
@@ -2671,6 +2693,8 @@ LRLWEBRUNNING([[[]]],[[[]]],[[[]]],[[[09]]],LRLWEBHOST/~LRLWEBUSER)
   </div></td></tr>
   <tr>
   <td>
+  <a name="mark_10" id="mark_10" />
+  <a name="mark_000" id="mark_000" />
   <div id="block_10" style="display:none"> 
   <label for="chain_10">Source of data:</label><br />
   <select name="chain_10" id="chain_10" size="1" onchange="setchaininput('10')">
@@ -2999,7 +3023,7 @@ determination of a unique conventional cell. Zeitschrift f&uuml;r Kristallograph
 
 <p>
 <hr />
-Updated 19 November 2023.
+Updated 5 November 2023.
 </font>
 </body>
 </html>]]])
