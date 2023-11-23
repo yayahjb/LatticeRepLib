@@ -49,7 +49,7 @@ std::vector<S6> EliminateDuplicates(const std::vector<S6>& vs) {
 
 std::vector<S6> ResetZeros(const std::vector<S6>& vs) {
    std::vector<S6> out;
-   for (size_t kkk=0;kkk<vs.size();++kkk)
+   for (size_t kkk = 0; kkk < vs.size(); ++kkk)
    {
       S6 s6;
       for (size_t i = 0; i < 6; ++i) {
@@ -58,6 +58,14 @@ std::vector<S6> ResetZeros(const std::vector<S6>& vs) {
       out.emplace_back(s6);
    }
    return out;
+}
+
+static S6 ResetZeros(const S6& vs) {
+   S6 s6;
+   for (size_t i = 0; i < 6; ++i) {
+      s6[i] = (abs(vs[i]) < 1.0E-6) ? 0 : vs[i];
+   }
+   return s6;
 }
 
 std::vector<S6> DoSqrt(const std::vector<S6>& vs) {
@@ -413,10 +421,12 @@ int main(int argc, char* argv[]) {
 
    std::cout << "; To Linearized S6 and root invariants" << std::endl;
 
+   static const std::string allowedLetters = "SLR";
    int test = 0;
    if (argc > 1) {
       name = argv[1];
       name = LRL_StringTools::strToupper(name);
+      if (allowedLetters.find(name[0]) == std::string::npos) name.clear();
    }
 
 
@@ -449,7 +459,7 @@ int main(int argc, char* argv[]) {
    if ( name.empty() || name[0] =='S' || name[0]=='L')
    {
       for (size_t i = 0; i < SLs.size(); ++i) {
-         std::cout << "SL " << SLs[i] << std::endl;
+         std::cout << "SL " << ResetZeros(SLs[i]) << std::endl;
       }
    }
 }
