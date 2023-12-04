@@ -1573,7 +1573,8 @@ RetrieveByXtalType(const std::string& s,
    std::vector<std::shared_ptr<T> > out;
    for (size_t i = 0; i < v.size(); ++i) {
       if (s.length() == 1 && s[0] == v[i]->GetXtalType(s)[0]) out.push_back(v[i]);
-      if (s.length() == 2 && s == v[i]->GetXtalType(s)) out.push_back(v[i]);
+      else if (s == v[i]->GetXtalType(s)) out.push_back(v[i]);
+      //std::cout << "in RetrieveByXtalType " << s << " " << v[i]->GetXtalType(s) << std::endl;
       if (!out.size() && out.size() < 4) {
          const int i19191 = 19191;
       }
@@ -1588,9 +1589,9 @@ RetrieveByGeneralBravaisType(const std::string& s,
    std::vector<std::shared_ptr<T> > out;
    for (size_t i = 0; i < v.size(); ++i) {
       const std::string type = v[i]->GetBravaisLatticeGeneral();
-      if (s.length() == 2 && s == v[i]->GetBravaisLatticeGeneral()) out.push_back(v[i]);
-      if (!out.size() && out.size() < 4) {
-         const int i19191 = 19191;
+      if ( type == s ) 
+      {
+         out.emplace_back(v[i]);;
       }
    }
    return out;
@@ -1630,8 +1631,8 @@ GenerateNiggliBase::Select(const std::string& s/* = ""*/) const {
    else if (s.size() == 2 && s[1] == 'S') {
       return RetrieveByGeneralBravaisType(s, vglb);
    }
-   else if (xtals.find(LRL_StringTools::strLower(s)) != std::string::npos) {
-      return RetrieveByXtalType(LRL_StringTools::strLower(s), vglb);
+   else if (xtals.find(LRL_StringTools::strLower(s)[0]) != std::string::npos) {
+      return RetrieveByXtalType(s, vglb);
    }
    else {
       return vglb;
@@ -1657,11 +1658,14 @@ GenerateDeloneBase::Select(const std::string& s/* = ""*/) const {
    else if (deloneTypes.find(s[0]) != std::string::npos) {
       return RetrieveByDeloneName(s, vglb);
    }
+   else if (s.size() == 1 && xtals.find(s[0]) == std::string::npos) {
+      return RetrieveByGeneralBravaisType(s, vglb);
+   }
    else if (s.size() == 2 && s[1] == 'S') {
       return RetrieveByGeneralBravaisType(s, vglb);
    }
-   else if (xtals.find(LRL_StringTools::strToupper(s)) != std::string::npos) {
-      return RetrieveByXtalType(LRL_StringTools::strToupper(s), vglb);
+   else if (xtals.find(s[0]) != std::string::npos) {
+      return RetrieveByXtalType(s, vglb);
    }
    else {
       return vglb;
