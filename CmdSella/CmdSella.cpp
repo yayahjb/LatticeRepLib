@@ -10,7 +10,9 @@
 #include "DeloneFitResults.h"
 #include "LRL_Cell_Degrees.h"
 #include "LRL_CoordinateConversionMatrices.h"
+#include "LRL_CreateFileName.h"
 #include "LatticeConverter.h"
+#include "LRL_DataToSVG.h"
 #include "LRL_ReadLatticeData.h"
 #include "LatticeConverter.h"
 #include "MatS6.h"
@@ -20,21 +22,31 @@
 #include "Selling.h"
 #include "StoreResults.h"
 
+
+// 2023/12/23
+// bad case: P 21.775 21.785 27.232 90.028 89.974 90.023
+//;################ Bravais chain failure  oS 188.739 tP 0.371973         s6  -0.09949 -473.88154  -0.19042  -0.07866 -474.29631 -741.21325       P    21.775    21.785    34.860    90.008   128.630    90.023
+// ; P 21.775      21.785  27.232  90.028  89.974  90.023   input data
+// on the Grimmer plot:
+// mS .543
+// mP .454
+// oS 13.74
+// tP .61
+//
+
 static double g_maxDeltaForMatch = 0.02;
 std::string selectBravaisCase = "";
 
-std::vector<S6> GetInputSellingReducedVectors(const std::vector<LRL_ReadLatticeData>& input, std::vector<MatS6>& vmat) {
+S6 GetInputSellingReducedVectors(const LRL_ReadLatticeData& input, MatS6& vmat) {
    std::vector<S6> v;
    MatS6 m;
-   vmat.clear();
+   //vmat.clear();
 
-   for (size_t i = 0; i < input.size(); ++i) {
-      const S6 s6 = LatticeConverter::SellingReduceCell(input[i].GetLattice(), input[i].GetCell(), m);
-      v.push_back(s6);
-      vmat.push_back(m);
-   }
+   //for (size_t i = 0; i < input.size(); ++i) {
+      const S6 s6 = LatticeConverter::SellingReduceCell(input.GetLattice(), input.GetCell(), vmat);
+   //}
 
-   return v;
+   return s6;
 }
 
 std::vector<std::pair<std::string, double> > DeloneFitToScores(std::vector< DeloneFitResults>& fits) {
@@ -75,16 +87,6 @@ double DeltaInputBest(const DeloneFitResults& vDeloneFitResults) {
    const S6 bestFit = vDeloneFitResults.GetBestFit();
    return (input - bestFit).norm();
 }
-
-
-//std::map<std::string, double> g_BravaisMap;
-
-//std::map<std::string, double> CreateBasicBravaisMap() {
-//   std::map<std::string, double> bravaisMap;
-//   bravaisMap.insert(std::make_pair("aP", 0));
-//
-//   return bravaisMap;
-//}
 
 std::map<std::string, DeloneFitResults>  CreateMapForBestExamples(
    const std::vector<DeloneFitResults>& vDeloneFitResults)
@@ -145,68 +147,81 @@ void NiggliMatchLatticeType(const DeloneFitResults& deloneFitResults) {
    }
 }
 
-void ListMatchingTypes(const size_t lat, const std::vector<DeloneFitResults>& vFilteredDeloneFitResults,
+static int ListMatchingTypes(const size_t lat, const std::vector<DeloneFitResults>& vFilteredDeloneFitResults,
    const S6& vLatI) {
+   int toReturn = 0;
    for (size_t kk = 0; kk < vFilteredDeloneFitResults.size(); ++kk) {
       const DeloneFitResults& dfr = vFilteredDeloneFitResults[kk];
       if (dfr.GetType()[0] == 'a') continue;
       //const double d = vDeloneFitResults[kk].GetRawFit() / vLat[lat].norm();
       if (vFilteredDeloneFitResults[kk].GetRawFit() / vLatI.norm() < g_maxDeltaForMatch) {
          NiggliMatchLatticeType(vFilteredDeloneFitResults[kk]);
+         toReturn = 1;
       }
    }
+   return toReturn;
 }
 
-//void SellaProcessOneLattice(const LRL_ReadLatticeData& input, const MatS6& reductionMatrix, 
-//   const S6& s6error, const S6& lattice) {
-//   std::vector<DeloneFitResults> vDeloneFitResults = Sella().SellaFit(sptest, input, s6error, reductionMatrix);
-//
-//   std::cout << std::endl << "; reported distances and zscores (in A^2)" << std::endl;
-//
-//   const bool okCheck = BravaisHeirarchy::CheckBravaisChains(vDeloneFitResults);
-//   if (!okCheck) {
-//      //std::cout << "; Bravais chain values check failed, input = " << inputList[lat].GetStrCell() << std::endl;
-//      g_valueErrors.push_back(input.GetStrCell());
-//   }
-//
-//   std::cout << "; " << input.GetStrCell() << " input data" << std::endl << std::endl;
-//   const std::vector<DeloneFitResults> vFilteredDeloneFitResults = FilterForBestExample(vDeloneFitResults);
-//
-//   ListMatchingTypes(vFilteredDeloneFitResults, input);
-//
-//   const std::vector<std::pair<std::string, double> > scores = DeloneFitToScores(vDeloneFitResults);
-//
-//   /*std::cout << */BravaisHeirarchy::ProduceSVG(
-//      inputList[lat], input, scores);
-//}
+std::string ProcessSella(const LRL_ReadLatticeData& input) {
+   MatS6 oneReductionMatrix;
+   const std::vector<LRL_ReadLatticeData> oneInput(1, input);
+   const S6 oneLattice = GetInputSellingReducedVectors(input, oneReductionMatrix);
+   const S6 oneErrors = 0.1 * input.GetCell();
+   int sumBravaisTypesFound = 0;
 
-void ProcessSella(const std::vector<LRL_ReadLatticeData>& inputList) {
-   //-----------------------------------------------------------------------------------
-   std::vector<MatS6> reductionMatrices;
-   const std::vector<S6> vLat = GetInputSellingReducedVectors(inputList, reductionMatrices);
-   const std::vector<S6> errors = CreateS6Errors(vLat);
+   std::vector<DeloneFitResults> vDeloneFitResultsForOneLattice = Sella().SellaFit(selectBravaisCase, oneLattice, oneErrors, oneReductionMatrix);
 
-   for (size_t lat = 0; lat < vLat.size(); ++lat) {
-      std::vector<DeloneFitResults> vDeloneFitResults = Sella().SellaFit(selectBravaisCase, vLat[lat], errors[lat], reductionMatrices[lat]);
+   BravaisHeirarchy::CheckBravaisChains(vDeloneFitResultsForOneLattice);
 
-      BravaisHeirarchy::CheckBravaisChains(vDeloneFitResults);
+   std::cout << "; " << input.GetStrCell() << " input data" << std::endl << std::endl;
 
-      std::cout << "; " << inputList[lat].GetStrCell() << " input data" << std::endl << std::endl;
+   std::cout << "; reported distances and zscores (in A^2)" << std::endl;
+   const std::vector<DeloneFitResults> vFilteredDeloneFitResults = FilterForBestExample(vDeloneFitResultsForOneLattice);
+   sumBravaisTypesFound += ListMatchingTypes(19191, vFilteredDeloneFitResults, oneLattice);
 
-      std::cout << "; reported distances and zscores (in A^2)" << std::endl;
-      const std::vector<DeloneFitResults> vFilteredDeloneFitResults = FilterForBestExample(vDeloneFitResults);
-      ListMatchingTypes(lat, vFilteredDeloneFitResults, vLat[lat]);
+   const std::vector<std::pair<std::string, double> > scores = DeloneFitToScores(vDeloneFitResultsForOneLattice);
 
-      const std::vector<std::pair<std::string, double> > scores = DeloneFitToScores(vDeloneFitResults);
-      /*std::cout << */BravaisHeirarchy::ProduceSVG(
-         inputList[lat], vLat[lat], scores);
+   if (sumBravaisTypesFound == 0) {
+      std::cout << "; apparently the input is triclinic--no other Bravais types matched" << std::endl;;
    }
+
+   return  BravaisHeirarchy::ProduceSVG(
+      input, oneLattice, scores);
+}
+
+void SendSellaToFile(const std::string& svg, const size_t ordinal) {
+   std::cout << std::endl << ";Send Sella Plot To File " << std::endl;
+   std::ofstream fileout;
+
+   const std::string suffix = LRL_DataToSVG(ordinal);
+   const std::string filename = LRL_CreateFileName::Create("SEL_", suffix, "svg", true);
+   std::cout << filename << std::endl;
+
+   FileOperations::OpenOutputFile(fileout, filename);
+
+   if (fileout.is_open())
+   {
+      fileout.seekp(0);
+      fileout << svg << std::endl;
+   }
+   else
+      std::cout << "Could not open file " << filename << " for write in SendSellaToFile.h" << std::endl;
+
+   fileout.close();
 }
 
 int main(int argc, char* argv[])
 {
+
+   bool doProduceSellaGraphics = true;
+
    if (argc > 1) {
       selectBravaisCase = argv[1];
+      if (std::string(argv[1]) == "lca") 
+      {
+         selectBravaisCase.clear();
+         doProduceSellaGraphics = false;
+      }
       if (argc > 2) {
          const double d = atof(argv[2]);
          if (d != 0.0) g_maxDeltaForMatch = atof(argv[2]);
@@ -214,7 +229,17 @@ int main(int argc, char* argv[])
    }
    std::cout << "; CmdSELLA\n";
    const std::vector<LRL_ReadLatticeData> inputList = LRL_ReadLatticeData().ReadLatticeData();
+   /*
+   p 10 20 30  90 90 90
+p 10 10 10  90 90 91
+end
+*/
+   for ( size_t i=0; i<inputList.size(); ++i ) 
+   {
+      //const std::vector<LRL_ReadLatticeData> justOneInput(1, inputList[i]);
+      const std::string svgOutput = ProcessSella(inputList[i]);
+      if (doProduceSellaGraphics) SendSellaToFile(svgOutput, i);
 
-   ProcessSella(inputList);
+   }
 
 }

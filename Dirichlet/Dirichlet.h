@@ -4,6 +4,7 @@
 #include "DirichletCellFaces.h"
 #include "LRL_Cell.h"
 #include "LRL_Cell_Degrees.h"
+#include "LRL_ReadLatticeData.h"
 #include "LRL_Vector3.h"
 #include "TNear.h"
 
@@ -20,8 +21,8 @@ public:
    friend std::ostream& operator<< (std::ostream&, const DirichletCell&);
    DirichletCell() {}
    DirichletCell(const std::string& strCellAndLattice);
-   DirichletCell(const std::string& lattice, const LRL_Cell& cell);
-   void ProcessInputCell(const std::string lattice, const LRL_Cell& cell);
+   DirichletCell(const LRL_ReadLatticeData& inputList);
+   void ProcessInputCell(const std::string& lattice, const LRL_Cell& cell);
 
    std::string GetStrCell() const { return m_strCell; }
    LRL_Cell GetCell() const { return m_cell; }
@@ -40,6 +41,7 @@ public:
    std::vector<std::string> ConvertAllVectorIndicesToString(const std::vector<Vector_3>& vin);
    std::string ConvertVectorIndicesToString(const Vector_3& vin);
    std::vector<int> ConvertVectorIndicesToInt(const Vector_3& vin);
+   std::vector<Vector_3> GetVertices() const { return m_vertices; }
 
 private:
    std::string m_strCell;
@@ -51,6 +53,7 @@ private:
    Cell_Faces m_cellFaces;
    Matrix_3x3 m_cart;
    ANGLESFORFACES m_facesWithVertices;
+   std::vector<Vector_3> m_vertices;
    //const CNearTree<Vector_3> tree = CreateTreeOfLatticePoints(cart);
    //std::vector<DirichletFace> dirichletFaces = Cell_Faces::CreateFaces(tree);
 };
