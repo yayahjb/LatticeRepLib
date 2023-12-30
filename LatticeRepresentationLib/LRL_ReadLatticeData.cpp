@@ -63,7 +63,9 @@ static const std::string symbols7(" V V7  ");
 static const std::string symbols13(" /*DC13*/ ");
 static const std::string symbolsSL(" RI SL ");
 static const std::string symbolsC3(" C3 ");
-static const std::string allowedLatticeSymbols = symbols6 + symbols7 + symbols13 + symbolsSL + symbolsC3;
+static const std::string symbolsDU(" U DU DC7U ");
+static const std::string allowedLatticeSymbols = symbols6 + symbols7 + symbols13 + symbolsSL + symbolsC3 +
+symbolsDU;
 
 
 size_t SizeForLatticeType(const std::string& lattice) {
@@ -72,6 +74,7 @@ size_t SizeForLatticeType(const std::string& lattice) {
    if (symbols13.find(" " + lattice + " ") != std::string::npos) return 13;
    if (symbolsSL.find(" " + lattice + " ") != std::string::npos) return 6;
    if (symbolsC3.find(" " + lattice + " ") != std::string::npos) return 6;
+   if (symbolsDU.find(" " + lattice + " ") != std::string::npos) return 7;
    throw " in SizeForLatticeType, got unrecognized lattice " + lattice;
 }
 
@@ -476,6 +479,7 @@ std::string LRL_ReadLatticeData::CellReaderB(std::string& strcell) const {
 
    if (newFields.empty()) {
       std::cout << "; lattice type not recognized" << std::endl;
+      return "";
    }
    else if (LRL_StringTools::strToupper(newFields[0]).find("V7") != std::string::npos
       && newFields.size() < 8) {
@@ -486,8 +490,7 @@ std::string LRL_ReadLatticeData::CellReaderB(std::string& strcell) const {
       std::cout << "; not enough data (A)" << std::endl;
       return "";
    }
-
-   if (allowedLatticeSymbols.find(newFields[0]) == std::string::npos) {  //LCA fix for type DC7u
+   else if (allowedLatticeSymbols.find(newFields[0]) == std::string::npos) {  //LCA fix for type DC7u
       std::cout << "; invalid input data" << std::endl;
       return "";
    }
