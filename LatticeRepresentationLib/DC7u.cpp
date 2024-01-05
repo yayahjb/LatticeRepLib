@@ -78,6 +78,14 @@ DC7u::DC7u(const DC7u& u)
    m_cellIsValid = IsValid();
 }
 
+DC7u::DC7u(const S6& s6)
+   : m_dim(7)
+   , m_cellIsValid(s6.IsValid())
+{
+   (*this).FromCellToDC7u(s6);
+   m_cellIsValid = IsValid();
+}
+
 DC7u::DC7u( void )
    : m_dim(0)
    , m_cellIsValid(false)

@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 
+#include "ColorTables.h"
 #include "S6.h"
 #include "LRL_Vector3.h"
 
@@ -11,10 +12,10 @@ class C3Plot {
 public:
    C3Plot(const std::string& filename, const int wx, const int wy, const int gx, const int gy);
 
-   std::string GetIntro(const std::string& filename) { return m_svgIntro; }
-   std::string GetFoot() { return m_svgFoot; }
+   std::string GetIntro(const std::string& filename) const { return m_svgIntro; }
+   std::string GetFoot() const { return m_svgFoot; }
    double CellScale(const std::vector<S6>& v);
-   double CellScaleFactor();
+   double CellScaleFactor() const;
    std::string DrawCells(const size_t scalar, const std::vector<S6>& v);
    double GetWx() const { return m_wx; }
    double GetWy() const { return m_wy; }
@@ -27,9 +28,10 @@ public:
    //   const int wx = 2000, const int wy = 2000, const std::string& s = "");
 
    S6 FindNearestReflection(const S6& ref, const S6& var);
-   std::vector<S6> PrepareCells();
+   std::vector<S6> PrepareCells() const;
    std::string CreatePolylineFromPoints(const size_t scalarr, const std::string& width, const std::vector<S6>& v);
-   void SendFrameToFile(const std::string& sFileName, const std::string& data);
+   void SendFrameToFile(const std::string& sFileName, const std::string& data) const;
+   ColorRange GetColorRange() const { return m_colRange; }
 
 protected:
    const int m_wx;
@@ -44,8 +46,9 @@ protected:
    std::string m_svgFoot;
 
 private:
-   std::string BuildIntro(const std::string& filename);
+   std::string BuildIntro(const std::string& filename) const;
    double m_maxScalar;
+   ColorRange m_colRange;
 
 };
 
