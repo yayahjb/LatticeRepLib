@@ -50,7 +50,7 @@ SOURCES  =  \
 	CmdToU/CmdToU.cpp \
 	CmdToV7/CmdToV7.cpp \
 	CmdVolume/CmdVolume.cpp \
-	MAIN_PlotC3.cpp
+	PlotC3/MAIN_PlotC3.cpp
 
 BINS  =  \
 	CheckInput/CheckInput \
@@ -153,7 +153,7 @@ CmdVolume/CmdVolume:  CmdVolume/CmdVolume.cpp $(BIN)
 	  (cd CmdVolume;  make all; cp CmdVolume $(BIN))
 
 PlotC3/PlotC3:  PlotC3/MAIN_PlotC3.cpp $(BIN)
-	  (cd PlotC3; make akk; cp PlotC3 $(BIN))
+	  (cd PlotC3; make all; cp PlotC3 $(BIN))
 
 $(LRL_WEB_BINDEST):
 	mkdir -p $(LRL_WEB_BINDEST)
