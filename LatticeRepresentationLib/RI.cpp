@@ -1,11 +1,12 @@
 #pragma warning( disable : 4189) //  local variable is initialized but not referenced
 
-
+#include <algorithm>
 #include <cmath>
 #include <iomanip>
 #include <iostream>
 #include <string>
 #include <sstream>
+#include <utility>
 #include <vector>
 #include "LRL_Cell.h"
 #include "Delone.h"
@@ -26,10 +27,11 @@
 
 static const std::vector<MatS6> refl_one = MatS6::GetReflections();
 
-RI::RI(void) {
+RI::RI(void) 
+   :m_dim(6)
+   , m_valid(true)
+{
    m_vec.resize(6);
-   m_dim = 6;
-   m_valid = true;
 }
 
 RI::RI(const RI& v)
@@ -44,7 +46,9 @@ RI::RI(const double v[6])
 {
    m_dim = 6;
    m_vec.resize(6);
-   throw; // "needs to implemented"
+   const LRL_ReadLatticeData input;
+   const std::pair<S6, std::string> pss = MakeRI(input, v);
+   m_vec = pss.first.GetVector();
 }
 
 RI::RI(const double d1, const double d2, const double d3, const double d4, const double d5, const double d6)
@@ -67,17 +71,41 @@ RI::RI(const LRL_Cell& c) {
    bool b5 = (c[3] + c[4] + c[5]) < twopi;
    m_valid = b1 && b2 && b3 && b4 && b5;
    m_vec.SetValid(m_valid);
+   const LRL_ReadLatticeData input;
+   const std::pair<S6, std::string> pss = MakeRI(input, c);
+   m_vec = pss.first.GetVector();
 }
 
 RI::RI(const S6& ds)
-   : RI(
-      -ds[0] * ds[0], 
-      -ds[1] * ds[1], 
-      -ds[2] * ds[2], 
-      -ds[3] * ds[3], 
-      -ds[4] * ds[4], 
-      -ds[5] * ds[5] )
 {
+   const LRL_ReadLatticeData input;
+   const std::pair<S6, std::string> pss = MakeRI(input, -ds);
+   m_vec = pss.first.GetVector();
+
+   //throw; // this needs to be implemented differently
+   // here is the S6L code
+   //S6L::S6L(const S6 & ds)
+   //   :m_dim(6)
+   //   , m_valid(true)
+   //{
+   //   S6 s6out;
+   //   const bool b = Selling::Reduce(ds, (s6out));
+   //   const double s1 = sqrt(-s6out[0]);
+   //   const double s2 = sqrt(-s6out[1]);
+   //   const double s3 = sqrt(-s6out[2]);
+   //   const double s4 = sqrt(-s6out[3]);
+   //   const double s5 = sqrt(-s6out[4]);
+   //   const double s6 = sqrt(-s6out[5]);
+   //   m_vec = std::vector<double>{ s1, s2, s3, s4, s5, s6 };
+   //}
+
+}
+
+RI::RI(const G6& ds)
+{
+   const LRL_ReadLatticeData input;
+   const std::pair<S6, std::string> pss = MakeRI(input, ds);
+   m_vec = pss.first.GetVector();
 }
 
 std::vector<S6> RI::GenerateReflections(const S6& s6) {
@@ -94,18 +122,31 @@ RI::RI(const VecN& v) {
    if (v.size() == 6) {
       m_dim = 6;
       m_valid = true;
-      m_vec = v;
+      const LRL_ReadLatticeData input;
+      const std::pair<S6, std::string> pss = MakeRI(input, v);
+      m_vec = pss.first.GetVector();
    }
 }
 
 RI::RI(const std::vector<double>& v) {
-   m_dim = 0;
-   m_valid = false;
+   m_dim = 6;
    if (v.size() == 6) {
-      m_dim = 6;
       m_valid = true;
       m_vec = v;
    }
+   else {
+      m_valid = false;
+      m_vec.resize(6);
+
+   }
+}
+
+RI& RI::operator=(const RI& v)
+{
+   m_vec = v.m_vec;
+   m_dim = v.m_dim;
+   m_valid = v.m_valid;
+   return *this;
 }
 
 std::string RI::Format_V1(const S6& s) {
@@ -241,7 +282,7 @@ std::string  RI::OutputRootInvariants(const S6& s6) {
       out = Format_V5(s6);
    }
    else {
-      throw; "not supposed to happen";
+      //throw; "not supposed to happen";
    }
    //std::cout << out << std::endl;
    return out;
@@ -260,11 +301,26 @@ std::pair<S6, std::string>   RI::MakeRI(const LRL_ReadLatticeData& input, const 
    const std::vector<S6> allRefls = RI::GenerateReflections(positiveRed);
    const std::vector<S6> sqrted = DoSqrt(allRefls);
    const std::vector<S6> resetZeros1 = ResetZeros(sqrted);
+
+   // treat all zero vectors
+   if (resetZeros1.empty()) {
+      return std::make_pair(S6{0, 0, 0, 0, 0, 0 }, "");
+   }
    // remove unsort examples
    const std::vector<S6> firstElementDmin = KeepDminFirst(resetZeros1);
+   // treat all zero vectors
+   if (firstElementDmin.empty()) {
+      return std::make_pair(S6{ 0, 0, 0, 0, 0, 0 }, "");
+   }
    const std::vector<S6> secondElement = KeepSecondMin(firstElementDmin);
    // set near zeros to zero (probably not needed)
+   if (secondElement.empty()) {
+      return std::make_pair(S6{ 0, 0, 0, 0, 0, 0 }, "");
+   }
    const std::vector<S6> resetZeros2 = ResetZeros(secondElement);
+   if (resetZeros2.empty()) {
+      return std::make_pair(S6{ 0, 0, 0, 0, 0, 0 }, "");
+   }
    // remove actual near duplicates
    const std::vector<S6> allSorted = ResortElements_1_3(resetZeros2);
    // remove actual near duplicates, because sorting values can generate them
@@ -304,6 +360,12 @@ std::pair<S6, std::string>   RI::MakeRI(const LRL_ReadLatticeData& input, const 
    return pss;
 }
 
+RI RI::rand() {
+   const S6 s6rand{ S6::randDeloneReduced() };
+   const std::pair<S6, std::string> pss = MakeRI(LRL_ReadLatticeData(), -s6rand);
+   const RI ri = pss.first;
+   return ri;
+}
 
 std::vector<S6> RI::ResetZeros(const std::vector<S6>& vs) {
    std::vector<S6> out;

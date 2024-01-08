@@ -52,6 +52,7 @@ public:
    RI(const LRL_Cell& c);
    RI(const VecN& v);
    RI(const S6& ds);
+   RI(const G6& ds);
    RI(const C3& c3);
    RI(const B4& dt);
    RI(const std::string& s);
@@ -101,11 +102,6 @@ public:
    static std::string GetName(void) { return "RI"; }
 
    static RI rand();
-   static RI randDeloneReduced();
-   static RI randDeloneUnreduced();
-   static RI rand(const double d);
-   static RI randDeloneReduced(const double d);
-   static RI randDeloneUnreduced(const double d);
    static std::vector<S6> ResetZeros(const std::vector<S6>& vs);
    static S6 ResetZeros(const S6& vs);
    static S6 AllPositive(const S6& s);

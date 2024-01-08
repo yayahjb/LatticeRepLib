@@ -113,19 +113,9 @@ static std::string PrepareLegend(const double x, const double y, const std::vect
 
    //out += commandLine;
    std::string out;
-   const std::string xtext = LRL_ToString(x);
-   const std::string ytext = LRL_ToString(y);
-   const std::string sourceFile(__FILE__);
-
-   const std::string fileLabel = sourceFile + "\n";
 
    const std::string count =  "; Number of points: " + LRL_ToString(v.size()) + "\n\n";
 
-   const std::string date = LRL_CreateFileName::Create("; Created ", "\n");
-
-   out += fileLabel;
-   out += date;
-   //   out += rect;
    out += count;
 
    if (v.empty()) {
@@ -150,11 +140,9 @@ static std::string PrepareLegend(const double x, const double y, const std::vect
 
       const std::string dots = "\n ...\n\n";
 
-
       const std::string cellText2 = "  P " + os.str() + "\n";
       out += dots;
       out += cellText2;
-
    }
    const std::string ypos = LRL_ToString(y + 3400);
    const std::string commandLine = LRL_ToString("\n edit SVG file to insert command line text\n");
@@ -193,7 +181,7 @@ std::string  PrepareColorGuide(const C3Plot& c3plot, const int xint, const int y
 
    for ( size_t i=0; i<=nguides; ++i ) 
    {
-      const double frac = double(i) / double(nguides);
+      const double frac = double(i) / double(nguides-1);
       c3plot.GetColorRange().GetRGBFromRangeFraction(frac, r, g, b);
       const std::string circle = "";
       const std::string x = LRL_ToString(xint + i * 15);

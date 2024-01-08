@@ -25,7 +25,8 @@ $(COMMAND):	$(COMMAND).cpp \
         ../LatticeRepresentationLib/MatD7.cpp ../LatticeRepresentationLib/MatG6.cpp ../LatticeRepresentationLib/MatMN.cpp \
         ../LatticeRepresentationLib/MatN.cpp ../LatticeRepresentationLib/MatS6.cpp ../LatticeRepresentationLib/Niggli.cpp \
         ../LatticeRepresentationLib/RI.h ../LatticeRepresentationLib/RI.cpp \
-        ../LatticeRepresentationLib/S6.cpp ../LatticeRepresentationLib/S6Dist.cpp \
+	../LatticeRepresentationLib/S6.h ../LatticeRepresentationLib/S6.cpp \
+        ../LatticeRepresentationLib/S6L.h ../LatticeRepresentationLib/S6L.cpp ../LatticeRepresentationLib/S6Dist.cpp \
         ../LatticeRepresentationLib/S6_Matrices.cpp ../LatticeRepresentationLib/Selling.cpp \
 	../LatticeRepresentationLib/Sella.cpp \
         ../LatticeRepresentationLib/VecN.cpp  ../LatticeRepresentationLib/V7.cpp ../LRL_Tools/LRL_Vector3.cpp
@@ -51,7 +52,8 @@ $(COMMAND):	$(COMMAND).cpp \
 	../LatticeRepresentationLib/MatD7.cpp ../LatticeRepresentationLib/MatG6.cpp ../LatticeRepresentationLib/MatMN.cpp \
 	../LatticeRepresentationLib/MatN.cpp ../LatticeRepresentationLib/MatS6.cpp ../LatticeRepresentationLib/Niggli.cpp \
         ../LatticeRepresentationLib/RI.cpp \
-	../LatticeRepresentationLib/S6.cpp ../LatticeRepresentationLib/S6Dist.cpp \
+        ../LatticeRepresentationLib/S6.cpp \
+	../LatticeRepresentationLib/S6L.cpp ../LatticeRepresentationLib/S6Dist.cpp \
 	../LatticeRepresentationLib/S6_Matrices.cpp ../LatticeRepresentationLib/Selling.cpp \
 	../LatticeRepresentationLib/Sella.cpp \
 	../LatticeRepresentationLib/VecN.cpp  ../LatticeRepresentationLib/V7.cpp ../LRL_Tools/LRL_Vector3.cpp
