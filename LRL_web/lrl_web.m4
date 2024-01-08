@@ -4,7 +4,7 @@ dnl #    YOU MAY REDISTRIBUTE THE CBFLIB PACKAGE UNDER THE TERMS OF THE GPL.
 dnl #    ALTERNATIVELY YOU MAY REDISTRIBUTE THE CBFLIB API UNDER THE TERMS OF THE LGPL.
 dnl #
 dnl # m4 macro expansion is controlled by defining the following m4 macros
-dnl #    lrl_web_host -- the web host name (without http:// prefix)
+dnl #    lrl_web_host -- the web host name (without http: prefix)
 dnl #            (default blondie.arcb.org:8083)
 dnl #    lrl_web_user -- the username on the web host 
 dnl #            (default yaya)
@@ -74,8 +74,8 @@ ifdef([[[lrl_web_host]]],[[[define([[[LRLWEBHOST]]],[[[lrl_web_host]]])]]])dnl
 ifdef([[[lrl_web_user]]],[[[define([[[LRLWEBUSER]]],[[[lrl_web_user]]])]]])dnl
 ifdef([[[lrl_web_cgi]]],[[[define([[[LRLWEBCGI]]],[[[lrl_web_cgi]]])]]])dnl
 ifdef([[[lrlwebtmp]]],[[[define([[[LRLWEBTMP]]],[[[lrl_web_tmp]]])]]])dnl
-ifdef([[[cgicpp]]],[[[define([[[prefix]]],[[[std::cout << ]]])]]])dnl
-ifdef([[[cgicpp]]],[[[define([[[epilogue]]],[[[ << std::endl;]]])]]])dnl
+ifdef([[[cgicpp]]],[[[define([[[xxpefix]]],[[[std::cout << ]]])]]])dnl
+ifdef([[[cgicpp]]],[[[define([[[xxepilogue]]],[[[ << std::endl;]]])]]])dnl
 define([[[nocgicpp]]],[[[yes]]])dnl
 ifdef([[[cgicpp]]],[[[undefine([[[nocgicpp]]])]]])dnl
 ifdef([[[cgicpp]]],[[[dnl
@@ -116,16 +116,23 @@ void  dumpList(const Cgicc& formData);
 void  process(const Cgicc& formData); 
 
 std::string tmp_lrl_web;  //directory for processing
+std::string html_tmp_lrl_web; //html version of tmp_lrl_web
 std::string myls;
 int main(int argc, 
      char **argv)
 {
    char buf[1024];
    std::string xbufstr;
+   std::string ybufstr;
+   std::string zbufstr;
    xbufstr=std::string("/home/")+LRL_WEB_USER+std::string("/public_html/cgi-bin/make_lrl_web_prefix_2.bash "+LRL_WEB_USER+" "+LRL_WEB_TMP);
+   ybufstr=std::string("/home/")+LRL_WEB_USER+std::string("/public_html");
+   zbufstr=std::string("~")+LRL_WEB_USER;
    if (do_exec_to_buffer(xbufstr.c_str(),buf,1024)!=0)
        exit(-1);
    tmp_lrl_web=std::string(buf);
+   html_tmp_lrl_web=std::string(tmp_lrl_web).replace(0,ybufstr.length(),zbufstr);
+   
    try {
       Cgicc cgi;
 
@@ -400,6 +407,11 @@ int main(int argc,
       std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("LRLWEB_CmdVolume([[[\"<font size=-1>]]],[[[<br />")
       +std::string("]]],[[[<br /></font>\"")]]])+std::string(";") << std::endl; 
       std::cout << " } else if (operation==\"PlotC3\") {" << std::endl;
+      std::cout << "   document.getElementById(\"block_\"+tdrownum+\"b_cmdgen\").style=\"display:none\";" << std::endl;
+      std::cout << "   document.getElementById(\"block_\"+tdrownum+\"b_cmdpath\").style=\"display:none\";" << std::endl;
+      std::cout << "   document.getElementById(\"block_\"+tdrownum+\"b_cmdperturb\").style=\"display:none\";" << std::endl;
+      std::cout << "   document.getElementById(\"block_\"+tdrownum+\"b_cmdscale\").style=\"display:none\";" << std::endl;
+      std::cout << "   document.getElementById(\"block_\"+tdrownum+\"b_cmdtos6l\").style=\"display:none\";" << std::endl;
       std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("LRLWEB_PlotC3([[[\"<font size=-1>]]],[[[<br />")
       +std::string("]]],[[[<br /></font>\"")]]])+std::string(";") << std::endl; 
       std::cout << " } else {" << std::endl;
@@ -509,7 +521,8 @@ int main(int argc,
       std::cout << "<font face=\"Arial,Helvetica,Times\" size=\"3\">" << std::endl;
       std::cout << "<hr />" << std::endl;
       std::cout << "<center>" << std::endl;
-      std::cout << "Buffer: " << "'"+tmp_lrl_web+"'" <<std::endl;
+      std::cout << "rawprefix: " << "'"+tmp_lrl_web+"/'" << ", htmlprefix: "<< "'"+html_tmp_lrl_web+"/'"<<std::endl;
+      std::cout << "</center>" << std::endl;
 
       // Dump form 
      if (LRL_WEB_DEBUG)  dumpList(cgi);
@@ -1267,6 +1280,8 @@ std::string plaintext2html(std::string & dst, std::string src){
       std::string lrl_web_data_cmdperturb_ppk;
       std::string lrl_web_data_cmdscale_type;
       std::string lrl_web_data_cmdtos6l_type;
+      std::string lrl_web_data_plotc3_rawprefix;
+      std::string lrl_web_data_plotc3_htmlprefix;
       std::string active=std::string("\"display:inline\"");
       if(numop > numops) active=std::string("\"display:none\"");
       chain_iter =  formData.getElement("chain_"+twodig_array[numop]);
@@ -1305,6 +1320,8 @@ std::string plaintext2html(std::string & dst, std::string src){
       lrl_web_data_cmdpath_npath=std::string("20");
       lrl_web_data_cmdscale_type=std::string("S6");
       lrl_web_data_cmdtos6l_type=std::string("S6L");
+      lrl_web_data_plotc3_rawprefix=tmp_lrl_web+std::string("/");
+      lrl_web_data_plotc3_htmlprefix=html_tmp_lrl_web+std::string("/");;
       if (operation=="CmdGen") {
         lrl_web_data_cmdgen_ngen_iter=formData.getElement("lrl_web_data_"+twodig_array[numop]+"_cmdgen_ngen");
         lrl_web_data_cmdgen_ltype_iter=formData.getElement("lrl_web_data_"+twodig_array[numop]+"_cmdgen_ltype");
@@ -1334,6 +1351,13 @@ std::string plaintext2html(std::string & dst, std::string src){
         lrl_web_data_cmdtos6l_type = (lrl_web_data_cmdtos6l_type_iter==formData.getElements().end())?std::string("S6L"):lrl_web_data_cmdtos6l_type_iter->getValue();
         opmod=(std::string(" ")+lrl_web_data_cmdtos6l_type);
         // std::cout << "<tr><td colspan=\"3\">" << "lrl_web_data_"+twodig_array[numop]+"_cmdtos6l_type" << (opmod).c_str() <<"</td></tr>" << std::endl;
+      } else if (operation=="PlotC3") {
+        lrl_web_data_plotc3_rawprefix = tmp_lrl_web+std::string("/");
+        lrl_web_data_plotc3_htmlprefix = html_tmp_lrl_web+std::string("/");
+        opmod=(std::string(" --host ]]]LRLWEBHOST[[[ ")
+          +std::string(" --rawprefix ")+std::string(lrl_web_data_plotc3_rawprefix)
+          +std::string(" --htmlprefix ")+std::string(lrl_web_data_plotc3_htmlprefix));
+        // std::cout << "<tr><td colspan=\"3\">" << "lrl_web_data_"+twodig_array[numop]+"_plotc3_prefixes" << (opmod).c_str() <<"</td></tr>" << std::endl;
       }
       std::string oppath=std::string(tmp_lrl_web+"/operation_"+twodig_array[numop]);
       if(string_to_file(at.c_str(), oppath.c_str(), (operation+opmod).c_str())) {
@@ -1481,7 +1505,7 @@ LRLWEBRUNNING([[[      std::cout << "  ]]],[[[\]]],[[[" << std::endl;]]],[[["+tw
       }
       std::cout << "  <label for=\"lrl_web_data_"+twodig_array[numop]+"_cmdpath_npath\">Number of steps in the path:</label>&nbsp;"  <<  std::endl;
       std::cout << "  <input id=\"lrl_web_data_"+twodig_array[numop]+"_cmdpath_npath\" name=\"lrl_web_data_"+twodig_array[numop]+"_cmdpath_npath\" type=\"number\" value=\""
-        +lrl_web_data_cmdpath_npath+"\" min=\"1\"/>&nbsp;&nbsp;" <<  std::endl;
+        +lrl_web_data_cmdpath_npath+"\" min=\"1\"/>" <<  std::endl;
       std::cout << "  <br />"  << std::endl;
       std::cout << "  </div>"  << std::endl;
 
@@ -1491,7 +1515,7 @@ LRLWEBRUNNING([[[      std::cout << "  ]]],[[[\]]],[[[" << std::endl;]]],[[["+tw
         std::cout << "  <div id=\"block_"+twodig_array[numop]+"b_cmdscale\" style=\"display:none\">"  <<  std::endl;
       }
       std::cout << "  <label for=\"lrl_web_data_"+twodig_array[numop]+"_cmdscale_type\">Type of scaled cells: S6, V7, DC7u, or RI</label>&nbsp;"  <<  std::endl;
-      std::cout << "  <select id=\"lrl_web_data_"+twodig_array[numop]+"_cmdscale_type\" name=\"lrl_web_data_"+twodig_array[numop]+"_cmdscale_type\">&nbsp;&nbsp;" <<  std::endl;
+      std::cout << "  <select id=\"lrl_web_data_"+twodig_array[numop]+"_cmdscale_type\" name=\"lrl_web_data_"+twodig_array[numop]+"_cmdscale_type\">" <<  std::endl;
       if (lrl_web_data_cmdtos6l_type[0]=='S'||lrl_web_data_cmdtos6l_type[0]=='s') {
         std::cout << "     <option selected value=\"S6\">S6</option>"  <<  std::endl;
       } else {
@@ -1522,7 +1546,7 @@ LRLWEBRUNNING([[[      std::cout << "  ]]],[[[\]]],[[[" << std::endl;]]],[[["+tw
         std::cout << "  <div id=\"block_"+twodig_array[numop]+"b_cmdtos6l\" style=\"display:none\">"  <<  std::endl;
       }
       std::cout << "  <label for=\"lrl_web_data_"+twodig_array[numop]+"_cmdtos6l_type\">Type of linearized S6: S6L, RI or blank for both:</label>&nbsp;"  <<  std::endl;
-      std::cout << "  <select id=\"lrl_web_data_"+twodig_array[numop]+"_cmdtos6l_type\" name=\"lrl_web_data_"+twodig_array[numop]+"_cmdtos6l_type\">&nbsp;&nbsp;" <<  std::endl;
+      std::cout << "  <select id=\"lrl_web_data_"+twodig_array[numop]+"_cmdtos6l_type\" name=\"lrl_web_data_"+twodig_array[numop]+"_cmdtos6l_type\">" <<  std::endl;
       if (lrl_web_data_cmdtos6l_type[0]=='S'||lrl_web_data_cmdtos6l_type[0]=='s') {
       std::cout << "     <option selected value=\"S6L\">linearized S6</option>"  <<  std::endl;
       std::cout << "     <option value=\"RI\">root invariant</option>"  <<  std::endl;
@@ -1539,8 +1563,6 @@ LRLWEBRUNNING([[[      std::cout << "  ]]],[[[\]]],[[[" << std::endl;]]],[[["+tw
       std::cout << "  </select>"  << std::endl;
       std::cout << "  <br />"  << std::endl;
       std::cout << "  </div>"  << std::endl;
-
-
 
       if (chain.compare("new_input")==0 || numop < 2) {
         std::cout << "  <div id=\"block_"+twodig_array[numop]+"b"+"\" style="+active+"> " << std::endl;
@@ -2727,7 +2749,7 @@ LRL_WEB Lattice Representation Library Tool Web Page
 </HEAD> 
 
 
-<BODY onload="document.getElementById('mark_01').scrollIntoView();changenumops();changeoperation('01');changeoperation('02');changeoperation('03');changeoperation('04');changeoperation('05');changeoperation('06');changeoperation('07');changeoperation('08');changeoperation('09');changeoperation('10');">
+<BODY onload="document.getElementById('mark_01').scrollIntoView();changenumops();changeoperation('01');changeoperation('02');changeoperation('03');changeoperation('04');changeoperation('05');changeoperation('06');changeoperation('07');changeoperation('08');">
 <a name="mark_00" id="mark_00" />
 <font face="Arial,Helvetica,Times" size="3">
 <hr />
@@ -3599,7 +3621,7 @@ LRLWEBRUNNING([[[  ]]],[[[]]],[[[]]],[[[07]]],LRLWEBHOST/~LRLWEBUSER)
   </select>
   <br />
   </div>
-<div id="block_07b_cmdtos6l" style="display:none">
+  <div id="block_07b_cmdtos6l" style="display:none">
   <label for="lrl_web_data_07_cmdtos6l_type">Type of linearized S6: S6L, RI or blank for both:</label>&nbsp;
   <select id="lrl_web_data_07_cmdtos6l_type" name="lrl_web_data_07_cmdtos6l_type">&nbsp;&nbsp;
   <option selected value="S6L">linearized S6</option>

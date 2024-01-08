@@ -19,10 +19,10 @@ define([[[LRLWEB_CmdDelone]]],[[[[[[$1]]]]]]dnl
 [[[[[[NA$2 ]]]]]]dnl
 [[[[[[<hr>]]]]]]dnl
 [[[[[[<strong>Command: Check Input</strong>$2]]]]]]dnl
-[[[[[[<em>Purpose:</em> Verify input lattice types and parameters$2]]]]]]dnl
-[[[[[[<em>Output type:</em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.$2]]]]]]dnl
+[[[[[[<em><u>Purpose:</u></em> Verify input lattice types and parameters$2]]]]]]dnl
+[[[[[[<em><u>Output type:</u></em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.$2]]]]]]dnl
 [[[[[[Warnings are output for invalid inputs.$2]]]]]]dnl
-[[[[[[<em>Parameters:</em> NA$2]]]]]]dnl
+[[[[[[<em><u>Parameters:</u></em> NA$2]]]]]]dnl
 [[[[[[<hr />]]]]]]dnl
 [[[[[[LRL_Web Data Inputs:  There are 5 types of input lines.]]]]]]dnl
 [[[[[[ Except for 'END', they can be combined in any order.$2]]]]]]dnl
@@ -78,10 +78,10 @@ define([[[LRLWEB_CmdDists]]],[[[[[[$1 ]]]]]]dnl
 [[[[[[NA$2 ]]]]]]dnl
 [[[[[[<hr>]]]]]]dnl
 [[[[[[<strong>Command: Check Input</strong>$2]]]]]]dnl
-[[[[[[<em>Purpose:</em> Verify input lattice types and parameters$2]]]]]]dnl
-[[[[[[<em>Output type:</em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.$2]]]]]]dnl
+[[[[[[<em><u>Purpose:</u></em> Verify input lattice types and parameters$2]]]]]]dnl
+[[[[[[<em><u>Output type:</u></em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.$2]]]]]]dnl
 [[[[[[Warnings are output for invalid inputs.$2]]]]]]dnl
-[[[[[[<em>Parameters:</em> NA$2]]]]]]dnl
+[[[[[[<em><u>Parameters:</u></em> NA$2]]]]]]dnl
 [[[[[[<hr />]]]]]]dnl
 [[[[[[LRL_Web Data Inputs:  There are 5 types of input lines.]]]]]]dnl
 [[[[[[ Except for 'END', they can be combined in any order.$2]]]]]]dnl
@@ -148,10 +148,10 @@ define([[[LRLWEB_CmdGen]]],[[[[[[$1 ]]]]]]dnl
 [[[[[[types$2 ]]]]]]dnl
 [[[[[[<hr>]]]]]]dnl
 [[[[[[<strong>Command: Check Input</strong>$2]]]]]]dnl
-[[[[[[<em>Purpose:</em> Verify input lattice types and parameters$2]]]]]]dnl
-[[[[[[<em>Output type:</em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.$2]]]]]]dnl
+[[[[[[<em><u>Purpose:</u></em> Verify input lattice types and parameters$2]]]]]]dnl
+[[[[[[<em><u>Output type:</u></em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.$2]]]]]]dnl
 [[[[[[Warnings are output for invalid inputs.$2]]]]]]dnl
-[[[[[[<em>Parameters:</em> NA$2]]]]]]dnl
+[[[[[[<em><u>Parameters:</u></em> NA$2]]]]]]dnl
 [[[[[[<hr />]]]]]]dnl
 [[[[[[LRL_Web Data Inputs:  There are 5 types of input lines.]]]]]]dnl
 [[[[[[ Except for 'END', they can be combined in any order.$2]]]]]]dnl
@@ -210,10 +210,10 @@ define([[[LRLWEB_CmdLM]]],[[[[[[$1 ]]]]]]dnl
 [[[[[[NA$2 ]]]]]]dnl
 [[[[[[<hr>]]]]]]dnl
 [[[[[[<strong>Command: Check Input</strong>$2]]]]]]dnl
-[[[[[[<em>Purpose:</em> Verify input lattice types and parameters$2]]]]]]dnl
-[[[[[[<em>Output type:</em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.$2]]]]]]dnl
+[[[[[[<em><u>Purpose:</u></em> Verify input lattice types and parameters$2]]]]]]dnl
+[[[[[[<em><u>Output type:</u></em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.$2]]]]]]dnl
 [[[[[[Warnings are output for invalid inputs.$2]]]]]]dnl
-[[[[[[<em>Parameters:</em> NA$2]]]]]]dnl
+[[[[[[<em><u>Parameters:</u></em> NA$2]]]]]]dnl
 [[[[[[<hr />]]]]]]dnl
 [[[[[[LRL_Web Data Inputs:  There are 5 types of input lines.]]]]]]dnl
 [[[[[[ Except for 'END', they can be combined in any order.$2]]]]]]dnl
@@ -251,10 +251,10 @@ define([[[LRLWEB_CmdNiggli]]],[[[[[[$1 ]]]]]]dnl
 [[[[[[NA$2 ]]]]]]dnl
 [[[[[[<hr>]]]]]]dnl
 [[[[[[<strong>Command: Check Input</strong>$2]]]]]]dnl
-[[[[[[<em>Purpose:</em> Verify input lattice types and parameters$2]]]]]]dnl
-[[[[[[<em>Output type:</em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.$2]]]]]]dnl
+[[[[[[<em><u>Purpose:</u></em> Verify input lattice types and parameters$2]]]]]]dnl
+[[[[[[<em><u>Output type:</u></em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.$2]]]]]]dnl
 [[[[[[Warnings are output for invalid inputs.$2]]]]]]dnl
-[[[[[[<em>Parameters:</em> NA$2]]]]]]dnl
+[[[[[[<em><u>Parameters:</u></em> NA$2]]]]]]dnl
 [[[[[[<hr />]]]]]]dnl
 [[[[[[LRL_Web Data Inputs:  There are 5 types of input lines.]]]]]]dnl
 [[[[[[ Except for 'END', they can be combined in any order.$2]]]]]]dnl
@@ -296,10 +296,10 @@ define([[[LRLWEB_CmdPath]]],[[[[[[$1 ]]]]]]dnl
 [[[[[[(20)$2 ]]]]]]dnl
 [[[[[[<hr>]]]]]]dnl
 [[[[[[<strong>Command: Check Input</strong>$2]]]]]]dnl
-[[[[[[<em>Purpose:</em> Verify input lattice types and parameters$2]]]]]]dnl
-[[[[[[<em>Output type:</em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.$2]]]]]]dnl
+[[[[[[<em><u>Purpose:</u></em> Verify input lattice types and parameters$2]]]]]]dnl
+[[[[[[<em><u>Output type:</u></em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.$2]]]]]]dnl
 [[[[[[Warnings are output for invalid inputs.$2]]]]]]dnl
-[[[[[[<em>Parameters:</em> NA$2]]]]]]dnl
+[[[[[[<em><u>Parameters:</u></em> NA$2]]]]]]dnl
 [[[[[[<hr />]]]]]]dnl
 [[[[[[LRL_Web Data Inputs:  There are 5 types of input lines.]]]]]]dnl
 [[[[[[ Except for 'END', they can be combined in any order.$2]]]]]]dnl
@@ -357,10 +357,10 @@ define([[[LRLWEB_CmdPerturb]]],[[[[[[$1 ]]]]]]dnl
 [[[[[[end$2]]]]]]dnl
 [[[[[[<hr>]]]]]]dnl
 [[[[[[<strong>Command: Check Input</strong>$2]]]]]]dnl
-[[[[[[<em>Purpose:</em> Verify input lattice types and parameters$2]]]]]]dnl
-[[[[[[<em>Output type:</em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.$2]]]]]]dnl
+[[[[[[<em><u>Purpose:</u></em> Verify input lattice types and parameters$2]]]]]]dnl
+[[[[[[<em><u>Output type:</u></em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.$2]]]]]]dnl
 [[[[[[Warnings are output for invalid inputs.$2]]]]]]dnl
-[[[[[[<em>Parameters:</em> NA$2]]]]]]dnl
+[[[[[[<em><u>Parameters:</u></em> NA$2]]]]]]dnl
 [[[[[[<hr />]]]]]]dnl
 [[[[[[LRL_Web Data Inputs:  There are 5 types of input lines.]]]]]]dnl
 [[[[[[ Except for 'END', they can be combined in any order.$2]]]]]]dnl
@@ -433,10 +433,10 @@ define([[[LRLWEB_CmdS6Refl]]],[[[[[[$1 ]]]]]]dnl
 [[[[[[$2 ]]]]]]dnl
 [[[[[[<hr>]]]]]]dnl
 [[[[[[<strong>Command: Check Input</strong>$2]]]]]]dnl
-[[[[[[<em>Purpose:</em> Verify input lattice types and parameters$2]]]]]]dnl
-[[[[[[<em>Output type:</em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.$2]]]]]]dnl
+[[[[[[<em><u>Purpose:</u></em> Verify input lattice types and parameters$2]]]]]]dnl
+[[[[[[<em><u>Output type:</u></em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.$2]]]]]]dnl
 [[[[[[Warnings are output for invalid inputs.$2]]]]]]dnl
-[[[[[[<em>Parameters:</em> NA$2]]]]]]dnl
+[[[[[[<em><u>Parameters:</u></em> NA$2]]]]]]dnl
 [[[[[[<hr />]]]]]]dnl
 [[[[[[LRL_Web Data Inputs:  There are 5 types of input lines.]]]]]]dnl
 [[[[[[ Except for 'END', they can be combined in any order.$2]]]]]]dnl
@@ -517,10 +517,10 @@ define([[[LRLWEB_CmdSella]]],[[[[[[$1 ]]]]]]dnl
 [[[[[[(all)$2 ]]]]]]dnl
 [[[[[[<hr>]]]]]]dnl
 [[[[[[<strong>Command: Check Input</strong>$2]]]]]]dnl
-[[[[[[<em>Purpose:</em> Verify input lattice types and parameters$2]]]]]]dnl
-[[[[[[<em>Output type:</em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.$2]]]]]]dnl
+[[[[[[<em><u>Purpose:</u></em> Verify input lattice types and parameters$2]]]]]]dnl
+[[[[[[<em><u>Output type:</u></em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.$2]]]]]]dnl
 [[[[[[Warnings are output for invalid inputs.$2]]]]]]dnl
-[[[[[[<em>Parameters:</em> NA$2]]]]]]dnl
+[[[[[[<em><u>Parameters:</u></em> NA$2]]]]]]dnl
 [[[[[[<hr />]]]]]]dnl
 [[[[[[LRL_Web Data Inputs:  There are 5 types of input lines.]]]]]]dnl
 [[[[[[ Except for 'END', they can be combined in any order.$2]]]]]]dnl
@@ -566,10 +566,10 @@ define([[[LRLWEB_CmdToB4]]],[[[[[[$1 ]]]]]]dnl
 [[[[[[NA$2 ]]]]]]dnl
 [[[[[[<hr>]]]]]]dnl
 [[[[[[<strong>Command: Check Input</strong>$2]]]]]]dnl
-[[[[[[<em>Purpose:</em> Verify input lattice types and parameters$2]]]]]]dnl
-[[[[[[<em>Output type:</em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.$2]]]]]]dnl
+[[[[[[<em><u>Purpose:</u></em> Verify input lattice types and parameters$2]]]]]]dnl
+[[[[[[<em><u>Output type:</u></em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.$2]]]]]]dnl
 [[[[[[Warnings are output for invalid inputs.$2]]]]]]dnl
-[[[[[[<em>Parameters:</em> NA$2]]]]]]dnl
+[[[[[[<em><u>Parameters:</u></em> NA$2]]]]]]dnl
 [[[[[[<hr />]]]]]]dnl
 [[[[[[LRL_Web Data Inputs:  There are 5 types of input lines.]]]]]]dnl
 [[[[[[ Except for 'END', they can be combined in any order.$2]]]]]]dnl
@@ -612,10 +612,10 @@ define([[[LRLWEB_CmdToC3]]],[[[[[[$1 ]]]]]]dnl
 [[[[[[$2 ]]]]]]dnl
 [[[[[[<hr>]]]]]]dnl
 [[[[[[<strong>Command: Check Input</strong>$2]]]]]]dnl
-[[[[[[<em>Purpose:</em> Verify input lattice types and parameters$2]]]]]]dnl
-[[[[[[<em>Output type:</em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.$2]]]]]]dnl
+[[[[[[<em><u>Purpose:</u></em> Verify input lattice types and parameters$2]]]]]]dnl
+[[[[[[<em><u>Output type:</u></em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.$2]]]]]]dnl
 [[[[[[Warnings are output for invalid inputs.$2]]]]]]dnl
-[[[[[[<em>Parameters:</em> NA$2]]]]]]dnl
+[[[[[[<em><u>Parameters:</u></em> NA$2]]]]]]dnl
 [[[[[[<hr />]]]]]]dnl
 [[[[[[LRL_Web Data Inputs:  There are 5 types of input lines.]]]]]]dnl
 [[[[[[ Except for 'END', they can be combined in any order.$2]]]]]]dnl
@@ -655,10 +655,10 @@ define([[[LRLWEB_CmdToCell]]],[[[[[[$1 ]]]]]]dnl
 [[[[[[NA$2 ]]]]]]dnl
 [[[[[[<hr>]]]]]]dnl
 [[[[[[<strong>Command: Check Input</strong>$2]]]]]]dnl
-[[[[[[<em>Purpose:</em> Verify input lattice types and parameters$2]]]]]]dnl
-[[[[[[<em>Output type:</em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.$2]]]]]]dnl
+[[[[[[<em><u>Purpose:</u></em> Verify input lattice types and parameters$2]]]]]]dnl
+[[[[[[<em><u>Output type:</u></em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.$2]]]]]]dnl
 [[[[[[Warnings are output for invalid inputs.$2]]]]]]dnl
-[[[[[[<em>Parameters:</em> NA$2]]]]]]dnl
+[[[[[[<em><u>Parameters:</u></em> NA$2]]]]]]dnl
 [[[[[[<hr />]]]]]]dnl
 [[[[[[LRL_Web Data Inputs:  There are 5 types of input lines.]]]]]]dnl
 [[[[[[ Except for 'END', they can be combined in any order.$2]]]]]]dnl
@@ -693,10 +693,10 @@ define([[[LRLWEB_CmdToG6]]],[[[[[[$1 ]]]]]]dnl
 [[[[[[NA$2 ]]]]]]dnl
 [[[[[[<hr>]]]]]]dnl
 [[[[[[<strong>Command: Check Input</strong>$2]]]]]]dnl
-[[[[[[<em>Purpose:</em> Verify input lattice types and parameters$2]]]]]]dnl
-[[[[[[<em>Output type:</em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.$2]]]]]]dnl
+[[[[[[<em><u>Purpose:</u></em> Verify input lattice types and parameters$2]]]]]]dnl
+[[[[[[<em><u>Output type:</u></em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.$2]]]]]]dnl
 [[[[[[Warnings are output for invalid inputs.$2]]]]]]dnl
-[[[[[[<em>Parameters:</em> NA$2]]]]]]dnl
+[[[[[[<em><u>Parameters:</u></em> NA$2]]]]]]dnl
 [[[[[[<hr />]]]]]]dnl
 [[[[[[LRL_Web Data Inputs:  There are 5 types of input lines.]]]]]]dnl
 [[[[[[ Except for 'END', they can be combined in any order.$2]]]]]]dnl
@@ -730,10 +730,10 @@ define([[[LRLWEB_CmdToS6]]],[[[[[[$1 ]]]]]]dnl
 [[[[[[NA$2 ]]]]]]dnl
 [[[[[[<hr>]]]]]]dnl
 [[[[[[<strong>Command: Check Input</strong>$2]]]]]]dnl
-[[[[[[<em>Purpose:</em> Verify input lattice types and parameters$2]]]]]]dnl
-[[[[[[<em>Output type:</em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.$2]]]]]]dnl
+[[[[[[<em><u>Purpose:</u></em> Verify input lattice types and parameters$2]]]]]]dnl
+[[[[[[<em><u>Output type:</u></em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.$2]]]]]]dnl
 [[[[[[Warnings are output for invalid inputs.$2]]]]]]dnl
-[[[[[[<em>Parameters:</em> NA$2]]]]]]dnl
+[[[[[[<em><u>Parameters:</u></em> NA$2]]]]]]dnl
 [[[[[[<hr />]]]]]]dnl
 [[[[[[LRL_Web Data Inputs:  There are 5 types of input lines.]]]]]]dnl
 [[[[[[ Except for 'END', they can be combined in any order.$2]]]]]]dnl
@@ -785,10 +785,10 @@ define([[[LRLWEB_CmdToS6L]]],[[[[[[$1 ]]]]]]dnl
 [[[[[[$2 ]]]]]]dnl
 [[[[[[<hr>]]]]]]dnl
 [[[[[[<strong>Command: Check Input</strong>$2]]]]]]dnl
-[[[[[[<em>Purpose:</em> Verify input lattice types and parameters$2]]]]]]dnl
-[[[[[[<em>Output type:</em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.$2]]]]]]dnl
+[[[[[[<em><u>Purpose:</u></em> Verify input lattice types and parameters$2]]]]]]dnl
+[[[[[[<em><u>Output type:</u></em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.$2]]]]]]dnl
 [[[[[[Warnings are output for invalid inputs.$2]]]]]]dnl
-[[[[[[<em>Parameters:</em> NA$2]]]]]]dnl
+[[[[[[<em><u>Parameters:</u></em> NA$2]]]]]]dnl
 [[[[[[<hr />]]]]]]dnl
 [[[[[[LRL_Web Data Inputs:  There are 5 types of input lines.]]]]]]dnl
 [[[[[[ Except for 'END', they can be combined in any order.$2]]]]]]dnl
@@ -824,10 +824,10 @@ define([[[LRLWEB_CmdToU]]],[[[[[[$1 ]]]]]]dnl
 [[[[[[NA$2 ]]]]]]dnl
 [[[[[[<hr>]]]]]]dnl
 [[[[[[<strong>Command: Check Input</strong>$2]]]]]]dnl
-[[[[[[<em>Purpose:</em> Verify input lattice types and parameters$2]]]]]]dnl
-[[[[[[<em>Output type:</em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.$2]]]]]]dnl
+[[[[[[<em><u>Purpose:</u></em> Verify input lattice types and parameters$2]]]]]]dnl
+[[[[[[<em><u>Output type:</u></em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.$2]]]]]]dnl
 [[[[[[Warnings are output for invalid inputs.$2]]]]]]dnl
-[[[[[[<em>Parameters:</em> NA$2]]]]]]dnl
+[[[[[[<em><u>Parameters:</u></em> NA$2]]]]]]dnl
 [[[[[[<hr />]]]]]]dnl
 [[[[[[LRL_Web Data Inputs:  There are 5 types of input lines.]]]]]]dnl
 [[[[[[ Except for 'END', they can be combined in any order.$2]]]]]]dnl
@@ -868,10 +868,10 @@ define([[[LRLWEB_CmdToV7]]],[[[[[[$1 ]]]]]]dnl
 [[[[[[NA$2 ]]]]]]dnl
 [[[[[[<hr>]]]]]]dnl
 [[[[[[<strong>Command: Check Input</strong>$2]]]]]]dnl
-[[[[[[<em>Purpose:</em> Verify input lattice types and parameters$2]]]]]]dnl
-[[[[[[<em>Output type:</em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.$2]]]]]]dnl
+[[[[[[<em><u>Purpose:</u></em> Verify input lattice types and parameters$2]]]]]]dnl
+[[[[[[<em><u>Output type:</u></em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.$2]]]]]]dnl
 [[[[[[Warnings are output for invalid inputs.$2]]]]]]dnl
-[[[[[[<em>Parameters:</em> NA$2]]]]]]dnl
+[[[[[[<em><u>Parameters:</u></em> NA$2]]]]]]dnl
 [[[[[[<hr />]]]]]]dnl
 [[[[[[LRL_Web Data Inputs:  There are 5 types of input lines.]]]]]]dnl
 [[[[[[ Except for 'END', they can be combined in any order.$2]]]]]]dnl
@@ -908,10 +908,10 @@ define([[[LRLWEB_CmdVolume]]],[[[[[[$1 ]]]]]]dnl
 [[[[[[NA$2 ]]]]]]dnl
 [[[[[[<hr>]]]]]]dnl
 [[[[[[<strong>Command: Check Input</strong>$2]]]]]]dnl
-[[[[[[<em>Purpose:</em> Verify input lattice types and parameters$2]]]]]]dnl
-[[[[[[<em>Output type:</em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.$2]]]]]]dnl
+[[[[[[<em><u>Purpose:</u></em> Verify input lattice types and parameters$2]]]]]]dnl
+[[[[[[<em><u>Output type:</u></em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.$2]]]]]]dnl
 [[[[[[Warnings are output for invalid inputs.$2]]]]]]dnl
-[[[[[[<em>Parameters:</em> NA$2]]]]]]dnl
+[[[[[[<em><u>Parameters:</u></em> NA$2]]]]]]dnl
 [[[[[[<hr />]]]]]]dnl
 [[[[[[LRL_Web Data Inputs:  There are 5 types of input lines.]]]]]]dnl
 [[[[[[ Except for 'END', they can be combined in any order.$2]]]]]]dnl
@@ -936,7 +936,6 @@ dnl
 dnl Command:  PlotC3
 dnl -------------------
 define([[[LRLWEB_PlotC3]]],[[[[[[$1 ]]]]]]dnl
-[[[[[[Command:  PlotC3 ]]]]]]dnl
 [[[[[[<strong>Command: ]]]]]]dnl
 [[[[[[[PlotC3</strong>]$2]]]]]]dnl
 [[[[[[<em><u>Purpose:</u></em> Graphical output of ]]]]]]dnl
@@ -956,10 +955,10 @@ define([[[LRLWEB_PlotC3]]],[[[[[[$1 ]]]]]]dnl
 [[[[[[quadrant.$2 ]]]]]]dnl
 [[[[[[<hr>]]]]]]dnl
 [[[[[[<strong>Command: Check Input</strong>$2]]]]]]dnl
-[[[[[[<em>Purpose:</em> Verify input lattice types and parameters$2]]]]]]dnl
-[[[[[[<em>Output type:</em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.$2]]]]]]dnl
+[[[[[[<em><u>Purpose:</u></em> Verify input lattice types and parameters$2]]]]]]dnl
+[[[[[[<em><u>Output type:</u></em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.$2]]]]]]dnl
 [[[[[[Warnings are output for invalid inputs.$2]]]]]]dnl
-[[[[[[<em>Parameters:</em> NA$2]]]]]]dnl
+[[[[[[<em><u>Parameters:</u></em> NA$2]]]]]]dnl
 [[[[[[<hr />]]]]]]dnl
 [[[[[[LRL_Web Data Inputs:  There are 5 types of input lines.]]]]]]dnl
 [[[[[[ Except for 'END', they can be combined in any order.$2]]]]]]dnl

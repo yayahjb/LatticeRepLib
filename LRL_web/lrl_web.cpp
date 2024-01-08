@@ -34,16 +34,23 @@ void  dumpList(const Cgicc& formData);
 void  process(const Cgicc& formData); 
 
 std::string tmp_lrl_web;  //directory for processing
+std::string html_tmp_lrl_web; //html version of tmp_lrl_web
 std::string myls;
 int main(int argc, 
      char **argv)
 {
    char buf[1024];
    std::string xbufstr;
+   std::string ybufstr;
+   std::string zbufstr;
    xbufstr=std::string("/home/")+LRL_WEB_USER+std::string("/public_html/cgi-bin/make_lrl_web_prefix_2.bash "+LRL_WEB_USER+" "+LRL_WEB_TMP);
+   ybufstr=std::string("/home/")+LRL_WEB_USER+std::string("/public_html");
+   zbufstr=std::string("~")+LRL_WEB_USER;
    if (do_exec_to_buffer(xbufstr.c_str(),buf,1024)!=0)
        exit(-1);
    tmp_lrl_web=std::string(buf);
+   html_tmp_lrl_web=std::string(tmp_lrl_web).replace(0,ybufstr.length(),zbufstr);
+   
    try {
       Cgicc cgi;
 
@@ -242,10 +249,10 @@ int main(int argc,
       +std::string("cell has only non-acute interaxial angles.<br />")
       +std::string("<em><u>Parameters:</u></em> NA<br />")
       +std::string(" <hr><strong>Command: Check Input</strong><br />")
-      +std::string("<em>Purpose:</em> Verify input lattice types and parameters<br />")
-      +std::string("<em>Output type:</em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.<br />")
+      +std::string("<em><u>Purpose:</u></em> Verify input lattice types and parameters<br />")
+      +std::string("<em><u>Output type:</u></em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.<br />")
       +std::string("Warnings are output for invalid inputs.<br />")
-      +std::string("<em>Parameters:</em> NA<br />")
+      +std::string("<em><u>Parameters:</u></em> NA<br />")
       +std::string("<hr />LRL_Web Data Inputs:  There are 5 types of input lines. Except for 'END', they can be combined in any order.<br />")
       +std::string(" All these are case-insensitive. If a particular input lattice is invalid, it is rejected<br /> with a message.<br />")
       +std::string("---  RANDOM: Random (valid) unit cell;<br />")
@@ -274,10 +281,10 @@ int main(int argc,
       +std::string("cells used of each calculation.<br />")
       +std::string("<em><u>Parameters:</u></em> NA<br />")
       +std::string(" <hr><strong>Command: Check Input</strong><br />")
-      +std::string("<em>Purpose:</em> Verify input lattice types and parameters<br />")
-      +std::string("<em>Output type:</em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.<br />")
+      +std::string("<em><u>Purpose:</u></em> Verify input lattice types and parameters<br />")
+      +std::string("<em><u>Output type:</u></em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.<br />")
       +std::string("Warnings are output for invalid inputs.<br />")
-      +std::string("<em>Parameters:</em> NA<br />")
+      +std::string("<em><u>Parameters:</u></em> NA<br />")
       +std::string("<hr />LRL_Web Data Inputs:  There are 5 types of input lines. Except for 'END', they can be combined in any order.<br />")
       +std::string(" All these are case-insensitive. If a particular input lattice is invalid, it is rejected<br /> with a message.<br />")
       +std::string("---  RANDOM: Random (valid) unit cell;<br />")
@@ -316,10 +323,10 @@ int main(int argc,
       +std::string("--- &quot;O&quot; will generate all orthorhombic Delone types {allowed types: C, T, H, O, M, A}<br />")
       +std::string("--- Unrecognized input will generate all types<br />")
       +std::string(" <hr><strong>Command: Check Input</strong><br />")
-      +std::string("<em>Purpose:</em> Verify input lattice types and parameters<br />")
-      +std::string("<em>Output type:</em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.<br />")
+      +std::string("<em><u>Purpose:</u></em> Verify input lattice types and parameters<br />")
+      +std::string("<em><u>Output type:</u></em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.<br />")
       +std::string("Warnings are output for invalid inputs.<br />")
-      +std::string("<em>Parameters:</em> NA<br />")
+      +std::string("<em><u>Parameters:</u></em> NA<br />")
       +std::string("<hr />LRL_Web Data Inputs:  There are 5 types of input lines. Except for 'END', they can be combined in any order.<br />")
       +std::string(" All these are case-insensitive. If a particular input lattice is invalid, it is rejected<br /> with a message.<br />")
       +std::string("---  RANDOM: Random (valid) unit cell;<br />")
@@ -350,10 +357,10 @@ int main(int argc,
       +std::string("end<br />")
       +std::string("<em><u>Parameters:</u></em> NA<br />")
       +std::string(" <hr><strong>Command: Check Input</strong><br />")
-      +std::string("<em>Purpose:</em> Verify input lattice types and parameters<br />")
-      +std::string("<em>Output type:</em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.<br />")
+      +std::string("<em><u>Purpose:</u></em> Verify input lattice types and parameters<br />")
+      +std::string("<em><u>Output type:</u></em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.<br />")
       +std::string("Warnings are output for invalid inputs.<br />")
-      +std::string("<em>Parameters:</em> NA<br />")
+      +std::string("<em><u>Parameters:</u></em> NA<br />")
       +std::string("<hr />LRL_Web Data Inputs:  There are 5 types of input lines. Except for 'END', they can be combined in any order.<br />")
       +std::string(" All these are case-insensitive. If a particular input lattice is invalid, it is rejected<br /> with a message.<br />")
       +std::string("---  RANDOM: Random (valid) unit cell;<br />")
@@ -374,10 +381,10 @@ int main(int argc,
       +std::string("<em><u>Output type:</u></em> G<sup>6</sup> form of the reduced cells of input<br />")
       +std::string("<em><u>Parameters:</u></em> NA<br />")
       +std::string(" <hr><strong>Command: Check Input</strong><br />")
-      +std::string("<em>Purpose:</em> Verify input lattice types and parameters<br />")
-      +std::string("<em>Output type:</em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.<br />")
+      +std::string("<em><u>Purpose:</u></em> Verify input lattice types and parameters<br />")
+      +std::string("<em><u>Output type:</u></em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.<br />")
       +std::string("Warnings are output for invalid inputs.<br />")
-      +std::string("<em>Parameters:</em> NA<br />")
+      +std::string("<em><u>Parameters:</u></em> NA<br />")
       +std::string("<hr />LRL_Web Data Inputs:  There are 5 types of input lines. Except for 'END', they can be combined in any order.<br />")
       +std::string(" All these are case-insensitive. If a particular input lattice is invalid, it is rejected<br /> with a message.<br />")
       +std::string("---  RANDOM: Random (valid) unit cell;<br />")
@@ -405,10 +412,10 @@ int main(int argc,
       +std::string("<em><u>Output type:</u></em> S<sup>6</sup><br />")
       +std::string("<em><u>Parameters:</u></em> The number of points in -each- path (20)<br />")
       +std::string(" <hr><strong>Command: Check Input</strong><br />")
-      +std::string("<em>Purpose:</em> Verify input lattice types and parameters<br />")
-      +std::string("<em>Output type:</em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.<br />")
+      +std::string("<em><u>Purpose:</u></em> Verify input lattice types and parameters<br />")
+      +std::string("<em><u>Output type:</u></em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.<br />")
       +std::string("Warnings are output for invalid inputs.<br />")
-      +std::string("<em>Parameters:</em> NA<br />")
+      +std::string("<em><u>Parameters:</u></em> NA<br />")
       +std::string("<hr />LRL_Web Data Inputs:  There are 5 types of input lines. Except for 'END', they can be combined in any order.<br />")
       +std::string(" All these are case-insensitive. If a particular input lattice is invalid, it is rejected<br /> with a message.<br />")
       +std::string("---  RANDOM: Random (valid) unit cell;<br />")
@@ -454,10 +461,10 @@ int main(int argc,
       +std::string("; CmdPerturb: number of cells to produce = 10 orthogonal perturbation of 10 /1000<br />")
       +std::string("end<br />")
       +std::string("<hr><strong>Command: Check Input</strong><br />")
-      +std::string("<em>Purpose:</em> Verify input lattice types and parameters<br />")
-      +std::string("<em>Output type:</em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.<br />")
+      +std::string("<em><u>Purpose:</u></em> Verify input lattice types and parameters<br />")
+      +std::string("<em><u>Output type:</u></em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.<br />")
       +std::string("Warnings are output for invalid inputs.<br />")
-      +std::string("<em>Parameters:</em> NA<br />")
+      +std::string("<em><u>Parameters:</u></em> NA<br />")
       +std::string("<hr />LRL_Web Data Inputs:  There are 5 types of input lines. Except for 'END', they can be combined in any order.<br />")
       +std::string(" All these are case-insensitive. If a particular input lattice is invalid, it is rejected<br /> with a message.<br />")
       +std::string("---  RANDOM: Random (valid) unit cell;<br />")
@@ -499,10 +506,10 @@ int main(int argc,
       +std::string("G6 100.000 100.000 100.000 0.000 0.000 0.000 <br />")
       +std::string("G6 100.000 100.000 100.000 0.000 0.000 0.000 <br />")
       +std::string(" <hr><strong>Command: Check Input</strong><br />")
-      +std::string("<em>Purpose:</em> Verify input lattice types and parameters<br />")
-      +std::string("<em>Output type:</em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.<br />")
+      +std::string("<em><u>Purpose:</u></em> Verify input lattice types and parameters<br />")
+      +std::string("<em><u>Output type:</u></em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.<br />")
       +std::string("Warnings are output for invalid inputs.<br />")
-      +std::string("<em>Parameters:</em> NA<br />")
+      +std::string("<em><u>Parameters:</u></em> NA<br />")
       +std::string("<hr />LRL_Web Data Inputs:  There are 5 types of input lines. Except for 'END', they can be combined in any order.<br />")
       +std::string(" All these are case-insensitive. If a particular input lattice is invalid, it is rejected<br /> with a message.<br />")
       +std::string("---  RANDOM: Random (valid) unit cell;<br />")
@@ -550,10 +557,10 @@ int main(int argc,
       +std::string("Geminography: the crystallography of twins. Zeitschrift<br />")
       +std::string("f&uuml;r Kristallographie-Crystalline Materials, 221(1), 28-50.)</p>  <em><u>Parameters:</u></em> choices if only some outputs are needed (all)<br />")
       +std::string(" <hr><strong>Command: Check Input</strong><br />")
-      +std::string("<em>Purpose:</em> Verify input lattice types and parameters<br />")
-      +std::string("<em>Output type:</em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.<br />")
+      +std::string("<em><u>Purpose:</u></em> Verify input lattice types and parameters<br />")
+      +std::string("<em><u>Output type:</u></em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.<br />")
       +std::string("Warnings are output for invalid inputs.<br />")
-      +std::string("<em>Parameters:</em> NA<br />")
+      +std::string("<em><u>Parameters:</u></em> NA<br />")
       +std::string("<hr />LRL_Web Data Inputs:  There are 5 types of input lines. Except for 'END', they can be combined in any order.<br />")
       +std::string(" All these are case-insensitive. If a particular input lattice is invalid, it is rejected<br /> with a message.<br />")
       +std::string("---  RANDOM: Random (valid) unit cell;<br />")
@@ -578,10 +585,10 @@ int main(int argc,
       +std::string("and then a listing of their lengths.<br />")
       +std::string("<em><u>Parameters:</u></em> NA<br />")
       +std::string(" <hr><strong>Command: Check Input</strong><br />")
-      +std::string("<em>Purpose:</em> Verify input lattice types and parameters<br />")
-      +std::string("<em>Output type:</em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.<br />")
+      +std::string("<em><u>Purpose:</u></em> Verify input lattice types and parameters<br />")
+      +std::string("<em><u>Output type:</u></em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.<br />")
       +std::string("Warnings are output for invalid inputs.<br />")
-      +std::string("<em>Parameters:</em> NA<br />")
+      +std::string("<em><u>Parameters:</u></em> NA<br />")
       +std::string("<hr />LRL_Web Data Inputs:  There are 5 types of input lines. Except for 'END', they can be combined in any order.<br />")
       +std::string(" All these are case-insensitive. If a particular input lattice is invalid, it is rejected<br /> with a message.<br />")
       +std::string("---  RANDOM: Random (valid) unit cell;<br />")
@@ -606,10 +613,10 @@ int main(int argc,
       +std::string("end<br />")
       +std::string("C3 (0.000,-101.500) (0.500,-111.000) (1.000,-120.500) <br />")
       +std::string(" <hr><strong>Command: Check Input</strong><br />")
-      +std::string("<em>Purpose:</em> Verify input lattice types and parameters<br />")
-      +std::string("<em>Output type:</em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.<br />")
+      +std::string("<em><u>Purpose:</u></em> Verify input lattice types and parameters<br />")
+      +std::string("<em><u>Output type:</u></em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.<br />")
       +std::string("Warnings are output for invalid inputs.<br />")
-      +std::string("<em>Parameters:</em> NA<br />")
+      +std::string("<em><u>Parameters:</u></em> NA<br />")
       +std::string("<hr />LRL_Web Data Inputs:  There are 5 types of input lines. Except for 'END', they can be combined in any order.<br />")
       +std::string(" All these are case-insensitive. If a particular input lattice is invalid, it is rejected<br /> with a message.<br />")
       +std::string("---  RANDOM: Random (valid) unit cell;<br />")
@@ -631,10 +638,10 @@ int main(int argc,
       +std::string("cell parameters already, then primitive is assumed.<br />")
       +std::string("<em><u>Parameters:</u></em> NA<br />")
       +std::string(" <hr><strong>Command: Check Input</strong><br />")
-      +std::string("<em>Purpose:</em> Verify input lattice types and parameters<br />")
-      +std::string("<em>Output type:</em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.<br />")
+      +std::string("<em><u>Purpose:</u></em> Verify input lattice types and parameters<br />")
+      +std::string("<em><u>Output type:</u></em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.<br />")
       +std::string("Warnings are output for invalid inputs.<br />")
-      +std::string("<em>Parameters:</em> NA<br />")
+      +std::string("<em><u>Parameters:</u></em> NA<br />")
       +std::string("<hr />LRL_Web Data Inputs:  There are 5 types of input lines. Except for 'END', they can be combined in any order.<br />")
       +std::string(" All these are case-insensitive. If a particular input lattice is invalid, it is rejected<br /> with a message.<br />")
       +std::string("---  RANDOM: Random (valid) unit cell;<br />")
@@ -654,10 +661,10 @@ int main(int argc,
       +std::string("<em><u>Output type:</u></em> G<sup>6</sup><br />")
       +std::string("<em><u>Parameters:</u></em> NA<br />")
       +std::string(" <hr><strong>Command: Check Input</strong><br />")
-      +std::string("<em>Purpose:</em> Verify input lattice types and parameters<br />")
-      +std::string("<em>Output type:</em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.<br />")
+      +std::string("<em><u>Purpose:</u></em> Verify input lattice types and parameters<br />")
+      +std::string("<em><u>Output type:</u></em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.<br />")
       +std::string("Warnings are output for invalid inputs.<br />")
-      +std::string("<em>Parameters:</em> NA<br />")
+      +std::string("<em><u>Parameters:</u></em> NA<br />")
       +std::string("<hr />LRL_Web Data Inputs:  There are 5 types of input lines. Except for 'END', they can be combined in any order.<br />")
       +std::string(" All these are case-insensitive. If a particular input lattice is invalid, it is rejected<br /> with a message.<br />")
       +std::string("---  RANDOM: Random (valid) unit cell;<br />")
@@ -677,10 +684,10 @@ int main(int argc,
       +std::string("<em><u>Output type:</u></em> S<sup>6</sup><br />")
       +std::string("<em><u>Parameters:</u></em> NA<br />")
       +std::string(" <hr><strong>Command: Check Input</strong><br />")
-      +std::string("<em>Purpose:</em> Verify input lattice types and parameters<br />")
-      +std::string("<em>Output type:</em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.<br />")
+      +std::string("<em><u>Purpose:</u></em> Verify input lattice types and parameters<br />")
+      +std::string("<em><u>Output type:</u></em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.<br />")
       +std::string("Warnings are output for invalid inputs.<br />")
-      +std::string("<em>Parameters:</em> NA<br />")
+      +std::string("<em><u>Parameters:</u></em> NA<br />")
       +std::string("<hr />LRL_Web Data Inputs:  There are 5 types of input lines. Except for 'END', they can be combined in any order.<br />")
       +std::string(" All these are case-insensitive. If a particular input lattice is invalid, it is rejected<br /> with a message.<br />")
       +std::string("---  RANDOM: Random (valid) unit cell;<br />")
@@ -710,10 +717,10 @@ int main(int argc,
       +std::string("arXiv preprint arxiv:2109.11538, 2.</p> <em><u>Output type:</u></em> The type followed by the parameters.<br />")
       +std::string("<em><u>Parameters:</u></em> &quotall&quot or blank for output of both types, &quot;R&quot; for root invariant, and S for linearized S<sup>6</sup> <br />")
       +std::string(" <hr><strong>Command: Check Input</strong><br />")
-      +std::string("<em>Purpose:</em> Verify input lattice types and parameters<br />")
-      +std::string("<em>Output type:</em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.<br />")
+      +std::string("<em><u>Purpose:</u></em> Verify input lattice types and parameters<br />")
+      +std::string("<em><u>Output type:</u></em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.<br />")
       +std::string("Warnings are output for invalid inputs.<br />")
-      +std::string("<em>Parameters:</em> NA<br />")
+      +std::string("<em><u>Parameters:</u></em> NA<br />")
       +std::string("<hr />LRL_Web Data Inputs:  There are 5 types of input lines. Except for 'END', they can be combined in any order.<br />")
       +std::string(" All these are case-insensitive. If a particular input lattice is invalid, it is rejected<br /> with a message.<br />")
       +std::string("---  RANDOM: Random (valid) unit cell;<br />")
@@ -735,10 +742,10 @@ int main(int argc,
       +std::string("<em><u>Output type:</u></em> DC7u<br />")
       +std::string("<em><u>Parameters:</u></em> NA<br />")
       +std::string(" <hr><strong>Command: Check Input</strong><br />")
-      +std::string("<em>Purpose:</em> Verify input lattice types and parameters<br />")
-      +std::string("<em>Output type:</em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.<br />")
+      +std::string("<em><u>Purpose:</u></em> Verify input lattice types and parameters<br />")
+      +std::string("<em><u>Output type:</u></em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.<br />")
       +std::string("Warnings are output for invalid inputs.<br />")
-      +std::string("<em>Parameters:</em> NA<br />")
+      +std::string("<em><u>Parameters:</u></em> NA<br />")
       +std::string("<hr />LRL_Web Data Inputs:  There are 5 types of input lines. Except for 'END', they can be combined in any order.<br />")
       +std::string(" All these are case-insensitive. If a particular input lattice is invalid, it is rejected<br /> with a message.<br />")
       +std::string("---  RANDOM: Random (valid) unit cell;<br />")
@@ -761,10 +768,10 @@ int main(int argc,
       +std::string("<em><u>Output type:</u></em> V<sup>7</sup><br />")
       +std::string("<em><u>Parameters:</u></em> NA<br />")
       +std::string(" <hr><strong>Command: Check Input</strong><br />")
-      +std::string("<em>Purpose:</em> Verify input lattice types and parameters<br />")
-      +std::string("<em>Output type:</em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.<br />")
+      +std::string("<em><u>Purpose:</u></em> Verify input lattice types and parameters<br />")
+      +std::string("<em><u>Output type:</u></em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.<br />")
       +std::string("Warnings are output for invalid inputs.<br />")
-      +std::string("<em>Parameters:</em> NA<br />")
+      +std::string("<em><u>Parameters:</u></em> NA<br />")
       +std::string("<hr />LRL_Web Data Inputs:  There are 5 types of input lines. Except for 'END', they can be combined in any order.<br />")
       +std::string(" All these are case-insensitive. If a particular input lattice is invalid, it is rejected<br /> with a message.<br />")
       +std::string("---  RANDOM: Random (valid) unit cell;<br />")
@@ -785,10 +792,10 @@ int main(int argc,
       +std::string("followed by the volume<br />")
       +std::string("<em><u>Parameters:</u></em> NA<br />")
       +std::string(" <hr><strong>Command: Check Input</strong><br />")
-      +std::string("<em>Purpose:</em> Verify input lattice types and parameters<br />")
-      +std::string("<em>Output type:</em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.<br />")
+      +std::string("<em><u>Purpose:</u></em> Verify input lattice types and parameters<br />")
+      +std::string("<em><u>Output type:</u></em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.<br />")
       +std::string("Warnings are output for invalid inputs.<br />")
-      +std::string("<em>Parameters:</em> NA<br />")
+      +std::string("<em><u>Parameters:</u></em> NA<br />")
       +std::string("<hr />LRL_Web Data Inputs:  There are 5 types of input lines. Except for 'END', they can be combined in any order.<br />")
       +std::string(" All these are case-insensitive. If a particular input lattice is invalid, it is rejected<br /> with a message.<br />")
       +std::string("---  RANDOM: Random (valid) unit cell;<br />")
@@ -803,7 +810,12 @@ int main(int argc,
       +std::string("; this is a comment<br />")
       +std::string("end<br /></font>\"")+std::string(";") << std::endl; 
       std::cout << " } else if (operation==\"PlotC3\") {" << std::endl;
-      std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("\"<font size=-1> Command:  PlotC3 <strong>Command: [PlotC3</strong>]<br />")
+      std::cout << "   document.getElementById(\"block_\"+tdrownum+\"b_cmdgen\").style=\"display:none\";" << std::endl;
+      std::cout << "   document.getElementById(\"block_\"+tdrownum+\"b_cmdpath\").style=\"display:none\";" << std::endl;
+      std::cout << "   document.getElementById(\"block_\"+tdrownum+\"b_cmdperturb\").style=\"display:none\";" << std::endl;
+      std::cout << "   document.getElementById(\"block_\"+tdrownum+\"b_cmdscale\").style=\"display:none\";" << std::endl;
+      std::cout << "   document.getElementById(\"block_\"+tdrownum+\"b_cmdtos6l\").style=\"display:none\";" << std::endl;
+      std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("\"<font size=-1> <strong>Command: [PlotC3</strong>]<br />")
       +std::string("<em><u>Purpose:</u></em> Graphical output of multiple unit cells in C<sup>3</sup><br />")
       +std::string("<em><u>Output type:</u></em> Name of the file containing the plots<br />")
       +std::string("<em><u>Graphical output:</u></em> 2-D plots of the 3 complex coordinates in C<sup>3</sup><br />")
@@ -812,10 +824,10 @@ int main(int argc,
       +std::string("are shown. A consequence is that if the unit cells have not been Selling/Delone<br />")
       +std::string("reduced, then points will plot outside of that quadrant.<br />")
       +std::string(" <hr><strong>Command: Check Input</strong><br />")
-      +std::string("<em>Purpose:</em> Verify input lattice types and parameters<br />")
-      +std::string("<em>Output type:</em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.<br />")
+      +std::string("<em><u>Purpose:</u></em> Verify input lattice types and parameters<br />")
+      +std::string("<em><u>Output type:</u></em> Valid input is reported as unit cell a, b, c, &alpha;, &beta;, &gamma;.<br />")
       +std::string("Warnings are output for invalid inputs.<br />")
-      +std::string("<em>Parameters:</em> NA<br />")
+      +std::string("<em><u>Parameters:</u></em> NA<br />")
       +std::string("<hr />LRL_Web Data Inputs:  There are 5 types of input lines. Except for 'END', they can be combined in any order.<br />")
       +std::string(" All these are case-insensitive. If a particular input lattice is invalid, it is rejected<br /> with a message.<br />")
       +std::string("---  RANDOM: Random (valid) unit cell;<br />")
@@ -952,7 +964,8 @@ int main(int argc,
       std::cout << "<font face=\"Arial,Helvetica,Times\" size=\"3\">" << std::endl;
       std::cout << "<hr />" << std::endl;
       std::cout << "<center>" << std::endl;
-      std::cout << "Buffer: " << "'"+tmp_lrl_web+"'" <<std::endl;
+      std::cout << "rawprefix: " << "'"+tmp_lrl_web+"/'" << ", htmlprefix: "<< "'"+html_tmp_lrl_web+"/'"<<std::endl;
+      std::cout << "</center>" << std::endl;
 
       // Dump form 
      if (LRL_WEB_DEBUG)  dumpList(cgi);
@@ -1710,6 +1723,8 @@ std::string plaintext2html(std::string & dst, std::string src){
       std::string lrl_web_data_cmdperturb_ppk;
       std::string lrl_web_data_cmdscale_type;
       std::string lrl_web_data_cmdtos6l_type;
+      std::string lrl_web_data_plotc3_rawprefix;
+      std::string lrl_web_data_plotc3_htmlprefix;
       std::string active=std::string("\"display:inline\"");
       if(numop > numops) active=std::string("\"display:none\"");
       chain_iter =  formData.getElement("chain_"+twodig_array[numop]);
@@ -1748,6 +1763,8 @@ std::string plaintext2html(std::string & dst, std::string src){
       lrl_web_data_cmdpath_npath=std::string("20");
       lrl_web_data_cmdscale_type=std::string("S6");
       lrl_web_data_cmdtos6l_type=std::string("S6L");
+      lrl_web_data_plotc3_rawprefix=tmp_lrl_web+std::string("/");
+      lrl_web_data_plotc3_htmlprefix=html_tmp_lrl_web+std::string("/");;
       if (operation=="CmdGen") {
         lrl_web_data_cmdgen_ngen_iter=formData.getElement("lrl_web_data_"+twodig_array[numop]+"_cmdgen_ngen");
         lrl_web_data_cmdgen_ltype_iter=formData.getElement("lrl_web_data_"+twodig_array[numop]+"_cmdgen_ltype");
@@ -1777,6 +1794,13 @@ std::string plaintext2html(std::string & dst, std::string src){
         lrl_web_data_cmdtos6l_type = (lrl_web_data_cmdtos6l_type_iter==formData.getElements().end())?std::string("S6L"):lrl_web_data_cmdtos6l_type_iter->getValue();
         opmod=(std::string(" ")+lrl_web_data_cmdtos6l_type);
         // std::cout << "<tr><td colspan=\"3\">" << "lrl_web_data_"+twodig_array[numop]+"_cmdtos6l_type" << (opmod).c_str() <<"</td></tr>" << std::endl;
+      } else if (operation=="PlotC3") {
+        lrl_web_data_plotc3_rawprefix = tmp_lrl_web+std::string("/");
+        lrl_web_data_plotc3_htmlprefix = html_tmp_lrl_web+std::string("/");
+        opmod=(std::string(" --host blondie.arcib.org:8083 ")
+          +std::string(" --rawprefix ")+std::string(lrl_web_data_plotc3_rawprefix)
+          +std::string(" --htmlprefix ")+std::string(lrl_web_data_plotc3_htmlprefix));
+        // std::cout << "<tr><td colspan=\"3\">" << "lrl_web_data_"+twodig_array[numop]+"_plotc3_prefixes" << (opmod).c_str() <<"</td></tr>" << std::endl;
       }
       std::string oppath=std::string(tmp_lrl_web+"/operation_"+twodig_array[numop]);
       if(string_to_file(at.c_str(), oppath.c_str(), (operation+opmod).c_str())) {
@@ -1930,7 +1954,7 @@ std::string plaintext2html(std::string & dst, std::string src){
       }
       std::cout << "  <label for=\"lrl_web_data_"+twodig_array[numop]+"_cmdpath_npath\">Number of steps in the path:</label>&nbsp;"  <<  std::endl;
       std::cout << "  <input id=\"lrl_web_data_"+twodig_array[numop]+"_cmdpath_npath\" name=\"lrl_web_data_"+twodig_array[numop]+"_cmdpath_npath\" type=\"number\" value=\""
-        +lrl_web_data_cmdpath_npath+"\" min=\"1\"/>&nbsp;&nbsp;" <<  std::endl;
+        +lrl_web_data_cmdpath_npath+"\" min=\"1\"/>" <<  std::endl;
       std::cout << "  <br />"  << std::endl;
       std::cout << "  </div>"  << std::endl;
 
@@ -1940,7 +1964,7 @@ std::string plaintext2html(std::string & dst, std::string src){
         std::cout << "  <div id=\"block_"+twodig_array[numop]+"b_cmdscale\" style=\"display:none\">"  <<  std::endl;
       }
       std::cout << "  <label for=\"lrl_web_data_"+twodig_array[numop]+"_cmdscale_type\">Type of scaled cells: S6, V7, DC7u, or RI</label>&nbsp;"  <<  std::endl;
-      std::cout << "  <select id=\"lrl_web_data_"+twodig_array[numop]+"_cmdscale_type\" name=\"lrl_web_data_"+twodig_array[numop]+"_cmdscale_type\">&nbsp;&nbsp;" <<  std::endl;
+      std::cout << "  <select id=\"lrl_web_data_"+twodig_array[numop]+"_cmdscale_type\" name=\"lrl_web_data_"+twodig_array[numop]+"_cmdscale_type\">" <<  std::endl;
       if (lrl_web_data_cmdtos6l_type[0]=='S'||lrl_web_data_cmdtos6l_type[0]=='s') {
         std::cout << "     <option selected value=\"S6\">S6</option>"  <<  std::endl;
       } else {
@@ -1971,7 +1995,7 @@ std::string plaintext2html(std::string & dst, std::string src){
         std::cout << "  <div id=\"block_"+twodig_array[numop]+"b_cmdtos6l\" style=\"display:none\">"  <<  std::endl;
       }
       std::cout << "  <label for=\"lrl_web_data_"+twodig_array[numop]+"_cmdtos6l_type\">Type of linearized S6: S6L, RI or blank for both:</label>&nbsp;"  <<  std::endl;
-      std::cout << "  <select id=\"lrl_web_data_"+twodig_array[numop]+"_cmdtos6l_type\" name=\"lrl_web_data_"+twodig_array[numop]+"_cmdtos6l_type\">&nbsp;&nbsp;" <<  std::endl;
+      std::cout << "  <select id=\"lrl_web_data_"+twodig_array[numop]+"_cmdtos6l_type\" name=\"lrl_web_data_"+twodig_array[numop]+"_cmdtos6l_type\">" <<  std::endl;
       if (lrl_web_data_cmdtos6l_type[0]=='S'||lrl_web_data_cmdtos6l_type[0]=='s') {
       std::cout << "     <option selected value=\"S6L\">linearized S6</option>"  <<  std::endl;
       std::cout << "     <option value=\"RI\">root invariant</option>"  <<  std::endl;
@@ -1988,8 +2012,6 @@ std::string plaintext2html(std::string & dst, std::string src){
       std::cout << "  </select>"  << std::endl;
       std::cout << "  <br />"  << std::endl;
       std::cout << "  </div>"  << std::endl;
-
-
 
       if (chain.compare("new_input")==0 || numop < 2) {
         std::cout << "  <div id=\"block_"+twodig_array[numop]+"b"+"\" style="+active+"> " << std::endl;
