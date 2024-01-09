@@ -209,14 +209,26 @@ int main(int argc, char* argv[])
            std::cout << "; PlotC3 [--help ] [--host hostname] [--rawprefix prefix] [--htmlprefix htmlprefix]" << std::endl;
        } else if (std::string(argv[ii]).compare(std::string("--host"))==0) {
            host = std::string(argv[++ii]);
-           // std::cout << "host: " << host;
+           // std::cout << "; host: " << host;
        } else if (std::string(argv[ii]).compare(std::string("--rawprefix"))==0) {
            rawprefix = std::string(argv[++ii]);
-           // std::cout << "rawprefix: " << rawprefix;
+           // std::cout << "; rawprefix: " << rawprefix;
        } else if (std::string(argv[ii]).compare(std::string("--htmlprefix"))==0) {
            htmlprefix = std::string(argv[++ii]);
-           // std::cout << "htmlprefix: " << htmlprefix;
+           // std::cout << "; htmlprefix: " << htmlprefix;
        } 
+   }
+   if(htmlprefix.compare(std::string(""))==0) {
+     std::cout << std::string("; Graphical output SVG file = ")
+       + rawprefix+filename << std::endl;
+   } else {
+     if(host.compare(std::string(""))==0) {
+       std::cout << std::string("; Graphical output SVG file = <a href=\"")
+         +  htmlprefix+filename+std::string("\" target=\"_blank\">")+filename+std::string("</a>") << std::endl;
+     } else {
+       std::cout << std::string("; Graphical output SVG file = <a href=\"http://")
+         +  host+std::string("/")+htmlprefix+filename+std::string("\" target=\"_blank\">")+filename+std::string("</a>") << std::endl;
+     }
    }
   
 
@@ -256,18 +268,6 @@ int main(int argc, char* argv[])
    }
 
    std::cout << ": " + dataRange << std::endl;
-   if(htmlprefix.compare(std::string(""))==0) {
-     std::cout << std::string("; Graphical output SVG file = ")
-       + rawprefix+filename << std::endl;
-   } else {
-     if(host.compare(std::string(""))==0) {
-       std::cout << std::string("; Graphical output SVG file = <a href=\"")
-         +  htmlprefix+filename+std::string("\" target=\"_blank\">")+filename+std::string("</a>") << std::endl;
-     } else {
-       std::cout << std::string("; Graphical output SVG file = <a href=\"http://")
-         +  host+std::string("/")+htmlprefix+filename+std::string("\" target=\"_blank\">")+filename+std::string("</a>") << std::endl;
-     }
-   }
    c3plot.SendFrameToFile(rawprefix+filename, svgOutput + c3plot.GetFoot());
 }
 
