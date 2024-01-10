@@ -406,25 +406,94 @@ void ListVertices(const DirichletCell& dc) {
    std::cout << std::endl;
 }
 
-int main() {
+int main(int argc, char* argv[]) {
    LRL_ReadLatticeData reader;
-   std::cout << "; Dirichlet (Voinoi) cells" << std::endl;
+   std::cout << "; Dirichlet (Vornoi) cells" << std::endl;
    const std::vector<LRL_ReadLatticeData> inputList = reader.ReadLatticeData();
+   std::vector<std::string> fileNameList;
+   std::vector<std::string> fullfileNameList;
+   std::string host=std::string("");
+   std::string rawprefix=std::string("");
+   std::string htmlprefix=std::string("");
+   size_t blockstart= 0;
+   size_t blocksize= 10;
+   int ii;
+
+   for(ii=1;ii<argc;ii++){
+       // std::cout << "argv[" << ii <<"] = "<< argv[ii] << std::endl;
+       if (std::string(argv[ii]).compare(std::string("--help"))==0) {
+           std::cout << "; PlotC3 [--help ] [--host hostname] [--rawprefix prefix] [--htmlprefix htmlprefix]" << std::endl;
+       } else if (std::string(argv[ii]).compare(std::string("--host"))==0) {
+           host = std::string(argv[++ii]);
+           // std::cout << "; host: " << host;
+       } else if (std::string(argv[ii]).compare(std::string("--rawprefix"))==0) {
+           rawprefix = std::string(argv[++ii]);
+           // std::cout << "; rawprefix: " << rawprefix;
+       } else if (std::string(argv[ii]).compare(std::string("--htmlprefix"))==0) {
+           htmlprefix = std::string(argv[++ii]);
+           // std::cout << "; htmlprefix: " << htmlprefix;
+       } else if (std::string(argv[ii]).compare(std::string("--blockstart"))==0) {
+           blockstart = std::stoul(std::string(argv[++ii]));
+           // std::cout << "; blockstart: " << htmlprefix;
+       } else if (std::string(argv[ii]).compare(std::string("--blocksize"))==0) {
+           blocksize = std::stoul(std::string(argv[++ii]));
+           // std::cout << "; blocksize: " << htmlprefix;
+       }
+   }
+
+   if (blockstart + blocksize > inputList.size()) {
+       if (blockstart >= inputList.size()) {
+           blockstart = 0;
+           blocksize = 0;
+       } else {
+           blocksize = inputList.size() - blockstart;
+       }
+   }
 
    const std::string basicFilePrefix =
       LRL_ToString(LRL_CreateFileName::Create(DirichletConstants::fileNamePrefix, "",
          DirichletConstants::timestamp));
 
-   for (size_t whichCell = 0; whichCell < inputList.size(); ++whichCell) {
+   for (size_t whichCell = blockstart; whichCell < inputList.size() && whichCell < blockstart+blocksize; ++whichCell) {
+      std::string fileName = basicFilePrefix + LRL_ToString(whichCell) + ".svg";
+      fileNameList.push_back(rawprefix+fileName);
+      if(htmlprefix.compare(std::string(""))==0) {
+        std::cout << "; Dirichlet graphics file " << rawprefix+fileName << std::endl;
+        fullfileNameList.push_back(rawprefix+fileName);
+      } else {
+        if(host.compare(std::string(""))==0) {
+          std::cout << std::string("; Dirichlet graphics file <a href=\"")
+          +  htmlprefix+fileName+std::string("\" target=\"_blank\">")+fileName+std::string("</a>") << std::endl;
+          fullfileNameList.push_back(
+          std::string("<a href=\"")
+          +  htmlprefix+fileName+std::string("\" target=\"_blank\">")+fileName+std::string("</a>"));
+        } else {
+          std::cout << std::string("; Dirichlet graphics file <a href=\"http://")
+          +  host+std::string("/")+htmlprefix+fileName+std::string("\" target=\"_blank\">")
+          +  fileName+std::string("</a>") << std::endl;
+          fullfileNameList.push_back(
+          std::string("<a href=\"http://")
+          +  host+std::string("/")+htmlprefix+fileName
+          +  std::string("\" target=\"_blank\">")+fileName+std::string("</a>"));
+       }
+     }
+   }
+
+   std::cout << "; Dirichlet cell block start " << blockstart << std::endl;
+   std::cout << "; Dirichlet cell block size " << blocksize << std::endl;
+
+   for (size_t whichCell = blockstart; whichCell < inputList.size() && whichCell < blockstart+blocksize; ++whichCell) {
       const DirichletCell dc = (inputList[whichCell]);
+      const std::vector<Vector_3>& vertices = dc.GetVertices();
       ListVertices(dc);
       //std::cout << dc << std::endl;
       const std::string svg = HandleOneCell(dc);
-      const std::string fileName = basicFilePrefix + LRL_ToString(whichCell) + ".svg";
+      const std::string fileName = fileNameList[whichCell];
+      const std::string fullfileName = fullfileNameList[whichCell];
       if (!svg.empty())
       {
          FileOperations::Write(fileName, svg);
-         std::cout << "; Dirichlet graphics file " << fileName << std::endl;
+         std::cout << "; Dirichlet graphics file " << fullfileName << std::endl;
       }
    }
    exit(0);

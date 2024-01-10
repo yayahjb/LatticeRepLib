@@ -78,13 +78,7 @@ static std::string WrapSVG(const std::string& fileName,
    return    "\n\n" + s + "." + "</g>";
 }
 
-static std::vector<S6> PrepareCells() {
-   std::vector<S6> v;
-   LRL_ReadLatticeData reader;
-   const std::vector<LRL_ReadLatticeData> inputList = reader.ReadLatticeData();
-   for (size_t i = 0; i < inputList.size(); ++i) {
-      v.push_back(S6(inputList[i].GetCell()));
-   }
+static void ListInput(const std::vector<LRL_ReadLatticeData>& inputList) {
    for (size_t i = 0; i < std::min(size_t(5), inputList.size()); ++i) {
       std::cout << inputList[i].GetLattice() << "  " << LRL_Cell_Degrees(inputList[i].GetCell()) << std::endl;
    }
@@ -95,6 +89,14 @@ static std::vector<S6> PrepareCells() {
          std::cout << inputList[i].GetLattice() << "  " << LRL_Cell_Degrees(inputList[i].GetCell()) << std::endl;
       }
 
+   }
+}
+
+static std::vector<S6> ConvertInputToS6(const std::vector<LRL_ReadLatticeData>& inputList) {
+   std::vector<S6> v;
+
+   for (size_t i = 0; i < inputList.size(); ++i) {
+      v.push_back(S6(inputList[i].GetCell()));
    }
    return v;
 }
@@ -147,8 +149,7 @@ static std::string PrepareLegend(const double x, const double y, const std::vect
    const std::string ypos = LRL_ToString(y + 3400);
    const std::string commandLine = LRL_ToString("\n edit SVG file to insert command line text\n");
 
-   std::cout << out << std::endl;
-   return "";
+   return out;
 }
 
 static std::pair<double, double> GetMinMaxS6(const std::vector<S6>& v) {
@@ -164,11 +165,9 @@ static std::pair<double, double> GetMinMaxS6(const std::vector<S6>& v) {
 }
 
 static std::string AddTextAtBottom(const int x, const int y, const std::string& dataRange) {
-   //"<text   x = \"-480\" y = \"-20\"  font-size = \"40\" font-family = \"Arial, Helvetica, sans-serif\" > -s </text>\n"
       const std::string s = "<text x = \"" + LRL_DataToSVG(x) + "\" y = \"" + LRL_DataToSVG(y) + "\""
          " font-size = \"20\" " +
       " font-family = \"Arial, Helvetica, sans-serif \">" + LRL_DataToSVG(dataRange) + "</text>\n";
-      //<text x = "1000" y = "550" font - family = "Arial, Helvetica, sans-serif"> The S6 data range is - 39.3227  to  18.2384 < / text >
          return s;
 }
 
@@ -238,15 +237,16 @@ int main(int argc, char* argv[])
    const std::string intro = c3plot.GetIntro(filename);
    svgOutput += intro;
 
-   const std::vector<S6> v = PrepareCells();
+   LRL_ReadLatticeData reader;
+   const std::vector<LRL_ReadLatticeData> inputList = reader.ReadLatticeData();
+
+   const std::vector<S6> v = ConvertInputToS6(inputList);
    const std::pair<double, double> minmax = GetMinMaxS6(v);
    const std::string dataRange = LRL_ToString(" The S6 data range is ", minmax.first, " to ", minmax.second);
-   const std::string legend = PrepareLegend(600, 600, v) + AddTextAtBottom(350, 550, dataRange) +
+   const std::string legend = AddTextAtBottom(350, 550, dataRange) +
       PrepareColorGuide(c3plot, 850, 550);
 
    svgOutput += legend;
-
-   //svgOutput += dataRange;
 
    for (size_t whichPlot = 1; whichPlot < 4; ++whichPlot) {
 
@@ -267,7 +267,8 @@ int main(int argc, char* argv[])
       svgOutput += plotc3;
    }
 
-   std::cout << ": " + dataRange << std::endl;
+   std::cout << dataRange << std::endl << std::endl;
+   ListInput(inputList);
    c3plot.SendFrameToFile(rawprefix+filename, svgOutput + c3plot.GetFoot());
+   std::cout << PrepareLegend(600, 600, v);
 }
-
