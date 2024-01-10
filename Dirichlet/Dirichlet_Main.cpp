@@ -485,7 +485,7 @@ int main(int argc, char* argv[]) {
    for (size_t whichCell = blockstart; whichCell < inputList.size() && whichCell < blockstart+blocksize; ++whichCell) {
       const DirichletCell dc = (inputList[whichCell]);
       const std::vector<Vector_3>& vertices = dc.GetVertices();
-      ListVertices(dc);
+      //ListVertices(dc);
       //std::cout << dc << std::endl;
       const std::string svg = HandleOneCell(dc);
       const std::string fileName = fileNameList[whichCell];
