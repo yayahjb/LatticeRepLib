@@ -292,11 +292,16 @@ int main(int argc, char* argv[])
 {
 
    bool doProduceSellaGraphics = true;
-   std::vector<std::string> filenames;
-   std::vector<std::string> fullfilenames;
+
+   std::vector<std::string> basicfileNameList;
+   std::vector<std::string> FileNameList;
+   std::vector<std::string> FullfileNameList;
    std::string host=std::string("");
    std::string rawprefix=std::string("");
    std::string htmlprefix=std::string("");
+   bool usetimestamp=true;
+   bool usehttps=false;
+   bool usetarget=true;
    size_t blockstart= 0;
    size_t blocksize= 10;
    int ii;
@@ -314,12 +319,21 @@ int main(int argc, char* argv[])
        } else if (std::string(argv[ii]).compare(std::string("--htmlprefix"))==0) {
            htmlprefix = std::string(argv[++ii]);
            // std::cout << "; htmlprefix: " << htmlprefix;
+       } else if (std::string(argv[ii]).compare(std::string("--usetimestamp"))==0) {
+           usetimestamp =  (std::string(argv[++ii])).compare(std::string("true"))?true:false;
+           // std::cout << "; usetimestamp: " << usetimestamp;
+       } else if (std::string(argv[ii]).compare(std::string("--usehttps"))==0) {
+           usehttps =  (std::string(argv[++ii])).compare(std::string("true"))?true:false;
+           // std::cout << "; usehttps: " << usehttps;
+       } else if (std::string(argv[ii]).compare(std::string("--usetarget"))==0) {
+           usetarget =  (std::string(argv[++ii])).compare(std::string("true"))?true:false;
+           // std::cout << "; usetarget: " << usetarget;
        } else if (std::string(argv[ii]).compare(std::string("--blockstart"))==0) {
            blockstart = std::stoul(std::string(argv[++ii]));
-           // std::cout << "; blockstart: " << htmlprefix;
+           // std::cout << "; blockstart: " << blockstart;
        } else if (std::string(argv[ii]).compare(std::string("--blocksize"))==0) {
            blocksize = std::stoul(std::string(argv[++ii]));
-           // std::cout << "; blocksize: " << htmlprefix;
+           // std::cout << "; blocksize: " << blocksize;
        } else if (ii==1 && std::string(argv[ii]).compare(std::string("lca"))==0) {
            selectBravaisCase.clear();
            doProduceSellaGraphics = false;
@@ -351,48 +365,36 @@ int main(int argc, char* argv[])
        }
    }
 
-
-   const std::string basicFilePrefix =
-      LRL_ToString(LRL_CreateFileName::Create("SEL", "", true));
-
-   for (size_t whichCell = blockstart; whichCell < inputList.size() && whichCell < blockstart+blocksize; ++whichCell) {
-      std::string filename = basicFilePrefix + LRL_ToString(whichCell) + ".svg";
-      filenames.push_back(rawprefix+filename);
-      if(htmlprefix.compare(std::string(""))==0) {
-        std::cout << "; Send Sella Plot to graphics file " << rawprefix+filename << std::endl;
-        fullfilenames.push_back(rawprefix+filename);
-      } else {
-        if(host.compare(std::string(""))==0) {
-          std::cout << std::string("; Send Sella Plot to graphics file <a href=\"")
-          +  htmlprefix+filename+std::string("\" target=\"_blank\">")+filename+std::string("</a>") << std::endl;
-          fullfilenames.push_back(
-          std::string("<a href=\"")
-          +  htmlprefix+filename+std::string("\" target=\"_blank\">")+filename+std::string("</a>"));
-        } else {
-          std::cout << std::string("; Send Sella Plot to graphics file <a href=\"http://")
-          +  host+std::string("/")+htmlprefix+filename+std::string("\" target=\"_blank\">")
-          +  filename+std::string("</a>") << std::endl;
-          fullfilenames.push_back(
-          std::string("<a href=\"http://")
-          +  host+std::string("/")+htmlprefix+filename
-          +  std::string("\" target=\"_blank\">")+filename+std::string("</a>"));
-       }
-     }
+   basicfileNameList
+       = LRL_CreateFileName::CreateListOfFilenames(inputList.size(), 
+       "SEL","svg",usetimestamp,blockstart,blocksize);
+   FileNameList 
+       = LRL_CreateFileName::CreateRawListOfFilenames(basicfileNameList,rawprefix); 
+   if(htmlprefix.compare(std::string(""))==0) {
+       FullfileNameList = std::vector<std::string>(FileNameList);
+   } else {
+       FullfileNameList = LRL_CreateFileName::CreateHTMLListOfFilenames(
+           basicfileNameList, host, htmlprefix, usehttps, usetarget);
    }
-   
+
+   for (size_t i = blockstart; i < (inputList.size()) && (i < blockstart+blocksize); ++i)
+   {
+       std::cout << "; Sella graphics file " << FullfileNameList[i-blockstart] << std::endl;
+   }
 
 
    std::cout << std::endl;
    std::cout << std::endl;
 
-   for (size_t i = blockstart; i < inputList.size() && i < blockstart+blocksize; ++i)
+   for (size_t i = blockstart; i < (inputList.size()) && (i < blockstart+blocksize); ++i)
    {
       std::cout << "----------------------------------------------------------" << std::endl;
-      std::cout << "; SELLA results for input case " << i + 1 << std::endl;
-      const std::string svgOutput = ProcessSella(doProduceSellaGraphics, inputList[i], filenames[i]);
+      std::cout << "; SELLA results for input case " << i  << std::endl;
+      const std::string svgOutput = ProcessSella(doProduceSellaGraphics, inputList[i],
+        FileNameList[i-blockstart]);
       if (doProduceSellaGraphics) {
-        SendSellaToFile(svgOutput, filenames[i]);
-        std::cout << "; Send Sella Plot to graphics file " << fullfilenames[i] << std::endl; 
+        SendSellaToFile(svgOutput, FileNameList[i-blockstart]);
+        std::cout << "; Send Sella Plot to graphics file " << FullfileNameList[i-blockstart] << std::endl; 
       }
    }
 
