@@ -197,15 +197,19 @@ std::string  PrepareColorGuide(const C3Plot& c3plot, const int xint, const int y
 int main(int argc, char* argv[])
 {
    std::cout << "; PlotC3" << std::endl;
-   const std::string filename = LRL_CreateFileName::Create("PLT", "svg");
    std::string host=std::string("");
    std::string rawprefix=std::string("");
    std::string htmlprefix=std::string("");
+   bool usetimestamp=true;
+   bool usehttps=false;
+   bool usetarget=true;
+
    int ii;
    for(ii=1;ii<argc;ii++){
        // std::cout << "argv[" << ii <<"] = "<< argv[ii] << std::endl;
        if (std::string(argv[ii]).compare(std::string("--help"))==0) {
-           std::cout << "; PlotC3 [--help ] [--host hostname] [--rawprefix prefix] [--htmlprefix htmlprefix]" << std::endl;
+           std::cout << "; PlotC3 [--help ] [--host hostname] [--rawprefix rawprefix] [--htmlprefix htmlprefix]" << std::endl;
+           std::cout << ";  [--usetimestamp {true|false}] [--usehttps {true|false}] [--usetarget {true|false}]" << std::endl;
        } else if (std::string(argv[ii]).compare(std::string("--host"))==0) {
            host = std::string(argv[++ii]);
            // std::cout << "; host: " << host;
@@ -215,8 +219,20 @@ int main(int argc, char* argv[])
        } else if (std::string(argv[ii]).compare(std::string("--htmlprefix"))==0) {
            htmlprefix = std::string(argv[++ii]);
            // std::cout << "; htmlprefix: " << htmlprefix;
+       } else if (std::string(argv[ii]).compare(std::string("--usetimestamp"))==0) {
+           usetimestamp =  (std::string(argv[++ii])).compare(std::string("true"))?true:false;
+           // std::cout << "; usetimestamp: " << usetimestamp;
+       } else if (std::string(argv[ii]).compare(std::string("--usehttps"))==0) {
+           usehttps =  (std::string(argv[++ii])).compare(std::string("true"))?true:false;
+           // std::cout << "; usetimestamp: " << usetimestamp;
+       } else if (std::string(argv[ii]).compare(std::string("--usetarget"))==0) {
+           usetarget =  (std::string(argv[++ii])).compare(std::string("true"))?true:false;
+           // std::cout << "; usetimestamp: " << usetimestamp;
        } 
    }
+   const std::string filename = LRL_CreateFileName::Create("PLT", "svg",usetimestamp);
+
+
    if(htmlprefix.compare(std::string(""))==0) {
      std::cout << std::string("; Graphical output SVG file = ")
        + rawprefix+filename << std::endl;
@@ -225,8 +241,17 @@ int main(int argc, char* argv[])
        std::cout << std::string("; Graphical output SVG file = <a href=\"")
          +  htmlprefix+filename+std::string("\" target=\"_blank\">")+filename+std::string("</a>") << std::endl;
      } else {
-       std::cout << std::string("; Graphical output SVG file = <a href=\"http://")
-         +  host+std::string("/")+htmlprefix+filename+std::string("\" target=\"_blank\">")+filename+std::string("</a>") << std::endl;
+       std::string host_string;
+       if (usehttps) {
+          host_string=std::string("<a href=\"https://")+host+std::string("/");
+       } else {
+          host_string=std::string("<a href=\"http://")+host+std::string("/");
+       }
+       std::cout << std::string("; Graphical output SVG file = ")
+         +  host_string+htmlprefix+filename
+         + (usetarget?std::string("\" target=\"_blank\" >"):
+                  std::string(" >"))
+         +filename+std::string("</a>") << std::endl;
      }
    }
   
