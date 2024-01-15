@@ -1,7 +1,6 @@
 #include <algorithm>
 #include <iomanip>
 #include <iostream>
-#include <map>
 #include <string>
 #include <utility>
 
@@ -303,13 +302,13 @@ int main(int argc, char* argv[])
    bool usehttps=false;
    bool usetarget=true;
    size_t blockstart= 0;
-   size_t blocksize= 10;
+   size_t blocksize= 20;
    int ii;
 
    for(ii=1;ii<argc;ii++){
        // std::cout << "argv[" << ii <<"] = "<< argv[ii] << std::endl;
        if (std::string(argv[ii]).compare(std::string("--help"))==0) {
-           std::cout << "; PlotC3 [--help ] [--host hostname] [--rawprefix prefix] [--htmlprefix htmlprefix]" << std::endl;
+           std::cout << "; CmdSella [--help ] [--host hostname] [--rawprefix prefix] [--htmlprefix htmlprefix]" << std::endl;
        } else if (std::string(argv[ii]).compare(std::string("--host"))==0) {
            host = std::string(argv[++ii]);
            // std::cout << "; host: " << host;
@@ -382,6 +381,8 @@ int main(int argc, char* argv[])
        std::cout << "; Sella graphics file " << FullfileNameList[i-blockstart] << std::endl;
    }
 
+   std::cout << "; Sella cell block start " << blockstart << std::endl;
+   std::cout << "; Sella cell block size " << blocksize << std::endl;
 
    std::cout << std::endl;
    std::cout << std::endl;

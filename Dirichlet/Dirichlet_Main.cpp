@@ -405,7 +405,8 @@ int main(int argc, char* argv[]) {
    for(ii=1;ii<argc;ii++){
        // std::cout << "argv[" << ii <<"] = "<< argv[ii] << std::endl;
        if (std::string(argv[ii]).compare(std::string("--help"))==0) {
-           std::cout << "; PlotC3 [--help ] [--host hostname] [--rawprefix prefix] [--htmlprefix htmlprefix]" << std::endl;
+           std::cout << "; Dirichlet [--help ] [--host hostname] [--rawprefix prefix] [--htmlprefix htmlprefix]" << std::endl;
+           std::cout << ";  [--usetimestamp {true|false}] [--usehttps {true|false}] [--usetarget {true|false}]" << std::endl;
        } else if (std::string(argv[ii]).compare(std::string("--host"))==0) {
            host = std::string(argv[++ii]);
            // std::cout << "; host: " << host;
@@ -418,6 +419,12 @@ int main(int argc, char* argv[]) {
        } else if (std::string(argv[ii]).compare(std::string("--usetimestamp"))==0) {
            usetimestamp =  (std::string(argv[++ii])).compare(std::string("true"))?true:false;
            // std::cout << "; usetimestamp: " << usetimestamp;
+       } else if (std::string(argv[ii]).compare(std::string("--usehttps"))==0) {
+           usehttps =  (std::string(argv[++ii])).compare(std::string("true"))?true:false;
+           // std::cout << "; usehttps: " << usehttps;
+       } else if (std::string(argv[ii]).compare(std::string("--usetarget"))==0) {
+           usetarget =  (std::string(argv[++ii])).compare(std::string("true"))?true:false;
+           // std::cout << "; usetarget: " << usetarget;
        } else if (std::string(argv[ii]).compare(std::string("--blockstart"))==0) {
            blockstart = std::stoul(std::string(argv[++ii]));
            // std::cout << "; blockstart: " << blockstart;

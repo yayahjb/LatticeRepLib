@@ -224,10 +224,10 @@ int main(int argc, char* argv[])
            // std::cout << "; usetimestamp: " << usetimestamp;
        } else if (std::string(argv[ii]).compare(std::string("--usehttps"))==0) {
            usehttps =  (std::string(argv[++ii])).compare(std::string("true"))?true:false;
-           // std::cout << "; usetimestamp: " << usetimestamp;
+           // std::cout << "; usehttps: " << usehttps;
        } else if (std::string(argv[ii]).compare(std::string("--usetarget"))==0) {
            usetarget =  (std::string(argv[++ii])).compare(std::string("true"))?true:false;
-           // std::cout << "; usetimestamp: " << usetimestamp;
+           // std::cout << "; usetarget: " << usetarget;
        } 
    }
    const std::string filename = LRL_CreateFileName::Create("PLT", "svg",usetimestamp);
