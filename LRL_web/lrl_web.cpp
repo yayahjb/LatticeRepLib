@@ -2,7 +2,7 @@
 // SOURCE OF lrl_web.cpp GENERATED FROM lrl_web.m4
 // lrl_web_host: blondie.arcib.org:8083
 // lrl_web_user: yaya
-// lrl_web_sdbx: 
+// lrl_web_sdbx: lrl_web_sdbx
 // lrl_web_tmp: tmp
 // LRLWEBSANDBOX: 
 // LRLWEBSBPRFX: 
@@ -573,7 +573,8 @@ int main(int argc,
       std::cout << "   document.getElementById(\"block_\"+tdrownum+\"b_cmdtos6l\").style=\"display:none\";" << std::endl;
       std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("\"<font size=-1> <strong>Command: Scale unit cells data to single size</strong><br />")
       +std::string("<em><u>Purpose:</u></em><br />")
-      +std::string("<em><u>Output Chosen vector type (one of S6, V7, DC7u, RI (root invariant)) <em><u>Parameters:</u></em> Vector type to scale and output(S6)<br />")
+      +std::string("<em><u>Output type:</u></em> Chosen vector type (one of S6, V7, DC7u, RI (root invariant))<br />")
+      +std::string(" <em><u>Parameters:</u></em> Vector type to scale and output(S6)<br />")
       +std::string("<hr />LRL_Web Data Inputs:  There are 5 types of input lines. Except for 'END', they can be combined in any order.<br />")
       +std::string(" All these are case-insensitive. If a particular input lattice is invalid, it is rejected<br /> with a message.<br />")
       +std::string("---  RANDOM: Random (valid) unit cell;<br />")
