@@ -1,11 +1,13 @@
 #include "BravaisHeirarchy.h"
 #include "DeloneFitResults.h"
+#include "GenerateLatticeTypeExamples.h"
 #include "LRL_ToString.h"
 #include "S6.h"
-#include "S6BoundaryTransforms.h"
+#include "Sella.h"
 
 #include <iomanip>
 #include <iostream>
+#include <sstream>
 
 std::string BravaisHeirarchy::BoilerPlate_2() {
    return
@@ -253,28 +255,32 @@ std::string FormatCellData(
       "\n;INPUT:\n" +
       input.GetStrCell() + "\n" +
       LRL_ToString(";Cell ", LRL_Cell_Degrees(input.GetCell())) + "\n" +
-      LRL_ToString("G6 ", G6((input.GetCell()))) + "\n" +
-      LRL_ToString("S6 ",S6((input.GetCell()))) + "\n";
+      LRL_ToString("G6 ", G6((input.GetCell())), "\n") +
+      LRL_ToString("S6 ", S6((input.GetCell())), "\n") +
+      LRL_ToString("C3 ", C3((input.GetCell())), "\n");
 
    inputText +=
       "\n;SELLING REDUCED:\n" +
       LRL_ToString(";Cell ", LRL_Cell_Degrees(reducedCell)) + "\n" +
-      LRL_ToString("G6 ", G6(reducedCell)) + "\n" +
-      LRL_ToString("S6 ", S6(reducedCell)) + "\n";
+      LRL_ToString("G6 ", G6(reducedCell), "\n") +
+      LRL_ToString("S6 ", S6(reducedCell), "\n") +
+      LRL_ToString("C3 ", C3(reducedCell), "\n");
 
    std::cout << inputText << std::endl;
    return std::string();
 }
 
-bool BravaisHeirarchy::CheckOneBravaisChain(
+BravaisChainFailures BravaisHeirarchy::CheckOneBravaisChain(
    const std::vector<std::string>& bravaisChain,
    const std::vector<DeloneFitResults>& vDeloneFitResultsForOneLattice,
    std::map<std::string, double>& valueMap,
    std::vector<std::string>& errorList)
 {
+   std::stringstream sst;
+   BravaisChainFailures bcf;
 
    bool okCheck = true;
-   if (vDeloneFitResultsForOneLattice.size() == 1) return okCheck;
+   if (vDeloneFitResultsForOneLattice.size() == 1) return bcf;
    for (size_t i = 0; i < bravaisChain.size() - 1; ++i)
    {
       const std::string name0 = (i > 0) ? bravaisChain[i - 1] : "aP";
@@ -291,29 +297,46 @@ bool BravaisHeirarchy::CheckOneBravaisChain(
       if ((value2 - value1) < -0.01 &&
          std::find(errorList.begin(), errorList.end(), error) == errorList.end())
       {
+         BravaisChainFail bf(std::make_pair(name0, value0), std::make_pair(name1, value1), std::make_pair(name2, value2));
          errorList.emplace_back(error);
          okCheck = false;
-         std::cout << std::endl << ";################ Bravais chain failure  "
+         sst << std::endl << ";################ Bravais chain failure  "
             << name0 << " " << value0 << " "
             << name1 << " " << value1 << " "
             << name2 << " " << value2 
             << "\n;##  \ts6 " << vDeloneFitResultsForOneLattice[i].GetOriginalInput()
             << "\n;##\tP " << LRL_Cell_Degrees(vDeloneFitResultsForOneLattice[i].GetOriginalInput()) << std::endl;
-         std::cout << std::endl;
-
+         bf.SetDescription(sst.str());
+         bcf.insert(bf);
+         bcf.SetS6(vDeloneFitResultsForOneLattice[i].GetOriginalInput());
          errorList.emplace_back(error);
       }
    }
-   return okCheck;
+   //DeloneFitResults(const double fit, const S6 & bestApprox, const S6 & perpv, const MatS6 & toCanon);
+   const DeloneFitResults dfr(bcf.Remediation());
+   if (!bcf.empty())  bcf.Remediation();
+   return bcf;
 }
 
+std::vector<std::string> BravaisHeirarchy::FormatProjectedCells(const std::vector<std::string>& s) {
+   std::vector<std::string> strings{ s };
+
+   if ( ! s.empty())
+   {
+      for (const auto& si : s) {
+         std::cout << si << std::endl;
+      }
+   }
+
+   return strings;
+}
 
 std::string BravaisHeirarchy::ProduceSVG(
    const LRL_ReadLatticeData& input,
    const S6& reducedCell,
-   const std::vector<std::pair<std::string, double> >& scores) {
+   const std::vector<std::pair<std::string, double> >& scores,
+   const std::vector<std::string>& projectedCells) {
 
-   //std::cout << "enter ProduceSVG" << std::endl;
    const std::string inputText = "<text x=\"175\" y=\"175\" font-size=\"25\" >SELLA RESULTS  (Angstroms)"
       "</text>\n";
    const std::string reduced = "<text x=\"175\" y=\"210\" font-size=\"25\" >      " +
@@ -326,6 +349,10 @@ std::string BravaisHeirarchy::ProduceSVG(
       FormatCellData(input, reducedCell) +
       BravaisHeirarchy::ScoreLabels(scores) +
       BravaisHeirarchy::BoilerPlate_2();
+
+
+
+   std::vector<std::string> cells = FormatProjectedCells(projectedCells);
 
    return s;
 }
@@ -364,20 +391,28 @@ std::map<std::string, double> BravaisHeirarchy::GetBestOfEachBravaisType(
    return bravaisMap;
 }
 
-bool BravaisHeirarchy::CheckBravaisChains(const std::vector<DeloneFitResults>& vDeloneFitResultsForOneLattice)
+std::vector<BravaisChainFailures> BravaisHeirarchy::CheckBravaisChains(const std::vector<DeloneFitResults>& vDeloneFitResultsForOneLattice)
 {
+   std::vector< BravaisChainFailures> outBCF;
    std::vector<std::string> errorList;
    std::map<std::string, double> valueMap = GetBestOfEachBravaisType(vDeloneFitResultsForOneLattice);
    bool okCheck = true;
    static const std::vector<std::vector<std::string> > bravaisChains = CreateBravaisChains();
    for (size_t i = 0; i < bravaisChains.size() - 1; ++i)
    {
-      if (!BravaisHeirarchy::CheckOneBravaisChain(bravaisChains[i], vDeloneFitResultsForOneLattice, valueMap, errorList)) {
+      const auto result =   BravaisHeirarchy::CheckOneBravaisChain(bravaisChains[i], vDeloneFitResultsForOneLattice, valueMap, errorList);
+      if (!result.empty()) {
          okCheck = false;
+         outBCF.emplace_back(result);
       }
    }
 
-   return okCheck;
+   //for ( const auto& out : outBCF)
+   //{
+   //   std::cout << out << std::endl;  // lca
+   //}
+
+   return outBCF;
 }
 
 std::map<std::string, DeloneFitResults>  BravaisHeirarchy::CreateMapForBestExamples(
@@ -385,17 +420,17 @@ std::map<std::string, DeloneFitResults>  BravaisHeirarchy::CreateMapForBestExamp
 {
    std::map<std::string, DeloneFitResults>  bravaisMap;
 
-   for (size_t i = 0; i < vDeloneFitResults.size(); ++i) {
-      std::string name = vDeloneFitResults[i].GetGeneralType();
+   for (const auto& result : vDeloneFitResults) {
+      std::string name = result.GetGeneralType();
       //if (name == "oC") name = "oS";
-      const double& delta = vDeloneFitResults[i].GetDifference().norm();
+      const double& delta = result.GetDifference().norm();
 
-      auto mapElement = bravaisMap.find(name);
+      const auto mapElement = bravaisMap.find(name);
       if (mapElement == bravaisMap.end())
-         bravaisMap.insert(std::make_pair(name, vDeloneFitResults[i]));
+         bravaisMap.insert(std::make_pair(name, result));
       else
          if (delta < (*mapElement).second.GetDifference().norm())
-            (*mapElement).second = vDeloneFitResults[i];
+            (*mapElement).second =result;
    }
    return bravaisMap;
 }

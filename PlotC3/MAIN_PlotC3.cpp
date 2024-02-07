@@ -165,10 +165,24 @@ static std::pair<double, double> GetMinMaxS6(const std::vector<S6>& v) {
 }
 
 static std::string AddTextAtBottom(const int x, const int y, const std::string& dataRange) {
-      const std::string s = "<text x = \"" + LRL_DataToSVG(x) + "\" y = \"" + LRL_DataToSVG(y) + "\""
-         " font-size = \"20\" " +
+   std::string s = "<text x = \"" + LRL_DataToSVG(x) + "\" y = \"" + LRL_DataToSVG(y) + "\""
+      " font-size = \"20\" " +
       " font-family = \"Arial, Helvetica, sans-serif \">" + LRL_DataToSVG(dataRange) + "</text>\n";
-         return s;
+   //
+   //
+   // the next line has a blank. It is a place to add a comment such as the command line to generate the plot
+   //
+   //
+   s += "<!--#######################################################-->\n"
+      "<text x = \"" + LRL_DataToSVG(x) + "\" y = \"" + LRL_DataToSVG(y + 40) + "\""
+      " font-size = \"20\" " +
+      " font-family = \"Arial, Helvetica, sans-serif \">\n" +
+      ""  // INSERT TEXT HERE
+      + " \n</text>   "
+      "<!-- add a comment such as the command line-->\n"
+      "<!--#######################################################-->\n";
+
+      return s;
 }
 
 std::string  PrepareColorGuide(const C3Plot& c3plot, const int xint, const int yint) {
@@ -185,7 +199,7 @@ std::string  PrepareColorGuide(const C3Plot& c3plot, const int xint, const int y
       const std::string circle = "";
       const std::string x = LRL_ToString(xint + i * 15);
       const std::string y = LRL_ToString(yint);
-      const std::string s = std::string("<circle  r=\"10\" stroke = \"black\" stroke-width=\"0.5\""
+      const std::string s = std::string("<circle  r=\"12\" stroke = \"black\" stroke-width=\"0.5\""
          " fill= \"rgb(" + LRL_ToString(r) + ", " + LRL_ToString(g) + ", " + LRL_ToString(b) + ")\""
          " cx=\"" + x + "\""
          " cy=\"" + y + "\"/>\n");
@@ -266,7 +280,8 @@ int main(int argc, char* argv[])
    const std::vector<LRL_ReadLatticeData> inputList = reader.ReadLatticeData();
 
    const std::vector<S6> v = ConvertInputToS6(inputList);
-   const std::pair<double, double> minmax = GetMinMaxS6(v);
+   std::pair<double, double> minmax = GetMinMaxS6(v);
+   if (abs(minmax.second) < 1.0E-5) minmax.second = 0.0;
    const std::string dataRange = LRL_ToString(" The S6 data range is ", minmax.first, " to ", minmax.second);
    const std::string legend = AddTextAtBottom(350, 550, dataRange) +
       PrepareColorGuide(c3plot, 850, 550);
@@ -274,20 +289,26 @@ int main(int argc, char* argv[])
    svgOutput += legend;
 
    for (size_t whichPlot = 1; whichPlot < 4; ++whichPlot) {
+      const std::string line = c3plot.CreatePolylineFromPoints(whichPlot, ".5", v);
 
-      std::string line;
-      std::string cells;
+      if (whichPlot == 1)
+         svgOutput += PlotC3(whichPlot, 500, 500, line);
+      if (whichPlot == 2)
+         svgOutput  += PlotC3(whichPlot, 1100, 500, line );
+      if (whichPlot == 3)
+         svgOutput += PlotC3(whichPlot, 1700, 500, line );
+   }
 
-      line += c3plot.CreatePolylineFromPoints(whichPlot, ".5", v);
-      cells += c3plot.DrawCells(whichPlot, v);
+   for (size_t whichPlot = 1; whichPlot < 4; ++whichPlot) {
+      const std::string cells = c3plot.DrawCells(whichPlot, v);
 
       std::string plotc3;
       if (whichPlot == 1)
-         plotc3 = PlotC3(whichPlot, 500, 500, line + "  " + cells);
+         plotc3 = PlotC3(whichPlot, 500, 500, /*line +*/ "  " + cells);
       if (whichPlot == 2)
-         plotc3 = PlotC3(whichPlot, 1100, 500, line + "  " + cells);
+         plotc3 = PlotC3(whichPlot, 1100, 500, /*line +*/ "  " + cells);
       if (whichPlot == 3)
-         plotc3 = PlotC3(whichPlot, 1700, 500, line + "  " + cells);
+         plotc3 = PlotC3(whichPlot, 1700, 500, /*line +*/ "  " + cells);
 
       svgOutput += plotc3;
    }
