@@ -7,12 +7,13 @@
 #include <cstdio>
 #include <iomanip>
 #include <thread>
-
+ 
 #ifdef __unix__
 #include <unistd.h>
 #else
 #pragma warning( disable: 4996 )
 #endif
+
 ///////////////////////////////////////////////////////////////////////
 // Create a unique file name from the date and time
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -67,22 +68,6 @@
    const size_t nFiles,
    const std::string& prefix,
    const std::string& extension, 
-   const bool includeTimestamp /*=true*/ )
-{
-   std::vector<std::string> out;
-
-   for (size_t i = 0; i < nFiles; ++i) {
-      const std::string filename = LRL_CreateFileName::Create
-      (prefix, LRL_DataToSVG(i), extension, includeTimestamp);
-      out.emplace_back(filename);
-   }
-   return out;
-}
-
-/*static*/ std::vector<std::string> LRL_CreateFileName::CreateListOfFilenames(
-   const size_t nFiles,
-   const std::string& prefix,
-   const std::string& extension, 
    const bool includeTimestamp /*= true*/,
    const size_t block_start /*= 0*/,
    const size_t block_size /*= 20*/)
@@ -98,7 +83,6 @@
       const std::string filename = LRL_CreateFileName::Create
       (prefix,o.str(), extension, includeTimestamp);
       out.emplace_back(filename);
-      std::cout << filename << std::endl;
    }
    return out;
 }

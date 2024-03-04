@@ -3,6 +3,7 @@
 
 #include "C3Plot.h"
 #include "ColorTables.h"
+#include "GetDate.h"
 #include "LRL_ToString.h"
 #include "LRL_DataToSVG.h"
 #include "LRL_CreateFileName.h"
@@ -13,6 +14,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <ctime>
 #include <iomanip>
 #include <sstream>
 #include <string>
@@ -174,7 +176,7 @@ static std::string AddTextAtBottom(const int x, const int y, const std::string& 
    //
    //
    s += "<!--#######################################################-->\n"
-      "<text x = \"" + LRL_DataToSVG(x) + "\" y = \"" + LRL_DataToSVG(y + 40) + "\""
+      "<text x = \"" + LRL_DataToSVG(x) + "\" y = \"" + LRL_DataToSVG(y + 80) + "\""
       " font-size = \"20\" " +
       " font-family = \"Arial, Helvetica, sans-serif \">\n" +
       ""  // INSERT TEXT HERE
@@ -182,7 +184,16 @@ static std::string AddTextAtBottom(const int x, const int y, const std::string& 
       "<!-- add a comment such as the command line-->\n"
       "<!--#######################################################-->\n";
 
-      return s;
+   std::ostringstream os;
+   os << "<text x = \""
+      << x
+      << "\" y = \""
+      << y + 40
+      << "\"  font-size = \"20\" font-family = \"Arial, Helvetica, sans-serif\" >LRL-WEB  PlotC3   "
+      << GetDate()
+      << " </text>\n";
+   s += os.str();;
+   return s;
 }
 
 std::string  PrepareColorGuide(const C3Plot& c3plot, const int xint, const int yint) {
@@ -244,8 +255,9 @@ int main(int argc, char* argv[])
            // std::cout << "; usetarget: " << usetarget;
        } 
    }
-   const std::string filename = LRL_CreateFileName::Create("PLT", "svg",usetimestamp);
 
+   const std::string filename =
+      LRL_CreateFileName::CreateListOfFilenames(1, "PLT", "svg", usetimestamp)[0];
 
    if(htmlprefix.compare(std::string(""))==0) {
      std::cout << std::string("; Graphical output SVG file = ")
