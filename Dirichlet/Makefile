@@ -19,7 +19,7 @@ $(COMMAND):	Dirichlet_Main.cpp \
 	../LatticeRepresentationLib/D7_Subboundary.cpp ../LatticeRepresentationLib/Delone.cpp \
 	../LatticeRepresentationLib/DeloneFitResults.cpp \
 	../LRL_Tools/FileOperations.cpp ../LRL_Tools/LRL_CreateFileName.cpp ../LatticeRepresentationLib/G6.cpp \
-	../LRL_Tools/HSV.cpp ../LRL_Tools/RGB.cpp \
+	../LRL_Tools/HSV.cpp ../LRL_Tools/RGB.cpp ../LRL_Tools/GetDate.h ../LRL_Tools/GetDate.cpp \
 	../LatticeRepresentationLib/GenerateLatticeTypeExamples.cpp \
 	../LatticeRepresentationLib/LabeledSellaMatrices.cpp \
 	../LatticeRepresentationLib/LatticeConverter.cpp ../LatticeRepresentationLib/LRL_Cell.cpp  \
@@ -29,7 +29,8 @@ $(COMMAND):	Dirichlet_Main.cpp \
 	../LatticeRepresentationLib/MatD13.cpp \
 	../LatticeRepresentationLib/MatD7.cpp ../LatticeRepresentationLib/MatG6.cpp ../LatticeRepresentationLib/MatMN.cpp \
 	../LatticeRepresentationLib/MatN.cpp ../LatticeRepresentationLib/MatS6.cpp ../LatticeRepresentationLib/Niggli.cpp \
-	../LatticeRepresentationLib/S6.cpp ../LatticeRepresentationLib/S6Dist.cpp \
+	../LatticeRepresentationLib/S6.cpp ../LatticeRepresentationLib/S6BoundaryTransforms.h \
+	../LatticeRepresentationLib/S6BoundaryTransforms.cpp ../LatticeRepresentationLib/S6Dist.cpp \
 	../LatticeRepresentationLib/S6_Matrices.cpp ../LatticeRepresentationLib/Selling.cpp \
 	../LatticeRepresentationLib/Sella.cpp \
 	../LatticeRepresentationLib/VecN.cpp  ../LatticeRepresentationLib/V7.cpp ../LRL_Tools/LRL_Vector3.cpp
@@ -48,7 +49,7 @@ $(COMMAND):	Dirichlet_Main.cpp \
 	../LatticeRepresentationLib/D7_Subboundary.cpp ../LatticeRepresentationLib/Delone.cpp \
 	../LatticeRepresentationLib/DeloneFitResults.cpp \
 	../LRL_Tools/FileOperations.cpp ../LRL_Tools/LRL_CreateFileName.cpp ../LatticeRepresentationLib/G6.cpp \
-	../LRL_Tools/HSV.cpp ../LRL_Tools/HSV.h ../LRL_Tools/RGB.cpp ../LRL_Tools/RGB.h \
+	../LRL_Tools/HSV.cpp ../LRL_Tools/RGB.cpp  ../LRL_Tools/GetDate.cpp \
 	../LatticeRepresentationLib/GenerateLatticeTypeExamples.cpp \
 	../LatticeRepresentationLib/LabeledSellaMatrices.cpp \
 	../LatticeRepresentationLib/LatticeConverter.cpp ../LatticeRepresentationLib/LRL_Cell.cpp  \
@@ -58,7 +59,7 @@ $(COMMAND):	Dirichlet_Main.cpp \
 	../LatticeRepresentationLib/MatD13.cpp \
 	../LatticeRepresentationLib/MatD7.cpp ../LatticeRepresentationLib/MatG6.cpp ../LatticeRepresentationLib/MatMN.cpp \
 	../LatticeRepresentationLib/MatN.cpp ../LatticeRepresentationLib/MatS6.cpp ../LatticeRepresentationLib/Niggli.cpp \
-	../LatticeRepresentationLib/S6.cpp ../LatticeRepresentationLib/S6Dist.cpp \
+	../LatticeRepresentationLib/S6.cpp ../LatticeRepresentationLib/S6BoundaryTransforms.cpp ../LatticeRepresentationLib/S6Dist.cpp \
 	../LatticeRepresentationLib/S6_Matrices.cpp ../LatticeRepresentationLib/Selling.cpp \
 	../LatticeRepresentationLib/Sella.cpp \
 	../LatticeRepresentationLib/VecN.cpp  ../LatticeRepresentationLib/V7.cpp ../LRL_Tools/LRL_Vector3.cpp
