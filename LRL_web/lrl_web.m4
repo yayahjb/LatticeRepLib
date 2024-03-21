@@ -740,11 +740,22 @@ std::string plaintext2html(std::string & dst, std::string src){
     xactstr+=std::string("/cgi-bin/"+LRL_WEB_CGI+"\" onsubmit=\"return running('00')\">");
     std::cout << xactstr  << std::endl;
     std::cout << "<br />" << std::endl;
-    std::cout << "Assorted tools to do various calculations for crystallographic lattices." << std::endl;
+    std::cout << "<font size=+2><b>Assorted tools to do various calculations for crystallographic lattices.</b></font>"<< std::endl;
     std::cout << "<br />" << std::endl;
-    std::cout << "<a href=\"http://"+LRL_WEB_HOST+"/~"+LRL_WEB_USER+"/lrl_web/lrl_web_tutorial.html\" target=\"_blank\">Tutorial</a><br />" << std::endl;
+    std::cout << "<table border=0>" << std::endl;
+    std::cout << "<tr>" << std::endl;
+    std::cout << "<td align=center width=300px><a href=\"http://]]]LRLWEBHOST[[[/~]]]LRLWEBUSER[[[/lrl_web/lrl_web_tutorial.html\" target=\"_blank\"><font size=+1><b>Tutorial</b></font></a></td>" << std::endl;
+    std::cout << "<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>" << std::endl;
+    std::cout << "<td align=center width=300px><a href=#DeloneChars><font size=+1><b>Table of Delone Characters</b></font></a></td>" << std::endl;
+    std::cout << "</tr>" << std::endl;
+    std::cout << "<tr>" << std::endl;
+    std::cout << "<td align=center width=300px><a href=\"http://iterate.sf.net/bgaol\" target=\"_blank\"><font size=+1><b>G<sup>6</sup> Bravais General Analysis of Lattices (BGAOL)</b></font></a></td>" << std::endl;
+    std::cout << "<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>" << std::endl;
+    std::cout << "<td align=center width=300px><a href=\"http://blondie.arcib.org:8084/sauc-1.1.1/\" target=\"_blank\"><font size=+1><b>G<sup>6</sup> Search for Alternative Unit Cells (SAUC)</b></font></a></td>" << std::endl;
+    std::cout << "</tr>" << std::endl;
+    std::cout << "</table>" << std::endl;
     std::cout << "<STRONG>" << std::endl;
-    std::cout << "Please read the <a href=\"#notice\">NOTICE</a> below before use of this web page" << std::endl;
+    std::cout << "<font size=+1><b>Please read the <a href=\"#notice\">NOTICE</a> below before use of this web page</b></font>" << std::endl;
     std::cout << "</STRONG>" << std::endl;
     std::cout << "<p>" << std::endl;
     std::cout << "<a name=\"search\"></a>" << std::endl;
@@ -2356,7 +2367,7 @@ LRLWEBRUNNING([[[      std::cout << "  ]]],[[[\]]],[[[" << std::endl;]]],[[["+tw
     std::cout << "</center>" << std::endl;
     std::cout << "<p>" << std::endl;
     std::cout << "" << std::endl;
-    std::cout << "<h2>Table of Delone Characters</h2>" << std::endl;
+    std::cout << "<a name=DeloneChars></a><h2>Table of Delone Characters</h2>" << std::endl;
     std::cout << "<P>" << std::endl;
     std::cout << "<center>" << std::endl;
     std::cout << "<img src=\"http://"+LRL_WEB_HOST+"/~"+LRL_WEB_USER+"/lrl_web/HorizontalDeloneGrid.svg\" alt=\"Table of Delone Characters\" />" << std::endl;
@@ -2371,7 +2382,7 @@ LRLWEBRUNNING([[[      std::cout << "  ]]],[[[\]]],[[[" << std::endl;]]],[[["+tw
     std::cout << "<li>Generate cells of a particular type or types</li>" << std::endl;
     std::cout << "<li>apply Lattice Matching algorithm to listed cells <a href=\"#Mighell2002\">[Mighell 2002]</a>" << std::endl;
     std::cout << "<a href=\"#Andrews2021\">[Andrews and Bernstein 2021]</a></li>" << std::endl;
-    std::cout << "<li>compute Niggli-reduced primitive cells <a href=\"#Niggli1928\">[Niggli 1928]</a></li>" << std::endl;
+    std::cout << "<li>compute Niggli-reduced primitive cells <a href=\"#Niggli1928\">[Niggli 1928]</a> <a href=\"#Roof1967\">[Roof 1967]</a></li>" << std::endl;
     std::cout << "<li>compute path between pairs of cells" << std::endl;
     std::cout << "<a href=\"#Andrews2023a\">[Andrews and Bernstein 2023a]</a></li>" << std::endl;
     std::cout << "<li>compute perturbed versions of input cells <a href=\"#Andrews2022\">[Andrews and Bernstein 2022]</a></li>" << std::endl;
@@ -2451,6 +2462,9 @@ LRLWEBRUNNING([[[      std::cout << "  ]]],[[[\]]],[[[" << std::endl;]]],[[["+tw
     std::cout << "</p><p>" << std::endl;
     std::cout << "<a name=\"Niggli1928\">[Niggli 1928]</a> P. Niggli (1928). Krystallographische und Strukturtheoretische Grundbegriffe, " << std::endl;
     std::cout << "Handbuch der Experimentalphysik, Vol. 7, part 1. Akademische Verlagsgesellschaft, Leipzig." << std::endl;
+    std::cout << "</p><p>" << std::endl;
+    std::cout << "<a name=\"Roof1967\">[Roof 1967]</a> R. B. Roof Jr, (1967). Theoretical Extension of the Reduced-Cell Concept in " << std::endl;
+    std::cout << "in Crystallography (No. LA-4038). Los Alamos National Lab.(LANL), Los Alamos, NM (United States). " << std::endl;
     std::cout << "</p><p>" << std::endl;
     std::cout << "<a name=\"Wikipedia2022\">[Wikipedia contributors 2022]</a> Wikipedia contributors, (2022). Theophrastus — Wikipedia, the " << std::endl;
     std::cout << "free encyclopedia. [Online; accessed 17-October-2022]. https://en.wikipedia.org/w/index.php?title=Theophrastus&oldid=1114534722" << std::endl;
@@ -2852,9 +2866,20 @@ Sleeping Dragon line art image by Gordon Dylan Johnson,
 </tr>
 <FORM method=POST ACTION="http://]]]LRLWEBHOST[[[/~]]]LRLWEBUSER[[[/cgi-bin/]]]LRLWEBCGI[[[" onsubmit="return running('00')">
 <br />
-Assorted tools to do various calculations for crystallographic lattices.
+<font size=+1><b>Assorted tools to do various calculations for crystallographic lattices.</b></font>
 <br />
-<a href="http://]]]LRLWEBHOST[[[/~]]]LRLWEBUSER[[[/lrl_web/lrl_web_tutorial.html" target="_blank">Tutorial</a><br />
+<table border=0>
+<tr>
+<td align=center width=300px><a href="http://]]]LRLWEBHOST[[[/~]]]LRLWEBUSER[[[/lrl_web/lrl_web_tutorial.html" target="_blank"><font size=+1><b>Tutorial</b></font></a></td>
+<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+<td align=center width=300px><a href=#DeloneChars><font size=+1><b>Table of Delone Characters</b></font></a></td>
+</tr>
+<tr>
+<td align=center width=300px><a href="http://iterate.sf.net/bgaol" target="_blank"><font size=+1><b>G<sup>6</sup> Bravais General Analysis of Lattices (BGAOL)</b></font></a></td>
+<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+<td align=center width=300px><a href="http://blondie.arcib.org:8084/sauc-1.1.1/" target="_blank"><font size=+1><b>G<sup>6</sup> Search for Alternative Unit Cells (SAUC)</b></font></a></td>
+</tr>
+</table>
 <STRONG>
 Please read the <a href="#notice">NOTICE</a> below before use of this web page
 </STRONG>
@@ -4016,7 +4041,7 @@ Fig. 1. Some key dates in the history of modern crystallography
 </center>
 <p>
 
-<h2>Table of Delone Characters</h2>
+<a name=DeloneChars></a><h2>Table of Delone Characters</h2>
 <P>
 <center>
 <img src="/~]]]LRLWEBUSER[[[/lrl_web/HorizontalDeloneGrid.svg" alt="Table of Delone Characters" />
@@ -4032,7 +4057,7 @@ Fig. 1. Some key dates in the history of modern crystallography
 <li>Generate cells of a particular type or types</li>
 <li>apply Lattice Matching algorithm to listed cells <a href="#Mighell2002">[Mighell 2002]</a>
 <a href="#Andrews2021">[Andrews and Bernstein 2021]</a></li>
-<li>compute Niggli-reduced primitive cells <a href="#Niggli1928">[Niggli 1928]</a></li>
+<li>compute Niggli-reduced primitive cells <a href="#Niggli1928">[Niggli 1928] <a href="#Roof1967">[Roof 1967]</a></li>
 <li>compute path between pairs of cells
 <a href="#Andrews2023a">[Andrews and Bernstein 2023a]</a></li>
 <li>compute perturbed versions of input cells <a href="#Andrews2022">[Andrews and Bernstein 2022]</a></li>
@@ -4112,6 +4137,9 @@ J. Res. Natl. Inst. Stand. Technol. 107(5), 425 – 430.
 </p><p>
 <a name="Niggli1928">[Niggli 1928]</a> P. Niggli (1928). Krystallographische und Strukturtheoretische Grundbegriffe, 
 Handbuch der Experimentalphysik, Vol. 7, part 1. Akademische Verlagsgesellschaft, Leipzig.
+</p><p>
+<a name="Roof1967">[Roof 1967]</a> R. B. Roof Jr, (1967). Theoretical Extension of the Reduced-Cell Concept in 
+in Crystallography (No. LA-4038). Los Alamos National Lab.(LANL), Los Alamos, NM (United States). 
 </p><p>
 <a name="Wikipedia2022">[Wikipedia contributors 2022]</a> Wikipedia contributors, (2022). Theophrastus — Wikipedia, the 
 free encyclopedia. [Online; accessed 17-October-2022]. https://en.wikipedia.org/w/index.php?title=Theophrastus&oldid=1114534722
