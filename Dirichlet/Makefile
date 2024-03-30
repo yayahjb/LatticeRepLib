@@ -33,7 +33,8 @@ $(COMMAND):	Dirichlet_Main.cpp \
 	../LatticeRepresentationLib/S6BoundaryTransforms.cpp ../LatticeRepresentationLib/S6Dist.cpp \
 	../LatticeRepresentationLib/S6_Matrices.cpp ../LatticeRepresentationLib/Selling.cpp \
 	../LatticeRepresentationLib/Sella.cpp \
-	../LatticeRepresentationLib/VecN.cpp  ../LatticeRepresentationLib/V7.cpp ../LRL_Tools/LRL_Vector3.cpp
+	../LatticeRepresentationLib/VecN.cpp  ../LatticeRepresentationLib/V7.cpp ../LRL_Tools/LRL_Vector3.cpp \
+	../LatticeRepresentationLib/WebIO.h ../LatticeRepresentationLib/WebIO.cpp
 	$(CXX) -I ../LatticeRepresentationLib -I ../LRL_Tools -o $(COMMAND) Dirichlet_Main.cpp \
 	DirichletCellFaces.cpp  Dirichlet.cpp DirichletConstants.cpp \
 	ReadDirichletGlobalData.cpp \
@@ -62,7 +63,8 @@ $(COMMAND):	Dirichlet_Main.cpp \
 	../LatticeRepresentationLib/S6.cpp ../LatticeRepresentationLib/S6BoundaryTransforms.cpp ../LatticeRepresentationLib/S6Dist.cpp \
 	../LatticeRepresentationLib/S6_Matrices.cpp ../LatticeRepresentationLib/Selling.cpp \
 	../LatticeRepresentationLib/Sella.cpp \
-	../LatticeRepresentationLib/VecN.cpp  ../LatticeRepresentationLib/V7.cpp ../LRL_Tools/LRL_Vector3.cpp
+	../LatticeRepresentationLib/VecN.cpp  ../LatticeRepresentationLib/V7.cpp ../LRL_Tools/LRL_Vector3.cpp \
+	../LatticeRepresentationLib/WebIO.cpp
 
 clean:
 	rm -rf $(COMMAND)
