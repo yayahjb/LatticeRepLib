@@ -11,6 +11,7 @@
 #include "LRL_ReadLatticeData.h"
 #include "S6.h"
 #include "LRL_Vector3.h"
+#include "WebIO.h"
 
 #include <algorithm>
 #include <cmath>
@@ -222,48 +223,32 @@ std::string  PrepareColorGuide(const C3Plot& c3plot, const int xint, const int y
 int main(int argc, char* argv[])
 {
    std::cout << "; PlotC3" << std::endl;
-   std::string host=std::string("");
-   std::string rawprefix=std::string("");
-   std::string htmlprefix=std::string("");
-   bool usetimestamp=true;
-   bool usehttps=false;
-   bool usetarget=true;
 
-   int ii;
-   for(ii=1;ii<argc;ii++){
-       // std::cout << "argv[" << ii <<"] = "<< argv[ii] << std::endl;
-       if (std::string(argv[ii]).compare(std::string("--help"))==0) {
-           std::cout << "; PlotC3 [--help ] [--host hostname] [--rawprefix rawprefix] [--htmlprefix htmlprefix]" << std::endl;
-           std::cout << ";  [--usetimestamp {true|false}] [--usehttps {true|false}] [--usetarget {true|false}]" << std::endl;
-       } else if (std::string(argv[ii]).compare(std::string("--host"))==0) {
-           host = std::string(argv[++ii]);
-           // std::cout << "; host: " << host;
-       } else if (std::string(argv[ii]).compare(std::string("--rawprefix"))==0) {
-           rawprefix = std::string(argv[++ii]);
-           // std::cout << "; rawprefix: " << rawprefix;
-       } else if (std::string(argv[ii]).compare(std::string("--htmlprefix"))==0) {
-           htmlprefix = std::string(argv[++ii]);
-           // std::cout << "; htmlprefix: " << htmlprefix;
-       } else if (std::string(argv[ii]).compare(std::string("--usetimestamp"))==0) {
-           usetimestamp =  (std::string(argv[++ii])).compare(std::string("true"))==0?true:false;
-           // std::cout << "; usetimestamp: " << usetimestamp;
-       } else if (std::string(argv[ii]).compare(std::string("--usehttps"))==0) {
-           usehttps =  (std::string(argv[++ii])).compare(std::string("true"))==0?true:false;
-           // std::cout << "; usehttps: " << usehttps;
-       } else if (std::string(argv[ii]).compare(std::string("--usetarget"))==0) {
-           usetarget =  (std::string(argv[++ii])).compare(std::string("true"))==0?true:false;
-           // std::cout << "; usetarget: " << usetarget;
-       } 
-   }
+   WebIO webio(argc, argv, "PlotC3", 1);
+   webio.GetWebBlockSize(argc, argv);
+   webio.CreateFilenamesAndLinks(1, "PLT");
 
-   const std::string filename =
-      LRL_CreateFileName::CreateListOfFilenames(1, "PLT", "svg", usetimestamp)[0];
+   const std::string& host = webio.m_host;
+   const std::string& rawprefix = webio.m_rawprefix;
+   const std::string& htmlprefix = webio.m_htmlprefix;
+   const bool& usetimestamp = webio.m_usetimestamp;
+   const bool& usehttps = webio.m_usehttps;
+   const bool& usetarget = webio.m_usetarget;
+   const size_t& blockstart = webio.m_blockstart;
+   const size_t& blocksize = webio.m_blocksize;
 
-   if(htmlprefix.compare(std::string(""))==0) {
+   //CompareHtmlFromWebIO(host, rawprefix, htmlprefix, usetimestamp, usehttps, usetarget, webio);
+
+   const std::vector<std::string> basicfileNameList = webio.m_basicfileNameList;
+   const std::vector<std::string> FileNameList = webio.m_FileNameList;
+   const std::vector<std::string> FullfileNameList = webio.m_FullfileNameList;
+   const std::string filename = basicfileNameList[0];
+
+   if(!webio.m_hasWebInstructions) {
      std::cout << std::string("; Graphical output SVG file = ")
        + rawprefix+filename << std::endl;
    } else {
-     if(host.compare(std::string(""))==0) {
+     if(webio.m_host.empty()) {
        std::cout << std::string("; Graphical output SVG file = <a href=\"")
          +  htmlprefix+filename+std::string("\" target=\"_blank\">")+filename+std::string("</a>") << std::endl;
      } else {
@@ -280,16 +265,16 @@ int main(int argc, char* argv[])
          +filename+std::string("</a>") << std::endl;
      }
    }
-  
+   std::cout << webio << std::endl;
 
-   C3Plot c3plot(filename, 1400, 600, 500, 500);
+   LRL_ReadLatticeData reader;
+   const std::vector<LRL_ReadLatticeData> inputList = reader.ReadLatticeData();
+  
+   C3Plot c3plot(filename, 1050, 380, 500, 500);
 
    std::string svgOutput;
    const std::string intro = c3plot.GetIntro(filename);
    svgOutput += intro;
-
-   LRL_ReadLatticeData reader;
-   const std::vector<LRL_ReadLatticeData> inputList = reader.ReadLatticeData();
 
    const std::vector<S6> v = ConvertInputToS6(inputList);
    std::pair<double, double> minmax = GetMinMaxS6(v);
@@ -301,8 +286,8 @@ int main(int argc, char* argv[])
    svgOutput += legend;
 
    for (size_t whichPlot = 1; whichPlot < 4; ++whichPlot) {
-      const std::string line = c3plot.CreatePolylineFromPoints(whichPlot, ".5", v);
-
+      //const std::string line = c3plot.CreatePolylineFromPoints(whichPlot, ".5", v);
+      const std::string line;
       if (whichPlot == 1)
          svgOutput += PlotC3(whichPlot, 500, 500, line);
       if (whichPlot == 2)
