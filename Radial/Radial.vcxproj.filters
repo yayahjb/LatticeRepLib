@@ -18,17 +18,11 @@
     <ClCompile Include="main_Radial.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Vector_2.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Radial.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Vector_2.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Radial.h">
       <Filter>Header Files</Filter>
     </ClInclude>

@@ -18,6 +18,7 @@ public:
    void SetLatticeType(const std::string& s) { m_latticeType = s; }
    void SetDeloneType(const std::string& s) { m_DeloneType = s; }
    double GetRawFit(void) const { return m_rawFit; }
+   void SetRawFit(const double fit) { m_rawFit = fit; }
    double GetZscore(void) const { return m_zscore; }
    S6 GetBestFit(void) const { return m_bestFit; }
    S6 GetDifference(void) const { return m_difference; }
@@ -29,8 +30,8 @@ public:
    MatS6 GetReductionMatrix() const { return m_reductionMatrix; }
    void SetOriginalInput(const S6& s6) { m_originalInput = s6; }
    S6 GetOriginalInput() const { return m_originalInput; }
-   void SetType(const std::string& s) { m_type = s; }
-   std::string GetType() const { return m_type; }
+   void SetBavaisType(const std::string& s) { m_type = s; }
+   std::string GetBravaisType() const { return m_type; }
    void SetGeneralType(const std::string& s) { m_generalLatticeType = s; }
    std::string GetGeneralType() const { return m_generalLatticeType; }
 

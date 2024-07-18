@@ -65,6 +65,12 @@
     <ClCompile Include="RI.cpp" />
     <ClCompile Include="S6L.cpp" />
     <ClCompile Include="WebIO.cpp" />
+    <ClCompile Include="Radial.cpp" />
+    <ClCompile Include="Vector_2.cpp" />
+    <ClCompile Include="Polar.cpp" />
+    <ClCompile Include="Plots.cpp" />
+    <ClCompile Include="LRL_WriteLatticeData.cpp" />
+    <ClCompile Include="P3.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BasisBase.h" />
@@ -144,6 +150,12 @@
     <ClInclude Include="S6L.h" />
     <ClInclude Include="LRL_GetCommandArgs.h" />
     <ClInclude Include="WebIO.h" />
+    <ClInclude Include="Radial.h" />
+    <ClInclude Include="Vector_2.h" />
+    <ClInclude Include="Polar.h" />
+    <ClInclude Include="Plots.h" />
+    <ClInclude Include="LRL_WriteLatticeData.h" />
+    <ClInclude Include="P3.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="CMakeLists.txt" />
