@@ -1,12 +1,14 @@
 #include "BravaisHeirarchy.h"
 #include "DeloneFitResults.h"
 #include "GenerateLatticeTypeExamples.h"
+#include "GrimmerTree.h"
 #include "LRL_ToString.h"
 #include "S6.h"
 #include "Sella.h"
 
 #include <iomanip>
 #include <iostream>
+#include <map>
 #include <sstream>
 
 std::string BravaisHeirarchy::BoilerPlate_2() {
@@ -34,11 +36,11 @@ std::string BravaisHeirarchy::ScoreLabels(const std::vector<std::pair<std::strin
    for (size_t i = 0; i < scores.size(); ++i) {
       const std::pair<std::string, double>& scr = scores[i];
       const std::string strAngstroms = SetWP(sqrt(scr.second));
-      if (scr.first == "cP") 
+      if (scr.first == "cP")
          out +=
          "   <rect id=\"cP\" x=\"215\" y=\"230\" width=\"80\" height=\"30\" stroke-width=\"2\" stroke=\"orange\" fill=\"white\" />\n"
-         "   <text id=\"cP\" x=\"220\" y=\"250\" font-size=\"18\">"+
-         strAngstroms+
+         "   <text id=\"cP\" x=\"220\" y=\"250\" font-size=\"18\">" +
+         strAngstroms +
          "</text>\n"
          "\n";
 
@@ -98,8 +100,8 @@ std::string BravaisHeirarchy::ScoreLabels(const std::vector<std::pair<std::strin
          "</g>\n";
 
       if (scores[i].first == "oC" || scores[i].first == "os") out +=
-          "   <rect id=\"oS\" x=\"285\" y=\"530\" width=\"80\" height=\"30\" stroke-width=\"2\" stroke=\"orange\" fill=\"white\" />\n"
-        "   <text id=\"oS\" x=\"300\" y=\"550\" font-size=\"18\">" +
+         "   <rect id=\"oS\" x=\"285\" y=\"530\" width=\"80\" height=\"30\" stroke-width=\"2\" stroke=\"orange\" fill=\"white\" />\n"
+         "   <text id=\"oS\" x=\"300\" y=\"550\" font-size=\"18\">" +
          strAngstroms +
          " </text>\n"
          "\n";
@@ -129,7 +131,7 @@ std::string BravaisHeirarchy::ScoreLabels(const std::vector<std::pair<std::strin
          " </text>\n"
          "</g>\n";
 
-      if (scores[i].first == "mC" ||scores[i].first == "mS") out +=
+      if (scores[i].first == "mC" || scores[i].first == "mS") out +=
          "   <g transform=\" translate(90 20)  \"> "
          "   <rect id=\"mS\" x=\"435\" y=\"650\" width=\"80\" height=\"30\" stroke-width=\"2\" stroke=\"orange\" fill=\"white\" />\n"
          "   <text id=\"mS\" x=\"450\" y=\"670\" font-size=\"18\">" +
@@ -303,7 +305,7 @@ BravaisChainFailures BravaisHeirarchy::CheckOneBravaisChain(
          sst << std::endl << ";################ Bravais chain failure  "
             << name0 << " " << value0 << " "
             << name1 << " " << value1 << " "
-            << name2 << " " << value2 
+            << name2 << " " << value2
             << "\n;##  \ts6 " << vDeloneFitResultsForOneLattice[i].GetOriginalInput()
             << "\n;##\tP " << LRL_Cell_Degrees(vDeloneFitResultsForOneLattice[i].GetOriginalInput()) << std::endl;
          bf.SetDescription(sst.str());
@@ -313,20 +315,13 @@ BravaisChainFailures BravaisHeirarchy::CheckOneBravaisChain(
       }
    }
 
-   const auto remediation = bcf.Remediation();
-   const DeloneFitResults dfr(bcf.Remediation());
-   if (!bcf.empty())
-   {
-      const DeloneFitResults bffResult = bcf.Remediation();
-      bcf.SetRemediationResult(remediation);
-   }
    return bcf;
 }
 
 std::vector<std::string> BravaisHeirarchy::FormatProjectedCells(const std::vector<std::string>& s) {
    std::vector<std::string> strings{ s };
 
-   if ( ! s.empty())
+   if (!s.empty())
    {
       std::cout << "; projected best fits ( reported distances (in A^2))" << std::endl;
    }
@@ -351,12 +346,12 @@ std::string BravaisHeirarchy::ProduceSVG(
       reduced +
       //FormatCellData(input, reducedCell) +
       BravaisHeirarchy::ScoreLabels(scores);
-      
+
 
    if (!projectedCells.empty()) {
       //s += "; projected best fits ( reported distances (in A^2))";
       for (const auto& cell : projectedCells) {
-         s+=cell;
+         s += cell;
       }
    }
 
@@ -386,6 +381,7 @@ std::vector<std::vector<std::string> > BravaisHeirarchy::CreateBravaisChains()
    return v;
 }
 
+
 std::map<std::string, double> BravaisHeirarchy::GetBestOfEachBravaisType(
    const std::vector<DeloneFitResults>& vDeloneFitResults)
 {
@@ -408,7 +404,7 @@ std::vector<BravaisChainFailures> BravaisHeirarchy::CheckBravaisChains(const std
    static const std::vector<std::vector<std::string> > bravaisChains = CreateBravaisChains();
    for (size_t i = 0; i < bravaisChains.size() - 1; ++i)
    {
-      const auto result =   BravaisHeirarchy::CheckOneBravaisChain(bravaisChains[i], vDeloneFitResultsForOneLattice, valueMap, errorList);
+      const auto result = BravaisHeirarchy::CheckOneBravaisChain(bravaisChains[i], vDeloneFitResultsForOneLattice, valueMap, errorList);
       if (!result.empty()) {
          fitResults.emplace_back(result.GetRemediationResult());
          outBCF.emplace_back(result);
@@ -438,7 +434,7 @@ std::map<std::string, DeloneFitResults>  BravaisHeirarchy::CreateMapForBestExamp
          bravaisMap.insert(std::make_pair(name, result));
       else
          if (delta < (*mapElement).second.GetDifference().norm())
-            (*mapElement).second =result;
+            (*mapElement).second = result;
    }
    return bravaisMap;
 }
@@ -507,128 +503,6 @@ inline void BravaisChainFailures::PrintWork(const MatS6& vm, const S6& s6) {
    std::cout << vm * s6 << std::endl << std::endl;
    std::cout << C3(vm * s6) << std::endl << std::endl;
    std::cout << std::endl;
-}
-
-inline DeloneFitResults BravaisChainFailures::Remediation()
-{
-   DeloneFitResults dfr;
-   if (m_failList.empty()) return dfr;
-   dfr.SetRawFit(DBL_MAX);
-
-   //AnalyzeS6(GetS6());
-
-   double lowestValue = DBL_MAX;
-   for (size_t i = 0; i < 6; ++i) lowestValue = std::min(lowestValue, abs(GetS6()[i]));
-
-   int zeroPosition = -1;
-   const auto failList = getFailList();
-   const auto thePlus = getFailList()[0].GetPlus();
-   const double upper = 2.0 * getFailList()[0].GetPlus().second;
-
-   //std::cout << "; cell in BravaisChainFailures::Remediation \n" << GetS6() << std::endl;
-   //std::cout << "; cell in BravaisChainFailures::Remediation \n" << LRL_Cell_Degrees(GetS6()) << std::endl;
-   //std::cout << "; cell in BravaisChainFailures::Remediation \n" << C3(GetS6()) << std::endl;
-   const C3 c3v(GetS6());
-   const int nc3 = countC3Zeros(c3v, upper);
-   const int ns6 = CountS6Zeros(GetS6(), upper);
-   //std::cout << ";Remdiation # C3 zeros " << nc3 << std::endl;
-   //std::cout << ";Remediation # S6 zeros " << ns6 << std::endl;
-
-   //std::cout << ";C3 magnitudes " << abs(c3v[0]) << ", " << abs(c3v[1]) << ", " << abs(c3v[2]) << std::endl;
-
-
-
-   if (ns6 > 3) {
-      std::cout << ";in  BravaisChainFailures::Remediation the case "
-         "of one C3 zero and other than 3 S6 zeroes is not implemented" << std::endl;
-      return dfr;
-   }
-   else if (nc3 == 0) {
-      std::cout << "; in  BravaisChainFailures::Remediation, "
-         "no C3 zeros, case is not implemented" << std::endl;
-      std::cout << c3v << std::endl;
-      return dfr;
-   }
-   else if (nc3 > 1) {
-      std::cout << "; in  BravaisChainFailures::Remediation, "
-         "C3 zeros count >1 is not implemented" << std::endl;
-      return dfr;
-   }
-   else {
-      if (abs(c3v[0]) < upper) {
-         zeroPosition = FindLoneS6Zero(0, 3, GetS6(), upper);
-      }
-      else if (abs(c3v[1]) < upper) {
-         zeroPosition = FindLoneS6Zero(1, 4, GetS6(), upper);
-      }
-      else if (abs(c3v[2]) < upper) {
-         zeroPosition = FindLoneS6Zero(2, 5, GetS6(), upper);
-      }
-      else {
-         std::cout << ";this is NOT supposed to be possible in in  BravaisChainFailures::Remediation" << std::endl;
-         zeroPosition = 19191;
-      }
-   }
-
-   //std::cout << " upper " << upper << "  lone zero position " << zeroPosition << std::endl;
-
-   S6BoundaryTransforms sbt;
-   for (size_t i = 0; i<6; ++i)
-   {
-      const MatS6 matrix = sbt.GetOneTransform((zeroPosition + i) % 6);
-      //std::cout << "; in Remediation, i = " << i << std::endl;
-
-      //std::cout << " all 6 of the reduction matrices " << std::endl;
-      //for (size_t i = 0; i < 6; ++i) {
-      //   std::cout << "matrix " << i << std::endl;
-      //   std::cout << sbt.GetOneTransform(i) << std::endl;
-      //}
-
-      ////debugging lc
-      //const S6 v{ 0,1,2,3,4,5 };
-      //std::cout << " test vector " << v << std::endl;
-      //for (const auto& x : xxx) {
-      //   const MatS6 xi{ x.Inverse(x) };
-      //   std::cout << std::endl;
-      //   std::cout << x << std::endl;
-      //   std::cout << std::endl;
-      //   std::cout << x * v << std::endl;
-      //}
-
-      //std::cout << std::endl;
-      //std::cout << matrix << std::endl << std::endl;
-
-      //PrintWork(matrix, S6(c3v));
-
-      std::pair<std::string, double> plus = getFailList()[0].GetPlus();
-      std::pair<std::string, double> hit = getFailList()[0].GetHit();
-      std::pair<std::string, double> minus = getFailList()[0].GetMinus();
-      plus.first += " ";
-      //std::cout << "plus " << PairReporter(plus) << " " << std::endl;
-      //std::cout << "hit " << hit.first << "  " << hit.second << std::endl;
-      //std::cout << "minus " << PairReporter(minus) << " " << std::endl;
-      static const std::vector<std::shared_ptr<GenerateDeloneBase> > sptypes =
-         GenerateDeloneBase().Select(hit.first);
-
-      const auto dfrTemp = Sella::SellaFitXXXXXX(sptypes[0], matrix * GetS6());
-      if (dfrTemp.GetRawFit() < dfr.GetRawFit()) {
-         dfr = dfrTemp;
-      }
-
-
-      //std::cout << dfr.GetGeneralType() << " " << dfr.GetRawFit() << std::endl;
-
-      //const S6 modifidedS6A = xxx[zeroPosition][0] * GetS6();
-      //const S6 modifidedS6B = xxx[zeroPosition][1] * GetS6();
-      //const S6 modifidedS6C = xxx[zeroPosition][2] * GetS6();
-      //std::cout << modifidedS6A << std::endl;
-      //std::cout << modifidedS6B << std::endl;
-      //std::cout << modifidedS6C << std::endl;
-      //std::cout << C3(modifidedS6A) << std::endl;
-      //std::cout << C3(modifidedS6B) << std::endl;
-      //std::cout << C3(modifidedS6C) << std::endl;
-   }
-   return dfr;
 }
 
 inline std::vector<BravaisChainFail> BravaisChainFailures::getFailList() const { return m_failList; }
