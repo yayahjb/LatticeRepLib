@@ -18,6 +18,7 @@ $(COMMAND):	Dirichlet_Main.cpp \
 	../LatticeRepresentationLib/D7_ClassifySubboundaries.cpp ../LatticeRepresentationLib/D7.cpp \
 	../LatticeRepresentationLib/D7_Subboundary.cpp ../LatticeRepresentationLib/Delone.cpp \
 	../LatticeRepresentationLib/DeloneFitResults.cpp \
+	../LatticeRepresentationLib/EnhancedS6.cpp ../LatticeRepresentationLib/EnhancedS6.h \
 	../LRL_Tools/FileOperations.cpp ../LRL_Tools/LRL_CreateFileName.cpp ../LatticeRepresentationLib/G6.cpp \
 	../LRL_Tools/HSV.cpp ../LRL_Tools/RGB.cpp ../LRL_Tools/GetDate.h ../LRL_Tools/GetDate.cpp \
 	../LatticeRepresentationLib/GenerateLatticeTypeExamples.cpp \
@@ -49,6 +50,7 @@ $(COMMAND):	Dirichlet_Main.cpp \
 	../LatticeRepresentationLib/D7_ClassifySubboundaries.cpp ../LatticeRepresentationLib/D7.cpp \
 	../LatticeRepresentationLib/D7_Subboundary.cpp ../LatticeRepresentationLib/Delone.cpp \
 	../LatticeRepresentationLib/DeloneFitResults.cpp \
+	../LatticeRepresentationLib/EnhancedS6.cpp  \
 	../LRL_Tools/FileOperations.cpp ../LRL_Tools/LRL_CreateFileName.cpp ../LatticeRepresentationLib/G6.cpp \
 	../LRL_Tools/HSV.cpp ../LRL_Tools/RGB.cpp  ../LRL_Tools/GetDate.cpp \
 	../LatticeRepresentationLib/GenerateLatticeTypeExamples.cpp \

@@ -1,4 +1,5 @@
 #include "P3.h"
+#include "Polar.h"
 
 std::ostream& operator<< (std::ostream& o, const P3& p3) {
    o << "(("
@@ -39,3 +40,6 @@ P3 P3::operator-(const P3& p3) const {
    };
    return out;
 }
+
+//RHrand ranx;
+
