@@ -46,12 +46,13 @@ void  CheckWebFileLimits(const int ntotalFiles, const bool hasWebInstructions, c
    if (hasWebInstructions && ntotalFiles > blocksize) {
       // limits load to blocksize svg files
       std::cout << "the total number files generated in a single web\n";
-      std::cout << "run is limited by --blocksize " << blocksize << " If you need more, consider\n";
+      std::cout << "run is limited by control variable blocksize (" << blocksize << "). If you need more, consider\n";
       std::cout << "running directly on a computer from a command interface.\n";
       if (hasWebInstructions) {
         std::cout << "On the web the blocksize limit is usually 20.\n";
       }
-      exit(55555);
+      std::cout << "try with a smaller number of files and/or perturbatioms.\n";
+      exit(-1);
    }
 }
 
