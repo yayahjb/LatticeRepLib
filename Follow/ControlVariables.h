@@ -48,7 +48,7 @@ public:
       if (blocksize + blockstart > filenames.size()) blocksize = filenames.size()-1-blockstart;
    }
 
-   void updatePathStart(const std::vector<S6>& start) {
+   void updatePathStart(const std::vector<LatticeCell>& start) {
       pathStart = start;
    }
 
@@ -65,8 +65,8 @@ public:
    static std::atomic<bool> g_in_input;
 
    // Static variables (set at startup)
-   size_t blockstart; // held between 0  and totalRuns-1
-   size_t blocksize; // held between 1 and min(BLOCKSIZE_LIMIT, totalRuns-blockstart))
+   size_t blockstart;  // held between 0  and totalRuns-1
+   size_t blocksize;   // held between 1 and min(BLOCKSIZE_LIMIT, totalRuns-blockstart))
    int perturbations;  // Renamed from trials
    double perturbBy;
    int numFollowerPoints;
@@ -85,7 +85,7 @@ public:
    FollowerMode followerMode;
    std::vector<std::string> filenames;
    std::string currentFilename;
-   std::vector<S6> pathStart;
+   std::vector<LatticeCell> pathStart;
    Path path;
    std::vector<GlitchDetector::Glitch> glitches;
 
@@ -106,7 +106,7 @@ public:
    void printControlVariables(std::ostream& out = std::cout) const;
    size_t getCurrentFilenameIndex() const;
    int getVectorsPerTrial() const;
-   std::string getFollowerMode();
+   std::string getFollowerMode() const;
 
    // Color constants for SVG plots
    static const std::string CS6_COLOR;

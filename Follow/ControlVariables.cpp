@@ -26,93 +26,60 @@ ControlVariables::ControlVariables()
    showDataMarkers(true),
    blockstart(0),
    blocksize(BLOCKSIZE_LIMIT),
-   filePrefix("follow_output")
+   filePrefix("FOL")
 {
    ensureDefaultTypesEnabled();
 }
 
 std::string ControlVariables::getControlVariablesAsString() const {
    std::ostringstream oss;
-
-   oss << "Perturbations: " << perturbations << "\n"
-      << "Perturb By: " << perturbBy << "\n"
-      << "Follower Points: " << numFollowerPoints << "\n"
-      << "Print Distance Data: " << (printDistanceData ? "Yes" : "No") << "\n"
-      << "Glitches Only: " << (glitchesOnly ? "Yes" : "No") << "\n"
-      << "Fix Random Seed: " << (fixRandomSeed ? "Yes" : "No") << "\n"
-      << "Timestamp: " << (timestamp ? "Yes" : "No") << "\n"
-      << "Random Seed: " << randomSeed << "\n"
-      << "Detect Glitches: " << (shouldDetectGlitches ? "Yes" : "No") << "\n"
-      << "Glitch Threshold Percent: " << glitchThresholdPercent << "\n"
-      << "Show Data Points: " << (showDataMarkers ? "Yes" : "No") << "\n"
-      << "Blockstart, Blocksize:  " << "("<<blockstart << ", " << blocksize<<")" << "\n"
-      << "File Prefix: " << filePrefix << "\n"
-      << "Follower Mode: ";
-
-   switch (followerMode) {
-   case FollowerMode::POINT: oss << "POINT"; break;
-   case FollowerMode::LINE: oss << "LINE"; break;
-   case FollowerMode::CHORD: oss << "CHORD"; break;
-   case FollowerMode::CHORD3: oss << "CHORD3"; break;
-   case FollowerMode::TRIANGLE: oss << "TRIANGLE"; break;
-   }
-   oss << "\n";
-
-   oss << "Enabled Distances: ";
-   for (const auto& dist : enabledDistances) {
-      oss << dist << " ";
-   }
-   oss << "\n";
-
-   oss << "Current Filename: " << currentFilename << "\n";
-
+   oss << *this;
    return oss.str();
 }
 
 void ControlVariables::printControlVariables(std::ostream& out) const {
-   out << "Control Variables:\n" << getControlVariablesAsString();
+   out << ";Control Variables:\n" << getControlVariablesAsString();
 }
 
 std::ostream& operator<<(std::ostream& os, const ControlVariables& cv) {
-   os << "Control Variables:\n";
-   os << "Follower Mode: ";
-   switch (cv.followerMode) {
-   case FollowerMode::POINT: os << "POINT"; break;
-   case FollowerMode::LINE: os << "LINE"; break;
-   case FollowerMode::CHORD: os << "CHORD"; break;
-   case FollowerMode::CHORD3: os << "CHORD3"; break;
-   case FollowerMode::TRIANGLE: os << "TRIANGLE"; break;
-   default: os << "UNKNOWN"; break;
-   }
+   os << ";Control Variables:\n";
+   os << ";Follower Mode: ";
+   os << cv.getFollowerMode();
    os << "\n";
-   os << "Perturbations: " << cv.perturbations << "\n";
-   os << "Perturb By: " << cv.perturbBy << "\n";
-   os << "Number of Follower Points: " << cv.numFollowerPoints << "\n";
-   os << "Print Distance Data: " << (cv.printDistanceData ? "Yes" : "No") << "\n";
-   os << "Glitches Only: " << (cv.glitchesOnly ? "Yes" : "No") << "\n";
-   os << "Fix Random Seed: " << (cv.fixRandomSeed ? "Yes" : "No") << "\n";
-   os << "Timestamp: " << (cv.timestamp ? "Yes" : "No") << "\n";
-   os << "Random Seed: " << cv.randomSeed << "\n";
-   os << "Should Detect Glitches: " << (cv.shouldDetectGlitches ? "Yes" : "No") << "\n";
-   os << "Glitch Threshold Percent: " << cv.glitchThresholdPercent << "\n";
-   os << "Show Data Markers: " << (cv.showDataMarkers ? "Yes" : "No") << "\n";
-   os << "File Prefix: " << cv.filePrefix << "\n";
-   os << "Enabled Distances: ";
+   if (cv.perturbations == 1) {
+      os << ";Perturbations: no perturbations\n";
+   }
+   else{
+   os << ";Perturbations: " << cv.perturbations << "\n";
+   os << ";Perturb By: " << cv.perturbBy << "\n";
+   }
+   os << ";Number of Follower Points: " << cv.numFollowerPoints << "\n";
+   os << ";Print Distance Data: " << (cv.printDistanceData ? "Yes" : "No") << "\n";
+   os << ";Glitches Only: " << (cv.glitchesOnly ? "Yes" : "No") << "\n";
+   os << ";Should Detect Glitches: " << (cv.shouldDetectGlitches ? "Yes" : "No") << "\n";
+   os << ";Glitch Threshold Percent: " << cv.glitchThresholdPercent << "\n";
+   os << ";Show Data Markers: " << (cv.showDataMarkers ? "Yes" : "No") << "\n";
+   os << ";File Prefix: " << cv.filePrefix << "\n";
+   os << ";Blockstart: " << cv.blockstart << "\n";
+   os << ";Blocksize: " << BLOCKSIZE_LIMIT << "\n";
+   os << ";Enabled Distances: ";
 
    for (const auto& dist : cv.enabledDistances) {
       os << dist << " ";
    }
    os << "\n";
 
-   os << "Starting Point of Path: ";
+   if (!cv.pathStart.empty()) os << ";Starting Point of Path: ";
    for (const auto& point : cv.pathStart) {
-      os << "S6 " << S6(point) << "\n";
+      os << point.getLatticeType() << " " << S6(point.getCell()) << "\n";
    }
+   os << "\n";
 
+   if (!cv.currentFilename.empty()) os << ";Current Filename: " << cv.currentFilename << "\n";
    return os;
 }
 
-std::string ControlVariables::getFollowerMode() {
+std::string ControlVariables::getFollowerMode() const {
    switch (followerMode) {
    case FollowerMode::POINT: return "POINT";
    case FollowerMode::LINE: return "LINE";
@@ -142,7 +109,6 @@ const std::vector<std::string> ControlVariables::VALID_DISTANCE_TYPES = {
 void ControlVariables::disableDistanceType(const std::string& type) {
    enabledDistances.erase(type);
 }
-
 
 void ControlVariables::setDistanceTypes(const std::string& types, bool clearExisting ) {
    if (clearExisting) {
