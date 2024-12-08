@@ -287,6 +287,48 @@ int main(int argc,
       +std::string("S6 0 -107.51 0 7.51 -400 -792.49 <br />")
       +std::string("; this is a comment<br />")
       +std::string("end<br /></font>\"")+std::string(";") << std::endl; 
+      std::cout << " } else if (operation==\"Follow\") {" << std::endl;
+      std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("\"<font size=-1><strong>Command: Follow</strong><br />")
+      +std::string("<em><u>Purpose:</u></em> In the default mode (POINT), a single cell is read, and its Niggli-reduced cell is calculated.<br />")
+      +std::string("Multiple cells can be read, and a graphical output is computed for each input cell.<br />")
+      +std::string("In space S<sup>6</sup>, a straight line is computed between those points. Then the distances<br />")
+      +std::string("from points (default: 100 points&ensp; along that line are calculated to the end point (Niggli-reduced cell,<br />")
+      +std::string("in the POINT case). The graphical output shows those distances for each chosen <br />")
+      +std::string("distance measure (default: NCDist in G<sup>6</sup> and CS6Dist in S<sup>6</sup>).<br />")
+      +std::string("<br />")
+      +std::string("For more details on the Follower method, see Andrews and Bernstein:<br />")
+      +std::string("<a href=https://www.cambridge.org/engage/api-gateway/coe/assets/orp/resource/item/63f418f01d2d184063d630a3/original/the-follower-algorithm-and-a-program-using-it-to-explore-spaces.pdf target=_blank><br />")
+      +std::string("&quot;The Follower algorithm and a program using it to explore spaces&quot;</a><br />")
+      +std::string("<em><u>Output type:</u></em><br />")
+      +std::string("graphical file names and various text<br />")
+      +std::string("<em><u>Graphical output:</u></em>Follow consumes unit cells descriptions.<br />")
+      +std::string("<br />")
+      +std::string("<br />")
+      +std::string("<em><u>Parameters:</u></em><br />")
+      +std::string("NA<br><br />")
+      +std::string("<br><br />")
+      +std::string("<br />")
+      +std::string("<em><u>Control Parameters</u></em><br><br />")
+      +std::string("Control information is NOT case sensitive.<br><br />")
+      +std::string("^<br />")
+      +std::string("<em>FOLLOWERMODE</em> One of:<br />")
+      +std::string("&emsp;POINT (default)<br />")
+      +std::string("&emsp;LINE<br />")
+      +std::string("&emsp;CHORD<br />")
+      +std::string("&emsp;CHORD3<br />")
+      +std::string("&emsp;TRIANGLE<br />")
+      +std::string("<em>PERTURBATIONS:</em> how many graphs of slightly different starting point to produce (default: 0)<br />")
+      +std::string("<em>PERTURBBY:</em> how much to perturb input cells (default: 0.10)<br />")
+      +std::string("<em>GLITCHTHRESHOLD:</em> how large a change in distance between points to consider are problem (default: 4%)<br />")
+      +std::string("<em>NUMFOLLOWERPOINTS:</em> the number of distance points to plot (default: 100)<br />")
+      +std::string("<em>PRINTDISTANCEDATA:</em> whether to send the input points along the S<sup>6</sup> line to output (default: false)<br />")
+      +std::string("<br />")
+      +std::string("Sample control input:<br />")
+      +std::string("&emsp;numFollowerPoints 77<br />")
+      +std::string("&emsp;FollowerMode Line<br />")
+      +std::string("<br />")
+      +std::string("<br /></font>\"")
++std::string(";") << std::endl; 
       std::cout << " } else if (operation==\"CmdDelone\") {" << std::endl;
       std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("\"<font size=-1><strong>Command: compute Selling-reduced primitive cells</strong><br />")
       +std::string("<em><u>Purpose:</u></em> Perform Selling/Delone reduction on input cells<br />")
@@ -1045,9 +1087,9 @@ int main(int argc,
       std::cout << "<a name=\"mark_00\" id=\"mark_00\" />" << std::endl;
       std::cout << "<font face=\"Arial,Helvetica,Times\" size=\"3\">" << std::endl;
       std::cout << "<hr />" << std::endl;
-      std::cout << "<center>" << std::endl;
-      std::cout << "rawprefix: " << "'"+tmp_lrl_web+"/'" << ", htmlprefix: "<< "'"+html_tmp_lrl_web+"/'"<<std::endl;
-      std::cout << "</center>" << std::endl;
+      // std::cout << "<center>" << std::endl;
+      // std::cout << "rawprefix: " << "'"+tmp_lrl_web+"/'" << ", htmlprefix: "<< "'"+html_tmp_lrl_web+"/'"<<std::endl;
+      // std::cout << "</center>" << std::endl;
 
       // Dump form 
      if (LRL_WEB_DEBUG)  dumpList(cgi);
@@ -1827,6 +1869,8 @@ std::string plaintext2html(std::string & dst, std::string src){
       std::string lrl_web_data_cmdtos6l_type;
       std::string lrl_web_data_dirichlet_rawprefix;
       std::string lrl_web_data_dirichlet_htmlprefix;
+      std::string lrl_web_data_follow_rawprefix;
+      std::string lrl_web_data_follow_htmlprefix;
       std::string lrl_web_data_plotc3_rawprefix;
       std::string lrl_web_data_plotc3_htmlprefix;
       std::string lrl_web_data_plotpolar_rawprefix;
@@ -1873,6 +1917,8 @@ std::string plaintext2html(std::string & dst, std::string src){
       lrl_web_data_cmdtos6l_type=std::string("S6L");
       lrl_web_data_dirichlet_rawprefix=tmp_lrl_web+std::string("/");
       lrl_web_data_dirichlet_htmlprefix=html_tmp_lrl_web+std::string("/");
+      lrl_web_data_follow_rawprefix=tmp_lrl_web+std::string("/");
+      lrl_web_data_follow_htmlprefix=html_tmp_lrl_web+std::string("/");
       lrl_web_data_plotc3_rawprefix=tmp_lrl_web+std::string("/");
       lrl_web_data_plotc3_htmlprefix=html_tmp_lrl_web+std::string("/");
       lrl_web_data_plotpolar_rawprefix=tmp_lrl_web+std::string("/");
@@ -1934,6 +1980,13 @@ std::string plaintext2html(std::string & dst, std::string src){
           +std::string(" --rawprefix ")+std::string(lrl_web_data_dirichlet_rawprefix)
           +std::string(" --htmlprefix ")+std::string(lrl_web_data_dirichlet_htmlprefix));
         // std::cout << "<tr><td colspan=\"3\">" << "lrl_web_data_"+twodig_array[numop]+"_dirichlet_prefixes" << (opmod).c_str() <<"</td></tr>" << std::endl;
+      } else if (operation=="Follow") {
+        lrl_web_data_follow_rawprefix = tmp_lrl_web+std::string("/");
+        lrl_web_data_follow_htmlprefix = html_tmp_lrl_web+std::string("/");
+        opmod=(std::string(" --host blondie.arcib.org:8083 ")
+          +std::string(" --rawprefix ")+std::string(lrl_web_data_follow_rawprefix)
+          +std::string(" --htmlprefix ")+std::string(lrl_web_data_follow_htmlprefix));
+        // std::cout << "<tr><td colspan=\"3\">" << "lrl_web_data_"+twodig_array[numop]+"_follow_prefixes" << (opmod).c_str() <<"</td></tr>" << std::endl;
       }
       std::string oppath=std::string(tmp_lrl_web+"/operation_"+twodig_array[numop]);
       if(string_to_file(at.c_str(), oppath.c_str(), (operation+opmod).c_str())) {
@@ -1994,7 +2047,7 @@ std::string plaintext2html(std::string & dst, std::string src){
       std::cout << "  <td align=left>" << std::endl;
       std::cout << "  <div id=\"block_"+twodig_array[numop]+"a\" style="+active+">" << std::endl; 
       std::cout << "  <label for=\"operation_"+twodig_array[numop]+"\">Select an operation:</label><br />" << std::endl;
-      std::cout << "  <select name=\"operation_"+twodig_array[numop]+"\" id=\"operation_"+twodig_array[numop]+"\" size=\"32\" onchange=\"changeoperation(\'"+twodig_array[numop]+"')\">" << std::endl;
+      std::cout << "  <select name=\"operation_"+twodig_array[numop]+"\" id=\"operation_"+twodig_array[numop]+"\" size=\"33\" onchange=\"changeoperation(\'"+twodig_array[numop]+"')\">" << std::endl;
       std::cout << "  <optgroup label=\"Information\">" << std::endl;
       selected=operation.compare("NoOp")==0?"selected ":"";
       std::cout << "  <option "+selected+"value=\"NoOp\"><b>Check Input</b></option>" << std::endl;
@@ -2012,6 +2065,8 @@ std::string plaintext2html(std::string & dst, std::string src){
       std::cout << "  <option "+selected+"value=\"PlotPolar\"><b>PlotPolar</b>:  draw polar plot of listed cells</option>" << std::endl;
       selected=operation.compare("Dirichlet")==0?"selected ":"";
       std::cout << "  <option "+selected+"value=\"Dirichlet\"><b>Dirichlet</b>:  draw Dirichlet cells of listed cells</option>" << std::endl;
+      selected=operation.compare("Follow")==0?"selected ":"";
+      std::cout << "  <option "+selected+"value=\"Follow\"><b>Follow</b>:  draw results of following various small transitions</option>" << std::endl;
       std::cout << "  </optgroup>" << std::endl;
       std::cout << "  <optgroup label=\"Output Only\">"  << std::endl;
       selected=operation.compare("CmdGen")==0?"selected ":"";
