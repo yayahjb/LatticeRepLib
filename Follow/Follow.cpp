@@ -40,7 +40,9 @@ void Follow::run(const std::vector<std::string>& filenames, const std::vector<La
    int vectorsPerTrial = controlVars.getVectorsPerTrial();
    int numTrials = int(inputVectors.size()) / vectorsPerTrial;
 
-   for (int trial = blockstart; trial < numTrials && trial-blockstart < blocksize; ++trial) {
+   int nt = (blockstart/controlVars.perturbations);
+
+   for (int trial = nt; trial < numTrials && trial*controlVars.perturbations < blockstart+blocksize+controlVars.perturbations; ++trial) {
       processTrial(trial);
    }
 }
@@ -63,7 +65,8 @@ void Follow::processTrial(int trialNum) {
       startingPoints.emplace_back(inputVectors[trialNum * vectorsPerTrial + i]);
    }
 
-   for (int perturbation = 0; perturbation < controlVars.perturbations; ++perturbation) {
+   for (int perturbation = 0; perturbation < controlVars.perturbations
+                              && trialNum*controlVars.perturbations+perturbation < controlVars.blockstart+controlVars.blocksize; ++perturbation) {
       std::vector<LatticeCell> perturbedPoints;
       for (const auto& point : startingPoints) {
          perturbedPoints.push_back(perturbVector(point, perturbation));
@@ -92,8 +95,10 @@ bool PathPointIsValid(const S6& p) {
 }
 
 void Follow::processPerturbation(int trialNum, int perturbationNum, const std::vector<LatticeCell>& perturbedPoints) {
+   size_t itemno=trialNum * controlVars.perturbations + perturbationNum;
    std::string curfilename(controlVars.filenames[trialNum * controlVars.perturbations + perturbationNum]);
    const Path path = generatePath(trialNum, perturbationNum, perturbedPoints);
+   if (itemno < controlVars.blockstart || itemno >= controlVars.blockstart+controlVars.blocksize) return;
    controlVars.updatePathStart(perturbedPoints);
    controlVars.updatePath(path);
    if (path.empty()) return;
@@ -131,6 +136,8 @@ void Follow::processPerturbation(int trialNum, int perturbationNum, const std::v
 }
 
 Path Follow::generatePath(const int trialNum, int perturbationNum, const std::vector<LatticeCell>& perturbedPoints) {
+   size_t itemno=trialNum*controlVars.perturbations+perturbationNum;
+   if (itemno < controlVars.blockstart || itemno >= controlVars.blockstart+controlVars.blocksize) return Path();
    switch (controlVars.followerMode) {
    case FollowerMode::POINT:
       return generatePointPath(perturbedPoints[0]);
