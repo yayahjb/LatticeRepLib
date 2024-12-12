@@ -115,7 +115,7 @@ int main(int argc, char* argv[]) {
       {
          RawFileNameList.push_back(webio.m_FileNameList[i]);
          std::cout << "; Follow graphics file(s) " <<
-            i  << "  " << FullfileNameList[i - blockstart] << std::endl;
+            i  << "  " << FullfileNameList[i] << std::endl;
       }
       for (size_t i  = blockstart+blocksize; i < (FullfileNameList.size()); ++i )
       {
