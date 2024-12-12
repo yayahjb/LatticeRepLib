@@ -96,15 +96,13 @@ bool PathPointIsValid(const S6& p) {
 
 void Follow::processPerturbation(int trialNum, int perturbationNum, const std::vector<LatticeCell>& perturbedPoints) {
    size_t itemno=trialNum * controlVars.perturbations + perturbationNum;
-   std::string curfilename(controlVars.filenames[trialNum * controlVars.perturbations + perturbationNum]);
+   if (itemno < controlVars.blockstart || itemno >= controlVars.blockstart+controlVars.blocksize || itemno >= size(controlVars.filenames)) return;
+   std::string curfilename(controlVars.filenames[itemno]);
+   if (curfilename.compare(std::string(""))==0) return;
    const Path path = generatePath(trialNum, perturbationNum, perturbedPoints);
-   if (itemno < controlVars.blockstart || itemno >= controlVars.blockstart+controlVars.blocksize) return;
    controlVars.updatePathStart(perturbedPoints);
    controlVars.updatePath(path);
    if (path.empty()) return;
-
-   if (curfilename.compare(std::string(""))==0) return;
-
 
    if (controlVars.printDistanceData) {
       PrintDistanceData(path);
