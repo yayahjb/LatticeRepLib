@@ -2,6 +2,8 @@
 #include <iostream>
 #include <map>
 
+#include "CmdGenControls.h"
+#include "InputHandler.h"
 #include "G6.h"
 #include "LRL_Cell.h"
 #include "Niggli.h"
@@ -10,7 +12,7 @@
 #include "Polar.h"
 #include "S6BoundaryTransforms.h"
 #include "LRL_StringTools.h"
-/* 
+/*
 ; test commands for CmdGen verification
 cls
 CmdGen 1 1
@@ -73,7 +75,7 @@ For centered types, the output will be the centered, not the
 primitive, cell.
 
 Obviously, these two parameters could be made into input command
-parameters. Values 5 cI would be obvious, but what is 10 15 
+parameters. Values 5 cI would be obvious, but what is 10 15
 supposed to mean?
 */
 
@@ -93,11 +95,11 @@ G6 TryToGetAGoodProjection(const T& pt,
    return probe;
 }
 
-G6 TryToGetAGoodProjection( const MatS6& projector, const int trials = 500) {
+G6 TryToGetAGoodProjection(const MatS6& projector, const int trials = 500) {
    S6 probe;
    probe.SetValid(false);
    int count = 0;
-   while ((!LRL_Cell(probe).IsValid()) || (count > trials) ) {
+   while ((!LRL_Cell(probe).IsValid()) || (count > trials)) {
       const S6 start = S6::rand();
       Selling::Reduce(start, probe);
       probe = projector * probe;
@@ -129,7 +131,7 @@ G6 Generate(const T& pt) {
    return probe;;
 }
 
-std::string TranslateDeloneToIT(const std::string& s) {
+static std::string TranslateDeloneToIT(const std::string& s) {
 
    std::map<std::string, std::string> m;
    m.insert(std::make_pair("C1", "cI"));
@@ -158,12 +160,12 @@ std::string TranslateDeloneToIT(const std::string& s) {
    return out;
 }
 
-void ForNiggliInput(
+void ForNiggliInput( const int count,
    const std::vector<std::shared_ptr<GenerateNiggliBase> >& vglb) {
    for (size_t lat = 0; lat < vglb.size(); ++lat) {
       const std::shared_ptr<GenerateNiggliBase> pt = vglb[lat];
       //std::cout << "; lattice type = " << pt->GetITNumber() << std::endl;
-      for (size_t i = 0; i < ngen; ++i) {
+      for (size_t i = 0; i < count; ++i) {
          const G6 g = Generate(vglb[lat]);
          std::cout << "G6 "
             << g << " "
@@ -176,12 +178,12 @@ void ForNiggliInput(
 
 }
 
-void ForDeloneInput(
+void ForDeloneInput( const int count,
    const std::vector<std::shared_ptr<GenerateDeloneBase> >& ptrDeloneBase) {
    for (size_t lat = 0; lat < ptrDeloneBase.size(); ++lat) {
       const std::shared_ptr<GenerateDeloneBase> pt = ptrDeloneBase[lat];
       //std::cout << "; lattice type = " << pt->GetName() << std::endl;
-      for (size_t i = 0; i < ngen; ++i) {
+      for (size_t i = 0; i < count; ++i) {
          const G6 g = Generate(MatS6((*(ptrDeloneBase[lat])).GetPrj()));
          std::cout << "G6 "
             << g << " "
@@ -194,7 +196,7 @@ void ForDeloneInput(
 
 }
 
-void CreateCells(const int argc, const std::string& namen) {
+void CreateCells(const int count, const std::string& namen) {
    std::string name(namen);
    const int number = getNumber<int>(name);
    const bool isNumIn_1_44 = isNumber<int>(name) && number >= 1 && number <= 44;
@@ -213,10 +215,9 @@ void CreateCells(const int argc, const std::string& namen) {
    }
 
 
-   if (argc == 1) doNiggli = doDelone = true;
-   else if (argc > 1 && LRL_StringTools::strToupper(name) == "GRUBER") doGruber = true;
+   if (LRL_StringTools::strToupper(name) == "GRUBER") doGruber = true;
+   else if (count == 1) doNiggli = doDelone = true;
    //else if (argc > 2 && LRL_StringTools::strToupper(argv[2]) == "GRUBER") doGruber = true;
-   else if (argc <= 2) doNiggli = doDelone = true;
    else if (isNumIn_1_44) doNiggli = true;
    else if (LRL_StringTools::strToupper(name).find("NIGGLI") != std::string::npos) {
       doNiggli = true;
@@ -251,14 +252,14 @@ void CreateCells(const int argc, const std::string& namen) {
       const std::vector<std::shared_ptr<GenerateNiggliBase> > NiggiTypes =
          GenerateNiggliBase().Select(name);
       std::cout << "; Niggli lattice types requested " << std::endl;
-      ForNiggliInput(NiggiTypes);
+      ForNiggliInput(count, NiggiTypes);
    }
 
    if (doDelone) {
       std::vector<std::shared_ptr<GenerateDeloneBase> > DeloneTypes =
          GenerateDeloneBase().Select(name);
       std::cout << "; Delone lattice type requested " << std::endl;
-      ForDeloneInput(DeloneTypes);
+      ForDeloneInput(count, DeloneTypes);
    }
 
    if (doGruber) {
@@ -285,17 +286,39 @@ int main(int argc, char* argv[])
 {
    static std::string name = ""; // blank or unrecognized gives all types
 
-   int test = 0;
-   if (argc > 1) {
-      test = atoi(argv[1]);
-      if (test != 0) ngen = test;
-      if (argc > 2) {
-         const std::string strtest = argv[2];
-         name = strtest;
-      }
+
+   std::string input = R"(
+count 3
+type 33 A1 C1 C5 O3
+; this is a comment
+P 10 10 10 90 90 90
+F 12 12 12 90 90 90
+END
+)";
+   std::istringstream inputStream(input);
+
+   CmdGenControls controls;
+   std::vector<LatticeCell> vectors;
+
+   //InputHandler::readMixedInput(controls, vectors, inputStream);
+   InputHandler::readMixedInput(controls, vectors, std::cin);
+
+   //std::cout << "Control settings:\n" << controls;
+   // ------------ treat input number to generate ----------------
+   // Get the generation count from controls
+   int numToGenerate = 1;  // default
+
+   if (controls.getCount() > 0)
+   {
+      numToGenerate = int(controls.getCount());
+   }
+   else if (argc > 1 && std::stoul(argv[1]) > 0) {
+      numToGenerate = std::stoi(argv[1]);
    }
 
-   std::cout << "; Generate cells, ngen= " << ngen << std::endl;
+   numToGenerate = std::max(numToGenerate, 1);
+
+   // ------------ treat input type names  ----------------
 
    std::vector<std::string> names;
    if (argc > 2) {
@@ -304,13 +327,25 @@ int main(int argc, char* argv[])
       }
    }
 
+   // Get the type list
+   std::vector<std::string> typeList = controls.getTypesAsVector();
+   std::cout << "; Generate cells, ngen= " << numToGenerate << std::endl;
+
+   if (!typeList.empty()) {
+      names = typeList;
+   }
+
    if (names.empty()) {
       names.emplace_back("ALL");
    }
 
-   for ( const std::string& namen: names)
-   {
-      CreateCells(argc, namen);
+   // echo any incoming vectors
+   for (const auto& v : vectors) {
+      std::cout << v.GetInput() << std::endl;
    }
 
+   for (const std::string& namen : names)
+   {
+      CreateCells(numToGenerate, namen);
+   }
 }

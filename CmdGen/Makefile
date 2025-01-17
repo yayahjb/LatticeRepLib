@@ -4,6 +4,20 @@ COMMAND = CmdGen
 all:	$(COMMAND)
 
 $(COMMAND):	$(COMMAND).cpp \
+	CmdGenControls.h  CmdGenTypes.h  CmdGenUtils.h \
+	../InputHandler/BaseControlVariables.h ../InputHandler/BaseControlVariables.cpp ../InputHandler/BlockLimits.h \
+	../InputHandler/BlockProcessingUtils.h \
+	../InputHandler/CmdSellaFeatures.h ../InputHandler/CmdSellaFeatures.cpp \
+	../InputHandler/CmdToS6LFeatures.h ../InputHandler/CmdToS6LFeatures.cpp \
+	../InputHandler/ControlFeature.h ../InputHandler/ControlFeatures.h ../InputHandler/ControlFeatures.cpp \
+	../InputHandler/DirichletFeatures.h ../InputHandler/DirichletFeatures.cpp \
+	../InputHandler/DistanceTypes.h ../InputHandler/DistanceTypes.cpp ../InputHandler/DistanceTypesUtils.h \
+        ../InputHandler/FilePrefix.h ../InputHandler/FilePrefixFeatures.h ../InputHandler/framework.h \
+	../InputHandler/InputHandler.h ../InputHandler/InputHandler.cpp \
+	../InputHandler/LatticeCell.h ../InputHandler/PathControlFeatures.h ../InputHandler/PathControlFeatures.cpp \
+	../InputHandler/pch.h ../InputHandler/pch.cpp ../InputHandler/PerturbCountControl.h \
+	../InputHandler/ProgramControls.h ../InputHandler/ProgramControls.cpp \
+	../InputHandler/ScaleFeatures.h ../InputHandler/ScaleFeatures.cpp \
 	../LatticeRepresentationLib/B4.cpp ../LatticeRepresentationLib/C3.cpp \
 	../LatticeRepresentationLib/C3Plot.cpp ../LatticeRepresentationLib/CellInputData.cpp \
 	../LatticeRepresentationLib/ColorTables.h ../LatticeRepresentationLib/ColorTables.cpp \
@@ -32,7 +46,15 @@ $(COMMAND):	$(COMMAND).cpp \
 	../LatticeRepresentationLib/Sella.cpp \
 	../LatticeRepresentationLib/VecN.cpp  ../LatticeRepresentationLib/V7.cpp ../LRL_Tools/LRL_Vector3.cpp \
 	../LatticeRepresentationLib/Vector_2.h ../LatticeRepresentationLib/Vector_2.cpp
-	$(CXX) -I ../LatticeRepresentationLib -I ../LRL_Tools -o $(COMMAND) $(COMMAND).cpp \
+	$(CXX) -I . -I ../LatticeRepresentationLib -I ../LRL_Tools -I ../InputHandler -o $(COMMAND) $(COMMAND).cpp \
+	../InputHandler/BaseControlVariables.cpp  \
+	../InputHandler/CmdSellaFeatures.cpp \
+        ../InputHandler/CmdToS6LFeatures.cpp ../InputHandler/ControlFeatures.cpp \
+	../InputHandler/DirichletFeatures.cpp ../InputHandler/DistanceTypes.cpp \
+        ../InputHandler/FilePrefixFeatures.cpp \
+        ../InputHandler/InputHandler.cpp \
+	../InputHandler/PathControlFeatures.cpp ../InputHandler/pch.cpp \
+	../InputHandler/ProgramControls.cpp ../InputHandler/ScaleFeatures.cpp \
 	../LatticeRepresentationLib/B4.cpp ../LatticeRepresentationLib/C3.cpp \
 	../LatticeRepresentationLib/C3Plot.cpp ../LatticeRepresentationLib/CellInputData.cpp \
 	../LatticeRepresentationLib/ColorTables.cpp \

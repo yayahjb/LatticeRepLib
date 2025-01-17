@@ -7,6 +7,7 @@ $(COMMAND):	Dirichlet_Main.cpp \
 	DirichletCellFaces.cpp  DirichletConstants.h ReadDirichletGlobalData.h \
 	DirichletCellFaces.h    Dirichlet.cpp DirichletConstants.cpp  Dirichlet.h \
 	ReadDirichletGlobalData.cpp \
+	../InputHandler/LatticeCell.h \
 	../LRL_Tools/SVG_Tools.h ../LRL_Tools/SVG_Tools.cpp \
 	../LatticeRepresentationLib/B4.cpp \
 	../LatticeRepresentationLib/BravaisHeirarchy.cpp ../LatticeRepresentationLib/C3.cpp \
@@ -36,7 +37,7 @@ $(COMMAND):	Dirichlet_Main.cpp \
 	../LatticeRepresentationLib/Sella.cpp \
 	../LatticeRepresentationLib/VecN.cpp  ../LatticeRepresentationLib/V7.cpp ../LRL_Tools/LRL_Vector3.cpp \
 	../LatticeRepresentationLib/WebIO.h ../LatticeRepresentationLib/WebIO.cpp
-	$(CXX) -I ../LatticeRepresentationLib -I ../LRL_Tools -o $(COMMAND) Dirichlet_Main.cpp \
+	$(CXX) -I ../LatticeRepresentationLib -I ../LRL_Tools -I ../InputHandler -o $(COMMAND) Dirichlet_Main.cpp \
 	DirichletCellFaces.cpp  Dirichlet.cpp DirichletConstants.cpp \
 	ReadDirichletGlobalData.cpp \
 	../LRL_Tools/SVG_Tools.cpp \

@@ -68,7 +68,7 @@ SOURCES  =  \
 
 BINS  =  \
 	CheckInput/CheckInput \
-	CmdCmplx/CmdCmplx.cpp \
+	CmdCmplx/CmdCmplx \
 	CmdDelone/CmdDelone \
 	CmdDists/CmdDists \
 	CmdGen/CmdGen \
