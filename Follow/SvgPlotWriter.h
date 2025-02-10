@@ -8,7 +8,6 @@
 #include "Distance.h"
 #include "FollowControls.h"
 #include "GlitchTypes.h"  
-#include "GlitchDetector.h"
 
 class ColorTables {
 public:
@@ -31,7 +30,9 @@ struct DataPoint {
 
 class SvgPlotWriter {
 public:
-   SvgPlotWriter(std::ofstream& svgfile, const FollowControls& controls, GlitchDetector& detector);
+   SvgPlotWriter(std::ofstream& svgfile, const FollowControls& controls);
+
+   void setGlitches(const std::vector<Glitch>& glitches) { this->glitches = glitches; }
 
    void writePlot(const std::vector<std::vector<double>>& allDistances,
       const std::vector<std::unique_ptr<Distance>>& distfuncs,
@@ -48,16 +49,44 @@ private:
       double yMin, double yMax, double yStepSize,
       double xScale, double yScale, bool useScientific);
    void writePlotData(int width, int height, int margin, double maxDist,
-      const std::vector<std::vector<double>>& allDistances);
-   void writeLegend(int width, int margin,
+      const std::vector<std::vector<double>>& allDistances,
+      const std::vector<std::unique_ptr<Distance>>& distfuncs);
+
+      void writeLegend(int width, int margin,
       const std::vector<std::vector<double>>& allDistances,
       const std::vector<std::unique_ptr<Distance>>& distfuncs);
    void writeMetadata(int trial, int perturbation, const std::string& datetime);
    std::string reportGlitches(const int n = 2);
    std::string WriteDistanceSummary(const std::vector<std::vector<double>>& alldistances) const;
 
+
+private:
+   struct PlotDimensions {
+      double xMin, yMin;
+      double xScale, yScale;
+      int leftMargin, height, margin;
+      double plotWidth, plotHeight;
+   };
+   PlotDimensions calculatePlotDimensions(int width, int height, int margin,
+      const std::vector<std::vector<double>>& allDistances) const;
+
+   void drawPlotLine(const std::vector<double>& values, const PlotDimensions& dims,
+      const std::string& color, size_t pathIndex);
+
+   void drawMarkers(const std::vector<double>& values, const PlotDimensions& dims,
+      const std::string& color);
+
+   void drawGlitches(const PlotDimensions& dims, const std::string& distanceType);
+
+   void drawGlitchLine(double x, int height, int margin);
+
+   void drawGlitchMarker(double x, double y);
+
+   void drawGlitchIndex(double x, double y, int margin, size_t index);
+
+   void writeGlitchComments(const std::vector<std::unique_ptr<Distance>>& distfuncs);
+
    std::ofstream& svg;
-   GlitchDetector& glitchDetector;
    const FollowControls& controls;
    std::vector<Glitch> glitches;
 };

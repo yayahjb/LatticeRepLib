@@ -4,27 +4,11 @@ COMMAND = CmdSella
 all:	$(COMMAND)
 
 $(COMMAND):	$(COMMAND).cpp \
-	../InputHandler/BaseControlVariables.h ../InputHandler/BaseControlVariables.cpp \
-	../InputHandler/BlockLimits.h \
-	../InputHandler/BlockProcessing.h \
-	../InputHandler/BlockProcessingUtils.h \
-	../InputHandler/CmdSellaFeatures.h ../InputHandler/CmdSellaFeatures.cpp \
-	../InputHandler/CmdToS6LFeatures.h ../InputHandler/CmdToS6LFeatures.cpp \
-	../InputHandler/ControlFeature.h ../InputHandler/ControlFeature.cpp \
-	../InputHandler/ControlFeatures.h ../InputHandler/ControlFeatures.cpp \
-	../InputHandler/DirichletFeatures.h ../InputHandler/DirichletFeatures.cpp \
-	../InputHandler/DistanceTypes.h ../InputHandler/DistanceTypes.cpp \
-	../InputHandler/DistanceTypesUtils.h ../InputHandler/DistanceTypesUtils.cpp \
-	../InputHandler/FilePrefixFeatures.h ../InputHandler/FilePrefixFeatures.cpp \
-	../InputHandler/FilePrefix.h \
-	../InputHandler/framework.h \
-	../InputHandler/InputHandler.h ../InputHandler/InputHandler.cpp \
-	../InputHandler/LatticeCell.h \
-	../InputHandler/PathControlFeatures.h ../InputHandler/PathControlFeatures.cpp \
-	../InputHandler/pch.h ../InputHandler/pch.cpp \
-	../InputHandler/PerturbCountControl.h \
-	../InputHandler/ProgramControls.h ../InputHandler/ProgramControls.cpp \
-	../InputHandler/ScaleFeatures.h ../InputHandler/ScaleFeatures.cpp \
+	../InputHandler/BaseControlVariables.h ../InputHandler/BaseControlVariables.cpp ../InputHandler/BlockLimits.h \
+	../InputHandler/ControlFeature.h ../InputHandler/ControlFeatures.h ../InputHandler/ControlFeatures.cpp \
+	../InputHandler/DistanceTypes.h ../InputHandler/DistanceTypes.cpp ../InputHandler/DistanceTypesUtils.h \
+ 	../InputHandler/InputHandler.h ../InputHandler/InputHandler.cpp \
+ 	../InputHandler/LatticeCell.h \
 	../LatticeRepresentationLib/B4.cpp \
 	../LatticeRepresentationLib/BravaisHeirarchy.cpp ../LatticeRepresentationLib/C3.cpp \
 	../LatticeRepresentationLib/C3Plot.cpp ../LatticeRepresentationLib/CellInputData.cpp \
@@ -58,17 +42,9 @@ $(COMMAND):	$(COMMAND).cpp \
 	../LatticeRepresentationLib/WebIO.h ../LatticeRepresentationLib/WebIO.cpp
 	$(CXX) -I ../LatticeRepresentationLib -I ../LRL_Tools -I ../InputHandler -o $(COMMAND) $(COMMAND).cpp \
 	../InputHandler/BaseControlVariables.cpp \
-	../InputHandler/CmdSellaFeatures.cpp \
-	../InputHandler/CmdToS6LFeatures.cpp \
 	../InputHandler/ControlFeatures.cpp \
-	../InputHandler/DirichletFeatures.cpp \
 	../InputHandler/DistanceTypes.cpp \
-	../InputHandler/FilePrefixFeatures.cpp \
 	../InputHandler/InputHandler.cpp \
-	../InputHandler/PathControlFeatures.cpp \
-	../InputHandler/pch.cpp \
-	../InputHandler/ProgramControls.cpp \
-	../InputHandler/ScaleFeatures.cpp \
 	../LatticeRepresentationLib/B4.cpp \
 	../LatticeRepresentationLib/BravaisHeirarchy.cpp ../LatticeRepresentationLib/C3.cpp \
 	../LatticeRepresentationLib/C3Plot.cpp ../LatticeRepresentationLib/CellInputData.cpp \

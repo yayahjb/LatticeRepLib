@@ -42,27 +42,27 @@ public:
 
       InputHandler::registerHandler("FILEPREFIX", 0.35,
          [this](BaseControlVariables&, const std::string& value) {
-            setPrefix(value);
+            setPrefix(LRL_StringTools::strToupper(value));
          });
 
       InputHandler::registerHandler("PREFIX", 0.35,
          [this](BaseControlVariables&, const std::string& value) {
-            setPrefix(value);
+            setPrefix(LRL_StringTools::strToupper(value));
          });
 
       InputHandler::registerHandler("TYPE", 0.35,
          [this](BaseControlVariables&, const std::string& value) {
-            handleDistanceType(value);
+            handleDistanceType(LRL_StringTools::strToupper(value));
          });
 
       InputHandler::registerHandler("ENABLE", 0.35,
          [this](BaseControlVariables&, const std::string& value) {
-            handleEnableDistance(value);
+            handleEnableDistance(LRL_StringTools::strToupper(value));
          });
 
       InputHandler::registerHandler("DISABLE", 0.35,
          [this](BaseControlVariables&, const std::string& value) {
-            handleDisableDistance(value);
+            handleDisableDistance(LRL_StringTools::strToupper(value));
          });
 
       InputHandler::registerHandler("MODE", 0.35,
@@ -118,12 +118,6 @@ public:
       InputHandler::registerHandler("DETECTGLITCHES", .2,
          [this](BaseControlVariables&, const std::string& value) {
             shouldDetectGlitches = (value == "1" || LRL_StringTools::strToupper(value) == "TRUE" || value.empty());
-         }
-      );
-
-      InputHandler::registerHandler("SHOW", .5,
-         [this](BaseControlVariables&, const std::string& value) {
-            showControls = (value == "1" || LRL_StringTools::strToupper(value) == "TRUE" || value.empty());
          }
       );
 
@@ -235,7 +229,6 @@ public:
 
    size_t getBlockStart() const { return blockstart; }
    size_t getBlockSize() const { return blocksize; }
-   void setWebRun(bool web) { webRun = web; }
    std::string getPrefix() const { return prefix; }
    const std::set<std::string>& getEnabledTypes() const { return enabledTypes; }
 
@@ -259,6 +252,7 @@ public:
          << ";Glitch Threshold Percent: " << glitchThresholdPercent << "\n"
          << ";Show Data Markers: " << (showDataMarkers ? "Yes" : "No") << "\n"
          << ";File Prefix: " << prefix << "\n\n"
+         << ";Web run: " << ((this->getHasWebInput()) ? "true" : "false") << "\n"
          << ";Blockstart: " << blockstart << "\n"
          << ";Blocksize: " << blocksize << "\n\n"
          << ";Enabled Distances: ";
@@ -276,7 +270,6 @@ private:
    static constexpr size_t DEFAULT_BLOCKSIZE = BlockUtils::MAX_BLOCKSIZE;
    size_t blockstart = 0;
    size_t blocksize = DEFAULT_BLOCKSIZE;
-   bool webRun = false;
 
    // File prefix member
    std::string prefix = "FOL";
@@ -290,7 +283,6 @@ private:
    double perturbBy = 0.1;
    int numFollowerPoints = 100;
    bool printDistanceData = false;
-   bool showControls = false;
    bool glitchesOnly = false;
    bool shouldDetectGlitches = true;
    double glitchThresholdPercent = 4.0;

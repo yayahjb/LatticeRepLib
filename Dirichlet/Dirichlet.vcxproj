@@ -90,7 +90,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions); _CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\LRL_Tools;..\LatticeRepresentationLib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\InputHandler;..\LRL_Tools;..\LatticeRepresentationLib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -140,7 +140,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions); _CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\LRL_Tools;..\LatticeRepresentationLib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\InputHandler;..\LRL_Tools;..\LatticeRepresentationLib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -154,11 +154,13 @@
     <ClCompile Include="..\LRL_Tools\FileOperations.cpp" />
     <ClCompile Include="Dirichlet.cpp" />
     <ClCompile Include="DirichletCellFaces.cpp" />
-    <ClCompile Include="DirichletConstants.cpp" />
+    <ClCompile Include="DirichletProgramConstants.cpp" />
     <ClCompile Include="Dirichlet_Main.cpp" />
-    <ClCompile Include="ReadDirichletGlobalData.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\InputHandler\InputHandler.vcxproj">
+      <Project>{7094f80c-8aae-475a-a2e3-0df75c29bf16}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\LatticeRepresentationLib\LatticeRepresentationLib.vcxproj">
       <Project>{bf25d7aa-648c-48d2-b857-d383faf1e215}</Project>
     </ProjectReference>
@@ -173,9 +175,8 @@
     <ClInclude Include="..\LRL_Tools\FileOperations.h" />
     <ClInclude Include="Dirichlet.h" />
     <ClInclude Include="DirichletCellFaces.h" />
-    <ClInclude Include="DirichletConstants.h" />
-    <ClInclude Include="ParseData.h" />
-    <ClInclude Include="ReadDirichletGlobalData.h" />
+    <ClInclude Include="DirichletControls.h" />
+    <ClInclude Include="DirichletProgramConstants.h" />
     <ClInclude Include="SVG_Tools.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

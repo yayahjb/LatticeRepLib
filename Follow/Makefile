@@ -9,28 +9,16 @@ $(COMMAND): MAIN_Follow.cpp \
 	FollowInstance.h GlitchDetector.h GlitchTypes.h GlitchUtils.h \
 	OutlierFinder.h Path.h PathPoint.h PerturbationUtils.h SvgPlotWriter.h \
 	DistanceFactory.cpp Follow.cpp FollowControls.cpp FollowerMode.cpp FollowUtils.h.cpp \
-	Path.cpp SvgPlotWriter.cpp \
+	GlitchTypes.cpp Path.cpp SvgPlotWriter.cpp \
 	../InputHandler/BaseControlVariables.h \
 	../InputHandler/BlockLimits.h \
-	../InputHandler/BlockProcessing.h \
-	../InputHandler/BlockProcessingUtils.h \
-	../InputHandler/CmdSellaFeatures.h ../InputHandler/CmdSellaFeatures.cpp \
-	../InputHandler/CmdToS6LFeatures.h ../InputHandler/CmdToS6LFeatures.cpp \
 	../InputHandler/ControlFeature.h ../InputHandler/ControlFeature.cpp \
 	../InputHandler/ControlFeatures.h ../InputHandler/ControlFeatures.cpp \
-	../InputHandler/DirichletFeatures.h ../InputHandler/DirichletFeatures.cpp \
 	../InputHandler/DistanceTypes.h ../InputHandler/DistanceTypes.cpp \
 	../InputHandler/DistanceTypesUtils.h \
-	../InputHandler/FilePrefix.h \
-	../InputHandler/FilePrefixFeatures.h ../InputHandler/FilePrefixFeatures.cpp \
 	../InputHandler/framework.h \
 	../InputHandler/InputHandler.h ../InputHandler/InputHandler.cpp \
 	../InputHandler/LatticeCell.h \
-	../InputHandler/PathControlFeatures.h ../InputHandler/PathControlFeatures.cpp \
-	../InputHandler/pch.h ../InputHandler/pch.cpp \
-	../InputHandler/PerturbCountControl.h \
-	../InputHandler/ProgramControls.h ../InputHandler/ProgramControls.cpp \
-	../InputHandler/ScaleFeatures.h ../InputHandler/ScaleFeatures.cpp \
 	DistanceFactory.cpp DistanceFactory.h \
 	FollowUtils.h.cpp \
 	SvgPlotWriter.cpp SvgPlotWriter.h \
@@ -62,6 +50,8 @@ $(COMMAND): MAIN_Follow.cpp \
 	../LatticeRepresentationLib/MatD13.cpp \
 	../LatticeRepresentationLib/MatD7.cpp ../LatticeRepresentationLib/MatG6.cpp ../LatticeRepresentationLib/MatMN.cpp \
 	../LatticeRepresentationLib/MatN.cpp ../LatticeRepresentationLib/MatS6.cpp ../LatticeRepresentationLib/Niggli.cpp \
+	../LatticeRepresentationLib/Polar.h ../LatticeRepresentationLib/Polar.cpp \
+	../LatticeRepresentationLib/RI.h ../LatticeRepresentationLib/RI.cpp \
 	../LatticeRepresentationLib/S6.cpp ../LatticeRepresentationLib/S6Dist.cpp \
 	../LatticeRepresentationLib/S6_Matrices.cpp ../LatticeRepresentationLib/Selling.cpp \
 	../LatticeRepresentationLib/S6BoundaryTransforms.h ../LatticeRepresentationLib/S6BoundaryTransforms.cpp \
@@ -71,21 +61,13 @@ $(COMMAND): MAIN_Follow.cpp \
 	../LatticeRepresentationLib/WebIO.h ../LatticeRepresentationLib/WebIO.cpp
 	$(CXX) $(DEBUGFLAG) -I ../LatticeRepresentationLib -I ../LRL_Tools -I ../InputHandler -o $(COMMAND) MAIN_Follow.cpp \
 	DistanceFactory.cpp Follow.cpp FollowControls.cpp FollowerMode.cpp FollowUtils.h.cpp \
-	Path.cpp SvgPlotWriter.cpp \
+	GlitchTypes.cpp Path.cpp SvgPlotWriter.cpp \
 	../InputHandler/BaseControlVariables.cpp \
-	../InputHandler/CmdSellaFeatures.cpp \
-	../InputHandler/CmdToS6LFeatures.cpp \
 	../InputHandler/ControlFeatures.cpp \
-	../InputHandler/DirichletFeatures.cpp \
 	../InputHandler/DistanceTypes.cpp \
-	../InputHandler/FilePrefixFeatures.cpp \
 	../InputHandler/InputHandler.cpp \
-	../InputHandler/PathControlFeatures.cpp \
-	../InputHandler/pch.cpp \
-	../InputHandler/ProgramControls.cpp \
-	../InputHandler/ScaleFeatures.cpp \
-	../LatticeRepresentationLib/B4.cpp \
-	../LatticeRepresentationLib/BravaisHeirarchy.cpp ../LatticeRepresentationLib/C3.cpp \
+	../LatticeRepresentationLib/B4.cpp ../LatticeRepresentationLib/C3.cpp \
+	../LatticeRepresentationLib/BravaisHeirarchy.cpp \
 	../LatticeRepresentationLib/C3Plot.cpp ../LatticeRepresentationLib/CellInputData.cpp \
 	../LatticeRepresentationLib/ColorTables.cpp \
 	../LatticeRepresentationLib/DC7u.cpp \
@@ -95,10 +77,11 @@ $(COMMAND): MAIN_Follow.cpp \
 	../LatticeRepresentationLib/D7_Subboundary.cpp ../LatticeRepresentationLib/Delone.cpp \
 	../LatticeRepresentationLib/DeloneFitResults.cpp \
 	../LatticeRepresentationLib/EnhancedS6.cpp \
-	../LRL_Tools/FileOperations.cpp ../LRL_Tools/LRL_CreateFileName.cpp ../LatticeRepresentationLib/G6.cpp \
-	../LRL_Tools/HSV.cpp ../LRL_Tools/HSV.h ../LRL_Tools/RGB.cpp ../LRL_Tools/RGB.h \
 	../LRL_Tools/LinearAxis.cpp \
 	../LRL_Tools/spline_under_tension.cpp \
+	../LRL_Tools/LRL_CreateFileName.cpp \
+	../LRL_Tools/FileOperations.cpp ../LatticeRepresentationLib/G6.cpp \
+	../LRL_Tools/HSV.cpp ../LRL_Tools/RGB.cpp \
 	../LatticeRepresentationLib/GenerateLatticeTypeExamples.cpp \
 	../LatticeRepresentationLib/GrimmerTree.cpp \
 	../LatticeRepresentationLib/LabeledSellaMatrices.cpp \
@@ -110,6 +93,7 @@ $(COMMAND): MAIN_Follow.cpp \
 	../LatticeRepresentationLib/MatD7.cpp ../LatticeRepresentationLib/MatG6.cpp ../LatticeRepresentationLib/MatMN.cpp \
 	../LatticeRepresentationLib/MatN.cpp ../LatticeRepresentationLib/MatS6.cpp ../LatticeRepresentationLib/Niggli.cpp \
 	../LatticeRepresentationLib/Polar.cpp \
+	../LatticeRepresentationLib/RI.cpp \
 	../LatticeRepresentationLib/S6.cpp ../LatticeRepresentationLib/S6Dist.cpp \
 	../LatticeRepresentationLib/S6_Matrices.cpp ../LatticeRepresentationLib/Selling.cpp \
 	../LatticeRepresentationLib/S6BoundaryTransforms.cpp \

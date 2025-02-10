@@ -33,16 +33,20 @@ public:
          setBlockStart(std::stoul(value));
       });
 
-
    InputHandler::registerHandler("PREFIX", 0.35,
       [this](const BaseControlVariables&, const std::string& value) {
          setPrefix(value);
       });
 
+   InputHandler::registerHandler("FILEPREFIX", 0.35,
+      [this](const BaseControlVariables&, const std::string& value) {
+         setPrefix(value);
+      });
 
-   InputHandler::registerHandler("SHOW", .5,
+
+   InputHandler::registerHandler("DOGRAPHICS", .5,
       [this](BaseControlVariables&, const std::string& value) {
-         showControls = (value == "1" || LRL_StringTools::strToupper(value) == "TRUE" || value.empty());
+         doGraphics = (value == "1" || LRL_StringTools::strToupper(value) == "TRUE" || value.empty());
       }
    );
 
@@ -51,10 +55,7 @@ public:
    int getBlockSize() const { return  static_cast<int>(blocksize); }
    int getBlockStart() const { return static_cast<int>(blockstart); }
    std::string getPrefix() const { return prefix; }
-   bool getWebRun() const { return webRun; }
-   void setWebRun(const bool webrun) { webRun = webrun; }
-   bool getShowControls() const { return showControls; }
-
+   bool DoGraphics() const { return doGraphics; }
 private:
 
    // File prefix methods
@@ -96,11 +97,10 @@ private:
 
    size_t blockstart = BlockUtils::MIN_BLOCKSTART;
    size_t blocksize = BlockUtils::DEFAULT_BLOCKSIZE;
-   bool webRun = false;
-   bool showControls = false;
 
    // File prefix member
    std::string prefix = "SEL";
+   bool doGraphics = true;
 
 
 };

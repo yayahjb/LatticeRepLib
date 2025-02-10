@@ -1,7 +1,7 @@
 #ifndef RI_H
 #define RI_H
 
-
+#include "LatticeCell.h"
 #ifdef _MSC_VER
 
 #define USE_LOCAL_HEADERS
@@ -51,12 +51,15 @@ public:
    RI(const D13& d13);
    RI(const LRL_Cell& c);
    RI(const VecN& v);
-   RI(const S6& ds);
-   RI(const G6& ds);
-   RI(const C3& c3);
-   RI(const B4& dt);
    RI(const std::string& s);
    RI(const std::vector<double>& v);
+
+   template<typename T>
+   RI(const T& ds)
+   {
+      const S6 pss = MakeRI("P", S6(ds));
+      m_vec = pss.GetVector();
+   }
 
    RI& operator= (const RI& v);
    RI& operator= (const std::string& s);
@@ -71,10 +74,16 @@ public:
    RI& operator+= (const RI& v);
    RI& operator-= (const RI& v);
    RI operator+ (const RI& v) const;
-   RI operator- (const RI& v) const;
+   RI operator- (const RI& v) const {
+      const RI u(*this);
+      return { u[0] - v[0], u[1] - v[1], u[2] - v[2], u[3] - v[3], u[4] - v[4], u[5] - v[5] };
+   }
    RI operator* (const double d) const;
    RI operator/ (const double d) const;
-   RI operator- (void) const; // unary
+   RI operator- (void) const {
+      const RI& s(*this);
+      return { -s[0],-s[1],-s[2],-s[3],-s[4],-s[5] };
+   } // unary
    bool operator== (const RI& ri) const;
    bool operator!= (const RI& ri) const;
 
@@ -104,9 +113,10 @@ public:
    static RI rand();
    static std::vector<S6> ResetZeros(const std::vector<S6>& vs);
    static S6 ResetZeros(const S6& vs);
-   static S6 AllPositive(const S6& s);
+   static S6 MakeAllPositive(const S6& s);
    static int CountZeros(const S6& s6);
-   static std::pair<S6, std::string>   MakeRI(const LRL_ReadLatticeData& input, const S6& positiveRed);
+   static std::pair<S6, std::string> MakeRI(const LatticeCell& input, const S6& positiveRed);
+   static S6 MakeRI(const std::string& lattice, const S6& positiveRed);
 
 
 protected:

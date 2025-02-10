@@ -24,9 +24,6 @@
     <ClCompile Include="MAIN_Follow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="FollowUtils.h.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="SvgPlotWriter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -37,6 +34,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="FollowerMode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GlitchTypes.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -54,9 +54,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="OutlierFinder.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="FollowUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SvgPlotWriter.h">
@@ -87,9 +84,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GlitchUtils.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="FollowerPointUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

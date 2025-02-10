@@ -102,42 +102,50 @@ G6 InputHandler::parseLattice(const std::vector<std::string>& tokens) {
    return cell;
 }
 
+static bool isLattice(const std::string& s) {
+   const std::string upperKey = LRL_StringTools::strToupper(s);
+   return (upperKey == "RANDOM" || upperKey == "R" ||  // Add "R"
+      upperKey == "G6" || upperKey == "G" || upperKey == "S6" || upperKey == "S" ||
+      upperKey == "P" || upperKey == "A" || upperKey == "B" || upperKey == "C" ||
+      upperKey == "F" || upperKey == "I" || upperKey == "H");
+}
+
 void InputHandler::readMixedInput(BaseControlVariables& controls,
    std::vector<LatticeCell>& cells,
    std::istream& input) {
    std::string line;
    while (std::getline(input, line)) {
       if (line.empty() || line[0] == ';') continue;
-      std::transform(line.begin(), line.end(), line.begin(), ::toupper);
-      const bool isEnd = (line.find("END") != std::string::npos);
-      if (isEnd) break;
+      std::string rawline(line);
+      // Parse line into tokens
+      const std::vector<std::string> tokens = parseInputLine(line);
+      if (tokens.empty()) continue;
+
+      if (controls.getEcho() || LRL_StringTools::strToupper(tokens[0]) == "ECHO") {
+         std::cout << line << std::endl;
+      }
+      if (LRL_StringTools::strToupper(tokens[0]) == "END") {
+         break;
+      }
 
       try {
-         // Parse line into tokens
-         std::vector<std::string> tokens = parseInputLine(line);
-         if (tokens.empty()) continue;
-
          // Try to handle as lattice input first
-         std::string upperKey = tokens[0];  // Make a copy
-         std::transform(upperKey.begin(), upperKey.end(), upperKey.begin(), ::toupper);
-
-         if (upperKey == "RANDOM" || upperKey == "R" ||  // Add "R"
-            upperKey == "G6" || upperKey == "G" || upperKey == "S6" || upperKey == "S" ||
-            upperKey == "P" || upperKey == "A" || upperKey == "B" || upperKey == "C" ||
-            upperKey == "F" || upperKey == "I" || upperKey == "H") {
-            handleLatticeInput(cells, upperKey, tokens, line);  // Use original key for handling
+         std::string upperKey = LRL_StringTools::strToupper(tokens[0]);  // Make a copy
+         if (isLattice(upperKey)) {
+            handleLatticeInput(cells, upperKey, tokens, rawline);  // Use original key for handling
             continue;
          }
 
          // If not a lattice command, try as a control command
          std::string rest;
+         const std::vector<std::string> rawTokens = parseInputLine(rawline);
          for (size_t i = 1; i < tokens.size(); ++i) {
-            rest += tokens[i];
-            if (i < tokens.size() - 1) rest += " ";
+            rest += rawTokens[i];
+            if (i < rawTokens.size() - 1) rest += " ";
          }
 
-         if (!handleCommand(controls, tokens[0], rest)) {
-            std::cerr << ";Warning: Unrecognized command '" << tokens[0] << "'" << std::endl;
+         if (!handleCommand(controls,rawTokens[0], rest)) {
+            std::cerr << ";Warning: Unrecognized command '" << rawTokens[0] << "'" << std::endl;
          }
       }
       catch (const std::exception& e) {

@@ -18,7 +18,7 @@
 class Path : public std::vector<std::pair<LatticeCell, LatticeCell>> {
 public:
    friend std::ostream& operator<<(std::ostream& os, const Path& path) {
-      std::cout << "; the path" << std::endl;
+      os << "; the path" << std::endl;
       for (const auto& [point1, point2] : path) {
          const S6 p1(point1.getCell());
          const S6 p2(point2.getCell());
@@ -38,7 +38,7 @@ public:
       const LatticeCell& target, int numPoints);
    static Path generateTrianglePath(const LatticeCell& p1, const LatticeCell& p2,
       const LatticeCell& p3, int numPoints);
-   static Path generateSplinePath(const int numPoints);
+   static Path generateSplinePath( const int numPoints,  const std::vector<LatticeCell>& cells);
 
    static S6 MakeInvalidS6() {
       return { 19191.111111111111, 0, 0, 0, 0, 0 };
