@@ -20,13 +20,13 @@
 int main(int argc, char* argv[]) {
    std::cout << "; Dirichlet (Voronoi) cells" << std::endl;
 
-   WebIO webio(argc, argv, "CmdSella", 0);
+   WebIO webio(argc, argv, "Dirichlet", 0);
 
    DirichletControls controls;
    controls.setHasWebInput(webio.m_hasWebInstructions);
    const int initblockstart = 0;
    const int initblocksize = 20;
-   const FileBlockProgramInput<DirichletControls> dc_setup("Dirichlet", initblockstart, initblocksize, controls);
+   const WebFileBlockProgramInput<DirichletControls> dc_setup(argc, argv, "Dirichlet", 0, controls);
 
    const size_t blockstart = dc_setup.getBlockStart();
    const size_t blocksize = dc_setup.getBlockSize();

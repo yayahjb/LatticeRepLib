@@ -55,6 +55,18 @@ public:
       return inputtext;
    }
 
+   std::string GetInputLine() const {
+      return inputtext;
+   }
+
+   std::string getInput() const {
+      return inputtext;
+   }
+
+   std::string getInputLine() const {
+      return inputtext;
+   }
+
    operator S6() const {
       return (this->getCell());
    }

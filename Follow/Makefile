@@ -10,10 +10,10 @@ $(COMMAND): MAIN_Follow.cpp \
 	OutlierFinder.h Path.h PathPoint.h PerturbationUtils.h SvgPlotWriter.h \
 	DistanceFactory.cpp Follow.cpp FollowControls.cpp FollowerMode.cpp FollowUtils.h.cpp \
 	GlitchTypes.cpp Path.cpp SvgPlotWriter.cpp \
+	NiceAxisScaling.h NiceAxisScaling.cpp \
 	../InputHandler/BaseControlVariables.h \
 	../InputHandler/BlockLimits.h \
 	../InputHandler/ControlFeature.h ../InputHandler/ControlFeature.cpp \
-	../InputHandler/ControlFeatures.h ../InputHandler/ControlFeatures.cpp \
 	../InputHandler/DistanceTypes.h ../InputHandler/DistanceTypes.cpp \
 	../InputHandler/DistanceTypesUtils.h \
 	../InputHandler/framework.h \
@@ -35,7 +35,6 @@ $(COMMAND): MAIN_Follow.cpp \
 	../LatticeRepresentationLib/EnhancedS6.cpp ../LatticeRepresentationLib/EnhancedS6.h \
 	../LRL_Tools/FileOperations.cpp ../LRL_Tools/LRL_CreateFileName.cpp ../LatticeRepresentationLib/G6.cpp \
 	../LRL_Tools/HSV.cpp ../LRL_Tools/RGB.cpp \
-	../LRL_Tools/LinearAxis.cpp ../LRL_Tools/LinearAxis.h \
 	../LRL_Tools/spline_under_tension.hpp ../LRL_Tools/spline_under_tension.cpp \
 	../LatticeRepresentationLib/GenerateLatticeTypeExamples.cpp \
 	../LatticeRepresentationLib/GrimmerTree.h ../LatticeRepresentationLib/GrimmerTree.h \
@@ -61,9 +60,8 @@ $(COMMAND): MAIN_Follow.cpp \
 	../LatticeRepresentationLib/WebIO.h ../LatticeRepresentationLib/WebIO.cpp
 	$(CXX) $(DEBUGFLAG) -I ../LatticeRepresentationLib -I ../LRL_Tools -I ../InputHandler -o $(COMMAND) MAIN_Follow.cpp \
 	DistanceFactory.cpp Follow.cpp FollowControls.cpp FollowerMode.cpp FollowUtils.h.cpp \
-	GlitchTypes.cpp Path.cpp SvgPlotWriter.cpp \
+	GlitchTypes.cpp Path.cpp SvgPlotWriter.cpp NiceAxisScaling.cpp \
 	../InputHandler/BaseControlVariables.cpp \
-	../InputHandler/ControlFeatures.cpp \
 	../InputHandler/DistanceTypes.cpp \
 	../InputHandler/InputHandler.cpp \
 	../LatticeRepresentationLib/B4.cpp ../LatticeRepresentationLib/C3.cpp \
@@ -77,7 +75,6 @@ $(COMMAND): MAIN_Follow.cpp \
 	../LatticeRepresentationLib/D7_Subboundary.cpp ../LatticeRepresentationLib/Delone.cpp \
 	../LatticeRepresentationLib/DeloneFitResults.cpp \
 	../LatticeRepresentationLib/EnhancedS6.cpp \
-	../LRL_Tools/LinearAxis.cpp \
 	../LRL_Tools/spline_under_tension.cpp \
 	../LRL_Tools/LRL_CreateFileName.cpp \
 	../LRL_Tools/FileOperations.cpp ../LatticeRepresentationLib/G6.cpp \

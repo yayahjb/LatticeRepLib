@@ -5,13 +5,13 @@
 #include <string>
 #include <vector>
 
+#include "ProgramSetup.h"
 #include "FileOperations.h"
 #include "Follow.h"
 #include "FollowControls.h"
 #include "FollowInstance.h"
 #include "InputHandler.h"
 #include "LatticeCell.h"
-#include "ProgramSetup.h"
 #include "WebIO.h"
 
 static std::vector<FollowInstance> CreateFollowInstanceList(
@@ -85,7 +85,7 @@ int main(int argc, char* argv[]) {
       FollowControls controls;
       controls.setWebRun(webio.m_hasWebInstructions);
 
-      const FileBlockProgramInput<FollowControls> dc_setup("Follow", 0, 20, controls);
+      const WebFileBlockProgramInput<FollowControls> dc_setup(argc, argv, "Follow", 0, controls);
 
       if (controls.shouldShowControls()) {
          std::cout << controls.getState() << "\n";
@@ -122,7 +122,7 @@ int main(int argc, char* argv[]) {
       }
 
       // Process instances for the current block
-      processInstances(
+      Follow::processInstances(
          instances,
          dc_setup.getBlockStart(),
          dc_setup.getBlockEnd(),
