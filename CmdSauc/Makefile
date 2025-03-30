@@ -4,16 +4,15 @@ COMMAND = CmdSauc
 all:	$(COMMAND)
 
 $(COMMAND):	$(COMMAND).cpp \
-	CmdSaucConstants.h  CmdSauc.h  CmdSauc_Main.cpp \
-	../InputHandler/BaseControlVariables.h ../InputHandler/BaseControlVariables.cpp ../InputHandler/BlockLimits.h \
-	../InputHandler/CmdToS6LFeatures.h ../InputHandler/CmdToS6LFeatures.cpp \
-	../InputHandler/ControlFeature.h ../InputHandler/ControlFeatures.h ../InputHandler/ControlFeatures.cpp \
-	../InputHandler/DistanceTypes.h ../InputHandler/DistanceTypes.cpp ../InputHandler/DistanceTypesUtils.h \
+	CmdSaucControls.h  CmdSaucControls.cpp \
+	../InputHandler/BaseControlVariables.h ../InputHandler/BaseControlVariables.cpp \
+	../InputHandler/BlockLimits.h \
+	../InputHandler/ControlFeature.h \
+	../InputHandler/DistanceTypes.h ../InputHandler/DistanceTypes.cpp \
+	../InputHandler/DistanceTypesUtils.h \
 	../InputHandler/framework.h \
 	../InputHandler/InputHandler.h ../InputHandler/InputHandler.cpp \
-	../InputHandler/LatticeCell.h ../InputHandler/PathControlFeatures.h ../InputHandler/PathControlFeatures.cpp \
-	../InputHandler/PerturbCountControl.h \
-	../InputHandler/ScaleFeatures.h ../InputHandler/ScaleFeatures.cpp \
+	../InputHandler/LatticeCell.h \
 	../LatticeRepresentationLib/B4.cpp ../LatticeRepresentationLib/C3.cpp \
 	../LatticeRepresentationLib/C3Plot.cpp ../LatticeRepresentationLib/CellInputData.cpp \
 	../LatticeRepresentationLib/ColorTables.h ../LatticeRepresentationLib/ColorTables.cpp \
@@ -23,7 +22,7 @@ $(COMMAND):	$(COMMAND).cpp \
 	../LatticeRepresentationLib/D7_ClassifySubboundaries.cpp ../LatticeRepresentationLib/D7.cpp \
 	../LatticeRepresentationLib/D7_Subboundary.cpp ../LatticeRepresentationLib/Delone.cpp \
 	../LatticeRepresentationLib/DeloneFitResults.cpp \
-	../LRL_Tools/FileOperations.cpp ../LatticeRepresentationLib/G6.cpp \
+	../LRL_Tools/FileOperations.cpp ../LRL_Tools/LRL_CreateFileName.cpp ../LatticeRepresentationLib/G6.cpp \
 	../LRL_Tools/HSV.cpp ../LRL_Tools/HSV.h ../LRL_Tools/RGB.cpp ../LRL_Tools/RGB.h \
 	../LatticeRepresentationLib/GenerateLatticeTypeExamples.cpp \
 	../LatticeRepresentationLib/LabeledSellaMatrices.cpp \
@@ -41,16 +40,13 @@ $(COMMAND):	$(COMMAND).cpp \
 	../LatticeRepresentationLib/S6BoundaryTransforms.h ../LatticeRepresentationLib/S6BoundaryTransforms.cpp \
 	../LatticeRepresentationLib/Sella.cpp \
 	../LatticeRepresentationLib/VecN.cpp  ../LatticeRepresentationLib/V7.cpp ../LRL_Tools/LRL_Vector3.cpp \
-	../LatticeRepresentationLib/Vector_2.h ../LatticeRepresentationLib/Vector_2.cpp
+	../LatticeRepresentationLib/Vector_2.h ../LatticeRepresentationLib/Vector_2.cpp \
+	../LatticeRepresentationLib/WebIO.h ../LatticeRepresentationLib/WebIO.cpp
 	$(CXX) -I . -I ../LatticeRepresentationLib -I ../LRL_Tools -I ../InputHandler -o $(COMMAND) $(COMMAND).cpp \
-	CmdSauc_Main.cpp \
+	CmdSaucControls.cpp \
 	../InputHandler/BaseControlVariables.cpp  \
-        ../InputHandler/CmdToS6LFeatures.cpp ../InputHandler/ControlFeatures.cpp \
-	../InputHandler/DirichletFeatures.cpp ../InputHandler/DistanceTypes.cpp \
-        ../InputHandler/FilePrefixFeatures.cpp \
+	../InputHandler/DistanceTypes.cpp \
         ../InputHandler/InputHandler.cpp \
-	../InputHandler/PathControlFeatures.cpp ../InputHandler/pch.cpp \
-	../InputHandler/ScaleFeatures.cpp \
 	../LatticeRepresentationLib/B4.cpp ../LatticeRepresentationLib/C3.cpp \
 	../LatticeRepresentationLib/C3Plot.cpp ../LatticeRepresentationLib/CellInputData.cpp \
 	../LatticeRepresentationLib/ColorTables.cpp \
@@ -61,7 +57,7 @@ $(COMMAND):	$(COMMAND).cpp \
 	../LatticeRepresentationLib/D7_Subboundary.cpp ../LatticeRepresentationLib/Delone.cpp \
 	../LatticeRepresentationLib/DeloneFitResults.cpp \
 	../LatticeRepresentationLib/EnhancedS6.cpp \
-	../LRL_Tools/FileOperations.cpp ../LatticeRepresentationLib/G6.cpp \
+	../LRL_Tools/FileOperations.cpp ../LRL_Tools/LRL_CreateFileName.cpp ../LatticeRepresentationLib/G6.cpp \
 	../LRL_Tools/HSV.cpp ../LRL_Tools/RGB.cpp \
 	../LatticeRepresentationLib/GenerateLatticeTypeExamples.cpp \
 	../LatticeRepresentationLib/LabeledSellaMatrices.cpp \
@@ -78,7 +74,9 @@ $(COMMAND):	$(COMMAND).cpp \
 	../LatticeRepresentationLib/S6BoundaryTransforms.cpp \
 	../LatticeRepresentationLib/Sella.cpp \
 	../LatticeRepresentationLib/VecN.cpp  ../LatticeRepresentationLib/V7.cpp ../LRL_Tools/LRL_Vector3.cpp \
-	../LatticeRepresentationLib/Vector_2.cpp
+	../LatticeRepresentationLib/Vector_2.cpp \
+	../LatticeRepresentationLib/WebIO.cpp
+
 
 clean:
 	rm -rf $(COMMAND)

@@ -5,6 +5,8 @@
 
 // Initialize static member
 CommandSystem InputHandler::commandSystem;
+std::vector<std::string> InputHandler::globalInputLines;
+
 
 bool InputHandler::isLattice(const std::string& s) {
    const std::string upperKey = LRL_StringTools::strToupper(s);
@@ -63,6 +65,12 @@ G6 InputHandler::parseLattice(const std::vector<std::string>& tokens) {
 }
 
 G6 InputHandler::parseRandom() {
+   Polar resultP = Polar::rand();
+   G6 resultG(resultP);
+   while (!(resultG.IsValid() && LRL_Cell(resultG).IsValid())) {
+      resultP = Polar::rand();
+      resultG = resultP;
+   }
    return G6(Polar::rand());
 }
 
@@ -71,15 +79,16 @@ std::vector<LatticeCell> InputHandler::parseRandom(size_t count) {
    results.reserve(count);
 
    for (size_t i = 0; i < count; ++i) {
-      G6 result = parseRandom();
-      const LRL_Cell cell = result;
-      if (cell.IsValid()) {
-         std::string numberedLine = "RANDOM #" + std::to_string(i + 1);
-         results.emplace_back(result, "P", numberedLine);
+      G6 random = parseRandom();
+      LRL_Cell cell = random;
+      int count = 0;
+      while (!cell.IsValid()) {
+         random = parseRandom();
+         cell = random;
+         ++count;
       }
-      else {
-         std::cerr << ";Warning: Invalid random vector #" << (i + 1) << " ignored" << std::endl;
-      }
+      const std::string numberedLine = "RANDOM #" + std::to_string(i + 1);
+      results.emplace_back(random, "P", numberedLine);
    }
    return results;
 }
@@ -139,6 +148,7 @@ void InputHandler::readMixedInput(BaseControlVariables& controls,
    std::istream& input) {
    std::string line;
    while (std::getline(input, line)) {
+      globalInputLines.emplace_back(line);
       if (line.empty() || line[0] == ';') continue;
       std::string rawline(line);
       const std::vector<std::string> tokens = parseInputLine(line);

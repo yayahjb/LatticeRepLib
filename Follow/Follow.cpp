@@ -71,18 +71,18 @@ bool Follow::processPerturbation(int trialNum,
    const std::vector<LatticeCell>& cells) {
    distfuncs = DistanceFactory::createEnabledDistances(controls.getDistanceTypes());
    if (distfuncs.empty()) {
-      std::cerr << "; No distance types enabled - please enable at least one type" << std::endl;
+      std::cout << "; No distance types enabled - please enable at least one type" << std::endl;
       return false;
    }
 
    std::string curfilename = instance.GetRawFileName();
    const Path path = generatePath(trialNum, perturbationNum, instance.GetFollowSeed(), cells);
    if (path.empty()) {
-      std::cerr << "; Failed to generate valid path" << std::endl;
+      std::cout << "; Failed to generate valid path" << std::endl;
       return false;
    }
    if (curfilename.empty()) {
-      std::cerr << "; Empty output filename" << std::endl;
+      std::cout << "; Empty output filename" << std::endl;
       return false;
    }
 
@@ -107,26 +107,36 @@ bool Follow::processPerturbation(int trialNum,
    }
 
    if (allDistances.empty()) {
-      std::cerr << "; Error, no paths created\n";
+      std::cout << "; Error, no paths created\n";
       return false;
    }
 
-   std::ofstream svgfile(curfilename);
-   if (svgfile.is_open()) {
-      SvgPlotWriter writer(svgfile, controls);
+   std::vector<Glitch> allGlitches;
 
-      if (controls.isGlitchDetectionEnabled()) {
-         std::vector<Glitch> allGlitches;
-         for (size_t distIdx = 0; distIdx < allDistances.size(); ++distIdx) {
-            auto glitches = DetectGlitchesWithS6Data(allDistances[distIdx], path, distfuncs[distIdx]->getName());
-            allGlitches.insert(allGlitches.end(), glitches.begin(), glitches.end());
+   if (controls.isGlitchDetectionEnabled()) {
+      for (size_t distIdx = 0; distIdx < allDistances.size(); ++distIdx) {
+         auto glitches = DetectGlitchesWithS6Data(allDistances[distIdx], path, distfuncs[distIdx]->getName());
+         allGlitches.insert(allGlitches.end(), glitches.begin(), glitches.end());
+      }
+   }
+
+   if (!controls.shouldShowOnlyGlitches() || !allGlitches.empty()) {
+      std::ofstream svgfile(curfilename);
+      if (svgfile.is_open()) {
+         SvgPlotWriter writer(svgfile, controls);
+         if (controls.isGlitchDetectionEnabled()) {
+            writer.setGlitches(allGlitches);
          }
-         writer.setGlitches(allGlitches);
-      }      writer.writePlot(allDistances, distfuncs, trialNum, perturbationNum);
-   }
-   else {
-      std::cerr << ";Warning: Unable to open output file" << std::endl;
-      return false;
+         std::cout << "; Follow graphics file(s) "
+            << instance.GetFullFileName() << std::endl;
+
+         writer.writePlot(allDistances, distfuncs, trialNum, perturbationNum);
+      }
+      else {
+         std::cout << "Warning: Unable to open output file" << std::endl;
+         return false;
+      }
+      return true;
    }
    return true;
 }
@@ -231,8 +241,11 @@ void Follow::processInstances(
          instances[i].GetPerturbation(),
          instances[i], cells))
       {
-         std::cout << "; Follow graphics file(s) "
-            << i << "  " << instances[i].GetFullFileName() << std::endl;
+         //if (!controls.shouldShowOnlyGlitches())
+         //{
+         //   std::cout << "; Follow graphics file(s) "
+         //      << i << "  " << instances[i].GetFullFileName() << std::endl;
+         //}
       }
    }
 }

@@ -1,90 +1,85 @@
-cmake_minimum_required(VERSION 2.8.0 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.14)
 
-project(LatticeRepLib CXX C)
+# Project name
+project(Duck10 VERSION 1.0.0 LANGUAGES CXX)
 
-################################################################################
-# Set target arch type if empty. Visual studio solution generator provides it.
-################################################################################
-if(NOT CMAKE_VS_PLATFORM_NAME)
-    set(CMAKE_VS_PLATFORM_NAME "x64")
-endif()
-message("${CMAKE_VS_PLATFORM_NAME} architecture in use")
+# Set C++ standard
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
-################################################################################
-# Global configuration types
-################################################################################
-set(CMAKE_CONFIGURATION_TYPES
-    "Debug"
-    "Release"
-    CACHE TYPE INTERNAL FORCE
-)
+# Options
+option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
 
-################################################################################
-# Global compiler options
-################################################################################
-if(MSVC)
-    # remove default flags provided with CMake for MSVC
-    set(CMAKE_CXX_FLAGS "")
-    set(CMAKE_CXX_FLAGS_DEBUG "")
-    set(CMAKE_CXX_FLAGS_RELEASE "")
-endif()
-
-################################################################################
-# Global linker options
-################################################################################
-if(MSVC)
-    # remove default flags provided with CMake for MSVC
-    set(CMAKE_EXE_LINKER_FLAGS "")
-    set(CMAKE_MODULE_LINKER_FLAGS "")
-    set(CMAKE_SHARED_LINKER_FLAGS "")
-    set(CMAKE_STATIC_LINKER_FLAGS "")
-    set(CMAKE_EXE_LINKER_FLAGS_DEBUG "${CMAKE_EXE_LINKER_FLAGS}")
-    set(CMAKE_MODULE_LINKER_FLAGS_DEBUG "${CMAKE_MODULE_LINKER_FLAGS}")
-    set(CMAKE_SHARED_LINKER_FLAGS_DEBUG "${CMAKE_SHARED_LINKER_FLAGS}")
-    set(CMAKE_STATIC_LINKER_FLAGS_DEBUG "${CMAKE_STATIC_LINKER_FLAGS}")
-    set(CMAKE_EXE_LINKER_FLAGS_RELEASE "${CMAKE_EXE_LINKER_FLAGS}")
-    set(CMAKE_MODULE_LINKER_FLAGS_RELEASE "${CMAKE_MODULE_LINKER_FLAGS}")
-    set(CMAKE_SHARED_LINKER_FLAGS_RELEASE "${CMAKE_SHARED_LINKER_FLAGS}")
-    set(CMAKE_STATIC_LINKER_FLAGS_RELEASE "${CMAKE_STATIC_LINKER_FLAGS}")
-endif()
-
-################################################################################
-# Nuget packages function stub.
-################################################################################
-function(use_package TARGET PACKAGE VERSION)
-    message(WARNING "No implementation of use_package. Create yours.")
-endfunction()
-
-################################################################################
-# Additional Global Settings(add specific info there)
-################################################################################
-include(CMake/GlobalSettingsInclude.cmake OPTIONAL)
-
-################################################################################
-# Sub-projects
-################################################################################
-cmake_policy(SET CMP0046 NEW)
-include_directories(LRL_Tools)
+# Add subdirectories for libraries
 add_subdirectory(LRL_Tools)
-file(GLOB LRL_Tools_sources LRL_Tools/*.cpp LRL_Tools/*.c LRL_Tools/*/h )
-SET(lrl_tools ${LRL_Tools_sources}) 
-add_library(LRL_Tools STATIC ${lrl_tools})
-target_link_libraries(LRL_Tools)
 add_subdirectory(LatticeRepresentationLib)
-add_subdirectory(PointDistanceFollower)
-add_subdirectory(B4_rotations)
-add_subdirectory(ConvertToC3)
-add_subdirectory(DevelopS6Boundaries)
-add_subdirectory(GenerateBoundaryPairs)
-add_subdirectory(MultiMetricDists)
-#add_subdirectory(S6Classifier)
-add_subdirectory(spline_under_tension)
-add_subdirectory(SVD)
-add_subdirectory(SVG_Follow)
-add_subdirectory(SVG_TriangleFollow)
-add_subdirectory(TestBases)
-add_subdirectory(Testbed)
-add_subdirectory(TestC3)
-add_subdirectory(TestRandom)
-#add_subdirectory(TestSuperCell)
+add_subdirectory(InputHandler)
+
+# Common compile definitions based on configuration
+set(COMMON_DEBUG_DEFS _DEBUG _CONSOLE)
+set(COMMON_RELEASE_DEFS NDEBUG _CONSOLE)
+
+# Command-line executables
+
+# CmdCmplx
+add_executable(CmdCmplx CmdCmplx.cpp)
+target_link_libraries(CmdCmplx PRIVATE LatticeRepresentationLib LRL_Tools)
+
+# CmdDelone
+add_executable(CmdDelone CmdDelone.cpp CmdDeloneControls.h)
+target_link_libraries(CmdDelone PRIVATE InputHandler LatticeRepresentationLib LRL_Tools)
+target_include_directories(CmdDelone PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+
+# CmdDists
+add_executable(CmdDists CmdDists.cpp CmdDistsControls.h LatticeRepresentationLib/CS6Dist.c LatticeRepresentationLib/CS6Dist.h)
+target_link_libraries(CmdDists PRIVATE InputHandler LatticeRepresentationLib LRL_Tools)
+
+# B4_rotations
+add_executable(B4_rotations B4_rotations.cpp)
+target_link_libraries(B4_rotations PRIVATE LatticeRepresentationLib LRL_Tools)
+
+# BUnique
+add_executable(BUnique BUnique.cpp)
+target_link_libraries(BUnique PRIVATE LatticeRepresentationLib LRL_Tools)
+
+# C3Plot
+add_executable(C3Plot C3Plot.cpp C3Plot.h)
+target_link_libraries(C3Plot PRIVATE LatticeRepresentationLib LRL_Tools)
+
+# CheckInput
+add_executable(CheckInput CheckInput.cpp CheckInputControls.h)
+target_link_libraries(CheckInput PRIVATE InputHandler LatticeRepresentationLib LRL_Tools)
+
+# Claude2
+add_executable(Claude2 Claude2.cpp)
+target_link_libraries(Claude2 PRIVATE LatticeRepresentationLib LRL_Tools)
+
+# Claude3
+add_executable(Claude3 Claude3.cpp)
+target_link_libraries(Claude3 PRIVATE LatticeRepresentationLib LRL_Tools)
+
+# CmdBounds
+add_executable(CmdBounds CmdBounds.cpp)
+target_link_libraries(CmdBounds PRIVATE LatticeRepresentationLib LRL_Tools)
+
+# Set compiler-specific options based on configuration
+foreach(target 
+        CmdCmplx CmdDelone CmdDists B4_rotations BUnique C3Plot 
+        CheckInput Claude2 Claude3 CmdBounds)
+    target_compile_options(${target} PRIVATE
+        $<$<CONFIG:Debug>:/W3 /sdl>
+        $<$<CONFIG:Release>:/W3 /sdl /O2 /Oi /GL>
+    )
+    
+    target_compile_definitions(${target} PRIVATE
+        $<$<CONFIG:Debug>:${COMMON_DEBUG_DEFS}>
+        $<$<CONFIG:Release>:${COMMON_RELEASE_DEFS}>
+    )
+    
+    # Link options for Release builds (optimization)
+    target_link_options(${target} PRIVATE
+        $<$<CONFIG:Release>:/LTCG /OPT:REF /OPT:ICF>
+    )
+endforeach()
 

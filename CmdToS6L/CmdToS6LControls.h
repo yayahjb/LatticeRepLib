@@ -27,7 +27,7 @@ public:
             format = LRL_StringTools::strToupper(value);
             if (format.empty()) format = "RS"; // Default to both if empty
             else if (format.find('R') == std::string::npos && format.find('S') == std::string::npos) {
-               std::cerr << ";Warning: Invalid format. Using default 'RS'" << std::endl;
+               std::cout << ";Warning: Invalid format. Using default 'RS'" << std::endl;
                format = "RS";
             }
          });
@@ -38,7 +38,7 @@ public:
             format = LRL_StringTools::strToupper(value);
             if (format.empty()) format = "RS"; // Default to both if empty
             else if (format.find('R') == std::string::npos && format.find('S') == std::string::npos) {
-               std::cerr << ";Warning: Invalid format. Using default 'RS'" << std::endl;
+               std::cout << ";Warning: Invalid format. Using default 'RS'" << std::endl;
                format = "RS";
             }
          });
@@ -61,7 +61,7 @@ public:
    std::string getFormat() const { return format; }
 
 private:
-   std::string prefix = "S6L";
+   const std::string prefix = "S6L";
    std::string format = "RS";  // Default to both Root and Linear
 };
 

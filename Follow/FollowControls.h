@@ -18,6 +18,7 @@
 #include <atomic>
 #include <set>
 #include <sstream>
+#include <unordered_set>
 
 class FollowControls : public BaseControlVariables {
 public:
@@ -39,17 +40,6 @@ public:
          [this](BaseControlVariables&, const std::string& value) {
             setBlockStart(std::stoul(value));
          });
-
-      InputHandler::registerHandler("FILEPREFIX", 0.35,
-         [this](BaseControlVariables&, const std::string& value) {
-            setPrefix(LRL_StringTools::strToupper(value));
-         });
-
-      InputHandler::registerHandler("PREFIX", 0.35,
-         [this](BaseControlVariables&, const std::string& value) {
-            setPrefix(LRL_StringTools::strToupper(value));
-         });
-
       InputHandler::registerHandler("TYPE", 0.35,
          [this](BaseControlVariables&, const std::string& value) {
             handleDistanceType(LRL_StringTools::strToupper(value));
@@ -105,29 +95,29 @@ public:
             printDistanceData = (value == "1" || LRL_StringTools::strToupper(value) == "TRUE" || value.empty());
          });
 
-      InputHandler::registerHandler("GLITCHTHRESHOLD", 0.2,
+      InputHandler::registerHandler("GLITCHTHRESHOLD", 0.35,
          [this](BaseControlVariables&, const std::string& value) {
             glitchThresholdPercent = GlitchUtils::validateGlitchThresholdPercent(value);
          });
-      InputHandler::registerHandler("GLITCHESONLY", .2,
+      InputHandler::registerHandler("GLITCHESONLY", .35,
          [this](BaseControlVariables&, const std::string& value) {
             glitchesOnly = (value == "1" || LRL_StringTools::strToupper(value) == "TRUE" || value.empty());
          }
       );
 
-      InputHandler::registerHandler("DETECTGLITCHES", .2,
+      InputHandler::registerHandler("DETECTGLITCHES", .35,
          [this](BaseControlVariables&, const std::string& value) {
             shouldDetectGlitches = (value == "1" || LRL_StringTools::strToupper(value) == "TRUE" || value.empty());
          }
       );
 
-      InputHandler::registerHandler("SHOWMARKERS", .2,
+      InputHandler::registerHandler("SHOWMARKERS", .35,
          [this](BaseControlVariables&, const std::string& value) {
             showDataMarkers = (value == "1" || LRL_StringTools::strToupper(value) == "TRUE" || value.empty());
          }
       );
 
-      InputHandler::registerHandler("SHOWDATAMARKERS", .2,
+      InputHandler::registerHandler("SHOWDATAMARKERS", .35,
          [this](BaseControlVariables&, const std::string& value) {
             showDataMarkers = (value == "1" || LRL_StringTools::strToupper(value) == "TRUE" || value.empty());
          }
@@ -136,6 +126,7 @@ public:
    }
 
    std::string  getFilePrefix() const {return prefix;}
+
    DistanceTypes getDistanceTypes() const { 
       DistanceTypes dt;
       dt.setEnabledTypes(getEnabledTypes());
@@ -146,12 +137,12 @@ public:
    void setBlockSize(int size) {
       long long val = static_cast<long long>(size);
       if (val <= 0) {
-         std::cerr << ";Warning: Blocksize must be positive, using "
+         std::cout << ";Warning: Blocksize must be positive, using "
             << DEFAULT_BLOCKSIZE << std::endl;
          blocksize = DEFAULT_BLOCKSIZE;
       }
       else if (webRun && val > MAX_BLOCKSIZE) {
-         std::cerr << ";Warning: Blocksize exceeds web limit, using "
+         std::cout << ";Warning: Blocksize exceeds web limit, using "
             << MAX_BLOCKSIZE << std::endl;
          blocksize = MAX_BLOCKSIZE;
       }
@@ -163,7 +154,7 @@ public:
    void setBlockStart(int start) {
       long long val = static_cast<long long>(start);
       if (val < 0) {
-         std::cerr << ";Warning: Blockstart cannot be negative, using 0" << std::endl;
+         std::cout << ";Warning: Blockstart cannot be negative, using 0" << std::endl;
          blockstart = 0;
       }
       else {
@@ -171,9 +162,17 @@ public:
       }
    }
 
-   // File prefix methods
-   void setPrefix(const std::string& newPrefix) {
-      prefix = newPrefix;
+   std::string replaceCharacters(const std::string& input, const std::string& targets, char replacement) {
+      std::unordered_set<char> targetSet(targets.begin(), targets.end()); // Use a set for efficient look-up
+      std::string result = input;
+
+      for (char& c : result) {
+         if (targetSet.find(c) != targetSet.end()) {
+            c = replacement;
+         }
+      }
+
+      return result;
    }
 
    // Distance type methods
@@ -185,7 +184,7 @@ public:
             enabledTypes.insert(type);
          }
          else {
-            std::cerr << ";Warning: Invalid distance type: " << type << std::endl;
+            std::cout << ";Warning: Invalid distance type: " << type << std::endl;
          }
       }
    }
@@ -202,7 +201,7 @@ public:
             enabledTypes.erase(type);
          }
          else {
-            std::cerr << ";Warning: Invalid distance type: " << type << std::endl;
+            std::cout << ";Warning: Invalid distance type: " << type << std::endl;
          }
       }
    }
@@ -237,7 +236,6 @@ public:
 
    std::string getState() const {
       std::ostringstream oss;
-      oss << ";Follower Mode: " << FollowerModeUtils::toString(followerMode) << "\n";
       if (perturbations == 1) {
          oss << ";Perturbations: no perturbations\n";
       }
@@ -245,7 +243,8 @@ public:
          oss << ";Perturbations: " << perturbations << "\n"
             << ";Perturb By: " << perturbBy << "\n";
       }
-      oss << ";Number of Follower Points: " << numFollowerPoints << "\n"
+      oss << ";Follower Mode: " << FollowerModeUtils::toString(followerMode) << "\n"
+          << ";Number of Follower Points: " << numFollowerPoints << "\n"
          << ";Print Distance Data: " << (printDistanceData ? "Yes" : "No") << "\n"
          << ";Glitches Only: " << (glitchesOnly ? "Yes" : "No") << "\n"
          << ";Should Detect Glitches: " << (shouldDetectGlitches ? "Yes" : "No") << "\n"
@@ -272,13 +271,13 @@ private:
    size_t blocksize = DEFAULT_BLOCKSIZE;
 
    // File prefix member
-   std::string prefix = "FOL";
+   const std::string prefix = "FOL";
 
    // Distance types member
    std::set<std::string> enabledTypes{ "CS", "NC" };
 
    // Existing members
-   FollowerMode followerMode;
+   FollowerMode followerMode = FollowerMode::POINT;
    int perturbations = 1;
    double perturbBy = 0.1;
    int numFollowerPoints = 100;

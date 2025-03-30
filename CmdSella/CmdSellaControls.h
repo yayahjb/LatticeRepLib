@@ -23,26 +23,15 @@ public:
 
    CmdSellaControls() {
 
-   InputHandler::registerHandler("BLOCKSIZE", 0.2,
+   InputHandler::registerHandler("BLOCKSIZE", 0.34,
       [this](const BaseControlVariables&, const std::string& value) {
          setBlockSize(std::stoul(value));
       });
 
-   InputHandler::registerHandler("BLOCKSTART", 0.2,
+   InputHandler::registerHandler("BLOCKSTART", 0.35,
       [this](const BaseControlVariables&, const std::string& value) {
          setBlockStart(std::stoul(value));
       });
-
-   InputHandler::registerHandler("PREFIX", 0.35,
-      [this](const BaseControlVariables&, const std::string& value) {
-         setPrefix(value);
-      });
-
-   InputHandler::registerHandler("FILEPREFIX", 0.35,
-      [this](const BaseControlVariables&, const std::string& value) {
-         setPrefix(value);
-      });
-
 
    InputHandler::registerHandler("DOGRAPHICS", .5,
       [this](BaseControlVariables&, const std::string& value) {
@@ -57,11 +46,6 @@ public:
    std::string getPrefix() const { return prefix; }
    bool DoGraphics() const { return doGraphics; }
 private:
-
-   // File prefix methods
-   void setPrefix(const std::string_view& newPrefix) {
-      prefix = newPrefix;
-   }
 
    void setBlockSize(int size) {
       long long val = static_cast<long long>(size);
@@ -99,7 +83,7 @@ private:
    size_t blocksize = BlockUtils::DEFAULT_BLOCKSIZE;
 
    // File prefix member
-   std::string prefix = "SEL";
+   const std::string prefix = "SEL";
    bool doGraphics = true;
 
 
