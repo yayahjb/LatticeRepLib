@@ -165,7 +165,7 @@ CmdSaucControls::CmdSaucControls() {
                                   [this](BaseControlVariables&, const std::string& value) {
         setSaucMetric(std::stod(value));
     });
-
+ 
     if ((!__CSSO__.saucSphere) && (!__CSSO__.saucRange) && (!__CSSO__.saucNearest)) 
         __CSSO__.saucNearest = true;
 }
@@ -194,15 +194,15 @@ int CmdSaucControls::getsimilarity() const {
     bool saucNearest = __CSSO__.saucNearest;
     bool saucSphere  = __CSSO__.saucSphere;
     bool saucRange   = __CSSO__.saucRange;
-    /* Similarity -- 1 through 3 for Nearest, Sphere, or Range */
+     /* Similarity -- 1 through 3 for Nearest, Sphere, or Range */
     int similarity;
-    if (saucNearest) {
+     if (saucNearest) {
         similarity = 1;
-    } else if (saucSphere) {
+     } else if (saucSphere) {
         similarity = 2;
-    } else {
+     } else {
         similarity = 3;
-    }
+     }
     return similarity;
 }
 
