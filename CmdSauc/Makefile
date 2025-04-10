@@ -44,7 +44,7 @@ $(COMMAND):	$(COMMAND).cpp \
 	../LatticeRepresentationLib/WebIO.h ../LatticeRepresentationLib/WebIO.cpp
 	$(CXX) -I . -I ../LatticeRepresentationLib -I ../LRL_Tools -I ../InputHandler -o $(COMMAND) $(COMMAND).cpp \
 	CmdSaucControls.cpp \
-	../InputHandler/BaseControlVariables.cpp  \
+	../InputHandler/BaseControlVariables.cpp \
 	../InputHandler/DistanceTypes.cpp \
         ../InputHandler/InputHandler.cpp \
 	../LatticeRepresentationLib/B4.cpp ../LatticeRepresentationLib/C3.cpp \

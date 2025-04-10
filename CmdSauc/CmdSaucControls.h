@@ -77,7 +77,7 @@ public:
     double getRangeBeta() const;
     double getRangeGamma() const;
     double getsaucSphereRange() const;
-    
+
 };
 
 
