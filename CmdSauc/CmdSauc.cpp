@@ -5,7 +5,6 @@
    and making it into a call to the sauc cgi-bin script with arguments:
 
      Centering -- the lattice centering a, A, b, B, c, C, i, I, f, F, p, P, h, H, r, or R
-     A, B, C, Alpha, Beta, Gamma -- the a, b, c, alpha, beta, gamma cell parameters
      RangeA, RangeB, RangeC, RangeAlpha, RangeBeta, RangeGamma -- ranges in Angstroms and Degrees
      RangeSphere -- the size of a search sphere for similarity 2
      Algorithm -- 1 through 7 for L1, L2, NCDist, V7, D7, S6, or DC7unsrt (default)
@@ -23,7 +22,45 @@
 #include "ProgramSetup.h"
 #include "WebIO.h"
 
-void proc_sauc(std::string lattice, LRL_Cell_Degrees cell, CmdSaucControls controls);
+void print_sauc(const std::string& lattice, const LRL_Cell_Degrees& mycell, const CmdSaucControls& controls) {
+
+   const int similarity = controls.getsimilarity();
+   const int algorithm = controls.getalgorithm();
+   const double RangeA = controls.getRangeA();
+   const double RangeB = controls.getRangeB();
+   const double RangeC = controls.getRangeC();
+   const double RangeAlpha = controls.getRangeAlpha();
+   const double RangeBeta = controls.getRangeBeta();
+   const double RangeGamma = controls.getRangeGamma();
+   const double saucSphereRange = controls.getsaucSphereRange();
+
+   std::cout
+      << ";<a href=\"http://blondie.arcib.org:8083/~yaya/cgi-bin/sauc-1.2.1.csh?OutputStyle=TEXT&"
+      << "Centering=" << lattice
+      << "&Algorithm=" << algorithm
+      << "&A=" << mycell[0]
+      << "&B=" << mycell[1]
+      << "&C=" << mycell[2]
+      << "&Alpha=" << mycell[3]
+      << "&Beta=" << mycell[4]
+      << "&Gamma=" << mycell[5]
+      << "&NumHits=" << 50
+      << "&Similarity=" << similarity
+      << "&RangeSphere=" << saucSphereRange
+      << "&UsePercent=" << "yes"
+      << "&SortbyFam=" << "yes"
+      << "&RangeA=" << RangeA
+      << "&RangeAlpha=" << RangeAlpha
+      << "&RangeB=" << RangeB
+      << "&RangeBeta=" << RangeBeta
+      << "&RangeC=" << RangeC
+      << "&RangeGamma=" << RangeGamma
+      << "&Flush=" << "DUMMY"
+      << "\" target=\"_blank\""
+      << " > sauc search </a>"
+      << std::endl;
+
+}
 
 int main(int argc, char* argv[]) {
    std::cout << "; Sauc" << std::endl;
@@ -32,9 +69,6 @@ int main(int argc, char* argv[]) {
    try {
       CmdSaucControls controls;
       const BasicProgramInput<CmdSaucControls> dc_setup("CmdSauc", controls);
-
-      const size_t blockstart = controls.getBlockStart();
-      const size_t blocksize = controls.getBlockSize();
 
       if (dc_setup.getInputList().empty()) {
          throw std::runtime_error("; No input vectors provided");
@@ -53,10 +87,10 @@ int main(int argc, char* argv[]) {
          if (n == std::string::npos) lattice = "P";
          else lattice = std::string(input.getLatticeType());
 
-         LRL_Cell_Degrees mycell = LRL_Cell_Degrees(input.getCell());
+         const LRL_Cell_Degrees mycell = LRL_Cell_Degrees(input.getCell());
 
          std::cout << lattice << " " << mycell << std::endl;
-         proc_sauc(lattice, mycell, controls);
+         print_sauc(lattice, mycell, controls);
       }
 
       return 0;
@@ -68,43 +102,4 @@ int main(int argc, char* argv[]) {
 }
 
 
-void proc_sauc(std::string lattice, LRL_Cell_Degrees mycell, CmdSaucControls controls) {
-
-     int similarity = controls.getsimilarity();
-     int algorithm  = controls.getalgorithm(); 
-     double RangeA  = controls.getRangeA();
-     double RangeB  = controls.getRangeB();
-     double RangeC  = controls.getRangeC();
-     double RangeAlpha = controls.getRangeAlpha();
-     double RangeBeta  = controls.getRangeBeta();
-     double RangeGamma = controls.getRangeGamma();
-     double saucSphereRange = controls.getsaucSphereRange();
-
-     std::cout
-         << ";<a href=\"http://blondie.arcib.org:8083/~yaya/cgi-bin/sauc-1.2.1.csh?OutputStyle=TEXT&"
-         << "Centering=" << lattice
-         << "&Algorithm=" << algorithm
-         << "&A="<< mycell[0]
-         << "&B="<< mycell[1]
-         << "&C="<< mycell[2]
-         << "&Alpha="<< mycell[3]
-         << "&Beta="<< mycell[4]
-         << "&Gamma="<< mycell[5]
-         << "&NumHits="<<  50
-         << "&Similarity=" << similarity
-         << "&RangeSphere="<< saucSphereRange
-         << "&UsePercent="<< "yes"
-         << "&SortbyFam=" << "yes"
-         << "&RangeA=" << RangeA
-         << "&RangeAlpha=" << RangeAlpha
-         << "&RangeB=" << RangeB
-         << "&RangeBeta=" << RangeBeta
-         << "&RangeC=" << RangeC
-         << "&RangeGamma=" << RangeGamma
-         << "&Flush=" << "DUMMY"
-         << "\" target=\"_blank\""
-         << " > sauc search </a>"
-         <<  std::endl;
-
-}
 

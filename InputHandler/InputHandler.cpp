@@ -149,10 +149,14 @@ void InputHandler::readMixedInput(BaseControlVariables& controls,
    std::string line;
    while (std::getline(input, line)) {
 
-      line.erase(std::remove(line.begin(), line.end(), '\0'), line.end());
-
       if (!line.empty() && *(line.end() - 1) == '\0') {
          line.pop_back();
+      }
+
+      for (char& c : line) {
+         if (!std::isprint(static_cast<unsigned char>(c))) {
+            c = ' '; // Replace non-printable characters
+         }
       }
 
       globalInputLines.emplace_back(line);

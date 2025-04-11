@@ -96,6 +96,13 @@ $tf/
 # Guidance Automation Toolkit
 *.gpState
 
+# CMAKE related
+build/
+CMakeFiles/
+CMakeCache.txt
+*.cmake
+
+
 # ReSharper is a .NET coding add-in
 _ReSharper*/
 *.[Rr]e[Ss]harper
@@ -271,3 +278,6 @@ FOL*.txt
 /TEST
 /TEST2
 /Stella
+/Embed
+/Embed2
+/TestProgramSetup2
