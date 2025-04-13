@@ -272,7 +272,7 @@ public:
        InputHandler::registerHandler("HITS", 0.4,
           [this](const BaseControlVariables&, const std::string& value) {
              const std::string upper = LRL_StringTools::strToupper(value);
-             hits = validateHits(upper);
+             NumHits = validateHits(upper);
           });
     }
     // Accessor methods
@@ -283,14 +283,15 @@ public:
           << ";Web run: " << ((this->getHasWebInput()) ? "true" : "false") << "\n"
           << ";Blockstart: " << blockstart << "\n"
           << ";Blocksize: " << blocksize << "\n"
-          << "; metricType: " << metricType << "\n"
+          << ";  metricType: " << metricType << "\n"
+          << ";  NumHits: " << NumHits << "\n"
           << ";  RangeA: " << RangeA << "\n"
           << ";  RangeB: " << RangeB << "\n"
           << ";  RangeC: " << RangeC << "\n"
           << ";  RangeAlpha: " << RangeAlpha << "\n"
           << ";  RangeBeta: " << RangeBeta << "\n"
           << ";  RangeGamma: " << RangeGamma << "\n"
-          << ";Sphere Range: " << saucSphereRange << "\n"
+          << ";  Sphere Range: " << saucSphereRange << "\n"
           << ";  searchDomain: " << searchDomain << "\n";
           oss << "\n";
        return oss.str();
@@ -313,6 +314,10 @@ public:
           }
        }
        return DEFAULT_METRIC_TYPE_INDEX; // Should never reach here unless DEFAULT_METRIC_TYPE is missing
+    }
+
+    int getNumHits() const {
+      return NumHits;
     }
 
     double getRangeA() const {
@@ -462,14 +467,14 @@ private:
    double RangeBeta = DEFAULT_RANGEBETA;
    double RangeGamma = DEFAULT_RANGEGAMMA;
 
-   static constexpr double DEFAULT_SPHERE_RADIUS_PERCENT = 50.0;
+   static constexpr double DEFAULT_SPHERE_RADIUS_PERCENT = 2.5;
    double saucSphereRange = DEFAULT_SPHERE_RADIUS_PERCENT;
 
    SearchDomain searchDomain = DEFAULT_SEARCH_DOMAIN_TYPE;
    MetricType metricType = MetricType::DC7UNSRT;
 
    static constexpr int DEFAULT_HITS = 50;
-   int hits = DEFAULT_HITS;
+   int NumHits = DEFAULT_HITS;
 };
 
 
