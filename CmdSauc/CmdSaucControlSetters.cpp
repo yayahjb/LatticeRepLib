@@ -39,6 +39,10 @@ void setSpace(std::string value) {
     __CSSO__.SPACE = value;
 }
 
+void setNumHits(const int value) {
+    __CSSO__.NumHits = value;
+}
+
 void setCellRangeA(const double value) {
     __CSSO__.RangeA = value;
 }

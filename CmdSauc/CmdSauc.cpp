@@ -11,6 +11,7 @@
      Similarity -- 1 through 3 for Nearest, Sphere, or Range
      SortbyFam -- yes to sort by family
      UsePercent -- yes to use RangeSphere as a percentage instead of as Angstroms
+     NumHits -- the number of hits allowd
 
 */
 
@@ -26,6 +27,7 @@ void proc_sauc(const std::string& lattice, const LRL_Cell_Degrees& mycell, const
 
    const int similarity = controls.getSearchDomain();
    const int algorithm = controls.getSearchMetric();
+   const int NumHits = controls.getNumHits();
    const double RangeA = controls.getRangeA();
    const double RangeB = controls.getRangeB();
    const double RangeC = controls.getRangeC();
@@ -44,7 +46,7 @@ void proc_sauc(const std::string& lattice, const LRL_Cell_Degrees& mycell, const
       << "&Alpha=" << mycell[3]
       << "&Beta=" << mycell[4]
       << "&Gamma=" << mycell[5]
-      << "&NumHits=" << 50
+      << "&NumHits=" << NumHits
       << "&Similarity=" << similarity
       << "&RangeSphere=" << saucSphereRange
       << "&UsePercent=" << "yes"
