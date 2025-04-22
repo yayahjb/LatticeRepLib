@@ -27,6 +27,7 @@
 #include "S6.h"
 #include "Sella.h"
 #include "Selling.h"
+#include "utility"
 #include "WebIO.h"
 
 
@@ -117,22 +118,22 @@
 ;##  P  3.345  3.397  1.23  91.705  101.386  151.36
 ;  P  3.345  3.397  1.23  91.705  101.386  151.36  input  data
 */
-//S6 - 100.00000 - 100.00000 - 100.00000 - 100.00000 - 100.00000 - 100.00000  REFERENCE
-//S6 - 234.14273 - 1.88359 - 47.67826 - 0.30533 - 4.90138 - 53.63114  scaled
-//S6 - 10.41946 - 7.17661 - 95.06707 - 31.36144 - 190.57190 - 116.19378  scaled
-//S6 - 240.86238 - 24.92865 - 8.64775 - 7.17380 - 34.21200 - 8.19574  scaled still bad after remediation
-//S6 - 230.17565 - 17.27155 - 54.34361 - 23.25853 - 11.49257 - 55.62911  scaled still bad after remediation
-//S6 - 31.02879 - 10.96443 - 14.25264 - 38.96421 - 239.08206 - 5.95120  scaled
-//S6 - 13.78936 - 207.70159 - 82.97108 - 30.45375 - 12.34903 - 93.30473  scaled
-//S6 - 121.50546 - 10.74570 - 13.31738 - 80.60464 - 33.75129 - 193.15109  scaled
-//S6 - 7.70225 - 9.51802 - 105.79984 - 0.04535 - 211.62487 - 62.22050  scaled
-//S6 - 181.85349 - 23.36642 - 115.13135 - 18.98134 - 38.38171 - 106.27627  scaled
-//S6 - 2.78162 - 34.43272 - 237.34522 - 10.96929 - 43.32243 - 21.83436  scaled still bad after remediation
-//S6 - 56.99568 - 27.30398 - 7.58384 - 107.64530 - 0.76797 - 210.61902  scaled
-//S6 - 1.76325 - 112.70665 - 24.56708 - 38.27043 - 84.68121 - 195.07698  scaled
-//S6 - 11.10601 - 81.30216 - 222.54748 - 5.31460 - 54.25901 - 27.69384  scaled still bad after remediation
-//S6 - 9.12428 - 0.87504 - 63.50943 - 233.55358 - 4.41117 - 36.27397  scaled still bad after remediation
-//S6 - 3.00480 - 19.63201 - 241.04017 - 9.76684 - 34.86767 - 13.93003  scaled still bad after remediation
+//S6 -100.00000 -100.00000 -100.00000 -100.00000 -100.00000 -100.00000  REFERENCE
+//S6 -234.14273 -1.88359 -47.67826 -0.30533 -4.90138 -53.63114  scaled
+//S6 -10.41946 -7.17661 -95.06707 -31.36144 -190.57190 -116.19378  scaled
+//S6 -240.86238 -24.92865 -8.64775 -7.17380 -34.21200 -8.19574  scaled still bad after remediation
+//S6 -230.17565 -17.27155 -54.34361 -23.25853 -11.49257 -55.62911  scaled still bad after remediation
+//S6 -31.02879 -10.96443 -14.25264 -38.96421 -239.08206 -5.95120  scaled
+//S6 -13.78936 -207.70159 -82.97108 -30.45375 -12.34903 -93.30473  scaled
+//S6 -121.50546 -10.74570 -13.31738 -80.60464 -33.75129 -193.15109  scaled
+//S6 -7.70225 -9.51802 -105.79984 -0.04535 -211.62487 -62.22050  scaled
+//S6 -181.85349 -23.36642 -115.13135 -18.98134 -38.38171 -106.27627  scaled
+//S6 -2.78162 -34.43272 -237.34522 -10.96929 -43.32243 -21.83436  scaled still bad after remediation
+//S6 -56.99568 -27.30398 -7.58384 -107.64530 -0.76797 -210.61902  scaled
+//S6 -1.76325 -112.70665 -24.56708 -38.27043 -84.68121 -195.07698  scaled
+//S6 -11.10601 -81.30216 -222.54748 -5.31460 -54.25901 -27.69384  scaled still bad after remediation
+//S6 -9.12428 -0.87504 -63.50943 -233.55358 -4.41117 -36.27397  scaled still bad after remediation
+//S6 -3.00480 -19.63201 -241.04017 -9.76684 -34.86767 -13.93003  scaled still bad after remediation
 static double g_maxDeltaForMatch = 0.02;
 std::string selectBravaisCase = "";
 
@@ -256,7 +257,7 @@ void SearchForToCanon(const std::vector<DeloneFitResults>& vfit) {
    }
 }
 
-std::string ProcessSella(const bool doProduceSellaGraphics, const LatticeCell& input,
+std::pair< std::string, std::string> ProcessSella(const bool doProduceSellaGraphics, const LatticeCell& input,
    const std::string& filename) {
 
    std::vector< BravaisChainFailures> outBCF;
@@ -283,7 +284,7 @@ std::string ProcessSella(const bool doProduceSellaGraphics, const LatticeCell& i
    //std::cout << gcs << std::endl;
 
    {
-      if (gcs.HasFailure()) {
+      if (gcs.HasFailure()) {  // Use the member variable directly
          GrimmerChainFailure gcf = gcs.GetFirstFailure();
          const std::vector<std::pair<std::string, double>> firstFail = gcf.GetFailures();
          const DeloneFitResults revisedFit = gcs.Remediation(firstFail[1].first, firstFail[1].second);
@@ -291,10 +292,6 @@ std::string ProcessSella(const bool doProduceSellaGraphics, const LatticeCell& i
          gcs = gcs.ReplaceRemediation(revisedFit);
       }
    }
-   //theDelonefits.CreateMapOFDeloneFits(vDeloneFitResultsForOneInputLattice);
-   //std::cout << theDelonefits << std::endl;
-   //theBravaisfits.CreateMapOFBravaisFits(vDeloneFitResultsForOneInputLattice);
-   //std::cout << theBravaisfits << std::endl;
 
    std::cout << "; " << input.GetInput() << " input data" << std::endl << std::endl;
 
@@ -330,8 +327,19 @@ std::string ProcessSella(const bool doProduceSellaGraphics, const LatticeCell& i
    matches.clear();
    matches.push_back(temp);
 
-   return  BravaisHeirarchy::ProduceSVG(
+   std::string mainSvg = BravaisHeirarchy::ProduceSVG(
       input, oneLattice, scores, matches);
+
+   // Generate the fit plots SVG
+   std::string fitPlotsSvg;
+   if (doProduceSellaGraphics) {
+      // Add this line to update the fit data structures
+      gcs.UpdateFits(vDeloneFitResultsForOneInputLattice);
+
+      fitPlotsSvg = gcs.GenerateSortedFitPlots(900, 700, input.getInput());
+   }
+   return std::make_pair(mainSvg, fitPlotsSvg);
+
 }
 
 std::string SendSellaToFile(const std::string& svg, const std::string& filename) {
@@ -380,23 +388,40 @@ void AnalyzeS6(const S6 s6) {
    std::cout << "lowCount " << lowCount << std::endl;
 }
 
+std::string AddSuffixToAllSvgOccurrences(const std::string& input, const std::string& suffix) {
+   std::string result = input;
+   std::string pattern = ".svg";
+   size_t pos = 0;
+
+   // Find and process each occurrence of ".svg"
+   while ((pos = result.find(pattern, pos)) != std::string::npos) {
+      // Insert the suffix before ".svg"
+      result.insert(pos, suffix);
+      // Update position to look for next occurrence, accounting for the added suffix
+      pos += suffix.length() + pattern.length();
+   }
+
+   return result;
+}
+
+
 int main(int argc, char* argv[])
 {
    std::cout << "; SELLA method symmetry searching\n";
-   WebIO webio(argc, argv, "CmdSella",0);
+   WebIO webio(argc, argv, "CmdSella", 0);
 
 #ifdef LRL_DEBUG
-    for (size_t ii=0; ii < argc; ii++) {
-      std::cout << ii << ": " <<  argv[ii] << std::endl;
-    }  
-    std::cout  << "webio: " << webio << std::endl;
+   for (size_t ii = 0; ii < argc; ii++) {
+      std::cout << ii << ": " << argv[ii] << std::endl;
+   }
+   std::cout << "webio: " << webio << std::endl;
 #endif
 
    CmdSellaControls controls;
    controls.setHasWebInput(webio.m_hasWebInstructions);
    const int initblockstart = controls.getBlockStart();
    const int initblocksize = controls.getBlockSize();
-   const WebFileBlockProgramInput<CmdSellaControls> dc_setup(argc, argv, "CmdSella",0,controls);
+   const WebFileBlockProgramInput<CmdSellaControls> dc_setup(argc, argv, "CmdSella", 0, controls);
 
    const size_t blockstart = dc_setup.getBlockStart();
    const size_t blocksize = dc_setup.getBlockSize();
@@ -407,9 +432,9 @@ int main(int argc, char* argv[])
    }
 
 #ifdef LRL_DEBUG
-  if (!controls.getShowControls()) {
+   if (!controls.getShowControls()) {
       std::cout << controls << std::endl;
-  }
+   }
 #endif
 
 
@@ -419,21 +444,32 @@ int main(int argc, char* argv[])
    for (size_t whichCell = blockstart;
       whichCell < inputList.size() && whichCell < blockstart + blocksize; ++whichCell) {
 
-      const std::string svgOutput = ProcessSella(doProduceSellaGraphics, inputList[whichCell],
+      // Get both SVGs as a pair
+      const auto [sellaSvg, fitPlotsSvg] = ProcessSella(doProduceSellaGraphics, inputList[whichCell],
          dc_setup.getRawFileNames()[whichCell - blockstart]);
       if (doProduceSellaGraphics) {
-         std::cout << "; Send Sella Plot to graphics file " 
+         // Write Sella plot
+         std::cout << "; Send Sella Plot to graphics file "
             << dc_setup.getFullFileNameAt(whichCell) << std::endl;
+         std::cout << "; Send Sella Plot to graphics file "
+            << AddSuffixToAllSvgOccurrences(dc_setup.getFullFileNameAt(whichCell), "_fit_plots") << std::endl;
+
          if (webio.m_hasWebInstructions) {
-            SendSellaToFile(svgOutput, dc_setup.getRawFileNames()[whichCell - blockstart]);
+            SendSellaToFile(sellaSvg, dc_setup.getRawFileNames()[whichCell - blockstart]);
+
+            // Write fit plots immediately after
+            const std::string fitPlotsFilename = AddSuffixToAllSvgOccurrences(dc_setup.getRawFileNames()[whichCell - blockstart], "_fit_plots");
+            SendSellaToFile(fitPlotsSvg, fitPlotsFilename);
          }
          else {
-            SendSellaToFile(svgOutput, dc_setup.getBasicFileNames()[whichCell - blockstart]);
+            SendSellaToFile(sellaSvg, dc_setup.getBasicFileNames()[whichCell - blockstart]);
 
+            // Write fit plots immediately after
+            const std::string fitPlotsFilename = AddSuffixToAllSvgOccurrences(dc_setup.getBasicFileNames()[whichCell - blockstart], "_fit_plots");
+            SendSellaToFile(fitPlotsSvg, fitPlotsFilename);
          }
       }
    }
 
    exit(0);
 }
-
