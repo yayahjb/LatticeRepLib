@@ -493,12 +493,93 @@ int main(int argc,
       +std::string("S6 0 -107.51 0 7.51 -400 -792.49 <br />")
       +std::string("; this is a comment<br />")
       +std::string("end<br /></font>\"")+std::string(";") << std::endl; 
-      std::cout << " } else if (operation==\"CmdLM\") {" << std::endl;
-      std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("\"<font size=-1> <strong>Command: apply Lattice Matching algorithm to listed cells</strong><br />")
-      +std::string("<em><u>Purpose:</u></em> Taking the first input cells as the &quot;REFERENCE&quot;, the alternative cells of<br />")
+      std::cout << " } else if (operation==\"CmdLMP3\") {" << std::endl;
+      std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("\"<font size=-1> <strong>Command: </strong>Lattice matching in 3D using <strong>P<sup>3</sup></strong> distances for measuring fit.<br />")
+      +std::string("<em><u>Purpose:</u></em> Lattice matching that finds transformation matrices between crystal lattices<br />")
+      +std::string("The first cell input is treated as the reference that following &quot;mobiles&quot; will be<br />")
+      +std::string("matched to. The output includes the <strong>P<sup>3</sup></strong> distances and <strong>S<sup>6</sup></strong> angle measures of fit. If more than one mobile is input, then &quot;comparison mode&quot; is output, which<br />")
+      +std::string("is more compact. Output include the transformation matrices that operate on<br />")
+      +std::string("the base vectors of the unit cell (this is important). Note, there are likely<br />")
+      +std::string("to be more than one transformation listed, but they are listed in order of<br />")
+      +std::string("of worsening fit.<br />")
+      +std::string("<em><u>Output type:</u></em> </em> transformation matrices, distance metrics (<strong>P<sup>3</sup></strong> and <strong>S<sup>6</sup></strong> angles), and transformed <br />")
+      +std::string("lattice parameters with detailed quality assessment and multiple solution rankings.<br />")
+      +std::string("<em><u>Example:</u></em><br />")
+      +std::string("p 10.25 10.74 21.08 87.72 75.97 61.53<br />")
+      +std::string("p 10.25 10.74 21.08 78.96 75.97 61.49<br />")
+      +std::string("end<br />")
+      +std::string("; Production Lattice Matcher Results<br />")
+      +std::string("Found 500 results<br />")
+      +std::string("Result 1:<br />")
+      +std::string("&nbsp;&nbsp;Matrix: [-1.0 0.0 0.0 -1.0 1.0 0.0 0.0 0.0 -1.0]<br />")
+      +std::string("&nbsp;&nbsp;Determinant: 1.000000<br />")
+      +std::string("&nbsp;&nbsp;P<SUP>3</SUP> distance: 1.025e-02<br />")
+      +std::string("&nbsp;&nbsp;S6 angle: 0.01°<br />")
+      +std::string("&nbsp;&nbsp;Transformed: 10.250 10.739 21.080 87.714 75.970 61.502<br />")
+      +std::string("end<br />")
+      +std::string("<em><u>Parameters:</u></em>NA<br />")
+      +std::string("<br />")
+      +std::string("<em><u>Control Parameters</u></em><br />")
+      +std::string("Control information is NOT case sensitive, and control names can be abbreviated.<br />")
+      +std::string("<em>COMPARISONMODE:</em> enable comparison mode for multiple input processing (default: true)<br />")
+      +std::string("<em>TEST:</em> run test suite to verify system functionality<br />")
+      +std::string("&emsp;TEST (no number): run all available tests<br />")
+      +std::string("&emsp;TEST n: run specific test number n<br />")
+      +std::string("&emsp;TEST -1 (or any negative): show list of available tests<br />")
+      +std::string("&emsp;TEST 999: show list of available tests<br />")
+      +std::string("<br />")
+      +std::string("<em><u>Test Suite</u></em><br />")
+      +std::string("The system includes a comprehensive test suite with the following tests:<br />")
+      +std::string("&emsp;Test 1: Hawaiian- Nearly identical cells with known transformation<br />")
+      +std::string("&emsp;Test 2: TrulyIdentical - Identical cells should give perfect quality metrics<br />")
+      +std::string("&emsp;Test 3: SmallDifference - Small parameter differences should give good quality<br />")
+      +std::string("&emsp;Test 4: ManualCheck - Complex case for manual verification<br />")
+      +std::string("&emsp;Test 5: LargeDifference - Very relaxed limits<br />")
+      +std::string("&emsp;Test 6: DifferentCentered - Identical lattices with different centering<br />")
+      +std::string("&emsp;Test 7: DuplicateDetection - Ensure no duplicate transformation matrices in results<br />")
+      +std::string("&emsp;Test 8: HighSymmetryDuplicates - High symmetry case prone to generating duplicates<br />")
+      +std::string("&emsp;Test 9: MultipleValidTransforms - Case where multiple valid transformations exist<br />")
+      +std::string("<br />")
+      +std::string("Usage: <br />")
+      +std::string("  test 0 or test >=10 : Run all tests<br />")
+      +std::string("  test 1-9 : Run specific test<br />")
+      +std::string("  test 999 : Show this test list<br />")
+      +std::string("<br />")
+      +std::string("<em><u>Sample control input</u></em><br />")
+      +std::string("&emsp;test 1<br />")
+      +std::string("<br />")
+      +std::string("<em><u>Sample input</u></em><br />")
+      +std::string("; identical lattices created from one random cell by LCA 2025-05-04<br />")
+      +std::string("C    12.770    21.235    14.411   136.017    84.071   111.795<br />")
+      +std::string("F    33.151    18.241    20.218    83.054   144.781   120.639<br />")
+      +std::string("end<br />")
+      +std::string("<br />")
+      +std::string("<hr><strong>Command: Check Input</strong><br />")
+      +std::string("<em><u>Purpose:</u></em> Verify input lattice types and parameters<br />")
+      +std::string("<em><u>Output type:</u></em> Valid input is reported as H<sup>6</sup> unit cell a, b, c, &alpha;, &beta;, &gamma;.<br />")
+      +std::string("Warnings are output for invalid inputs.<br />")
+      +std::string("<em><u>Parameters:</u></em> NA<br />")
+      +std::string("<hr />LRL_Web Data Inputs:  There are 5 types of input lines. Except for 'END', they can be combined in any order.<br />")
+      +std::string(" All these are case-insensitive. If a particular input lattice is invalid, it is rejected<br /> with a message.<br />")
+      +std::string("---  RANDOM: Random (valid) unit cell;<br />")
+      +std::string("---  Crystal lattice input: 'A', 'B', 'C', 'P', 'R', 'F', 'I' followed by three axis lengths and three angles (in degrees);<br />")
+      +std::string("---  semicolon: lines beginning with a semicolon are treated as comments<br />")
+      +std::string("---  Vector Input: g (or v or g6) for G6 vectors; s (or s6) for S6, Delone/Selling scalars, C3 for C3 input (without parentheses<br />or commas, 'C' would be interpreted as a C-centered unit cell), u for unsorted Dirichlet 7-cells.<br />")
+      +std::string("---  END: ends the data input section<br />")
+      +std::string("Examples of unit cell inputs<br />")
+      +std::string("P 10 20 30 90 111 90<br />")
+      +std::string("G 100 400 900 0 -215.02 0<br />")
+      +std::string("S6 0 -107.51 0 7.51 -400 -792.49 <br />")
+      +std::string("; this is a comment<br />")
+      +std::string("end<br />")
+      +std::string("<br /></font>\"")+std::string(";") << std::endl; 
+      std::cout << " } else if (operation==\"CmdLMS6\") {" << std::endl;
+      std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("\"<font size=-1> <strong>Command: apply Lattice Matching algorithm to listed cells</strong> using using <strong>S<sup>6</sup></strong>distances for measuring fit<br />")
+      +std::string("<em><u>Purpose:</u></em> Taking the first input cell as the &quot;REFERENCE&quot;, the alternative cells of<br />")
       +std::string("each succeeding cell are examined to find a closest match to the reference lattice. <br />")
+      +std::string("Matching is done in the space <strong>S<sup>6</sup></strong>, so 3D transformations are not computed.<br />")
       +std::string("<p style=margin-left:40px>Andrews, Lawrence C., Herbert J. Bernstein, and Nicholas K. Sauter. <br />")
-      +std::string("&quot;Approximating lattice similarity.&quot; Acta Crystallographica Section A: Foundations and Advances 79.5, 480-484 (2023).</p> <em><u>Output type:</u></em> (H<sup>6</sup>) a, b, c &alpha;, &beta;, &gamma;, with the lattice centering<br />")
+      +std::string("&quot;Approximating lattice similarity.&quot; Acta Crystallographica Section A: Foundations and Advances 79.5, 480-484 (2023).</p> <em><u>Output type:</u></em>  a, b, c, &alpha;, &beta;, &gamma;, with the lattice centering<br />")
       +std::string("chosen to be the same as that of the reference cell.<br />")
       +std::string("<em><u>Example:</u></em><br />")
       +std::string("f 10 10 10 90 90 90<br />")
@@ -2171,7 +2252,7 @@ std::string plaintext2html(std::string & dst, std::string src){
       std::cout << "  <td align=left>" << std::endl;
       std::cout << "  <div id=\"block_"+twodig_array[numop]+"a\" style="+active+">" << std::endl; 
       std::cout << "  <label for=\"operation_"+twodig_array[numop]+"\">Select an operation:</label><br />" << std::endl;
-      std::cout << "  <select name=\"operation_"+twodig_array[numop]+"\" id=\"operation_"+twodig_array[numop]+"\" size=\"34\" onchange=\"changeoperation(\'"+twodig_array[numop]+"')\">" << std::endl;
+      std::cout << "  <select name=\"operation_"+twodig_array[numop]+"\" id=\"operation_"+twodig_array[numop]+"\" size=\"35\" onchange=\"changeoperation(\'"+twodig_array[numop]+"')\">" << std::endl;
       std::cout << "  <optgroup label=\"Information\">" << std::endl;
       selected=operation.compare("NoOp")==0?"selected ":"";
       std::cout << "  <option "+selected+"value=\"NoOp\"><b>Check Input</b></option>" << std::endl;
@@ -2229,8 +2310,10 @@ std::string plaintext2html(std::string & dst, std::string src){
       std::cout << "  <option "+selected+"value=\"CmdNiggli\"><b>Niggli</b>:compute Niggli-reduced primitive cells</option>" << std::endl;
       std::cout << "  </optgroup>" << std::endl;
       std::cout << "  <optgroup label=\"Modify Input\">" << std::endl;
+      selected=operation.compare("CmdLMP3")==0?"selected ":"";
+      std::cout << "  <option "+selected+"value=\"CmdLMP3\"><b>Matching</b>: apply Lattice Matching algorithm to listed cells using P3 distance</option>" << std::endl;
       selected=operation.compare("CmdLM")==0?"selected ":"";
-      std::cout << "  <option "+selected+"value=\"CmdLM\"><b>Matching</b>: apply Lattice Matching algorithm to listed cells</option>" << std::endl;
+      std::cout << "  <option "+selected+"value=\"CmdLMS6\"><b>Matching</b>: apply Lattice Matching algorithm to listed cells using S6 distance</option>" << std::endl;
       selected=operation.compare("CmdPath")==0?"selected ":"";
       std::cout << "  <option "+selected+"value=\"CmdPath\"><b>Path</b>: compute path between pairs of cells</option>" << std::endl;
       selected=operation.compare("CmdPerturb")==0?"selected ":"";
