@@ -1,94 +1,12 @@
-dnl # lrl_web.m4 m4 source code of LRL_WEB cgi-bin script and web page
-dnl #    (C) Copyright  2024 Herbert J. Bernstein
-dnl #    YOU MAY REDISTRIBUTE THE LRL_WEB PACKAGE UNDER THE TERMS OF THE GPL.
-dnl #    ALTERNATIVELY YOU MAY REDISTRIBUTE THE LRL_WEB API UNDER THE TERMS OF THE LGPL.
-dnl #
-dnl # m4 macro expansion is controlled by defining the following m4 macros
-dnl #    lrl_web_host -- the web host name (without http: prefix)
-dnl #            (default blondie.arcb.org:8083)
-dnl #    lrl_web_user -- the username on the web host 
-dnl #            (default yaya)
-dnl #    lrl_web_sdbx -- set to `sandbox' for debugging
-dnl #            default `'
-dnl #    lrl_web_tmp -- temporary directory within ~`lrl_web_user' web page
-dnl #            default `tmp'
-dnl #
-dnl #   SET DEFAULTS
-define(`lwh_undef',`yes')dnl
-ifdef(`lrl_web_host',`define(`lwh_undef',`no')')dnl
-ifelse(`lwh_undef',`yes',`define(`lrl_web_host',`blondie.arcib.org:8083')')dnl
-define(`lwu_undef',`yes')dnl
-ifdef(`lrl_web_user',`define(`lwu_undef',`no')')dnl
-ifelse(`lwu',`yes',`define(`lrl_web_user',`yaya')')dnl
-define(`lws_undef',`yes')dnl
-ifdef(`lrl_web_sdbx',`define(`lws_undef',`no')')dnl
-ifelse(`lws_undef',`yes',`define(`lrl_web_sdbx',`')')dnl
-define(`lwt_undef','yes')dnl
-ifdef(`lrl_web_tmp',`define(`lwt_undef',`no')')dnl
-ifelse(`lwt_undef',`yes',`define(`lrl_web_tmp',`tmp')')dnl
-define(`LRLWEBHOST',`lrl_web_host')dnl
-define(`LRLWEBUSER',`lrl_web_user')dnl
-ifelse(lrl_web_sdbx,sandbox,`define(`LRLWEBCGI',`nlrl_web.cgi')',`define(`LRLWEBCGI',`lrl_web.cgi')')dnl
-ifelse(lrl_web_sdbx,sandbox,`define(`LRLWEBSANDBOX',`sandbox')',`define(`LRLWEBSANDBOX',`')')dnl
-ifelse(lrl_web_sdbx,sandbox,`define(`LRLWEBSBPRFX',`sandbox/')',`define(`LRLWEBSBPRFX',`')')dnl
-changequote(`[[[',`]]]')dnl
-define([[[LRLWEBTMP]]],[[[tmp]]])dnl
-dnl #
-dnl #  TOOL HELP FILES
-define([[[LRLWEBCHECKINPUT]]],[[[[[[$1]]]]]]dnl
-[[[[[[<strong>Command: Check Input</strong>$2]]]]]]dnl
-[[[[[[<em><u>Purpose:</u></em> Verify input lattice types and parameters$2]]]]]]dnl
-[[[[[[<em><u>Output type:</u></em> Valid input is reported as H<sup>6</sup> unit cell a, b, c, &alpha;, &beta;, &gamma;.$2]]]]]]dnl
-[[[[[[Warnings are output for invalid inputs.$2]]]]]]dnl
-[[[[[[<em><u>Parameters:</u></em> NA$2]]]]]]dnl
-[[[[[[<hr />]]]]]]dnl
-[[[[[[LRL_Web Data Inputs:  There are 5 types of input lines.]]]]]]dnl
-[[[[[[ Except for 'END', they can be combined in any order.$2]]]]]]dnl
-[[[[[[ All these are case-insensitive. If a particular input lattice is invalid, it is rejected<br /> with a message.$2]]]]]]dnl
-[[[[[[---  RANDOM: Random (valid) unit cell;$2]]]]]]dnl
-[[[[[[---  Crystal lattice input: 'A', 'B', 'C',]]]]]]dnl
-[[[[[[ 'P', 'R', 'F', 'I' followed by three axis lengths]]]]]]dnl
-[[[[[[ and three angles (in degrees);$2]]]]]]dnl
-[[[[[[---  semicolon: lines beginning with a semicolon are treated as comments$2]]]]]]dnl
-[[[[[[---  Vector Input: g (or v or g6) for G<sup>6</sup> vectors; s (or s6) for S<sup>6</sup>, Delone/Selling scalars,]]]]]]dnl
-[[[[[[ C<sup>3</sup> for C<sup>3</sup> input (without parentheses<br />or commas, 'C' would be interpreted as a C-centered unit cell),]]]]]]dnl
-[[[[[[ u for unsorted Dirichlet 7-cells.$2]]]]]]dnl
-[[[[[[---  END: ends the data input section$2]]]]]]dnl
-[[[[[[Examples of unit cell inputs$2]]]]]]dnl
-[[[[[[P 10 20 30 90 111 90$2]]]]]]dnl
-[[[[[[G 100 400 900 0 -215.02 0$2]]]]]]dnl
-[[[[[[S6 0 -107.51 0 7.51 -400 -792.49 $2]]]]]]dnl
-[[[[[[; this is a comment$2]]]]]]dnl
-[[[[[[end$3]]]]]]dnl
-dnl
-)dnl--------------------------------------------------
-define([[[LRLWEBRUNNING]]],[[[[[[
-$1<div name=$2"block_$4_running$2" id=$2"block_$4_running$2" style=$2"display:none$2">$3
-$1<label for=$2"progress_img_$4$2">Running:</label><br />$3
-$1<img src=$2"http://$5/images/progress_small.gif$2" id=$2"progress_img_$4$2" alt=$2"running$2" />$3
-$1<br />$3
-$1</div>$3
-]]]]]])dnl
-include([[[Command_Help.m4]]])dnl
-ifdef([[[lrl_web_host]]],[[[define([[[LRLWEBHOST]]],[[[lrl_web_host]]])]]])dnl
-ifdef([[[lrl_web_user]]],[[[define([[[LRLWEBUSER]]],[[[lrl_web_user]]])]]])dnl
-ifdef([[[lrl_web_cgi]]],[[[define([[[LRLWEBCGI]]],[[[lrl_web_cgi]]])]]])dnl
-ifdef([[[lrlwebtmp]]],[[[define([[[LRLWEBTMP]]],[[[lrl_web_tmp]]])]]])dnl
-ifdef([[[cgicpp]]],[[[define([[[xxpefix]]],[[[std::cout << ]]])]]])dnl
-ifdef([[[cgicpp]]],[[[define([[[xxepilogue]]],[[[ << std::endl;]]])]]])dnl
-define([[[nocgicpp]]],[[[yes]]])dnl
-ifdef([[[cgicpp]]],[[[undefine([[[nocgicpp]]])]]])dnl
-ifdef([[[cgicpp]]],[[[dnl
-dnl #
-dnl # SOURCE OF lrl_web.cpp GENERATED FROM lrl_web.m4
+
 // SOURCE OF lrl_web.cpp GENERATED FROM lrl_web.m4
-// [[[lrl_web_host]]]: lrl_web_host
-// [[[lrl_web_user]]]: lrl_web_user
-// [[[lrl_web_sdbx]]]: lrl_web_sdbx
-// [[[lrl_web_tmp]]]: lrl_web_tmp
-// [[[LRLWEBSANDBOX]]]: LRLWEBSANDBOX
-// [[[LRLWEBSBPRFX]]]: LRLWEBSBPRFX
-// [[[LRLWEBCGI]]]: LRLWEBCGI
+// lrl_web_host: blondie.arcib.org:8083
+// lrl_web_user: yaya
+// lrl_web_sdbx: lrl_web_sdbx
+// lrl_web_tmp: tmp
+// LRLWEBSANDBOX: 
+// LRLWEBSBPRFX: 
+// LRLWEBCGI: lrl_web.cgi
  
 #include <iostream>
 #include <fstream>
@@ -106,10 +24,10 @@ dnl # SOURCE OF lrl_web.cpp GENERATED FROM lrl_web.m4
 #include "do_posix_spawn.h"
 #define LRL_WEB_DEBUG 0
 #define NUMOPS_MAX 8
-#define LRL_WEB_HOST std::string("]]]LRLWEBHOST[[[")
-#define LRL_WEB_USER std::string("]]]LRLWEBUSER[[[")
-#define LRL_WEB_CGI std::string("]]]LRLWEBCGI[[[")
-#define LRL_WEB_TMP std::string("]]]LRLWEBTMP[[[")
+#define LRL_WEB_HOST std::string("blondie.arcib.org:8083")
+#define LRL_WEB_USER std::string("yaya")
+#define LRL_WEB_CGI std::string("lrl_web.cgi")
+#define LRL_WEB_TMP std::string("tmp")
 
 using namespace std;
 using namespace cgicc;
@@ -345,119 +263,856 @@ int main(int argc,
       std::cout << "   document.getElementById(\"block_\"+tdrownum+\"b_cmdtos6l\").style=\"display:none\";" << std::endl;
       std::cout << " }" << std::endl;
       std::cout << " if (operation==\"Dirichlet\") {" << std::endl;
-      std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("LRLWEB_Dirichlet([[[\"<font size=-1>]]],[[[<br />")
-      +std::string("]]],[[[<br /></font>\"")]]])+std::string(";") << std::endl; 
+      std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("\"<font size=-1><strong>Command: Dirichlet</strong><br />")
+      +std::string("<em><u>Purpose:</u></em> draw Dirichlet cells of listed cells<br />")
+      +std::string("The Dirichlet cell (also known as Voronoi domain, Voronoi cell, Delaunay domain, or Wigner-Seitz cell) is the 3-D analog of Delaunay triangulation. It is the points nearest to a particular lattice point, usually the origin, rather than other lattice points.<br />")
+      +std::string("<em><u>Output type:</u></em> images of Dirichlet cells in multiple orientations <br />")
+      +std::string("<em><u>Parameters:</u></em> --blockorigin blkorig (0) and --blocksize blksz(10) <br />")
+      +std::string("limit the portion of the listed cells drawn to prevent overload<br />")
+      +std::string("<hr><strong>Command: Check Input</strong><br />")
+      +std::string("<em><u>Purpose:</u></em> Verify input lattice types and parameters<br />")
+      +std::string("<em><u>Output type:</u></em> Valid input is reported as H<sup>6</sup> unit cell a, b, c, &alpha;, &beta;, &gamma;.<br />")
+      +std::string("Warnings are output for invalid inputs.<br />")
+      +std::string("<em><u>Parameters:</u></em> NA<br />")
+      +std::string("<hr />LRL_Web Data Inputs:  There are 5 types of input lines. Except for 'END', they can be combined in any order.<br />")
+      +std::string(" All these are case-insensitive. If a particular input lattice is invalid, it is rejected<br /> with a message.<br />")
+      +std::string("---  RANDOM: Random (valid) unit cell;<br />")
+      +std::string("---  Crystal lattice input: 'A', 'B', 'C', 'P', 'R', 'F', 'I' followed by three axis lengths and three angles (in degrees);<br />")
+      +std::string("---  semicolon: lines beginning with a semicolon are treated as comments<br />")
+      +std::string("---  Vector Input: g (or v or g6) for G6 vectors; s (or s6) for S6, Delone/Selling scalars, C3 for C3 input (without parentheses<br />or commas, 'C' would be interpreted as a C-centered unit cell), u for unsorted Dirichlet 7-cells.<br />")
+      +std::string("---  END: ends the data input section<br />")
+      +std::string("Examples of unit cell inputs<br />")
+      +std::string("P 10 20 30 90 111 90<br />")
+      +std::string("G 100 400 900 0 -215.02 0<br />")
+      +std::string("S6 0 -107.51 0 7.51 -400 -792.49 <br />")
+      +std::string("; this is a comment<br />")
+      +std::string("end<br /></font>\"")+std::string(";") << std::endl; 
       std::cout << " } else if (operation==\"Follow\") {" << std::endl;
-      std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("LRLWEB_Follow([[[\"<font size=-1>]]],[[[<br />")
-      +std::string("]]],[[[<br /></font>\"")]]])+std::string(";") << std::endl; 
+      std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("\"<font size=-1><strong>Command: Follow</strong><br />")
+      +std::string("<em><u>Purpose:</u></em> This command provides a graphical display of small variations in lattices. In the default mode (POINT),<br />")
+      +std::string("a single cell is read, and its Niggli-reduced cell is calculated.  Multiple cells can be read, and <br />")
+      +std::string("a graphical output is computed for each input cell.  In space S<sup>6</sup>, a straight line is computed <br />")
+      +std::string("between those points. Then the distances from points (default: 100 points&ensp; along that line are <br />")
+      +std::string("calculated to the end point (Niggli-reduced cell, in the POINT case). The graphical output shows those <br />")
+      +std::string("distances for each chosen distance measure (default: NCDist in G<sup>6</sup> and CS6Dist in S<sup>6</sup>). <br />")
+      +std::string("<br />")
+      +std::string("For more details on the Follower method, see Andrews and Bernstein:<br />")
+      +std::string("<a href=https://www.cambridge.org/engage/api-gateway/coe/assets/orp/resource/item/63f418f01d2d184063d630a3/original/the-follower-algorithm-and-a-program-using-it-to-explore-spaces.pdf target=_blank><br />")
+      +std::string("&quot;The Follower algorithm and a program using it to explore spaces&quot;</a><br />")
+      +std::string("<em><u>Output type:</u></em><br />")
+      +std::string("graphical file names and various text<br />")
+      +std::string("<em><u>Graphical output:</u></em>Follow consumes unit cells descriptions.<br />")
+      +std::string("<br />")
+      +std::string("<br />")
+      +std::string("<em><u>Parameters:</u></em><br />")
+      +std::string("NA<br><br />")
+      +std::string("<br><br />")
+      +std::string("<br />")
+      +std::string("<em><u>Control Parameters</u></em><br><br />")
+      +std::string("Control information is NOT case sensitive.<br><br />")
+      +std::string("^<br />")
+      +std::string("<em>FOLLOWERMODE</em> One of:<br />")
+      +std::string("&emsp;POINT (default)<br />")
+      +std::string("&emsp;LINE<br />")
+      +std::string("&emsp;CHORD<br />")
+      +std::string("&emsp;CHORD3<br />")
+      +std::string("&emsp;TRIANGLE<br />")
+      +std::string("<em>PERTURBATIONS:</em> how many graphs of slightly different starting point to produce (default: 0)<br />")
+      +std::string("<em>PERTURBBY:</em> how much to perturb input cells (default: 0.10)<br />")
+      +std::string("<em>GLITCHTHRESHOLD:</em> how large a change in distance between points to consider are problem (default: 4%)<br />")
+      +std::string("<em>GLITCHSONLY:</em> FALSE (default) causes only files that contain a glitch to be written (default false)<br />")
+      +std::string("<em>DETECTGLITCHS:</em> TRUE causes glitches to be written on the output graphs (default: true)<br />")
+      +std::string("<em>POINTS (=NUMFOLLOWERPOINTS):</em> the number of distance points to plot (default: 100)<br />")
+      +std::string("<em>PRINTDATA (=PRINTDISTANCEDATA):</em> whether to send the input points along the S<sup>6</sup> line to output (default: false)<br />")
+      +std::string("<em>ENABLE:</em> add distance types to the types that will be displayed on output <br />")
+      +std::string("&emsp;(defaults are NC and CS; you can add RI or V7 or DC7U(synonym: U))<br />")
+      +std::string("<em>DISABLE:</em> remove distance types from the list to be shown on the graph<br />")
+      +std::string("<em>SHOWMARKERS (=SHOWDATAMARKERS):</em> show a marker at each data point on the output line (default: TRUE)<br />")
+      +std::string("<em>BLOCKSTART:</em> if multiple svg files are written, specifies the ordinal of the first to write<br />")
+      +std::string("&emsp; (mostly for use on the website)<br />")
+      +std::string("<em>BLOCKSIZE:</em> the number of files to write, starting from BLOCKSTART(mostly for use on the website)<br />")
+      +std::string("&emsp; (on the web, this is limited to 20) (mostly for use on the website)<br />")
+      +std::string("<br />")
+      +std::string("Sample control input:<br />")
+      +std::string("&emsp;Points 77<br />")
+      +std::string("&emsp;Mode Line<br />")
+      +std::string("&emsp;Enable V7<br />")
+      +std::string("<hr><strong>Command: Check Input</strong><br />")
+      +std::string("<em><u>Purpose:</u></em> Verify input lattice types and parameters<br />")
+      +std::string("<em><u>Output type:</u></em> Valid input is reported as H<sup>6</sup> unit cell a, b, c, &alpha;, &beta;, &gamma;.<br />")
+      +std::string("Warnings are output for invalid inputs.<br />")
+      +std::string("<em><u>Parameters:</u></em> NA<br />")
+      +std::string("<hr />LRL_Web Data Inputs:  There are 5 types of input lines. Except for 'END', they can be combined in any order.<br />")
+      +std::string(" All these are case-insensitive. If a particular input lattice is invalid, it is rejected<br /> with a message.<br />")
+      +std::string("---  RANDOM: Random (valid) unit cell;<br />")
+      +std::string("---  Crystal lattice input: 'A', 'B', 'C', 'P', 'R', 'F', 'I' followed by three axis lengths and three angles (in degrees);<br />")
+      +std::string("---  semicolon: lines beginning with a semicolon are treated as comments<br />")
+      +std::string("---  Vector Input: g (or v or g6) for G6 vectors; s (or s6) for S6, Delone/Selling scalars, C3 for C3 input (without parentheses<br />or commas, 'C' would be interpreted as a C-centered unit cell), u for unsorted Dirichlet 7-cells.<br />")
+      +std::string("---  END: ends the data input section<br />")
+      +std::string("Examples of unit cell inputs<br />")
+      +std::string("P 10 20 30 90 111 90<br />")
+      +std::string("G 100 400 900 0 -215.02 0<br />")
+      +std::string("S6 0 -107.51 0 7.51 -400 -792.49 <br />")
+      +std::string("; this is a comment<br />")
+      +std::string("end<br /></font>\"")+std::string(";") << std::endl; 
       std::cout << " } else if (operation==\"CmdDelone\") {" << std::endl;
-      std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("LRLWEB_CmdDelone([[[\"<font size=-1>]]],[[[<br />")
-      +std::string("]]],[[[<br /></font>\"")]]])+std::string(";") << std::endl;
+      std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("\"<font size=-1><strong>Command: compute Selling-reduced primitive cells</strong><br />")
+      +std::string("<em><u>Purpose:</u></em> Perform Selling/Delone reduction on input cells<br />")
+      +std::string("<em><u>Output type:</u></em> S<sup>6</sup> form of the reduced cells of input. The Delone-reduced<br />")
+      +std::string("cell has only non-acute interaxial angles.<br />")
+      +std::string("<em><u>Parameters:</u></em> NA<br />")
+      +std::string(" <hr><strong>Command: Check Input</strong><br />")
+      +std::string("<em><u>Purpose:</u></em> Verify input lattice types and parameters<br />")
+      +std::string("<em><u>Output type:</u></em> Valid input is reported as H<sup>6</sup> unit cell a, b, c, &alpha;, &beta;, &gamma;.<br />")
+      +std::string("Warnings are output for invalid inputs.<br />")
+      +std::string("<em><u>Parameters:</u></em> NA<br />")
+      +std::string("<hr />LRL_Web Data Inputs:  There are 5 types of input lines. Except for 'END', they can be combined in any order.<br />")
+      +std::string(" All these are case-insensitive. If a particular input lattice is invalid, it is rejected<br /> with a message.<br />")
+      +std::string("---  RANDOM: Random (valid) unit cell;<br />")
+      +std::string("---  Crystal lattice input: 'A', 'B', 'C', 'P', 'R', 'F', 'I' followed by three axis lengths and three angles (in degrees);<br />")
+      +std::string("---  semicolon: lines beginning with a semicolon are treated as comments<br />")
+      +std::string("---  Vector Input: g (or v or g6) for G6 vectors; s (or s6) for S6, Delone/Selling scalars, C3 for C3 input (without parentheses<br />or commas, 'C' would be interpreted as a C-centered unit cell), u for unsorted Dirichlet 7-cells.<br />")
+      +std::string("---  END: ends the data input section<br />")
+      +std::string("Examples of unit cell inputs<br />")
+      +std::string("P 10 20 30 90 111 90<br />")
+      +std::string("G 100 400 900 0 -215.02 0<br />")
+      +std::string("S6 0 -107.51 0 7.51 -400 -792.49 <br />")
+      +std::string("; this is a comment<br />")
+      +std::string("end<br /></font>\"")+std::string(";") << std::endl;
       std::cout << " } else if (operation==\"CmdDists\") {" << std::endl;
-      std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("LRLWEB_CmdDists([[[\"<font size=-1>]]],[[[<br />")
-      +std::string("]]],[[[<br /></font>\"")]]])+std::string(";") << std::endl;
+      std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("\"<font size=-1> <strong>Command: compute NCDist and CS6Dist distances</strong><br />")
+      +std::string("<em><u>Purpose:</u></em> For a group of input cells, distances are reported in 3 different calculations:<br />")
+      +std::string("the simple Euclidean distance, the NCDist (G<sup>6</sup>) distance, and the CS6Dist<br />")
+      +std::string("(S<sup>6</sup>) distances. Distances are calculated in 2 different ways. The first<br />")
+      +std::string("is the rolling calculation of pairs in the list. The second is the distance of each <br />")
+      +std::string("cell from the first input cell.<br />")
+      +std::string("<em><u>Output type:</u></em> The distances for each input are output on a single line, starting with a <br />")
+      +std::string("semicolon so that it will be ignored by succeeding programs. The input cells are echoed<br />")
+      +std::string("to the output line as primitive and H<sup>6</sup>, a, b, c &alpha;, &beta;, &gamma;, so that they <br />")
+      +std::string("can be used for further input. Each output cell is followed<br />")
+      +std::string("by its ordinal number, and the distance calculations list the ordinals for the<br />")
+      +std::string("cells used of each calculation.<br />")
+      +std::string("<em><u>Parameters:</u></em> NA<br />")
+      +std::string(" <hr><strong>Command: Check Input</strong><br />")
+      +std::string("<em><u>Purpose:</u></em> Verify input lattice types and parameters<br />")
+      +std::string("<em><u>Output type:</u></em> Valid input is reported as H<sup>6</sup> unit cell a, b, c, &alpha;, &beta;, &gamma;.<br />")
+      +std::string("Warnings are output for invalid inputs.<br />")
+      +std::string("<em><u>Parameters:</u></em> NA<br />")
+      +std::string("<hr />LRL_Web Data Inputs:  There are 5 types of input lines. Except for 'END', they can be combined in any order.<br />")
+      +std::string(" All these are case-insensitive. If a particular input lattice is invalid, it is rejected<br /> with a message.<br />")
+      +std::string("---  RANDOM: Random (valid) unit cell;<br />")
+      +std::string("---  Crystal lattice input: 'A', 'B', 'C', 'P', 'R', 'F', 'I' followed by three axis lengths and three angles (in degrees);<br />")
+      +std::string("---  semicolon: lines beginning with a semicolon are treated as comments<br />")
+      +std::string("---  Vector Input: g (or v or g6) for G6 vectors; s (or s6) for S6, Delone/Selling scalars, C3 for C3 input (without parentheses<br />or commas, 'C' would be interpreted as a C-centered unit cell), u for unsorted Dirichlet 7-cells.<br />")
+      +std::string("---  END: ends the data input section<br />")
+      +std::string("Examples of unit cell inputs<br />")
+      +std::string("P 10 20 30 90 111 90<br />")
+      +std::string("G 100 400 900 0 -215.02 0<br />")
+      +std::string("S6 0 -107.51 0 7.51 -400 -792.49 <br />")
+      +std::string("; this is a comment<br />")
+      +std::string("end<br /></font>\"")+std::string(";") << std::endl;
       std::cout << " } else if (operation==\"CmdSauc\") {" << std::endl;
-      std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("LRLWEB_CmdSauc([[[\"<font size=-1>]]],[[[<br />")
-      +std::string("]]],[[[<br /></font>\"")]]])+std::string(";") << std::endl;
+      std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("\"<font size=-1> <strong>Command: SAUC search for alternate matching  unit cells</strong><br />")
+      +std::string("<em><u>Purpose:</u> </u></em>allows searching a database of known unit cells for similar cells; several search methods are available.</em>$ 2<em><u>Output type:</u></em> Web page listing matching entries in PDB and COD with similar cells<br />")
+      +std::string("<em><u>Parameters:</u></em> <br />")
+      +std::string("<em><u>Control Parameters</u></em> <br />")
+      +std::string("Note: Control commands and data values are case-insensitive.<br />")
+      +std::string("<em>METRIC:</em> the search metric to use for searching (or the chosen space). <br />")
+      +std::string("&emsp; Allowed values are L1, L2, G6, V7, D7, S6, DC7unsrt or DC7u (default=DC7unsrt) <br />")
+      +std::string("<em>DOMAIN:</em> allowed values are NEAREST, SPHERE, and RANGE (default=NEAREST) <br />")
+      +std::string("<em>RANGEA:</em> size of the box in which to search, when RANGE is chosen (default = 1.0) <br />")
+      +std::string("<em>RANGEB:</em> size of the box in which to search, when RANGE is chosen (default = 1.0) <br />")
+      +std::string("<em>RANGEC:</em> size of the box in which to search, when RANGE is chosen (default = 1.0) <br />")
+      +std::string("<em>RANGEALPHA:</em> size of the box in which to search, when RANGE is chosen (default = 1.0) <br />")
+      +std::string("<em>RANGEBETA:</em> size of the box in which to search, when RANGE is chosen (default = 1.0) <br />")
+      +std::string("<em>RANGEGAMMA:</em> size of the box in which to search, when RANGE is chosen (default = 1.0) <br />")
+      +std::string("<em>BLOCKSTART:</em> if multiple svg files are written, specifies the ordinal of the first to write <br />")
+      +std::string("&emsp; (mostly for use on the website, default=0)<br />")
+      +std::string("<em>BLOCKSIZE:</em> the number of files to write, starting from BLOCKSTART(mostly for use on the website) <br />")
+      +std::string("&emsp; (on the web, this is limited to 20) (mostly for use on the website) <br />")
+      +std::string("<hr />LRL_Web Data Inputs:  There are 5 types of input lines. Except for 'END', they can be combined in any order.<br />")
+      +std::string(" All these are case-insensitive. If a particular input lattice is invalid, it is rejected<br /> with a message.<br />")
+      +std::string("---  RANDOM: Random (valid) unit cell;<br />")
+      +std::string("---  Crystal lattice input: 'A', 'B', 'C', 'P', 'R', 'F', 'I' followed by three axis lengths and three angles (in degrees);<br />")
+      +std::string("---  semicolon: lines beginning with a semicolon are treated as comments<br />")
+      +std::string("---  Vector Input: g (or v or g6) for G6 vectors; s (or s6) for S6, Delone/Selling scalars, C3 for C3 input (without parentheses<br />or commas, 'C' would be interpreted as a C-centered unit cell), u for unsorted Dirichlet 7-cells.<br />")
+      +std::string("---  END: ends the data input section<br />")
+      +std::string("Examples of unit cell inputs<br />")
+      +std::string("P 10 20 30 90 111 90<br />")
+      +std::string("G 100 400 900 0 -215.02 0<br />")
+      +std::string("S6 0 -107.51 0 7.51 -400 -792.49 <br />")
+      +std::string("; this is a comment<br />")
+      +std::string("end<br /></font>\"")+std::string(";") << std::endl;
       std::cout << " } else if (operation==\"CmdGen\") {" << std::endl;
       std::cout << "   document.getElementById(\"block_\"+tdrownum+\"b_cmdgen\").style=\"display:inline\";" << std::endl;
       std::cout << "   document.getElementById(\"block_\"+tdrownum+\"b_cmdpath\").style=\"display:none\";" << std::endl;
       std::cout << "   document.getElementById(\"block_\"+tdrownum+\"b_cmdperturb\").style=\"display:none\";" << std::endl;
       std::cout << "   document.getElementById(\"block_\"+tdrownum+\"b_cmdscale\").style=\"display:none\";" << std::endl;
       std::cout << "   document.getElementById(\"block_\"+tdrownum+\"b_cmdtos6l\").style=\"display:none\";" << std::endl;
-      std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("LRLWEB_CmdGen([[[\"<font size=-1>]]],[[[<br />")
-      +std::string("]]],[[[<br /></font>\"")]]])+std::string(";") << std::endl; 
+      std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("\"<font size=-1> <strong>Command: Generate cells of a particular type or types</strong><br />")
+      +std::string("<em><u>Purpose:</u></em> To Create valid unit cells of various user-chosen types<br />")
+      +std::string("<em><u>Output type:</u></em> Output cells are reported in G<sup>6</sup> form, randomly chosen cell<br />")
+      +std::string("parameters for the various selected types. Lattice types are shown following <br />")
+      +std::string("the numerical parameters.<br />")
+      +std::string("Any input lattice descriptions are copied to the output.<br />")
+      +std::string("<em><u>Parameters:</u></em> (default values in parentheses) (deprecated)<br />")
+      +std::string("--- The number of cells of each type to be generated (1)<br />")
+      +std::string("--- The type(s) of selected output requested. See Control Parameters <br />")
+      +std::string("<em><u>Control Parameters</u></em> <br />")
+      +std::string("Control information is case sensitive. <br />")
+      +std::string("<em>COUNT:</em> the number of each chosen type to randomly generate (default: 5) <br />")
+      +std::string("<em>TYPE:</em> <br />")
+      +std::string("Examples are<br />")
+      +std::string("--- &quot;all&quot; (default) -- produces examples of each of the 44 Niggli types <br />")
+      +std::string("(see the International Tables) and also each of the 24 Delone types (all) <br />")
+      +std::string("--- &quot;<strong>Gruber&quot;</strong> (default&ensp; -- produces the the requested number of copies of the five nearly-Niggli-reduced examples of Gruber, 1973. <br />")
+      +std::string("--- &quot;<strong>random&quot;</strong> (default&ensp; -- produces the the requested number of random unit cells. <br />")
+      +std::string("--- a number between<strong>1</strong> and <strong>44</strong> will generate examples of that Niggli type. For instance, <br />")
+      +std::string("24 will create Niggli type 24 (which is hR). {allowed values: 1-44}<br />")
+      +std::string("--- <strong>&quot;m&quot;</strong> generates monoclinic examples {allowed types: c, t, h, o, m, a}<br />")
+      +std::string("--- <strong>&quot;mC&quot;</strong> generates C-centered monoclinic examples {mP, mS, mC, hR, hP, tP, tI, cF, cI, cP, aP} <br />")
+      +std::string("--- <strong>&quot;A1&quot;</strong> generates a general triclinic Delone type with no S<sup>6</sup> zero scalars.<br />")
+      +std::string("--- <strong>&quot;O4&quot;</strong> generates the centered orthorhombic Delone type with signature {00r sst}.<br />")
+      +std::string("--- <strong>&quot;O&quot;</strong> will generate all orthorhombic Delone types {allowed types: C, T, H, O, M, A}<br />")
+      +std::string("--- Unrecognized input will generate all types<br />")
+      +std::string(" <hr><strong>Command: Check Input</strong><br />")
+      +std::string("<em><u>Purpose:</u></em> Verify input lattice types and parameters<br />")
+      +std::string("<em><u>Output type:</u></em> Valid input is reported as H<sup>6</sup> unit cell a, b, c, &alpha;, &beta;, &gamma;.<br />")
+      +std::string("Warnings are output for invalid inputs.<br />")
+      +std::string("<em><u>Parameters:</u></em> NA<br />")
+      +std::string("<hr />LRL_Web Data Inputs:  There are 5 types of input lines. Except for 'END', they can be combined in any order.<br />")
+      +std::string(" All these are case-insensitive. If a particular input lattice is invalid, it is rejected<br /> with a message.<br />")
+      +std::string("---  RANDOM: Random (valid) unit cell;<br />")
+      +std::string("---  Crystal lattice input: 'A', 'B', 'C', 'P', 'R', 'F', 'I' followed by three axis lengths and three angles (in degrees);<br />")
+      +std::string("---  semicolon: lines beginning with a semicolon are treated as comments<br />")
+      +std::string("---  Vector Input: g (or v or g6) for G6 vectors; s (or s6) for S6, Delone/Selling scalars, C3 for C3 input (without parentheses<br />or commas, 'C' would be interpreted as a C-centered unit cell), u for unsorted Dirichlet 7-cells.<br />")
+      +std::string("---  END: ends the data input section<br />")
+      +std::string("Examples of unit cell inputs<br />")
+      +std::string("P 10 20 30 90 111 90<br />")
+      +std::string("G 100 400 900 0 -215.02 0<br />")
+      +std::string("S6 0 -107.51 0 7.51 -400 -792.49 <br />")
+      +std::string("; this is a comment<br />")
+      +std::string("end<br /></font>\"")+std::string(";") << std::endl; 
       std::cout << " } else if (operation==\"CmdLM\") {" << std::endl;
-      std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("LRLWEB_CmdLM([[[\"<font size=-1>]]],[[[<br />")
-      +std::string("]]],[[[<br /></font>\"")]]])+std::string(";") << std::endl; 
+      std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("\"<font size=-1> <strong>Command: apply Lattice Matching algorithm to listed cells</strong><br />")
+      +std::string("<em><u>Purpose:</u></em> Taking the first input cells as the &quot;REFERENCE&quot;, the alternative cells of<br />")
+      +std::string("each succeeding cell are examined to find a closest match to the reference lattice. <br />")
+      +std::string("<p style=margin-left:40px>Andrews, Lawrence C., Herbert J. Bernstein, and Nicholas K. Sauter. <br />")
+      +std::string("&quot;Approximating lattice similarity.&quot; Acta Crystallographica Section A: Foundations and Advances 79.5, 480-484 (2023).</p> <em><u>Output type:</u></em> (H<sup>6</sup>) a, b, c &alpha;, &beta;, &gamma;, with the lattice centering<br />")
+      +std::string("chosen to be the same as that of the reference cell.<br />")
+      +std::string("<em><u>Example:</u></em><br />")
+      +std::string("f 10 10 10 90 90 90<br />")
+      +std::string("p 7 7.1 6.9 59 60 61<br />")
+      +std::string("end<br />")
+      +std::string("; Lattice Matching<br />")
+      +std::string("F 10.000 10.000 10.000 90.000 90.000 90.000 ( 0 degrees in S6) REFERENCE<br />")
+      +std::string("F 10.050 9.821 9.832 89.143 92.094 88.781 ( 3.07179 degrees in S6)<br />")
+      +std::string("end<br />")
+      +std::string("<em><u>Parameters:</u></em> NA<br />")
+      +std::string(" <hr><strong>Command: Check Input</strong><br />")
+      +std::string("<em><u>Purpose:</u></em> Verify input lattice types and parameters<br />")
+      +std::string("<em><u>Output type:</u></em> Valid input is reported as H<sup>6</sup> unit cell a, b, c, &alpha;, &beta;, &gamma;.<br />")
+      +std::string("Warnings are output for invalid inputs.<br />")
+      +std::string("<em><u>Parameters:</u></em> NA<br />")
+      +std::string("<hr />LRL_Web Data Inputs:  There are 5 types of input lines. Except for 'END', they can be combined in any order.<br />")
+      +std::string(" All these are case-insensitive. If a particular input lattice is invalid, it is rejected<br /> with a message.<br />")
+      +std::string("---  RANDOM: Random (valid) unit cell;<br />")
+      +std::string("---  Crystal lattice input: 'A', 'B', 'C', 'P', 'R', 'F', 'I' followed by three axis lengths and three angles (in degrees);<br />")
+      +std::string("---  semicolon: lines beginning with a semicolon are treated as comments<br />")
+      +std::string("---  Vector Input: g (or v or g6) for G6 vectors; s (or s6) for S6, Delone/Selling scalars, C3 for C3 input (without parentheses<br />or commas, 'C' would be interpreted as a C-centered unit cell), u for unsorted Dirichlet 7-cells.<br />")
+      +std::string("---  END: ends the data input section<br />")
+      +std::string("Examples of unit cell inputs<br />")
+      +std::string("P 10 20 30 90 111 90<br />")
+      +std::string("G 100 400 900 0 -215.02 0<br />")
+      +std::string("S6 0 -107.51 0 7.51 -400 -792.49 <br />")
+      +std::string("; this is a comment<br />")
+      +std::string("end<br /></font>\"")+std::string(";") << std::endl; 
       std::cout << " } else if (operation==\"CmdNiggli\") {" << std::endl;
-      std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("LRLWEB_CmdNiggli([[[\"<font size=-1>]]],[[[<br />")
-      +std::string("]]],[[[<br /></font>\"")]]])+std::string(";") << std::endl; 
+      std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("\"<font size=-1> <strong>Command: compute Niggli-reduced primitive cells</strong><br />")
+      +std::string("<em><u>Purpose:</u></em> Perform Niggli reduction on input cells. The result has<br />")
+      +std::string("the shortest edge lengths of the lattice and is the &quot;most orthogonal&quot; unit cell.<br />")
+      +std::string("<em><u>Output type:</u></em> G<sup>6</sup> form of the reduced cells of input<br />")
+      +std::string("<em><u>Parameters:</u></em> NA<br />")
+      +std::string(" <hr><strong>Command: Check Input</strong><br />")
+      +std::string("<em><u>Purpose:</u></em> Verify input lattice types and parameters<br />")
+      +std::string("<em><u>Output type:</u></em> Valid input is reported as H<sup>6</sup> unit cell a, b, c, &alpha;, &beta;, &gamma;.<br />")
+      +std::string("Warnings are output for invalid inputs.<br />")
+      +std::string("<em><u>Parameters:</u></em> NA<br />")
+      +std::string("<hr />LRL_Web Data Inputs:  There are 5 types of input lines. Except for 'END', they can be combined in any order.<br />")
+      +std::string(" All these are case-insensitive. If a particular input lattice is invalid, it is rejected<br /> with a message.<br />")
+      +std::string("---  RANDOM: Random (valid) unit cell;<br />")
+      +std::string("---  Crystal lattice input: 'A', 'B', 'C', 'P', 'R', 'F', 'I' followed by three axis lengths and three angles (in degrees);<br />")
+      +std::string("---  semicolon: lines beginning with a semicolon are treated as comments<br />")
+      +std::string("---  Vector Input: g (or v or g6) for G6 vectors; s (or s6) for S6, Delone/Selling scalars, C3 for C3 input (without parentheses<br />or commas, 'C' would be interpreted as a C-centered unit cell), u for unsorted Dirichlet 7-cells.<br />")
+      +std::string("---  END: ends the data input section<br />")
+      +std::string("Examples of unit cell inputs<br />")
+      +std::string("P 10 20 30 90 111 90<br />")
+      +std::string("G 100 400 900 0 -215.02 0<br />")
+      +std::string("S6 0 -107.51 0 7.51 -400 -792.49 <br />")
+      +std::string("; this is a comment<br />")
+      +std::string("end<br /></font>\"")+std::string(";") << std::endl; 
       std::cout << " } else if (operation==\"CmdPath\") {" << std::endl;
       std::cout << "   document.getElementById(\"block_\"+tdrownum+\"b_cmdgen\").style=\"display:none\";" << std::endl;
       std::cout << "   document.getElementById(\"block_\"+tdrownum+\"b_cmdpath\").style=\"display:inline\";" << std::endl;
       std::cout << "   document.getElementById(\"block_\"+tdrownum+\"b_cmdperturb\").style=\"display:none\";" << std::endl;
       std::cout << "   document.getElementById(\"block_\"+tdrownum+\"b_cmdscale\").style=\"display:none\";" << std::endl;
       std::cout << "   document.getElementById(\"block_\"+tdrownum+\"b_cmdtos6l\").style=\"display:none\";" << std::endl;
-      std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("LRLWEB_CmdPath([[[\"<font size=-1>]]],[[[<br />")
-      +std::string("]]],[[[<br /></font>\"")]]])+std::string(";") << std::endl;
+      std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("\"<font size=-1> <strong>Command: compute path between pairs of cells</strong><br />")
+      +std::string("<em><u>Purpose:</u></em> A series of points is computed between each pair of input cells. The<br />")
+      +std::string("computation is done in S<sup>6</sup>. For n input cells, n-1 paths will be<br />")
+      +std::string("generated. The individual points are labeled with their ordinals and each <br />")
+      +std::string("segment is labeled (after the 6 parameters).<br />")
+      +std::string("<em><u>Output type:</u></em> S<sup>6</sup><br />")
+      +std::string("<em><u>Parameters:</u></em> The number of points in -each- path (20)<br />")
+      +std::string(" <hr><strong>Command: Check Input</strong><br />")
+      +std::string("<em><u>Purpose:</u></em> Verify input lattice types and parameters<br />")
+      +std::string("<em><u>Output type:</u></em> Valid input is reported as H<sup>6</sup> unit cell a, b, c, &alpha;, &beta;, &gamma;.<br />")
+      +std::string("Warnings are output for invalid inputs.<br />")
+      +std::string("<em><u>Parameters:</u></em> NA<br />")
+      +std::string("<hr />LRL_Web Data Inputs:  There are 5 types of input lines. Except for 'END', they can be combined in any order.<br />")
+      +std::string(" All these are case-insensitive. If a particular input lattice is invalid, it is rejected<br /> with a message.<br />")
+      +std::string("---  RANDOM: Random (valid) unit cell;<br />")
+      +std::string("---  Crystal lattice input: 'A', 'B', 'C', 'P', 'R', 'F', 'I' followed by three axis lengths and three angles (in degrees);<br />")
+      +std::string("---  semicolon: lines beginning with a semicolon are treated as comments<br />")
+      +std::string("---  Vector Input: g (or v or g6) for G6 vectors; s (or s6) for S6, Delone/Selling scalars, C3 for C3 input (without parentheses<br />or commas, 'C' would be interpreted as a C-centered unit cell), u for unsorted Dirichlet 7-cells.<br />")
+      +std::string("---  END: ends the data input section<br />")
+      +std::string("Examples of unit cell inputs<br />")
+      +std::string("P 10 20 30 90 111 90<br />")
+      +std::string("G 100 400 900 0 -215.02 0<br />")
+      +std::string("S6 0 -107.51 0 7.51 -400 -792.49 <br />")
+      +std::string("; this is a comment<br />")
+      +std::string("end<br /></font>\"")+std::string(";") << std::endl;
       std::cout << " } else if (operation==\"CmdPerturb\") {" << std::endl;
       std::cout << "   document.getElementById(\"block_\"+tdrownum+\"b_cmdgen\").style=\"display:none\";" << std::endl;
       std::cout << "   document.getElementById(\"block_\"+tdrownum+\"b_cmdpath\").style=\"display:none\";" << std::endl;
       std::cout << "   document.getElementById(\"block_\"+tdrownum+\"b_cmdperturb\").style=\"display:inline\";" << std::endl;
       std::cout << "   document.getElementById(\"block_\"+tdrownum+\"b_cmdscale\").style=\"display:none\";" << std::endl;
       std::cout << "   document.getElementById(\"block_\"+tdrownum+\"b_cmdtos6l\").style=\"display:none\";" << std::endl;
-      std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("LRLWEB_CmdPerturb([[[\"<font size=-1>]]],[[[<br />")
-      +std::string("]]],[[[<br /></font>\"")]]])+std::string(";") << std::endl; 
+      std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("\"<font size=-1> <strong>Command: compute perturbed versions of input cells</strong><br />")
+      +std::string("<em><u>Purpose:</u></em> For each input cell, compute slight altered versions<br />")
+      +std::string("<em><u>Output type:</u></em> unit cell edge lengths and angles<br />")
+      +std::string("<em><u>Parameters:</u></em> The number of perturbations of each input cell (20) and the amount of<br />")
+      +std::string("perturbation in parts-per-thousand (ppt) (1 ppt). The calculation is done in S<sup>6</sup>,<br />")
+      +std::string("and the perturbation is in a direction orthogonal to the S<sup>6</sup> vector..<br />")
+      +std::string("<em><u>Example:</u></em> requesting 10 perturbations and 10 ppt (1%) perturbations.<br />")
+      +std::string("f 10 10 10 90 90 90<br />")
+      +std::string("end<br />")
+      +std::string("; Perturb vectors<br />")
+      +std::string("<br />")
+      +std::string("F 10 10 10 90 90 90 original input cell<br />")
+      +std::string("F 9.940 9.916 9.884 89.573 89.357 89.565 perturbed <br />")
+      +std::string("F 10.016 10.029 9.960 89.567 90.358 90.109 perturbed <br />")
+      +std::string("F 9.956 9.921 9.929 89.938 89.497 89.452 perturbed <br />")
+      +std::string("F 9.896 9.992 10.053 90.576 89.709 89.376 perturbed <br />")
+      +std::string("F 9.969 9.989 9.984 90.509 89.490 89.668 perturbed <br />")
+      +std::string("F 9.963 9.984 9.904 89.655 89.147 90.336 perturbed <br />")
+      +std::string("F 10.015 9.928 9.962 89.793 90.276 89.394 perturbed <br />")
+      +std::string("F 10.019 9.922 9.884 89.295 89.772 89.926 perturbed <br />")
+      +std::string("F 9.914 9.918 9.909 89.327 89.348 89.820 perturbed <br />")
+      +std::string("F 10.020 9.978 10.119 90.295 90.410 89.960 perturbed <br />")
+      +std::string("<br />")
+      +std::string("; CmdPerturb: number of cells to produce = 10 orthogonal perturbation of 10 /1000<br />")
+      +std::string("end<br />")
+      +std::string("<hr><strong>Command: Check Input</strong><br />")
+      +std::string("<em><u>Purpose:</u></em> Verify input lattice types and parameters<br />")
+      +std::string("<em><u>Output type:</u></em> Valid input is reported as H<sup>6</sup> unit cell a, b, c, &alpha;, &beta;, &gamma;.<br />")
+      +std::string("Warnings are output for invalid inputs.<br />")
+      +std::string("<em><u>Parameters:</u></em> NA<br />")
+      +std::string("<hr />LRL_Web Data Inputs:  There are 5 types of input lines. Except for 'END', they can be combined in any order.<br />")
+      +std::string(" All these are case-insensitive. If a particular input lattice is invalid, it is rejected<br /> with a message.<br />")
+      +std::string("---  RANDOM: Random (valid) unit cell;<br />")
+      +std::string("---  Crystal lattice input: 'A', 'B', 'C', 'P', 'R', 'F', 'I' followed by three axis lengths and three angles (in degrees);<br />")
+      +std::string("---  semicolon: lines beginning with a semicolon are treated as comments<br />")
+      +std::string("---  Vector Input: g (or v or g6) for G6 vectors; s (or s6) for S6, Delone/Selling scalars, C3 for C3 input (without parentheses<br />or commas, 'C' would be interpreted as a C-centered unit cell), u for unsorted Dirichlet 7-cells.<br />")
+      +std::string("---  END: ends the data input section<br />")
+      +std::string("Examples of unit cell inputs<br />")
+      +std::string("P 10 20 30 90 111 90<br />")
+      +std::string("G 100 400 900 0 -215.02 0<br />")
+      +std::string("S6 0 -107.51 0 7.51 -400 -792.49 <br />")
+      +std::string("; this is a comment<br />")
+      +std::string("end<br /></font>\"")+std::string(";") << std::endl; 
       std::cout << " } else if (operation==\"CmdS6Refl\") {" << std::endl;
-      std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("LRLWEB_CmdS6Refl([[[\"<font size=-1>]]],[[[<br />")
-      +std::string("]]],[[[<br /></font>\"")]]])+std::string(";") << std::endl; 
+      std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("\"<font size=-1> <strong>Command: apply S6 reflections to input cells</strong><br />")
+      +std::string("<em><u>Purpose:</u></em> The 24 permutations of the S<sup>6</sup> cell vectors. Duplicates are removed.<br />")
+      +std::string("<em><u>Output type:</u></em> S<sup>6</sup><br />")
+      +std::string("<em><u>Parameters:</u></em> NA<br />")
+      +std::string("<em><u>Example:</u></em><br />")
+      +std::string("f 10 10 10 90 90 90<br />")
+      +std::string("end<br />")
+      +std::string("; S6 reflections<br />")
+      +std::string("S6 0.00000 0.00000 0.00000 -100.00000 -100.00000 -100.00000 0<br />")
+      +std::string("S6 0.00000 -100.00000 -100.00000 -100.00000 0.00000 0.00000 1<br />")
+      +std::string("S6 -100.00000 0.00000 -100.00000 0.00000 -100.00000 0.00000 2<br />")
+      +std::string("S6 -100.00000 -100.00000 0.00000 0.00000 0.00000 -100.00000 3<br />")
+      +std::string("<br />")
+      +std::string("or presenting those as unit cells (not output by the command):<br />")
+      +std::string("P 10.000 10.000 10.000 90.000 90.000 90.000 <br />")
+      +std::string("P 17.321 10.000 10.000 90.000 125.264 125.264 <br />")
+      +std::string("P 10.000 17.321 10.000 125.264 90.000 125.264 <br />")
+      +std::string("P 10.000 10.000 17.321 125.264 125.264 90.000 <br />")
+      +std::string("<br />")
+      +std::string("The values of 17.321 are from the Delone &quot;d&quot; vector, d=-(a+b+c)<br />")
+      +std::string("<br />")
+      +std::string("But Niggli reduction of those 4 cells gives:<br />")
+      +std::string("G6 100.000 100.000 100.000 0.000 0.000 0.000 <br />")
+      +std::string("G6 100.000 100.000 100.000 0.000 0.000 0.000 <br />")
+      +std::string("G6 100.000 100.000 100.000 0.000 0.000 0.000 <br />")
+      +std::string("G6 100.000 100.000 100.000 0.000 0.000 0.000 <br />")
+      +std::string(" <hr><strong>Command: Check Input</strong><br />")
+      +std::string("<em><u>Purpose:</u></em> Verify input lattice types and parameters<br />")
+      +std::string("<em><u>Output type:</u></em> Valid input is reported as H<sup>6</sup> unit cell a, b, c, &alpha;, &beta;, &gamma;.<br />")
+      +std::string("Warnings are output for invalid inputs.<br />")
+      +std::string("<em><u>Parameters:</u></em> NA<br />")
+      +std::string("<hr />LRL_Web Data Inputs:  There are 5 types of input lines. Except for 'END', they can be combined in any order.<br />")
+      +std::string(" All these are case-insensitive. If a particular input lattice is invalid, it is rejected<br /> with a message.<br />")
+      +std::string("---  RANDOM: Random (valid) unit cell;<br />")
+      +std::string("---  Crystal lattice input: 'A', 'B', 'C', 'P', 'R', 'F', 'I' followed by three axis lengths and three angles (in degrees);<br />")
+      +std::string("---  semicolon: lines beginning with a semicolon are treated as comments<br />")
+      +std::string("---  Vector Input: g (or v or g6) for G6 vectors; s (or s6) for S6, Delone/Selling scalars, C3 for C3 input (without parentheses<br />or commas, 'C' would be interpreted as a C-centered unit cell), u for unsorted Dirichlet 7-cells.<br />")
+      +std::string("---  END: ends the data input section<br />")
+      +std::string("Examples of unit cell inputs<br />")
+      +std::string("P 10 20 30 90 111 90<br />")
+      +std::string("G 100 400 900 0 -215.02 0<br />")
+      +std::string("S6 0 -107.51 0 7.51 -400 -792.49 <br />")
+      +std::string("; this is a comment<br />")
+      +std::string("end<br /></font>\"")+std::string(";") << std::endl; 
       std::cout << " } else if (operation==\"CmdScale\") {" << std::endl;
       std::cout << "   document.getElementById(\"block_\"+tdrownum+\"b_cmdgen\").style=\"display:none\";" << std::endl;
       std::cout << "   document.getElementById(\"block_\"+tdrownum+\"b_cmdpath\").style=\"display:none\";" << std::endl;
       std::cout << "   document.getElementById(\"block_\"+tdrownum+\"b_cmdperturb\").style=\"display:none\";" << std::endl;
       std::cout << "   document.getElementById(\"block_\"+tdrownum+\"b_cmdscale\").style=\"display:inline\";" << std::endl;
       std::cout << "   document.getElementById(\"block_\"+tdrownum+\"b_cmdtos6l\").style=\"display:none\";" << std::endl;
-      std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("LRLWEB_CmdScale([[[\"<font size=-1>]]],[[[<br />")
-      +std::string("]]],[[[<br /></font>\"")]]])+std::string(";") << std::endl; 
+      std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("\"<font size=-1> <strong>Command: Scale unit cells data to single size</strong><br />")
+      +std::string("<em><u>Purpose:</u></em><br />")
+      +std::string("<em><u>Output type:</u></em> Chosen vector type (one of S6, V7, DC7u, RI (root invariant))<br />")
+      +std::string(" <em><u>Parameters:</u></em> Vector type to scale and output(S6)<br />")
+      +std::string("<hr />LRL_Web Data Inputs:  There are 5 types of input lines. Except for 'END', they can be combined in any order.<br />")
+      +std::string(" All these are case-insensitive. If a particular input lattice is invalid, it is rejected<br /> with a message.<br />")
+      +std::string("---  RANDOM: Random (valid) unit cell;<br />")
+      +std::string("---  Crystal lattice input: 'A', 'B', 'C', 'P', 'R', 'F', 'I' followed by three axis lengths and three angles (in degrees);<br />")
+      +std::string("---  semicolon: lines beginning with a semicolon are treated as comments<br />")
+      +std::string("---  Vector Input: g (or v or g6) for G6 vectors; s (or s6) for S6, Delone/Selling scalars, C3 for C3 input (without parentheses<br />or commas, 'C' would be interpreted as a C-centered unit cell), u for unsorted Dirichlet 7-cells.<br />")
+      +std::string("---  END: ends the data input section<br />")
+      +std::string("Examples of unit cell inputs<br />")
+      +std::string("P 10 20 30 90 111 90<br />")
+      +std::string("G 100 400 900 0 -215.02 0<br />")
+      +std::string("S6 0 -107.51 0 7.51 -400 -792.49 <br />")
+      +std::string("; this is a comment<br />")
+      +std::string("end<br /></font>\"")+std::string(";") << std::endl; 
       std::cout << " } else if (operation==\"CmdSella\") {" << std::endl;
-      std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("LRLWEB_CmdSella([[[\"<font size=-1>]]],[[[<br />")
-      +std::string("]]],[[[<br /></font>\"")]]])+std::string(";") << std::endl; 
+      std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("\"<font size=-1> <strong>Command: apply Sella algorithm</strong><br />")
+      +std::string("<em><u>Purpose:</u></em> Determine potentially higher symmetry for input cells<br />")
+      +std::string("<em><u>Output type:</u></em> agreement factors for each of the Bravais lattice types<br />")
+      +std::string("that fill well and reduced cell information for the input cells. Also the name<br />")
+      +std::string("of the graphical output file.<br />")
+      +std::string("<em><u>Graphical output:</u></em> the figure of the hierarchy of Bravais lattice types <br />")
+      +std::string("with numerical agreement determined by Sella.<br />")
+      +std::string("<p  style=margin-left:40px> Grimmer, H., &amp; Nespolo, M. (2006). <br />")
+      +std::string("Geminography: the crystallography of twins. Zeitschrift<br />")
+      +std::string("f&uuml;r Kristallographie-Crystalline Materials, 221(1), 28-50.)</p>  <em><u>Parameters:</u></em> choices if only some outputs are needed (all) (deprecated)<br />")
+      +std::string(" <em><u>Control Parameters</u></em><br />")
+      +std::string(" Control information is NOT case sensitive, and the control name can be misspelled.<br />")
+      +std::string(" <em>DOGRAPHICS:</em> allow to not write output SVG files (default: TRUE <br />")
+      +std::string(" <em>BLOCKSTART:</em> if multiple svg files are written, specifies the ordinal of the first to write <br />")
+      +std::string(" &emsp; (mostly for use on the website) <br />")
+      +std::string(" <em>BLOCKSIZE:</em> the number of files to write, starting from BLOCKSTART(mostly for use on the website) <br />")
+      +std::string(" &emsp; (on the web, this is limited to 20) (mostly for use on the website) <br />")
+      +std::string(" <hr><strong>Command: Check Input</strong><br />")
+      +std::string("<em><u>Purpose:</u></em> Verify input lattice types and parameters<br />")
+      +std::string("<em><u>Output type:</u></em> Valid input is reported as H<sup>6</sup> unit cell a, b, c, &alpha;, &beta;, &gamma;.<br />")
+      +std::string("Warnings are output for invalid inputs.<br />")
+      +std::string("<em><u>Parameters:</u></em> NA<br />")
+      +std::string("<hr />LRL_Web Data Inputs:  There are 5 types of input lines. Except for 'END', they can be combined in any order.<br />")
+      +std::string(" All these are case-insensitive. If a particular input lattice is invalid, it is rejected<br /> with a message.<br />")
+      +std::string("---  RANDOM: Random (valid) unit cell;<br />")
+      +std::string("---  Crystal lattice input: 'A', 'B', 'C', 'P', 'R', 'F', 'I' followed by three axis lengths and three angles (in degrees);<br />")
+      +std::string("---  semicolon: lines beginning with a semicolon are treated as comments<br />")
+      +std::string("---  Vector Input: g (or v or g6) for G6 vectors; s (or s6) for S6, Delone/Selling scalars, C3 for C3 input (without parentheses<br />or commas, 'C' would be interpreted as a C-centered unit cell), u for unsorted Dirichlet 7-cells.<br />")
+      +std::string("---  END: ends the data input section<br />")
+      +std::string("Examples of unit cell inputs<br />")
+      +std::string("P 10 20 30 90 111 90<br />")
+      +std::string("G 100 400 900 0 -215.02 0<br />")
+      +std::string("S6 0 -107.51 0 7.51 -400 -792.49 <br />")
+      +std::string("; this is a comment<br />")
+      +std::string("end<br /></font>\"")+std::string(";") << std::endl; 
       std::cout << " } else if (operation==\"CmdInverse\") {" << std::endl;
-      std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("LRLWEB_CmdInverse([[[\"<font size=-1>]]],[[[<br />")
-      +std::string("]]],[[[<br /></font>\"")]]])+std::string(";") << std::endl; 
+      std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("\"<font size=-1> <strong>Command: Make Inverse</strong><br />")
+      +std::string("<em><u>Purpose:</u></em>Generate reciprocal cells<br />")
+      +std::string("<em><u>Output type:</u></em> Valid input is reported as H<sup>6</sup> unit cell a, b, c, &alpha;, &beta;, &gamma;.<br />")
+      +std::string("<em><u>Parameters: </u></em>	NA<br />")
+      +std::string("Example:<br />")
+      +std::string("f 10 10 10 90 90 90<br />")
+      +std::string("end<br />")
+      +std::string("P 7.0711 7.0711 7.0711 60.0000 60.0000 60.0000<br />")
+      +std::string("<hr /><strong>Command: Check Input</strong><br />")
+      +std::string("<em><u>Purpose:</u></em> Verify input lattice types and parameters<br />")
+      +std::string("<em><u>Output type:</u></em> Valid input is reported as H<sup>6</sup> unit cell a, b, c, &alpha;, &beta;, &gamma;.<br />")
+      +std::string("Warnings are output for invalid inputs.<br />")
+      +std::string("<em><u>Parameters:</u></em> NA<br />")
+      +std::string("<hr />LRL_Web Data Inputs:  There are 5 types of input lines. Except for 'END', they can be combined in any order.<br />")
+      +std::string(" All these are case-insensitive. If a particular input lattice is invalid, it is rejected<br /> with a message.<br />")
+      +std::string("---  RANDOM: Random (valid) unit cell;<br />")
+      +std::string("---  Crystal lattice input: 'A', 'B', 'C', 'P', 'R', 'F', 'I' followed by three axis lengths and three angles (in degrees);<br />")
+      +std::string("---  semicolon: lines beginning with a semicolon are treated as comments<br />")
+      +std::string("---  Vector Input: g (or v or g6) for G6 vectors; s (or s6) for S6, Delone/Selling scalars, C3 for C3 input (without parentheses<br />or commas, 'C' would be interpreted as a C-centered unit cell), u for unsorted Dirichlet 7-cells.<br />")
+      +std::string("---  END: ends the data input section<br />")
+      +std::string("Examples of unit cell inputs<br />")
+      +std::string("P 10 20 30 90 111 90<br />")
+      +std::string("G 100 400 900 0 -215.02 0<br />")
+      +std::string("S6 0 -107.51 0 7.51 -400 -792.49 <br />")
+      +std::string("; this is a comment<br />")
+      +std::string("<br /></font>\"")+std::string(";") << std::endl; 
       std::cout << " } else if (operation==\"CmdPrim\") {" << std::endl;
-      std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("LRLWEB_CmdPrim([[[\"<font size=-1>]]],[[[<br />")
-      +std::string("]]],[[[<br /></font>\"")]]])+std::string(";") << std::endl; 
+      std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("\"<font size=-1> <strong>Command: convert input cells to primitive</strong><br />")
+      +std::string("<em><u>Purpose:</u></em>For non-primitive input cells, a primitive version is returned.<br />")
+      +std::string("<em><u>Output type:</u></em> (H<sup>6</sup>) a,	b, c, &alpha;, &beta;, &gamma;<br />")
+      +std::string("<em><u>Parameters:</u></em> NA<br />")
+      +std::string("<em><u>Example:</u></em><br />")
+      +std::string("C:\\Users\\lca\\Source\\Repos\\duck10\\LatticeRepLib\\x64\\Debug>cmdprim<br />")
+      +std::string("; To Primitive<br />")
+      +std::string("f 10 10 10   90 90 90<br />")
+      +std::string("end<br />")
+      +std::string("P 7.0711 7.0711 7.0711 60.0000 60.0000 60.0000<hr><strong>Command: Check Input</strong><br />")
+      +std::string("<em><u>Purpose:</u></em> Verify input lattice types and parameters<br />")
+      +std::string("<em><u>Output type:</u></em> Valid input is reported as H<sup>6</sup> unit cell a, b, c, &alpha;, &beta;, &gamma;.<br />")
+      +std::string("Warnings are output for invalid inputs.<br />")
+      +std::string("<em><u>Parameters:</u></em> NA<br />")
+      +std::string("<hr />LRL_Web Data Inputs:  There are 5 types of input lines. Except for 'END', they can be combined in any order.<br />")
+      +std::string(" All these are case-insensitive. If a particular input lattice is invalid, it is rejected<br /> with a message.<br />")
+      +std::string("---  RANDOM: Random (valid) unit cell;<br />")
+      +std::string("---  Crystal lattice input: 'A', 'B', 'C', 'P', 'R', 'F', 'I' followed by three axis lengths and three angles (in degrees);<br />")
+      +std::string("---  semicolon: lines beginning with a semicolon are treated as comments<br />")
+      +std::string("---  Vector Input: g (or v or g6) for G6 vectors; s (or s6) for S6, Delone/Selling scalars, C3 for C3 input (without parentheses<br />or commas, 'C' would be interpreted as a C-centered unit cell), u for unsorted Dirichlet 7-cells.<br />")
+      +std::string("---  END: ends the data input section<br />")
+      +std::string("Examples of unit cell inputs<br />")
+      +std::string("P 10 20 30 90 111 90<br />")
+      +std::string("G 100 400 900 0 -215.02 0<br />")
+      +std::string("S6 0 -107.51 0 7.51 -400 -792.49 <br />")
+      +std::string("; this is a comment<br />")
+      +std::string("end<br /></font>\"")+std::string(";") << std::endl; 
       std::cout << " } else if (operation==\"CmdToB4\") {" << std::endl;
-      std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("LRLWEB_CmdToB4([[[\"<font size=-1>]]],[[[<br />")
-      +std::string("]]],[[[<br /></font>\"")]]])+std::string(";") << std::endl; 
+      std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("\"<font size=-1> <strong>Command: compute Bravais tetrahedron (B4)</strong><br />")
+      +std::string("<em><u>Purpose:</u></em> computes the edge vectors of the unit cell and their negative sum. These 4<br />")
+      +std::string("vectors also define the Bravais tetrahedron Delone, B. N., Galiulin, R. V., <br />")
+      +std::string("&amp; Shtogrin, M. I. (1975). On the Bravais types of <br />")
+      +std::string("lattices. Journal of Soviet Mathematics, 4(1), 79-156.<br />")
+      +std::string("<em><u>Output type:</u></em> echoes the input cell as (H<sup>6</sup>) a, b, c, &alpha;, &beta;, &gamma;, <br />")
+      +std::string("followed by the vector representations of the unit cell edges and their vector sum,<br />")
+      +std::string("and then a listing of their lengths.<br />")
+      +std::string("<em><u>Parameters:</u></em> NA<br />")
+      +std::string(" <hr><strong>Command: Check Input</strong><br />")
+      +std::string("<em><u>Purpose:</u></em> Verify input lattice types and parameters<br />")
+      +std::string("<em><u>Output type:</u></em> Valid input is reported as H<sup>6</sup> unit cell a, b, c, &alpha;, &beta;, &gamma;.<br />")
+      +std::string("Warnings are output for invalid inputs.<br />")
+      +std::string("<em><u>Parameters:</u></em> NA<br />")
+      +std::string("<hr />LRL_Web Data Inputs:  There are 5 types of input lines. Except for 'END', they can be combined in any order.<br />")
+      +std::string(" All these are case-insensitive. If a particular input lattice is invalid, it is rejected<br /> with a message.<br />")
+      +std::string("---  RANDOM: Random (valid) unit cell;<br />")
+      +std::string("---  Crystal lattice input: 'A', 'B', 'C', 'P', 'R', 'F', 'I' followed by three axis lengths and three angles (in degrees);<br />")
+      +std::string("---  semicolon: lines beginning with a semicolon are treated as comments<br />")
+      +std::string("---  Vector Input: g (or v or g6) for G6 vectors; s (or s6) for S6, Delone/Selling scalars, C3 for C3 input (without parentheses<br />or commas, 'C' would be interpreted as a C-centered unit cell), u for unsorted Dirichlet 7-cells.<br />")
+      +std::string("---  END: ends the data input section<br />")
+      +std::string("Examples of unit cell inputs<br />")
+      +std::string("P 10 20 30 90 111 90<br />")
+      +std::string("G 100 400 900 0 -215.02 0<br />")
+      +std::string("S6 0 -107.51 0 7.51 -400 -792.49 <br />")
+      +std::string("; this is a comment<br />")
+      +std::string("end<br /></font>\"")+std::string(";") << std::endl; 
       std::cout << " } else if (operation==\"CmdToC3\") {" << std::endl;
-      std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("LRLWEB_CmdToC3([[[\"<font size=-1>]]],[[[<br />")
-      +std::string("]]],[[[<br /></font>\"")]]])+std::string(";") << std::endl; 
+      std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("\"<font size=-1> <strong>Command: compute complex cell presentation (C</strong><strong><sup>3</sup></strong><strong>)</strong><br />")
+      +std::string("<em><u>Purpose:</u></em> presents input cells as C<sup>3</sup><br />")
+      +std::string("<em><u>Output type:</u></em> the C<sup>3</sup> version of the input (note that lattice centering is not removed)<br />")
+      +std::string("<em><u>Parameters:</u></em> NA<br />")
+      +std::string("<em><u>Example:</u></em><br />")
+      +std::string("; To C3<br />")
+      +std::string("g 100 110 120 0 1 2<br />")
+      +std::string("end<br />")
+      +std::string("C3 (0.000,-101.500) (0.500,-111.000) (1.000,-120.500) <br />")
+      +std::string(" <hr><strong>Command: Check Input</strong><br />")
+      +std::string("<em><u>Purpose:</u></em> Verify input lattice types and parameters<br />")
+      +std::string("<em><u>Output type:</u></em> Valid input is reported as H<sup>6</sup> unit cell a, b, c, &alpha;, &beta;, &gamma;.<br />")
+      +std::string("Warnings are output for invalid inputs.<br />")
+      +std::string("<em><u>Parameters:</u></em> NA<br />")
+      +std::string("<hr />LRL_Web Data Inputs:  There are 5 types of input lines. Except for 'END', they can be combined in any order.<br />")
+      +std::string(" All these are case-insensitive. If a particular input lattice is invalid, it is rejected<br /> with a message.<br />")
+      +std::string("---  RANDOM: Random (valid) unit cell;<br />")
+      +std::string("---  Crystal lattice input: 'A', 'B', 'C', 'P', 'R', 'F', 'I' followed by three axis lengths and three angles (in degrees);<br />")
+      +std::string("---  semicolon: lines beginning with a semicolon are treated as comments<br />")
+      +std::string("---  Vector Input: g (or v or g6) for G6 vectors; s (or s6) for S6, Delone/Selling scalars, C3 for C3 input (without parentheses<br />or commas, 'C' would be interpreted as a C-centered unit cell), u for unsorted Dirichlet 7-cells.<br />")
+      +std::string("---  END: ends the data input section<br />")
+      +std::string("Examples of unit cell inputs<br />")
+      +std::string("P 10 20 30 90 111 90<br />")
+      +std::string("G 100 400 900 0 -215.02 0<br />")
+      +std::string("S6 0 -107.51 0 7.51 -400 -792.49 <br />")
+      +std::string("; this is a comment<br />")
+      +std::string("end<br /></font>\"")+std::string(";") << std::endl; 
       std::cout << " } else if (operation==\"CmdToCell\") {" << std::endl;
-      std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("LRLWEB_CmdToCell([[[\"<font size=-1>]]],[[[<br />")
-      +std::string("]]],[[[<br /></font>\"")]]])+std::string(";") << std::endl; 
+      std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("\"<font size=-1> <strong>Command: compute H<sup>6</sup> side-angle cells (a, b, c, &alpha;, &beta;, &gamma;)</strong><br />")
+      +std::string("<em><u>Purpose:</u></em> converts input cell representations to cell parameters<br />")
+      +std::string("(note that lattice centering is not removed)<br />")
+      +std::string("<em><u>Output type:</u></em> H<sup>6</sup>, a, b, c, &alpha;, &beta;, &gamma;. If the input cell is not in <br />")
+      +std::string("cell parameters already, then primitive is assumed.<br />")
+      +std::string("<em><u>Parameters:</u></em> NA<br />")
+      +std::string(" <hr><strong>Command: Check Input</strong><br />")
+      +std::string("<em><u>Purpose:</u></em> Verify input lattice types and parameters<br />")
+      +std::string("<em><u>Output type:</u></em> Valid input is reported as H<sup>6</sup> unit cell a, b, c, &alpha;, &beta;, &gamma;.<br />")
+      +std::string("Warnings are output for invalid inputs.<br />")
+      +std::string("<em><u>Parameters:</u></em> NA<br />")
+      +std::string("<hr />LRL_Web Data Inputs:  There are 5 types of input lines. Except for 'END', they can be combined in any order.<br />")
+      +std::string(" All these are case-insensitive. If a particular input lattice is invalid, it is rejected<br /> with a message.<br />")
+      +std::string("---  RANDOM: Random (valid) unit cell;<br />")
+      +std::string("---  Crystal lattice input: 'A', 'B', 'C', 'P', 'R', 'F', 'I' followed by three axis lengths and three angles (in degrees);<br />")
+      +std::string("---  semicolon: lines beginning with a semicolon are treated as comments<br />")
+      +std::string("---  Vector Input: g (or v or g6) for G6 vectors; s (or s6) for S6, Delone/Selling scalars, C3 for C3 input (without parentheses<br />or commas, 'C' would be interpreted as a C-centered unit cell), u for unsorted Dirichlet 7-cells.<br />")
+      +std::string("---  END: ends the data input section<br />")
+      +std::string("Examples of unit cell inputs<br />")
+      +std::string("P 10 20 30 90 111 90<br />")
+      +std::string("G 100 400 900 0 -215.02 0<br />")
+      +std::string("S6 0 -107.51 0 7.51 -400 -792.49 <br />")
+      +std::string("; this is a comment<br />")
+      +std::string("end<br /></font>\"")+std::string(";") << std::endl; 
       std::cout << " } else if (operation==\"CmdToG6\") {" << std::endl;
-      std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("LRLWEB_CmdToG6([[[\"<font size=-1>]]],[[[<br />")
-      +std::string("]]],[[[<br /></font>\"")]]])+std::string(";") << std::endl; 
+      std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("\"<font size=-1> <strong>Command: compute G</strong><strong><sup>6</sup></strong><strong> version of cells</strong><br />")
+      +std::string("<em><u>Purpose:</u></em> convert to G<sup>6</sup> representation (note that lattice centering is not removed)<br />")
+      +std::string("<em><u>Output type:</u></em> G<sup>6</sup><br />")
+      +std::string("<em><u>Parameters:</u></em> NA<br />")
+      +std::string(" <hr><strong>Command: Check Input</strong><br />")
+      +std::string("<em><u>Purpose:</u></em> Verify input lattice types and parameters<br />")
+      +std::string("<em><u>Output type:</u></em> Valid input is reported as H<sup>6</sup> unit cell a, b, c, &alpha;, &beta;, &gamma;.<br />")
+      +std::string("Warnings are output for invalid inputs.<br />")
+      +std::string("<em><u>Parameters:</u></em> NA<br />")
+      +std::string("<hr />LRL_Web Data Inputs:  There are 5 types of input lines. Except for 'END', they can be combined in any order.<br />")
+      +std::string(" All these are case-insensitive. If a particular input lattice is invalid, it is rejected<br /> with a message.<br />")
+      +std::string("---  RANDOM: Random (valid) unit cell;<br />")
+      +std::string("---  Crystal lattice input: 'A', 'B', 'C', 'P', 'R', 'F', 'I' followed by three axis lengths and three angles (in degrees);<br />")
+      +std::string("---  semicolon: lines beginning with a semicolon are treated as comments<br />")
+      +std::string("---  Vector Input: g (or v or g6) for G6 vectors; s (or s6) for S6, Delone/Selling scalars, C3 for C3 input (without parentheses<br />or commas, 'C' would be interpreted as a C-centered unit cell), u for unsorted Dirichlet 7-cells.<br />")
+      +std::string("---  END: ends the data input section<br />")
+      +std::string("Examples of unit cell inputs<br />")
+      +std::string("P 10 20 30 90 111 90<br />")
+      +std::string("G 100 400 900 0 -215.02 0<br />")
+      +std::string("S6 0 -107.51 0 7.51 -400 -792.49 <br />")
+      +std::string("; this is a comment<br />")
+      +std::string("end<br /></font>\"")+std::string(";") << std::endl; 
       std::cout << " } else if (operation==\"CmdToP3\") {" << std::endl;
-      std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("LRLWEB_CmdToP3([[[\"<font size=-1>]]],[[[<br />")
-      +std::string("]]],[[[<br /></font>\"")]]])+std::string(";") << std::endl; 
+      std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("\"<font size=-1> <strong>Command: compute polar coordinate presentation (P<sup>3</sup>)</strong><br />")
+      +std::string("<em><u>Purpose:</u></em>presents input cells as P<sup>3</sup><br />")
+      +std::string(" <em><u>Output type:</u></em> the P<sup>3</sup>  version of the input (note that lattice centering is not removed)<br />")
+      +std::string("<em><u>Parameters:</u></em>  NA<br />")
+      +std::string(" <em><u>Example:</u></em><br />")
+      +std::string(" ;<br />")
+      +std::string("To P3<br />")
+      +std::string("g 100 110 120 0 1 2<br />")
+      +std::string("end<br />")
+      +std::string("P3 ((6.12323e-16, 10), (0.0478714, 10.488), (0.104447, 10.954))	<br />")
+      +std::string("<hr><strong>Command: Check Input</strong><br />")
+      +std::string("<em><u>Purpose:</u></em> Verify input lattice types and parameters<br />")
+      +std::string("<em><u>Output type:</u></em> Valid input is reported as H<sup>6</sup> unit cell a, b, c, &alpha;, &beta;, &gamma;.<br />")
+      +std::string("Warnings are output for invalid inputs.<br />")
+      +std::string("<em><u>Parameters:</u></em> NA<br />")
+      +std::string("<hr />LRL_Web Data Inputs:  There are 5 types of input lines. Except for 'END', they can be combined in any order.<br />")
+      +std::string(" All these are case-insensitive. If a particular input lattice is invalid, it is rejected<br /> with a message.<br />")
+      +std::string("---  RANDOM: Random (valid) unit cell;<br />")
+      +std::string("---  Crystal lattice input: 'A', 'B', 'C', 'P', 'R', 'F', 'I' followed by three axis lengths and three angles (in degrees);<br />")
+      +std::string("---  semicolon: lines beginning with a semicolon are treated as comments<br />")
+      +std::string("---  Vector Input: g (or v or g6) for G6 vectors; s (or s6) for S6, Delone/Selling scalars, C3 for C3 input (without parentheses<br />or commas, 'C' would be interpreted as a C-centered unit cell), u for unsorted Dirichlet 7-cells.<br />")
+      +std::string("---  END: ends the data input section<br />")
+      +std::string("Examples of unit cell inputs<br />")
+      +std::string("P 10 20 30 90 111 90<br />")
+      +std::string("G 100 400 900 0 -215.02 0<br />")
+      +std::string("S6 0 -107.51 0 7.51 -400 -792.49 <br />")
+      +std::string("; this is a comment<br />")
+      +std::string("end<br /></font>\"")+std::string(";") << std::endl; 
       std::cout << " } else if (operation==\"CmdToS6\") {" << std::endl;
-      std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("LRLWEB_CmdToS6([[[\"<font size=-1>]]],[[[<br />")
-      +std::string("]]],[[[<br /></font>\"")]]])+std::string(";") << std::endl; 
+      std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("\"<font size=-1> <strong>Command: compute S<sup>6</sup> version of cells</strong><br />")
+      +std::string("<em><u>Purpose:</u></em> convert to S<sup>6</sup> representation (note that lattice centering is not removed)<br />")
+      +std::string("<em><u>Output type:</u></em> S<sup>6</sup><br />")
+      +std::string("<em><u>Parameters:</u></em> NA<br />")
+      +std::string(" <hr><strong>Command: Check Input</strong><br />")
+      +std::string("<em><u>Purpose:</u></em> Verify input lattice types and parameters<br />")
+      +std::string("<em><u>Output type:</u></em> Valid input is reported as H<sup>6</sup> unit cell a, b, c, &alpha;, &beta;, &gamma;.<br />")
+      +std::string("Warnings are output for invalid inputs.<br />")
+      +std::string("<em><u>Parameters:</u></em> NA<br />")
+      +std::string("<hr />LRL_Web Data Inputs:  There are 5 types of input lines. Except for 'END', they can be combined in any order.<br />")
+      +std::string(" All these are case-insensitive. If a particular input lattice is invalid, it is rejected<br /> with a message.<br />")
+      +std::string("---  RANDOM: Random (valid) unit cell;<br />")
+      +std::string("---  Crystal lattice input: 'A', 'B', 'C', 'P', 'R', 'F', 'I' followed by three axis lengths and three angles (in degrees);<br />")
+      +std::string("---  semicolon: lines beginning with a semicolon are treated as comments<br />")
+      +std::string("---  Vector Input: g (or v or g6) for G6 vectors; s (or s6) for S6, Delone/Selling scalars, C3 for C3 input (without parentheses<br />or commas, 'C' would be interpreted as a C-centered unit cell), u for unsorted Dirichlet 7-cells.<br />")
+      +std::string("---  END: ends the data input section<br />")
+      +std::string("Examples of unit cell inputs<br />")
+      +std::string("P 10 20 30 90 111 90<br />")
+      +std::string("G 100 400 900 0 -215.02 0<br />")
+      +std::string("S6 0 -107.51 0 7.51 -400 -792.49 <br />")
+      +std::string("; this is a comment<br />")
+      +std::string("end<br /></font>\"")+std::string(";") << std::endl; 
       std::cout << " } else if (operation==\"CmdToS6L\") {" << std::endl;
       std::cout << "   document.getElementById(\"block_\"+tdrownum+\"b_cmdgen\").style=\"display:none\";" << std::endl;
       std::cout << "   document.getElementById(\"block_\"+tdrownum+\"b_cmdpath\").style=\"display:none\";" << std::endl;
       std::cout << "   document.getElementById(\"block_\"+tdrownum+\"b_cmdperturb\").style=\"display:none\";" << std::endl;
       std::cout << "   document.getElementById(\"block_\"+tdrownum+\"b_cmdscale\").style=\"display:none\";" << std::endl;
       std::cout << "   document.getElementById(\"block_\"+tdrownum+\"b_cmdtos6l\").style=\"display:inline\";" << std::endl;
-      std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("LRLWEB_CmdToS6L([[[\"<font size=-1>]]],[[[<br />")
-      +std::string("]]],[[[<br /></font>\"")]]])+std::string(";") << std::endl; 
+      std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("\"<font size=-1> <strong>Command: compute linearized S</strong><strong><sup>6</sup></strong><strong> or Root Invariant version of cells</strong><br />")
+      +std::string("<em><u>Purpose:</u></em> Both of the output choices are 6-space vectors of positive numbers.<br />")
+      +std::string("The values are derived by first applying Selling/Delone reduction so that all of <br />")
+      +std::string("the S<sup>6</sup> values are non-positive. Then the square roots of the negative <br />")
+      +std::string("of those values are used to create the result (linearized S<sup>6</sup>). The<br />")
+      +std::string("root invariant is generated by applying sorting rules of Bright, Cooper, and Kurlin. <P style=margin-left:40px>Bright, M., Cooper, A. I., &amp; Kurlin, V. (2021). <br />")
+      +std::string("Welcome to a continuous world of 3-dimensional lattices. <br />")
+      +std::string("arXiv preprint arxiv:2109.11538, 2.</p> <em><u>Output type:</u></em> The type followed by the parameters.<br />")
+      +std::string("<em><u>Parameters:</u></em> &quotall&quot or blank for output of both types, &quot;R&quot; for root invariant, and S for linearized S<sup>6</sup> <br />")
+      +std::string(" <hr><strong>Command: Check Input</strong><br />")
+      +std::string("<em><u>Purpose:</u></em> Verify input lattice types and parameters<br />")
+      +std::string("<em><u>Output type:</u></em> Valid input is reported as H<sup>6</sup> unit cell a, b, c, &alpha;, &beta;, &gamma;.<br />")
+      +std::string("Warnings are output for invalid inputs.<br />")
+      +std::string("<em><u>Parameters:</u></em> NA<br />")
+      +std::string("<hr />LRL_Web Data Inputs:  There are 5 types of input lines. Except for 'END', they can be combined in any order.<br />")
+      +std::string(" All these are case-insensitive. If a particular input lattice is invalid, it is rejected<br /> with a message.<br />")
+      +std::string("---  RANDOM: Random (valid) unit cell;<br />")
+      +std::string("---  Crystal lattice input: 'A', 'B', 'C', 'P', 'R', 'F', 'I' followed by three axis lengths and three angles (in degrees);<br />")
+      +std::string("---  semicolon: lines beginning with a semicolon are treated as comments<br />")
+      +std::string("---  Vector Input: g (or v or g6) for G6 vectors; s (or s6) for S6, Delone/Selling scalars, C3 for C3 input (without parentheses<br />or commas, 'C' would be interpreted as a C-centered unit cell), u for unsorted Dirichlet 7-cells.<br />")
+      +std::string("---  END: ends the data input section<br />")
+      +std::string("Examples of unit cell inputs<br />")
+      +std::string("P 10 20 30 90 111 90<br />")
+      +std::string("G 100 400 900 0 -215.02 0<br />")
+      +std::string("S6 0 -107.51 0 7.51 -400 -792.49 <br />")
+      +std::string("; this is a comment<br />")
+      +std::string("end<br /></font>\"")+std::string(";") << std::endl; 
       std::cout << " } else if (operation==\"CmdToU\") {" << std::endl;
-      std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("LRLWEB_CmdToU([[[\"<font size=-1>]]],[[[<br />")
-      +std::string("]]],[[[<br /></font>\"")]]])+std::string(";") << std::endl; 
+      std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("\"<font size=-1> <strong>Command: compute unsorted Dirichlet cells (dc7unsrt)</strong><br />")
+      +std::string("<em><u>Purpose:</u></em> convert to the 7 parameter form related to the Dirichlet<br />")
+      +std::string("(also known as Voronoi or Wigner-Seitz) unit cell. (note that lattice centering is not removed)<br />")
+      +std::string("Bernstein and Andrews, 2023.<br />")
+      +std::string("<em><u>Output type:</u></em> DC7u<br />")
+      +std::string("<em><u>Parameters:</u></em> NA<br />")
+      +std::string(" <hr><strong>Command: Check Input</strong><br />")
+      +std::string("<em><u>Purpose:</u></em> Verify input lattice types and parameters<br />")
+      +std::string("<em><u>Output type:</u></em> Valid input is reported as H<sup>6</sup> unit cell a, b, c, &alpha;, &beta;, &gamma;.<br />")
+      +std::string("Warnings are output for invalid inputs.<br />")
+      +std::string("<em><u>Parameters:</u></em> NA<br />")
+      +std::string("<hr />LRL_Web Data Inputs:  There are 5 types of input lines. Except for 'END', they can be combined in any order.<br />")
+      +std::string(" All these are case-insensitive. If a particular input lattice is invalid, it is rejected<br /> with a message.<br />")
+      +std::string("---  RANDOM: Random (valid) unit cell;<br />")
+      +std::string("---  Crystal lattice input: 'A', 'B', 'C', 'P', 'R', 'F', 'I' followed by three axis lengths and three angles (in degrees);<br />")
+      +std::string("---  semicolon: lines beginning with a semicolon are treated as comments<br />")
+      +std::string("---  Vector Input: g (or v or g6) for G6 vectors; s (or s6) for S6, Delone/Selling scalars, C3 for C3 input (without parentheses<br />or commas, 'C' would be interpreted as a C-centered unit cell), u for unsorted Dirichlet 7-cells.<br />")
+      +std::string("---  END: ends the data input section<br />")
+      +std::string("Examples of unit cell inputs<br />")
+      +std::string("P 10 20 30 90 111 90<br />")
+      +std::string("G 100 400 900 0 -215.02 0<br />")
+      +std::string("S6 0 -107.51 0 7.51 -400 -792.49 <br />")
+      +std::string("; this is a comment<br />")
+      +std::string("end<br /></font>\"")+std::string(";") << std::endl; 
       std::cout << " } else if (operation==\"CmdToV7\") {" << std::endl;
-      std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("LRLWEB_CmdToV7([[[\"<font size=-1>]]],[[[<br />")
-      +std::string("]]],[[[<br /></font>\"")]]])+std::string(";") << std::endl; 
+      std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("\"<font size=-1> <strong>Command: compute V<sup>7</sup> version of cells</strong><br />")
+      +std::string("<em><u>Purpose:</u></em> convert to the 7 parameter vector of Andrews, Bernstein, Pelletier, 1980.<br />")
+      +std::string("The vector is define in terms of the Niggli reduced cell a,b,c and the Niggli reduced<br />")
+      +std::string("reciprocal cell 1/a*, 1/b*, 1/c*, and the cube root of the reduced cell volume.<br />")
+      +std::string(" (note that lattice centering is not removed). Note that all 7 scalars are in the units of Angstroms.<br />")
+      +std::string("<em><u>Output type:</u></em> V<sup>7</sup><br />")
+      +std::string("<em><u>Parameters:</u></em> NA<br />")
+      +std::string(" <hr><strong>Command: Check Input</strong><br />")
+      +std::string("<em><u>Purpose:</u></em> Verify input lattice types and parameters<br />")
+      +std::string("<em><u>Output type:</u></em> Valid input is reported as H<sup>6</sup> unit cell a, b, c, &alpha;, &beta;, &gamma;.<br />")
+      +std::string("Warnings are output for invalid inputs.<br />")
+      +std::string("<em><u>Parameters:</u></em> NA<br />")
+      +std::string("<hr />LRL_Web Data Inputs:  There are 5 types of input lines. Except for 'END', they can be combined in any order.<br />")
+      +std::string(" All these are case-insensitive. If a particular input lattice is invalid, it is rejected<br /> with a message.<br />")
+      +std::string("---  RANDOM: Random (valid) unit cell;<br />")
+      +std::string("---  Crystal lattice input: 'A', 'B', 'C', 'P', 'R', 'F', 'I' followed by three axis lengths and three angles (in degrees);<br />")
+      +std::string("---  semicolon: lines beginning with a semicolon are treated as comments<br />")
+      +std::string("---  Vector Input: g (or v or g6) for G6 vectors; s (or s6) for S6, Delone/Selling scalars, C3 for C3 input (without parentheses<br />or commas, 'C' would be interpreted as a C-centered unit cell), u for unsorted Dirichlet 7-cells.<br />")
+      +std::string("---  END: ends the data input section<br />")
+      +std::string("Examples of unit cell inputs<br />")
+      +std::string("P 10 20 30 90 111 90<br />")
+      +std::string("G 100 400 900 0 -215.02 0<br />")
+      +std::string("S6 0 -107.51 0 7.51 -400 -792.49 <br />")
+      +std::string("; this is a comment<br />")
+      +std::string("end<br /></font>\"")+std::string(";") << std::endl; 
       std::cout << " } else if (operation==\"CmdVolume\") {" << std::endl;
-      std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("LRLWEB_CmdVolume([[[\"<font size=-1>]]],[[[<br />")
-      +std::string("]]],[[[<br /></font>\"")]]])+std::string(";") << std::endl; 
+      std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("\"<font size=-1> <strong>Command: compute volumes of listed cells</strong><br />")
+      +std::string("<em><u>Purpose:</u></em> compute volumes of listed cells<br />")
+      +std::string("<em><u>Output type:</u></em> Lattice centering, then H<sup>6</sup> cell parameters (a, b, c, &alpha;, &beta;, &gamma;), <br />")
+      +std::string("followed by the volume<br />")
+      +std::string("<em><u>Parameters:</u></em> NA<br />")
+      +std::string(" <hr><strong>Command: Check Input</strong><br />")
+      +std::string("<em><u>Purpose:</u></em> Verify input lattice types and parameters<br />")
+      +std::string("<em><u>Output type:</u></em> Valid input is reported as H<sup>6</sup> unit cell a, b, c, &alpha;, &beta;, &gamma;.<br />")
+      +std::string("Warnings are output for invalid inputs.<br />")
+      +std::string("<em><u>Parameters:</u></em> NA<br />")
+      +std::string("<hr />LRL_Web Data Inputs:  There are 5 types of input lines. Except for 'END', they can be combined in any order.<br />")
+      +std::string(" All these are case-insensitive. If a particular input lattice is invalid, it is rejected<br /> with a message.<br />")
+      +std::string("---  RANDOM: Random (valid) unit cell;<br />")
+      +std::string("---  Crystal lattice input: 'A', 'B', 'C', 'P', 'R', 'F', 'I' followed by three axis lengths and three angles (in degrees);<br />")
+      +std::string("---  semicolon: lines beginning with a semicolon are treated as comments<br />")
+      +std::string("---  Vector Input: g (or v or g6) for G6 vectors; s (or s6) for S6, Delone/Selling scalars, C3 for C3 input (without parentheses<br />or commas, 'C' would be interpreted as a C-centered unit cell), u for unsorted Dirichlet 7-cells.<br />")
+      +std::string("---  END: ends the data input section<br />")
+      +std::string("Examples of unit cell inputs<br />")
+      +std::string("P 10 20 30 90 111 90<br />")
+      +std::string("G 100 400 900 0 -215.02 0<br />")
+      +std::string("S6 0 -107.51 0 7.51 -400 -792.49 <br />")
+      +std::string("; this is a comment<br />")
+      +std::string("end<br /></font>\"")+std::string(";") << std::endl; 
       std::cout << " } else if (operation==\"PlotC3\") {" << std::endl;
-      std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("LRLWEB_PlotC3([[[\"<font size=-1>]]],[[[<br />")
-      +std::string("]]],[[[<br /></font>\"")]]])+std::string(";") << std::endl;
+      std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("\"<font size=-1> <strong>Command: PlotC3</strong><br />")
+      +std::string("<em><u>Purpose:</u></em> Graphical output of multiple unit cells in C<sup>3</sup><br />")
+      +std::string("<em><u>Output type:</u></em> Name of the file containing the plots<br />")
+      +std::string("<em><u>Graphical output:</u></em> 2-D plots of the 3 complex coordinates in C<sup>3</sup><br />")
+      +std::string("<em><u>Parameters:</u></em> NA<br />")
+      +std::string("The 3 (2-D) coordinates are plotted in a single row. The all-negative quadrants <br />")
+      +std::string("are shown. A consequence is that if the unit cells have not been Selling/Delone<br />")
+      +std::string("reduced, then points will plot outside of that quadrant.<br />")
+      +std::string(" <hr><strong>Command: Check Input</strong><br />")
+      +std::string("<em><u>Purpose:</u></em> Verify input lattice types and parameters<br />")
+      +std::string("<em><u>Output type:</u></em> Valid input is reported as H<sup>6</sup> unit cell a, b, c, &alpha;, &beta;, &gamma;.<br />")
+      +std::string("Warnings are output for invalid inputs.<br />")
+      +std::string("<em><u>Parameters:</u></em> NA<br />")
+      +std::string("<hr />LRL_Web Data Inputs:  There are 5 types of input lines. Except for 'END', they can be combined in any order.<br />")
+      +std::string(" All these are case-insensitive. If a particular input lattice is invalid, it is rejected<br /> with a message.<br />")
+      +std::string("---  RANDOM: Random (valid) unit cell;<br />")
+      +std::string("---  Crystal lattice input: 'A', 'B', 'C', 'P', 'R', 'F', 'I' followed by three axis lengths and three angles (in degrees);<br />")
+      +std::string("---  semicolon: lines beginning with a semicolon are treated as comments<br />")
+      +std::string("---  Vector Input: g (or v or g6) for G6 vectors; s (or s6) for S6, Delone/Selling scalars, C3 for C3 input (without parentheses<br />or commas, 'C' would be interpreted as a C-centered unit cell), u for unsorted Dirichlet 7-cells.<br />")
+      +std::string("---  END: ends the data input section<br />")
+      +std::string("Examples of unit cell inputs<br />")
+      +std::string("P 10 20 30 90 111 90<br />")
+      +std::string("G 100 400 900 0 -215.02 0<br />")
+      +std::string("S6 0 -107.51 0 7.51 -400 -792.49 <br />")
+      +std::string("; this is a comment<br />")
+      +std::string("end<br /></font>\"")+std::string(";") << std::endl;
       std::cout << " } else if (operation==\"PlotPolar\") {" << std::endl;
-      std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("LRLWEB_PlotPolar([[[\"<font size=-1>]]],[[[<br />")
-      +std::string("]]],[[[<br /></font>\"")]]])+std::string(";") << std::endl; 
+      std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("\"<font size=-1> <strong>Command: PlotPolar</strong><br />")
+      +std::string("<em><u>Purpose:</u></em> Graphical output of multiple unit cells in (a,&amp;alpha;), (b,&amp;beta;), (c,&amp;gamma;)<br />")
+      +std::string("<em><u>Output type:</u></em>Name of the file containing the plots<br />")
+      +std::string("<em><u>Graphical output:</u></em>2-D plots of the 3 polar coordinates</sup><br />")
+      +std::string("<em><u>Parameters:</u></em>NA<br />")
+      +std::string("The 3 (2-D) coordinates are plotted. Theall-positive y half-space is shown for each.<br />")
+      +std::string("<br /></font>\"")+std::string(";") << std::endl; 
       std::cout << " } else {" << std::endl;
       std::cout << "   document.getElementById(\"block_\"+tdrownum+\"b_cmdgen\").style=\"display:none\";" << std::endl;
       std::cout << "   document.getElementById(\"block_\"+tdrownum+\"b_cmdpath\").style=\"display:none\";" << std::endl;
       std::cout << "   document.getElementById(\"block_\"+tdrownum+\"b_cmdperturb\").style=\"display:none\";" << std::endl;
       std::cout << "   document.getElementById(\"block_\"+tdrownum+\"b_cmdscale\").style=\"display:none\";" << std::endl;
       std::cout << "   document.getElementById(\"block_\"+tdrownum+\"b_cmdtos6l\").style=\"display:none\";" << std::endl;
-      std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("LRLWEBCHECKINPUT([[[\"<font size=-1>]]],[[[<br />")
-      +std::string("]]],[[[<br /></font>\"")]]])+std::string(";") << std::endl;
+      std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("\"<font size=-1><strong>Command: Check Input</strong><br />")
+      +std::string("<em><u>Purpose:</u></em> Verify input lattice types and parameters<br />")
+      +std::string("<em><u>Output type:</u></em> Valid input is reported as H<sup>6</sup> unit cell a, b, c, &alpha;, &beta;, &gamma;.<br />")
+      +std::string("Warnings are output for invalid inputs.<br />")
+      +std::string("<em><u>Parameters:</u></em> NA<br />")
+      +std::string("<hr />LRL_Web Data Inputs:  There are 5 types of input lines. Except for 'END', they can be combined in any order.<br />")
+      +std::string(" All these are case-insensitive. If a particular input lattice is invalid, it is rejected<br /> with a message.<br />")
+      +std::string("---  RANDOM: Random (valid) unit cell;<br />")
+      +std::string("---  Crystal lattice input: 'A', 'B', 'C', 'P', 'R', 'F', 'I' followed by three axis lengths and three angles (in degrees);<br />")
+      +std::string("---  semicolon: lines beginning with a semicolon are treated as comments<br />")
+      +std::string("---  Vector Input: g (or v or g6) for G<sup>6</sup> vectors; s (or s6) for S<sup>6</sup>, Delone/Selling scalars, C<sup>3</sup> for C<sup>3</sup> input (without parentheses<br />or commas, 'C' would be interpreted as a C-centered unit cell), u for unsorted Dirichlet 7-cells.<br />")
+      +std::string("---  END: ends the data input section<br />")
+      +std::string("Examples of unit cell inputs<br />")
+      +std::string("P 10 20 30 90 111 90<br />")
+      +std::string("G 100 400 900 0 -215.02 0<br />")
+      +std::string("S6 0 -107.51 0 7.51 -400 -792.49 <br />")
+      +std::string("; this is a comment<br />")
+      +std::string("end<br /></font>\"")+std::string(";") << std::endl;
 
       std::cout << " }" << std::endl;
       std::cout << " return true;" << std::endl;
@@ -763,7 +1418,7 @@ std::string plaintext2html(std::string & dst, std::string src){
     std::cout << "<br />" << std::endl;
     std::cout << "<table border=0>" << std::endl;
     std::cout << "<tr>" << std::endl;
-    std::cout << "<td align=center width=300px><a href=\"http://]]]LRLWEBHOST[[[/~]]]LRLWEBUSER[[[/lrl_web/lrl_web_tutorial.html\" target=\"_blank\"><font size=+1><b>Tutorial</b></font></a></td>" << std::endl;
+    std::cout << "<td align=center width=300px><a href=\"http://blondie.arcib.org:8083/~yaya/lrl_web/lrl_web_tutorial.html\" target=\"_blank\"><font size=+1><b>Tutorial</b></font></a></td>" << std::endl;
     std::cout << "<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>" << std::endl;
     std::cout << "<td align=center width=300px><a href=#DeloneChars><font size=+1><b>Table of Delone Characters</b></font></a></td>" << std::endl;
     std::cout << "</tr>" << std::endl;
@@ -1419,7 +2074,7 @@ std::string plaintext2html(std::string & dst, std::string src){
       } else if (operation=="CmdSella") {
         lrl_web_data_cmdsella_rawprefix = tmp_lrl_web+std::string("/");
         lrl_web_data_cmdsella_htmlprefix = html_tmp_lrl_web+std::string("/");
-        opmod=(std::string(" --host ]]]LRLWEBHOST[[[ ")
+        opmod=(std::string(" --host blondie.arcib.org:8083 ")
           +std::string(" --rawprefix ")+std::string(lrl_web_data_cmdsella_rawprefix)
           +std::string(" --htmlprefix ")+std::string(lrl_web_data_cmdsella_htmlprefix));
         // std::cout << "<tr><td colspan=\"3\">" << "lrl_web_data_"+twodig_array[numop]+"_cmdsella_prefixes" << (opmod).c_str() <<"</td></tr>" << std::endl;
@@ -1431,28 +2086,28 @@ std::string plaintext2html(std::string & dst, std::string src){
       } else if (operation=="PlotC3") {
         lrl_web_data_plotc3_rawprefix = tmp_lrl_web+std::string("/");
         lrl_web_data_plotc3_htmlprefix = html_tmp_lrl_web+std::string("/");
-        opmod=(std::string(" --host ]]]LRLWEBHOST[[[ ")
+        opmod=(std::string(" --host blondie.arcib.org:8083 ")
           +std::string(" --rawprefix ")+std::string(lrl_web_data_plotc3_rawprefix)
           +std::string(" --htmlprefix ")+std::string(lrl_web_data_plotc3_htmlprefix));
         // std::cout << "<tr><td colspan=\"3\">" << "lrl_web_data_"+twodig_array[numop]+"_plotc3_prefixes" << (opmod).c_str() <<"</td></tr>" << std::endl;
       } else if (operation=="PlotPolar") {
         lrl_web_data_plotpolar_rawprefix = tmp_lrl_web+std::string("/");
         lrl_web_data_plotpolar_htmlprefix = html_tmp_lrl_web+std::string("/");
-        opmod=(std::string(" --host ]]]LRLWEBHOST[[[ ")
+        opmod=(std::string(" --host blondie.arcib.org:8083 ")
           +std::string(" --rawprefix ")+std::string(lrl_web_data_plotpolar_rawprefix)
           +std::string(" --htmlprefix ")+std::string(lrl_web_data_plotpolar_htmlprefix));
         // std::cout << "<tr><td colspan=\"3\">" << "lrl_web_data_"+twodig_array[numop]+"_plotpolar_prefixes" << (opmod).c_str() <<"</td></tr>" << std::endl;
       } else if (operation=="Dirichlet") {
         lrl_web_data_dirichlet_rawprefix = tmp_lrl_web+std::string("/");
         lrl_web_data_dirichlet_htmlprefix = html_tmp_lrl_web+std::string("/");
-        opmod=(std::string(" --host ]]]LRLWEBHOST[[[ ")
+        opmod=(std::string(" --host blondie.arcib.org:8083 ")
           +std::string(" --rawprefix ")+std::string(lrl_web_data_dirichlet_rawprefix)
           +std::string(" --htmlprefix ")+std::string(lrl_web_data_dirichlet_htmlprefix));
         // std::cout << "<tr><td colspan=\"3\">" << "lrl_web_data_"+twodig_array[numop]+"_dirichlet_prefixes" << (opmod).c_str() <<"</td></tr>" << std::endl;
       } else if (operation=="Follow") {
         lrl_web_data_follow_rawprefix = tmp_lrl_web+std::string("/");
         lrl_web_data_follow_htmlprefix = html_tmp_lrl_web+std::string("/");
-        opmod=(std::string(" --host ]]]LRLWEBHOST[[[ ")
+        opmod=(std::string(" --host blondie.arcib.org:8083 ")
           +std::string(" --rawprefix ")+std::string(lrl_web_data_follow_rawprefix)
           +std::string(" --htmlprefix ")+std::string(lrl_web_data_follow_htmlprefix));
         // std::cout << "<tr><td colspan=\"3\">" << "lrl_web_data_"+twodig_array[numop]+"_follow_prefixes" << (opmod).c_str() <<"</td></tr>" << std::endl;
@@ -1462,7 +2117,7 @@ std::string plaintext2html(std::string & dst, std::string src){
          std::cout << "<tr><td colspan=\"3\">string_to_file of"+tmp_lrl_web+"/operation_"+twodig_array[numop]+" failed</td></tr>"<<std::endl;
       }
       std::string xprocess_next_output=
-        std::string("/home/")+LRL_WEB_USER+std::string("/public_html/cgi-bin/")]]]+string("LRLWEBSBPRFX")[[[+string("process_next_output.bash")+
+        std::string("/home/")+LRL_WEB_USER+std::string("/public_html/cgi-bin/")+string("")+string("process_next_output.bash")+
         std::string(" ")+lrl_web_output+std::string(" ")+path+std::string(" ")+oppath;
         // std::cout << "<tr><td colspan=\"3\">" << xprocess_next_output <<"</td></tr>" << std::endl;
       char outlength[127];
@@ -1477,7 +2132,7 @@ std::string plaintext2html(std::string & dst, std::string src){
       selected = "";
       if (numop > 1) {
         std::cout << "    <tr><td colspan=3 align=center><div name=\"hrule_"+twodig_array[numop]+"\" id=\"hrule_"+twodig_array[numop]+"\" style="+active+">" << std::endl;
-        std::cout << "    <img src=http://]]]LRLWEBHOST[[[/~]]]LRLWEBUSER[[[/lrl_web/sep5.svg>" << std::endl;
+        std::cout << "    <img src=http://blondie.arcib.org:8083/~yaya/lrl_web/sep5.svg>" << std::endl;
         std::cout << "    </div></td></tr>" << std::endl;
       }
       std::cout << "  <tr>" << std::endl;
@@ -1504,7 +2159,13 @@ std::string plaintext2html(std::string & dst, std::string src){
       std::cout << "  <br />" << std::endl;
       std::cout << "  </div>" << std::endl;
       std::cout << std::endl;
-LRLWEBRUNNING([[[      std::cout << "  ]]],[[[\]]],[[[" << std::endl;]]],[[["+twodig_array[numop]+"]]],LRLWEBHOST/~LRLWEBUSER)
+
+      std::cout << "  <div name=\"block_"+twodig_array[numop]+"_running\" id=\"block_"+twodig_array[numop]+"_running\" style=\"display:none\">" << std::endl;
+      std::cout << "  <label for=\"progress_img_"+twodig_array[numop]+"\">Running:</label><br />" << std::endl;
+      std::cout << "  <img src=\"http://blondie.arcib.org:8083/~yaya/images/progress_small.gif\" id=\"progress_img_"+twodig_array[numop]+"\" alt=\"running\" />" << std::endl;
+      std::cout << "  <br />" << std::endl;
+      std::cout << "  </div>" << std::endl;
+
       std::cout << std::endl;
       std::cout << "  </td>" << std::endl;
       std::cout << "  <td align=left>" << std::endl;
@@ -1754,7 +2415,7 @@ LRLWEBRUNNING([[[      std::cout << "  ]]],[[[\]]],[[[" << std::endl;]]],[[["+tw
       std::cout << "  <label for=\"lrl_web_help_"+twodig_array[numop]+"\">Tool Help:</label><br />" << std::endl;
       std::cout << "  <div name=\"lrl_web_help_"+twodig_array[numop]+"\" id=\"lrl_web_help_"+twodig_array[numop]+"\"" << std::endl;
       std::cout << "  style=\"overflow-y: auto;text-align: left;height: 144px;width:720px; border-style: solid; border-width: thin; resize: both;\" >" << std::endl;
-      std::cout << ]]]LRLWEBCHECKINPUT([[["<font size=-1>]]],[[[<br />]]],[[[</font>"]]])[[[ << std::endl;
+      std::cout << "<font size=-1><strong>Command: Check Input</strong><br /><em><u>Purpose:</u></em> Verify input lattice types and parameters<br /><em><u>Output type:</u></em> Valid input is reported as H<sup>6</sup> unit cell a, b, c, &alpha;, &beta;, &gamma;.<br />Warnings are output for invalid inputs.<br /><em><u>Parameters:</u></em> NA<br /><hr />LRL_Web Data Inputs:  There are 5 types of input lines. Except for 'END', they can be combined in any order.<br /> All these are case-insensitive. If a particular input lattice is invalid, it is rejected<br /> with a message.<br />---  RANDOM: Random (valid) unit cell;<br />---  Crystal lattice input: 'A', 'B', 'C', 'P', 'R', 'F', 'I' followed by three axis lengths and three angles (in degrees);<br />---  semicolon: lines beginning with a semicolon are treated as comments<br />---  Vector Input: g (or v or g6) for G<sup>6</sup> vectors; s (or s6) for S<sup>6</sup>, Delone/Selling scalars, C<sup>3</sup> for C<sup>3</sup> input (without parentheses<br />or commas, 'C' would be interpreted as a C-centered unit cell), u for unsorted Dirichlet 7-cells.<br />---  END: ends the data input section<br />Examples of unit cell inputs<br />P 10 20 30 90 111 90<br />G 100 400 900 0 -215.02 0<br />S6 0 -107.51 0 7.51 -400 -792.49 <br />; this is a comment<br />end</font>" << std::endl;
       std::cout << "  </div>" << std::endl;
       std::cout << "  </div>" << std::endl;
       std::cout << "" << std::endl;
@@ -2408,7 +3069,7 @@ LRLWEBRUNNING([[[      std::cout << "  ]]],[[[\]]],[[[" << std::endl;]]],[[["+tw
     std::cout << "If you are interested in contributing, please make your own fork and writeup an issue when" << std::endl;
     std::cout << "you think you have something to suggest for a pull request." << std::endl;
     std::cout << "<p>" << std::endl;
-    std::cout << "<p><img src=http://]]]LRLWEBHOST[[[/~]]]LRLWEBUSER[[[/lrl_web/sep6.svg>" << std::endl;
+    std::cout << "<p><img src=http://blondie.arcib.org:8083/~yaya/lrl_web/sep6.svg>" << std::endl;
     std::cout << "<h2>History</h2>" << std::endl;
     std::cout << "<p>Human fascination with crystals has a long history. 105,000 years ago, someone had a collection " << std::endl;
     std::cout << "of calcite crystals (Iceland spar) <a href=\"#Wilkins2021\">[Wilkins <i>et al.</i> 2021]</a>. " << std::endl;
@@ -2422,11 +3083,11 @@ LRLWEBRUNNING([[[      std::cout << "  ]]],[[[\]]],[[[" << std::endl;]]],[[["+tw
     std::cout << "6-dimensional space H<sup>6</sup> of [a, b, c, &alpha;, &beta;, &gamma;] after him. <a name=\"Hauey1800\">[Ha&uuml;y 1800]</a> created the first catalog of minerals." << std::endl;
     std::cout << "<p>" << std::endl;
     std::cout << "<center>" << std::endl;
-    std::cout << "<a name=\"timeline\"><img src=/~]]]LRLWEBUSER[[[/images/timeline.jpg /></a>" << std::endl;
+    std::cout << "<a name=\"timeline\"><img src=/~yaya/images/timeline.jpg /></a>" << std::endl;
     std::cout << "<p>" << std::endl;
     std::cout << "Fig. 1. Some key dates in the history of modern crystallography" << std::endl;
     std::cout << "</center>" << std::endl;
-    std::cout << "<p><img src=http://]]]LRLWEBHOST[[[/~]]]LRLWEBUSER[[[/lrl_web/sep6.svg>" << std::endl;
+    std::cout << "<p><img src=http://blondie.arcib.org:8083/~yaya/lrl_web/sep6.svg>" << std::endl;
     std::cout << "<p>" << std::endl;
     std::cout << "" << std::endl;
     std::cout << "<a name=DeloneChars></a><h2>Table of Delone Characters</h2>" << std::endl;
@@ -2434,7 +3095,7 @@ LRLWEBRUNNING([[[      std::cout << "  ]]],[[[\]]],[[[" << std::endl;]]],[[["+tw
     std::cout << "<center>" << std::endl;
     std::cout << "<img src=\"http://"+LRL_WEB_HOST+"/~"+LRL_WEB_USER+"/lrl_web/HorizontalDeloneGrid.svg\" alt=\"Table of Delone Characters\" />" << std::endl;
     std::cout << "</center>" << std::endl;
-    std::cout << "<p><img src=http://]]]LRLWEBHOST[[[/~]]]LRLWEBUSER[[[/lrl_web/sep6.svg>" << std::endl;
+    std::cout << "<p><img src=http://blondie.arcib.org:8083/~yaya/lrl_web/sep6.svg>" << std::endl;
     std::cout << "<p>" << std::endl;
     std::cout << "" << std::endl;
     std::cout << "<a name=NiggliFams></a><h2>Table of Niggli Lattice Families</h2>" << std::endl;
@@ -2442,7 +3103,7 @@ LRLWEBRUNNING([[[      std::cout << "  ]]],[[[\]]],[[[" << std::endl;]]],[[["+tw
     std::cout << "<center>" << std::endl;
     std::cout << "<img src=\"http://"+LRL_WEB_HOST+"/~"+LRL_WEB_USER+"/lrl_web/NiggliGrid-2.svg\" alt=\"Niggli Lattice Families\" />" << std::endl;
     std::cout << "</center>" << std::endl;
-    std::cout << "<p><img src=http://]]]LRLWEBHOST[[[/~]]]LRLWEBUSER[[[/lrl_web/sep6.svg>" << std::endl;
+    std::cout << "<p><img src=http://blondie.arcib.org:8083/~yaya/lrl_web/sep6.svg>" << std::endl;
     std::cout << "<h2>References to Sources for Information about the Calculations</h2>" << std::endl;
     std::cout << "<ol>" << std::endl;
     std::cout << "<li>Check Input: simply check the input for errors</li>" << std::endl;
@@ -2471,7 +3132,7 @@ LRLWEBRUNNING([[[      std::cout << "  ]]],[[[\]]],[[[" << std::endl;]]],[[["+tw
     std::cout << "</ol>" << std::endl;
     std::cout << "" << std::endl;
     std::cout << "<p>" << std::endl;
-    std::cout << "<p><img src=http://]]]LRLWEBHOST[[[/~]]]LRLWEBUSER[[[/lrl_web/sep6.svg>" << std::endl;
+    std::cout << "<p><img src=http://blondie.arcib.org:8083/~yaya/lrl_web/sep6.svg>" << std::endl;
     std::cout << "<a name=\"references\"></a>" << std::endl;
     std::cout << "<h2>References</h2>" << std::endl;
     std::cout << "<p>" << std::endl;
@@ -2554,1774 +3215,9 @@ LRLWEBRUNNING([[[      std::cout << "  ]]],[[[\]]],[[[" << std::endl;]]],[[["+tw
     std::cout << "" << std::endl;
     std::cout << "</div>" << std::endl;
     std::cout << "<p>" << std::endl;
-    std::cout << "<p><img src=http://]]]LRLWEBHOST[[[/~]]]LRLWEBUSER[[[/lrl_web/sep6.svg>" << std::endl;
+    std::cout << "<p><img src=http://blondie.arcib.org:8083/~yaya/lrl_web/sep6.svg>" << std::endl;
     std::cout << "<hr />" << std::endl;
     std::cout << "Updated 17 July 2024." << std::endl;
     std::cout << "</font>" << std::endl;
  }
-]]]) dnl end of lrl_web.cpp
-ifdef([[[nocgicpp]]],[[[<!DOCTYPE HTML//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
-<html>
-<HEAD>
-	<meta charset="utf-8">
-
- <script  type="text/javascript">
- const EventListenerMode = {capture: true};
-
-function preventGlobalMouseEvents () {
-  document.body.style['pointer-events'] = 'none';
-  return true;
-}
-
-function restoreGlobalMouseEvents () {
-  document.body.style['pointer-events'] = 'auto';
-  return;
-}
-
-function mousemoveListener (e) {
-  e.stopPropagation ();
-  // do whatever is needed while the user is moving the cursor around
-  return true;
-}
-
-function mouseupListener (e) {
-  restoreGlobalMouseEvents ();
-  document.removeEventListener ('mouseup',   mouseupListener,   EventListenerMode);
-  document.removeEventListener ('mousemove', mousemoveListener, EventListenerMode);
-  e.stopPropagation ();
-  return true;
-}
-
-function captureMouseEvents (e) {
-  preventGlobalMouseEvents ();
-  document.addEventListener ('mouseup',   mouseupListener,   EventListenerMode);
-  document.addEventListener ('mousemove', mousemoveListener, EventListenerMode);
-  e.preventDefault ();
-  e.stopPropagation ();
-  return true;
-}
-
-function twodig(myintinp) {
-  var myint=Number(myintinp);
-  if (myint<10) {
-    return "0"+myint;
-  } else {
-    return ""+myint;
-  }
-}
-
-function setchaininput(row){
-    let rownum=((row)|0);
-    var tdrownum=twodig(rownum);
-    if (rownum < 2) {
-      let firstrow=document.getElementById("chain_01");
-      if (!(firstrow.value==="new_input")){
-        alert("Request for data prior to row 1 ignored");
-      }
-      firstrow.value="new_input";
-      document.getElementById("block_01").style="display:inline";
-      document.getElementById("block_01a").style="display:inline";
-      document.getElementById("block_01b").style="display:inline";
-      document.getElementById("block_01c").style="display:inline";
-      document.getElementById("block_01d").style="display:inline";
-      return true;
-    } else if (rownum > 8) {
-      alert("Request for data after row 8 ignored");
-      return false;
-    }
-    let priornum=rownum-1;
-    if (document.getElementById("chain_"+tdrownum).value=="chain_input") {
-      document.getElementById("block_"+twodig(priornum)+"c").style="display:inline";
-      document.getElementById("block_"+twodig(priornum)+"d").style="display:inline";
-      document.getElementById("block_"+tdrownum+"b").style="display:none";
-    } else {
-      document.getElementById("block_"+tdrownum+"b").style="display:inline"; 
-    }
-    document.getElementById("block_"+tdrownum).style="display:inline";
-    document.getElementById("block_"+tdrownum+"a").style="display:inline";
-    document.getElementById("block_"+tdrownum+"c").style="display:inline";
-    document.getElementById("block_"+tdrownum+"d").style="display:inline";
-    return true;
-}
-
-function changenumops2(){
-  let mynumops=((document.getElementById("numops2").value)|0);
-  if (mynumops < 1) mynumops=1;
-  if (mynumops > 8) mynumops=8;
-  document.getElementById("numops2").value=mynumops.toString();
-  document.getElementById("numops").value=mynumops.toString();
-  changenumops();
-  return true;
-}
-
-function changenumops(){
-  var ii;
-  var tdii;
-  let mynumops=((document.getElementById("numops").value)|0);
-  if (mynumops < 1) mynumops=1;
-  if (mynumops > 8) mynumops=8;
-  document.getElementById("numops").value=mynumops.toString();
-  document.getElementById("numops2").value=mynumops.toString();
-  for (ii=1; ii<mynumops+1;ii++) {
-    tdii = twodig(ii);
-    // alert("enable block_"+tdii);
-    let mychain=document.getElementById("chain_"+tdii).value;
-    setchaininput(ii);
-    document.getElementById("block_"+tdii).style="display:inline";
-    document.getElementById("block_"+tdii+"a").style="display:inline";
-    if (mychain!="chain_input") {
-      document.getElementById("block_"+tdii+"b").style="display:inline";
-    } else {
-      document.getElementById("block_"+tdii+"b").style="display:none";
-    }
-    document.getElementById("block_"+tdii+"c").style="display:inline";
-    document.getElementById("block_"+tdii+"d").style="display:inline";
-    document.getElementById("block_"+tdii+"_running").style="display:none";
-    if (ii > 1) {
-      document.getElementById("hrule_"+tdii).style="display:inline";
-    }
-    changeoperation(tdii);
-  }
-  document.getElementById("ScrollTo").value=twodig(parseInt((mynumops+1)/2));
-  if (mynumops < 8) {
-    for (ii=mynumops+1; ii<9;ii++) {
-      tdii = twodig(ii);
-      // alert("disable block_"+tdii);
-      if (ii > 1) {
-        document.getElementById("hrule_"+tdii).style="display:none";
-      }
-      document.getElementById("operation_"+tdii).value="NoOp";
-      changeoperation(tdii);
-      document.getElementById("chain_"+tdii).value="chain_input";
-      document.getElementById("block_"+tdii).style="display:none";
-      document.getElementById("block_"+tdii+"a").style="display:none";
-      document.getElementById("block_"+tdii+"b").style="display:none";
-      document.getElementById("block_"+tdii+"c").style="display:none";
-      document.getElementById("block_"+tdii+"d").style="display:none";
-      document.getElementById("block_"+tdii+"_running").style="display:none";
-      document.getElementById("block_"+tdii+"b_cmdgen").style="display:none";
-      document.getElementById("block_"+tdii+"b_cmdpath").style="display:none";
-      document.getElementById("block_"+tdii+"b_cmdperturb").style="display:none";
-      document.getElementById("block_"+tdii+"b_cmdscale").style="display:none";
-      document.getElementById("block_"+tdii+"b_cmdtos6l").style="display:none";
-      if (ii > 1) {
-        document.getElementById("hrule_"+tdii).style="display:none";
-      }
-    }
-  }
-  return true;
-}
-
-function noop(){
-  return true;
-}
-
-function running(rownum) {
-  var ii;
-  var tdii;
-  let mynumops=((document.getElementById("numops").value)|0);
-  if (mynumops < 1) mynumops=1;
-  if (mynumops > 8) mynumops=8;
-  document.getElementById("numops").value=mynumops.toString();
-  document.getElementById("submit_00").disabled=true;
-  document.getElementById("submit_000").disabled=true;
-  for (ii=1; ii<mynumops+1;ii++) {
-      tdii = twodig(ii);
-      document.getElementById("block_"+tdii+"_running").style="display:inline";      
-      document.getElementById("submit_"+tdii).disabled=true;
-  }
-  document.getElementById("ScrollTo").value=rownum;
-  let timerId = setTimeout(noop,500);
-  return true;
-}
-
-function changeoperation(rownum) {
-  var tdrownum=twodig(rownum);
-  var outdivid=document.getElementById("lrl_web_output_"+tdrownum);
-  document.getElementById("lrl_web_help_"+tdrownum).scrollTop="0";
-  outdivid.scrollTop = "0";
-  let operation=document.getElementById("operation_"+tdrownum).value;
-  if (operation!="CmdGen") {
-    document.getElementById("block_"+tdrownum+"b_cmdgen").style="display:none";
-  }
-  if (operation!="CmdPath") {
-    document.getElementById("block_"+tdrownum+"b_cmdpath").style="display:none";
-  }
-  if (operation!="CmdPerturb") {
-    document.getElementById("block_"+tdrownum+"b_cmdperturb").style="display:none";
-  }
-  if (operation!="CmdScale") {
-    document.getElementById("block_"+tdrownum+"b_cmdscale").style="display:none";
-  }
-  if (operation!="CmdToS6L") {
-    document.getElementById("block_"+tdrownum+"b_cmdtos6l").style="display:none";
-  }
-  if (operation=="Follow") {
-    document.getElementById("lrl_web_help_"+tdrownum).innerHTML=LRLWEB_Follow([[["<font size=-1>]]],[[[<br />]]],[[[<br /></font>"]]]);
-  } else if (operation=="Dirichlet") {
-    document.getElementById("lrl_web_help_"+tdrownum).innerHTML=LRLWEB_Dirichlet([[["<font size=-1>]]],[[[<br />]]],[[[<br /></font>"]]]);
-  } else if (operation=="CmdDelone") {
-    document.getElementById("lrl_web_help_"+tdrownum).innerHTML=LRLWEB_CmdDelone([[["<font size=-1>]]],[[[<br />]]],[[[<br /></font>"]]]);
-  } else if (operation=="CmdDists") {
-    document.getElementById("lrl_web_help_"+tdrownum).innerHTML=LRLWEB_CmdDists([[["<font size=-1>]]],[[[<br />]]],[[[<br /></font>"]]]);
-  } else if (operation=="CmdSauc") {
-    document.getElementById("lrl_web_help_"+tdrownum).innerHTML=LRLWEB_CmdSauc([[["<font size=-1>]]],[[[<br />]]],[[[<br /></font>"]]]);
-  } else  if (operation=="CmdGen") {
-    document.getElementById("block_"+tdrownum+"b_cmdgen").style="display:inline";
-    document.getElementById("block_"+tdrownum+"b_cmdpath").style="display:none";
-    document.getElementById("block_"+tdrownum+"b_cmdperturb").style="display:none";
-    document.getElementById("block_"+tdrownum+"b_cmdscale").style="display:none";
-    document.getElementById("block_"+tdrownum+"b_cmdtos6l").style="display:none";
-    document.getElementById("lrl_web_help_"+tdrownum).innerHTML=LRLWEB_CmdGen([[["<font size=-1>]]],[[[<br />]]],[[[<br /></font>"]]]);
- } else if (operation=="CmdLM") {
-    document.getElementById("lrl_web_help_"+tdrownum).innerHTML=LRLWEB_CmdLM([[["<font size=-1>]]],[[[<br />]]],[[[<br /></font>"]]]);
- } else if (operation=="CmdNiggli") {
-    document.getElementById("lrl_web_help_"+tdrownum).innerHTML=LRLWEB_CmdNiggli([[["<font size=-1>]]],[[[<br />]]],[[[<br /></font>"]]]);
- } else if (operation=="CmdPath") {
-    document.getElementById("block_"+tdrownum+"b_cmdgen").style="display:none";
-    document.getElementById("block_"+tdrownum+"b_cmdpath").style="display:inline";
-    document.getElementById("block_"+tdrownum+"b_cmdperturb").style="display:none";
-    document.getElementById("block_"+tdrownum+"b_cmdscale").style="display:none";
-    document.getElementById("block_"+tdrownum+"b_cmdtos6l").style="display:none";
-    document.getElementById("lrl_web_help_"+tdrownum).innerHTML=LRLWEB_CmdPath([[["<font size=-1>]]],[[[<br />]]],[[[<br /></font>"]]]);
-  } else if (operation=="CmdPerturb") {
-    document.getElementById("block_"+tdrownum+"b_cmdgen").style="display:none";
-    document.getElementById("block_"+tdrownum+"b_cmdpath").style="display:none";
-    document.getElementById("block_"+tdrownum+"b_cmdperturb").style="display:inline";
-    document.getElementById("block_"+tdrownum+"b_cmdscale").style="display:none";
-    document.getElementById("block_"+tdrownum+"b_cmdtos6l").style="display:none";
-    document.getElementById("lrl_web_help_"+tdrownum).innerHTML=LRLWEB_CmdPerturb([[["<font size=-1>]]],[[[<br />]]],[[[<br /></font>"]]]);
- } else if (operation=="CmdS6Refl") {
-    document.getElementById("lrl_web_help_"+tdrownum).innerHTML=LRLWEB_CmdS6Refl([[["<font size=-1>]]],[[[<br />]]],[[[<br /></font>"]]]);
- } else if (operation=="CmdScale") {
-    document.getElementById("block_"+tdrownum+"b_cmdgen").style="display:none";
-    document.getElementById("block_"+tdrownum+"b_cmdpath").style="display:none";
-    document.getElementById("block_"+tdrownum+"b_cmdperturb").style="display:none";
-    document.getElementById("block_"+tdrownum+"b_cmdscale").style="display:inline";
-    document.getElementById("block_"+tdrownum+"b_cmdtos6l").style="display:none";
-    document.getElementById("lrl_web_help_"+tdrownum).innerHTML=LRLWEB_CmdScale([[["<font size=-1>]]],[[[<br />]]],[[[<br /></font>"]]]);
- } else if (operation=="CmdSella") {
-    document.getElementById("lrl_web_help_"+tdrownum).innerHTML=LRLWEB_CmdSella([[["<font size=-1>]]],[[[<br />]]],[[[<br /></font>"]]]);
- } else if (operation=="CmdInverse") {
-    document.getElementById("lrl_web_help_"+tdrownum).innerHTML=LRLWEB_CmdInverse([[["<font size=-1>]]],[[[<br />]]],[[[<br /></font>"]]]);
- } else if (operation=="CmdPrim") {
-    document.getElementById("lrl_web_help_"+tdrownum).innerHTML=LRLWEB_CmdPrim([[["<font size=-1>]]],[[[<br />]]],[[[<br /></font>"]]]);
- } else if (operation=="CmdToB4") {
-    document.getElementById("lrl_web_help_"+tdrownum).innerHTML=LRLWEB_CmdToB4([[["<font size=-1>]]],[[[<br />]]],[[[<br /></font>"]]]);
- } else if (operation=="CmdToC3") {
-    document.getElementById("lrl_web_help_"+tdrownum).innerHTML=LRLWEB_CmdToC3([[["<font size=-1>]]],[[[<br />]]],[[[<br /></font>"]]]);
- } else if (operation=="CmdToCell") {
-    document.getElementById("lrl_web_help_"+tdrownum).innerHTML=LRLWEB_CmdToCell([[["<font size=-1>]]],[[[<br />]]],[[[<br /></font>"]]]);
- } else if (operation=="CmdToG6") {
-    document.getElementById("lrl_web_help_"+tdrownum).innerHTML=LRLWEB_CmdToG6([[["<font size=-1>]]],[[[<br />]]],[[[<br /></font>"]]]);
- } else if (operation=="CmdToP3") {
-    document.getElementById("lrl_web_help_"+tdrownum).innerHTML=LRLWEB_CmdToP3([[["<font size=-1>]]],[[[<br />]]],[[[<br /></font>"]]]);
- } else if (operation=="CmdToS6") {
-    document.getElementById("lrl_web_help_"+tdrownum).innerHTML=LRLWEB_CmdToS6([[["<font size=-1>]]],[[[<br />]]],[[[<br /></font>"]]]);
- } else if (operation=="CmdToS6L") {
-    document.getElementById("block_"+tdrownum+"b_cmdgen").style="display:none";
-    document.getElementById("block_"+tdrownum+"b_cmdpath").style="display:none";
-    document.getElementById("block_"+tdrownum+"b_cmdperturb").style="display:none";
-    document.getElementById("block_"+tdrownum+"b_cmdscale").style="display:inline";
-    document.getElementById("block_"+tdrownum+"b_cmdtos6l").style="display:inline";
-    document.getElementById("lrl_web_help_"+tdrownum).innerHTML=LRLWEB_CmdToS6L([[["<font size=-1>]]],[[[<br />]]],[[[<br /></font>"]]]);
- } else if (operation=="CmdToU") {
-    document.getElementById("lrl_web_help_"+tdrownum).innerHTML=LRLWEB_CmdToU([[["<font size=-1>]]],[[[<br />]]],[[[<br /></font>"]]]);
- } else if (operation=="CmdToV7") {
-    document.getElementById("lrl_web_help_"+tdrownum).innerHTML=LRLWEB_CmdToV7([[["<font size=-1>]]],[[[<br />]]],[[[<br /></font>"]]]);
- } else if (operation=="CmdVolume") {
-    document.getElementById("lrl_web_help_"+tdrownum).innerHTML=LRLWEB_CmdVolume([[["<font size=-1>]]],[[[<br />]]],[[[<br /></font>"]]]);
- } else if (operation=="PlotC3") {
-    document.getElementById("lrl_web_help_"+tdrownum).innerHTML=LRLWEB_PlotC3([[["<font size=-1>]]],[[[<br />]]],[[[<br /></font>"]]]);
- } else if (operation=="PlotPolar") {
-    document.getElementById("lrl_web_help_"+tdrownum).innerHTML=LRLWEB_PlotPolar([[["<font size=-1>]]],[[[<br />]]],[[[<br /></font>"]]]);
- } else {
-    document.getElementById("block_"+tdrownum+"b_cmdgen").style="display:none";
-    document.getElementById("block_"+tdrownum+"b_cmdpath").style="display:none";
-    document.getElementById("block_"+tdrownum+"b_cmdperturb").style="display:none";
-    document.getElementById("block_"+tdrownum+"b_cmdscale").style="display:none";
-    document.getElementById("block_"+tdrownum+"b_cmdtos6l").style="display:none";
-    document.getElementById("lrl_web_help_"+tdrownum).innerHTML=LRLWEBCHECKINPUT([[["<font size=-1>]]],[[[<br />]]],[[[<br /></font>"]]]); 
-  }
-  return true;
-}
-
-function pfloat(pfield){
-    // validate for non-negative float
-    var charsAllowed="0123456789.+";
-    var allowed;
-    var plusfound;
-    var dotfound;
-    plusfound = 0;
-    dotfound = 0;
-    for(var i=0;i<pfield.value.length;i++){
-        allowed=false;
-        for(var j=0;j<charsAllowed.length;j++){
-            if( pfield.value.charAt(i)==charsAllowed.charAt(j) ){ 
-               allowed=true;
-               if (j == 11) {
-                 plusfound++;
-                 allowed=false;
-                 plusfound--;
-                 break;
-               } else if (j == 10) {
-                 dotfound++;
-                 if (dotfound > 1) {
-                   allowed=false;
-                   dotfound--;
-                   break;
-                 }
-               } 
-               break;
-            }
-        }
-        if(allowed==false){ pfield.value = pfield.value.replace(pfield.value.charAt(i),""); i--; }
-    }
-    return true;
-}
-
-function gfloat(field){
-    // validate for float   
-    var charsAllowed="0123456789.+-";
-    var allowed;
-    var plusminusfound;
-    var dotfound;
-    plusminusfound = 0;
-    dotfound = 0;
-    otherfound = 0;
-    for(var i=0;i<field.value.length;i++){       
-        allowed=false;
-        for(var j=0;j<charsAllowed.length;j++){
-            if( field.value.charAt(i)==charsAllowed.charAt(j) ){ 
-               allowed=true;
-               if (j == 11 || j == 12) {
-                 if (otherfound>0 || dotfound>0 || plusminusfound>0) {
-                   allowed=false;
-                 } else {
-                 plusminusfound++;
-                 }
-               } else if (j == 10) {
-                 if (dotfound>0) {
-                   allowed=false;
-                 } else {
-                 dotfound++;
-                 } 
-               } else {
-                 otherfound++;
-               } 
-            }
-        }
-        if(allowed==false){ field.value = field.value.replace(field.value.charAt(i),""); i--; }
-    }
-    return true;
-}
-
-</script>
-
-<TITLE>
-LRL_WEB Lattice Representation Library Tool Web Page
-</TITLE> 
-</HEAD> 
-
-
-<BODY onload="document.getElementById('mark_01').scrollIntoView();changenumops();changeoperation('01');changeoperation('02');changeoperation('03');changeoperation('04');changeoperation('05');changeoperation('06');changeoperation('07');changeoperation('08');">
-<a name="mark_00" id="mark_00" />
-<font face="Arial,Helvetica,Times" size="3">
-<hr />
-<center>
-<table border=0>
-<tr>
-<td align=left valign=top><a name="celticknots"><img src="http://]]]LRLWEBHOST[[[/~]]]LRLWEBUSER[[[/images/leftcorner.gif" /></a></td>
-<td width=150 rowspan="2">&nbsp;</td>
-<td align=center rowspan="2"><img src="http://]]]LRLWEBHOST[[[/~]]]LRLWEBUSER[[[/images/dragon1a.gif" /></td>
-<td width=150 rowspan="2">&nbsp;</td>
-<td align=right valign=top><img src="http://]]]LRLWEBHOST[[[/~]]]LRLWEBUSER[[[/images/rightcorner.gif" /></td>
-</tr>
-<tr> <td align=left valign=bottom><img src="http://]]]LRLWEBHOST[[[/~]]]LRLWEBUSER[[[/images/leftbottomcorner.gif" /></td>
-<td align=right valign=bottom><img src="http://]]]LRLWEBHOST[[[/~]]]LRLWEBUSER[[[/images/rightbottomcorner.gif" /></td></tr>
-</table>
-<h2> LRL_WEB, Lattice Representation Library Tool Web Page</h2>
-<br /> by
-<br /> Lawrence C. Andrews, Herbert J. Bernstein, Fresh Pond Research Institute,
-<br /><A HREF=mailto:larry6640995@gmail.com> larry6640995@gmail.com</A>
-<a href=mailto:yayahjb@gmail.com>yayahjb@gmail.com</a><br />
-<P>
-<tr>
-<td colspan=3 align=center><font size="-1">
-<a href="#timeline">Timeline image</a> by Elizabeth Kincaid, Elizabeth Kincaid Watercolors, <br />
-<a href="#celticknot">Celtic knots</a> by Susan Jones Davis, <br />
-Sleeping Dragon line art image by Gordon Dylan Johnson, 
-<a href="https://openclipart.org/detail/226147/sleeping-dragon-line-art">https://openclipart.org/detail/226147/sleeping-dragon-line-art</a></font></td>
-</tr>
-<FORM method=POST ACTION="http://]]]LRLWEBHOST[[[/~]]]LRLWEBUSER[[[/cgi-bin/]]]LRLWEBCGI[[[" onsubmit="return running('00')">
-<br />
-<font size=+1><b>Assorted tools to do various calculations for crystallographic lattices.</b></font>
-<br />
-<table border=0>
-<tr>
-<td align=center width=300px><a href="http://]]]LRLWEBHOST[[[/~]]]LRLWEBUSER[[[/lrl_web/lrl_web_tutorial.html" target="_blank"><font size=+1><b>Tutorial</b></font></a></td>
-<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-<td align=center width=300px><a href=#DeloneChars><font size=+1><b>Table of Delone Characters</b></font></a></td>
-</tr>
-<tr>
-<td></td>
-<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-<td align=center width=300px><a href=#NiggliFams><font size=+1><b>Table of Niggli Lattice Families</b></font></a></td>
-</tr>
-<tr>
-<td align=center width=300px><a href="http://iterate.sf.net/bgaol" target="_blank"><font size=+1><b>G<sup>6</sup> Bravais General Analysis of Lattices (BGAOL)</b></font></a></td>
-<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-<td align=center width=300px><a href="http://blondie.arcib.org:8083/~yaya/sauc/" target="_blank"><font size=+1><b>G<sup>6</sup> Search for Alternative Unit Cells (SAUC)</b></font></a></td>
-</tr>
-</table>
-<STRONG>
-Please read the <a href="#notice">NOTICE</a> below before use of this web page
-</STRONG>
-<p>
-<a name="search"></a>
-<label for="numops">Number of operation windows: </label>
-<select name="numops" id="numops" onchange="changenumops()" size="1">
-<option selected value="1">1</option>
-<option value="2">2</option>
-<option value="3">3</option>
-<option value="4">4</option>
-<option value="5">5</option>
-<option value="6">6</option>
-<option value="7">7</option>
-<option value="8">8</option>
-</select>&nbsp;&nbsp;
-<INPUT type="submit" id="submit_00" onsubmit="return running('00')">
-<INPUT type="reset">
-<br />
-<input type=hidden name="OutputStyle" value="TEXT" />
-<input type=hidden name="ScrollTo" id="ScrollTo" value="01" />
-  <tr>
-  <td colspan=3 align="center">
-  </td>
-  </tr>
-<table border=2>
-<tr><td valign=top>
-  <table>
-  <tr>
-  <td valign=top>
-  <a name="mark_01" id="mark_01" />
-  <div id="block_01" style="display:inline">
-  <h1 align=left>01</h1><br />
-  <label for="chain_01">Source of data:</label><br />
-  <select name="chain_01" id="chain_01" size="1" onchange="setchaininput('1')">
-  <option selected value="new_input">use new input</option>
-  <option value="chain_input">use prior output</option>
-  </select>
-  <br />
-  <br />
-  <label for="submit_01">Submit all data:</label><br />
-  <INPUT type="submit" id="submit_01" onsubmit="return running('01')">
-  <br />
-  <br />
-  </div>
-LRLWEBRUNNING([[[  ]]],[[[]]],[[[]]],[[[01]]],LRLWEBHOST/~LRLWEBUSER)
-  </td>
-  <td align=left>
-  <div id="block_01a" style="display:inline"> 
-  <label for="operation_01">Select an operation:</label><br />
-  <select name="operation_01" id="operation_01" size="34" onchange="changeoperation('01')">
-  <optgroup label="Information">
-  <option value="NoOp"><b>Check Input</b></option>
-  <option value="CmdDists"><b>Distances</b>: compute NCDist and CS<sup>6</sup>Dist distances</option>
-  <option value="CmdSauc"><b>Cell Search</b>: find similar unit cells</option>
-  <option value="CmdVolume"><b>Volume</b>:  compute volumes of listed cells</option>
-  </optgroup>
-  <optgroup label="Graphical Information">
-  <option value="CmdSella"><b>Sella</b>:  apply Sella algorithm</option>
-  <option value="PlotC3"><b>PlotC3</b>: draw C<sup>3</sup> plot of listed cells</option>
-  <option value="PlotPolar"><b>PlotPolar</b>: draw polar plot of listed cells</option>
-  <option value="Dirichlet"><b>Dirichlet</b>: draw Dirichlet cell of listed cells</option>
-  <option value="Follow"><b>Follow</b>: draw results of following various small transitions</option>
-  </optgroup>
-  <optgroup label="Output Only">
-  <option value="CmdGen"><b>Generate cells</b>: Generate cells of a particular type or types</option>
-  </optgroup>
-  <optgroup label="Type Conversion">
-  <option value="CmdInverse"><b>To Inverse</b>: compute reciprocal cells of input cells</option>
-  <option value="CmdPrim"><b>To Primitive</b>: compute primitive versions of input cells</option>
-  <option value="CmdToB4"><b>To B4</b>: compute Bravais tetrahedron (B4)</option>
-  <option value="CmdToC3"><b>To C<sup>3</sup></b>: compute complex cell presentation (C<sup>3</sup>)</option>
-  <option value="CmdToCell"><b>To Cell</b>: compute H<sup>6</sup> side-angle cells (a, b, c, &alpha;, &beta;, &gamma;)</option>
-  <option value="CmdToG6"><b>To G<sup>6</sup></b>: compute G<sup>6</sup> version of cells</option>
-  <option value="CmdToP3"><b>To P<sup>3</sup></b>: compute P<sup>3</sup> version of cells</option>
-  <option value="CmdToS6"><b>To S<sup>6</sup></b>: compute S<sup>6</sup> version of cells</option>
-  <option value="CmdToS6L"><b>To S6L</b>: compute linearized S<sup>6</sup> or Root Invariant version of cells</option>
-  <option value="CmdToU"><b>To Dirichlet (unsorted)</b>: compute unsorted Dirichlet cells (dc7unsrt)</option>
-  <option value="CmdToV7"><b>To V<sup>7</sup></b>: compute V<sup>7</sup> version of cells</option>
-  </optgroup>
-  <optgroup label="Reduction">
-  <option value="CmdDelone"><b>Delone</b>: compute Selling-reduced primitive cells</option>
-  <option selected value="CmdNiggli"><b>Niggli</b>: compute Niggli-reduced primitive cells</option>
-  </optgroup>
-  <optgroup label="Modify Input">
-  <option value="CmdLM"><b>Matching</b>:apply Lattice Matching algorithm to listed cells</option>
-  <option value="CmdPath"><b>Path</b>:compute path between pairs of cells</option>
-  <option value="CmdPerturb"><b>Perturb</b>:compute perturbed versions of input cells</option>
-  <option value="CmdS6Refl"><b>S<sup>6</sup>Reflections</b>:apply S<sup>6</sup> reflections to input cells</option>
-  <option value="CmdScale"><b>Scale</b>: rescale cells to reference cell</option>
-  </optgroup>
-  </select>
-  </div>
-  </td>
-  <td align=left>
-  <div id="block_01b_cmdgen" style="display:none">
-  <label for="lrl_web_data_01_cmdgen_ngen">Number of each type:</label>&nbsp;
-  <input id="lrl_web_data_01_cmdgen_ngen" name="lrl_web_data_01_cmdgen_ngen" type="number" value="1" />&nbsp;&nbsp;
-  <label for="lrl_web_data_01_cmdgen_ltype">Lattice type:</label>&nbsp;
-  <input id="lrl_web_data_01_cmdgen_ltype" name="lrl_web_data_01_cmdgen_ltype" type="text" value="all" />
-  <br />
-  </div>
-  <div id="block_01b_cmdperturb" style="display:none">
-  <label for="lrl_web_data_01_cmdperturb_npert">Number of perturbations:</label>&nbsp;
-  <input id="lrl_web_data_01_cmdperturb_npert" name="lrl_web_data_01_cmdperturb_npert" type="number" value="20" min="1"/>&nbsp;&nbsp;
-  <label for="lrl_web_data_01_cmdperturb_ppk">Parts per 1000:</label>&nbsp;
-  <input id="lrl_web_data_01_cmdperturb_ppk" name="lrl_web_data_01_cmdperturb_ppk" type="number" value="1" min="1" max="1000"/>
-  <br />
-  </div>
-  <div id="block_01b_cmdpath" style="display:none">
-  <label for="lrl_web_data_01_cmdpath_npath">Number of steps in the path:</label>&nbsp;
-  <input id="lrl_web_data_01_cmdpath_npath" name="lrl_web_data_01_cmdpath_npath" type="number" value="20" min="1"/>&nbsp;&nbsp;
-  <br />
-  </div>
-  <div id="block_01b_cmdscale" style="display:none">
-  <label for="lrl_web_data_01_cmdscale_type">Type of scaled cells: S<sup>6</sup>, V<sup>7</sup>, DC7u, or RI</label>&nbsp;
-  <select id="lrl_web_data_01_cmdscale_type" name="lrl_web_data_01_cmdscale_type">&nbsp;&nbsp;
-  <option selected value="S<sup>6</sup>">S<sup>6</sup></option>
-  <option value="V<sup>7</sup>">V<sup>7</sup></option>
-  <option value="DC7u">DC7u</option>
-  <option value="RI">RI</option>
-  </select>
-  <br />
-  </div>
-  <div id="block_01b_cmdtos6l" style="display:none">
-  <label for="lrl_web_data_01_cmdtos6l_type">Type of linearized S<sup>6</sup>: S6L, RI or blank for both:</label>&nbsp;
-  <select id="lrl_web_data_01_cmdtos6l_type" name="lrl_web_data_01_cmdtos6l_type">&nbsp;&nbsp;
-  <option selected value="S6L">linearized S<sup>6</sup></option>
-  <option value="RI">root invariant</option>
-  <option value="  ">both S6L and RI</option>
-  </select>
-  <br />
-  </div>
-  <div id="block_01b" style="display:inline"> 
-  <label for="lrl_web_data_01">Input data:</label><br />
-  <textarea name="lrl_web_data_01" id="lrl_web_data_01" rows="9" cols="100" placeholder="command input ... followed by end"></textarea>
-  </div>
-  <div id="block_01c" style="display:inline">
-  <br />
-  <label for="lrl_web_output_01">Tool Output:</label><br />
-  <div name="lrl_web_output_01" id="lrl_web_output_01" style="overflow-y: auto;text-align: left;height: 144px;width:720px; border-style: solid; border-width: thin; resize: both;">
-  <font size=-1>Press submit to process data</font>
-  </div>
-  </div>
-  <div id="block_01d" style="display:inline">
-  <br />
-  <label for="lrl_web_help_01">Tool Help:</label><br />
-  <div name="lrl_web_help_01" id="lrl_web_help_01" style="overflow-y: auto;text-align: left;height: 144px;width:720px; border-style: solid; border-width: thin; resize: both;">
-]]]LRLWEBCHECKINPUT([[[<font size=-1>]]],[[[<br />]]],[[[</font>]]])[[[
-  </div>
-  </div>
-  </td>
-  </tr>
-  <tr><td colspan=3 align=center><div name="hrule_02" id="hrule_02" style="display:none">
-  <img src=http://]]]LRLWEBHOST[[[/~]]]LRLWEBUSER[[[/lrl_web/sep5.svg>
-  </div></td></tr>
-  <tr>
-  <td valign=top>
-  <a name="mark_02" id="mark_02" />
-  <div id="block_02" style="display:none">
-  <h1 align=left>02</h1><br />
-  <label for="chain_02">Source of data:</label><br />
-  <select name="chain_02" id="chain_02" size="1" onchange="setchaininput('2')">
-  <option value="new_input">use new input</option>
-  <option selected value="chain_input">use prior output</option>
-  </select>
-  <br />
-  <br />
-  <label for="submit_02">Submit all data:</label><br />
-  <INPUT type="submit" id="submit_02" onsubmit="return running('02')">
-  <br />
-  <br />
-  </div>
-LRLWEBRUNNING([[[ ]]],[[[]]],[[[]]],[[[02]]],LRLWEBHOST/~LRLWEBUSER)
-  </td>
-  <td align=left>
-  <div id="block_02a" style="display:none">
-  <label for="operation_02">Select an operation:</label><br />
-  <select name="operation_02" id="operation_02" size="34" onchange="changeoperation('02')">
-  <optgroup label="Information">
-  <option value="NoOp"><b>Check Input</b></option>
-  <option value="CmdDists"><b>Distances</b>: compute NCDist and CS<sup>6</sup>Dist distances</option>
-  <option value="CmdSauc"><b>Cell Search</b>: find similar unit cells</option>
-  <option value="CmdVolume"><b>Volume</b>: compute volumes of listed cells</option>
-  </optgroup>
-  <optgroup label="Graphical Information">
-  <option value="CmdSella"><b>Sella</b>: apply Sella algorithm</option> 
-  <option value="PlotC3"><b>PlotC3</b>: draw C<sup>3</sup> plot of listed cells</option>
-  <option value="PlotPolar"><b>PlotPolar</b>: draw polar plot of listed cells</option>
-  <option value="Dirichlet"><b>Dirichlet</b>: draw Dirichlet cell of listed cells</option>
-  <option value="Follow"><b>Follow</b>: draw results of following various small transitions</option>
-  </optgroup>
-  <optgroup label="Output Only">
-  <option value="CmdGen"><b>Generate cells</b>: Generate cells of a particular type or types</option>
-  </optgroup>
-  <optgroup label="Type Conversion">
-  <option value="CmdInverse"><b>To Inverse</b>: compute reciprocal cells of input cells</option>
-  <option value="CmdPrim"><b>To Primitive</b>: compute primitive versions of input cells</option>
-  <option value="CmdToB4"><b>To B4</b>: compute Bravais tetrahedron (B4)</option>
-  <option value="CmdToC3"><b>To C<sup>3</sup></b>: compute complex cell presentation (C<sup>3</sup>)</option>
-  <option value="CmdToCell"><b>To Cell</b>: compute H<sup>6</sup> side-angle cells (a, b, c, &alpha;, &beta;, &gamma;)</option>
-  <option value="CmdToG6"><b>To G<sup>6</sup></b>: compute G<sup>6<sup> version of cells</option>
-  <option value="CmdToP3"><b>To P<sup>3</sup></b>: compute P<sup>3</sup> version of cells</option>
-  <option value="CmdToS6"><b>To S<sup>6</sup></b>: compute S<sup>6</sup> version of cells</option>
-  <option value="CmdToS6L"><b>To S6L</b>: compute linearized S<sup>6</sup> or Root Invariant version of cells</option>
-  <option value="CmdToU"><b>To Dirichlet (unsorted)</b>: compute unsorted Dirichlet cells (dc7unsrt)</option> 
-  <option value="CmdToV7"><b>To V<sup>7</sup></b>: compute V<sup>7</sup> version of cells</option>
-  </optgroup>
-  <optgroup label="Reduction">
-  <option value="CmdDelone"><b>Delone</b>: compute Selling-reduced primitive cells</option>
-  <option selected value="CmdNiggli"><b>Niggli</b>: compute Niggli-reduced primitive cells</option>
-  </optgroup>
-  <optgroup label="Modify Input">
-  <option value="CmdLM"><b>Matching</b>:apply Lattice Matching algorithm to listed cells</option>
-  <option value="CmdPath"><b>Path</b>:compute path between pairs of cells</option>
-  <option value="CmdPerturb"><b>Perturb</b>:compute perturbed versions of input cells</option>
-  <option value="CmdS6Refl"><b>S<sup>6</sup>Reflections</b>:apply S<sup>6</sup> reflections to input cells</option>
-  <option value="CmdScale"><b>Scale</b>: rescale cells to reference cell</option> 
-  </optgroup>
-  </select>
-  </div>
-  </td>
-  <td align=left>
-  <div id="block_02b_cmdgen" style="display:none">
-  <label for="lrl_web_data_02_cmdgen_ngen">Number of each type:</label>&nbsp;
-  <input id="lrl_web_data_02_cmdgen_ngen" name="lrl_web_data_02_cmdgen_ngen" type="number" value="1" />&nbsp;&nbsp; 
-  <label for="lrl_web_data_02_cmdgen_ltype">Lattice type:</label>&nbsp;
-  <input id="lrl_web_data_02_cmdgen_ltype" name="lrl_web_data_02_cmdgen_ltype" type="text" value="all" />
-  <br />
-  </div>
-  <div id="block_02b_cmdperturb" style="display:none">
-  <label for="lrl_web_data_02_cmdperturb_npert">Number of perturbations:</label>&nbsp;
-  <input id="lrl_web_data_02_cmdperturb_npert" name="lrl_web_data_02_cmdperturb_npert" type="number" value="20" min="1"/>&nbsp;&nbsp;
-  <label for="lrl_web_data_02_cmdperturb_ppk">Parts per 1000:</label>&nbsp;
-  <input id="lrl_web_data_02_cmdperturb_ppk" name="lrl_web_data_02_cmdperturb_ppk" type="number" value="1" min="1" max="1000"/>
-  <br />
-  </div>
-  <div id="block_02b_cmdpath" style="display:none">
-  <label for="lrl_web_data_02_cmdpath_npath">Number of steps in the path:</label>&nbsp;
-  <input id="lrl_web_data_02_cmdpath_npath" name="lrl_web_data_02_cmdpath_npath" type="number" value="20" min="1"/>&nbsp;&nbsp;
-  <br />
-  </div>
-  <div id="block_02b_cmdscale" style="display:none">
-  <label for="lrl_web_data_02_cmdscale_type">Type of scaled cells: S<sup>6</sup>, V<sup>7</sup>, DC7u, or RI</label>&nbsp;
-  <select id="lrl_web_data_02_cmdscale_type" name="lrl_web_data_02_cmdscale_type">&nbsp;&nbsp;
-  <option selected value="S<sup>6</sup>">S<sup>6</sup></option>
-  <option value="V<sup>7</sup>">V<sup>7</sup></option>
-  <option value="DC7u">DC7u</option>
-  <option value="RI">RI</option>
-  </select>
-  <br />
-  </div>
-  <div id="block_02b_cmdtos6l" style="display:none">
-  <label for="lrl_web_data_02_cmdtos6l_type">Type of linearized S<sup>6</sup>: S6L, RI or blank for both:</label>&nbsp;
-  <select id="lrl_web_data_02_cmdtos6l_type" name="lrl_web_data_02_cmdtos6l_type">&nbsp;&nbsp;
-  <option selected value="S6L">linearized S<sup>6</sup></option>
-  <option value="RI">root invariant</option>
-  <option value=" ">both S6L and RI</option>
-  </select>
-  <br />
-  </div>
-  <div id="block_02b" style="display:none">
-  <label for="lrl_web_data_02">Input data:</label><br />
-  <textarea name="lrl_web_data_02" id="lrl_web_data_02" rows="9" cols="100" placeholder="command input ... followed by end"></textarea>
-  </div>
-  <div id="block_02c" style="display:none">
-  <br />
-  <label for="lrl_web_output_02">Tool Output:</label><br />
-  <div name="lrl_web_output_02" id="lrl_web_output_02" style="overflow-y: auto;text-align: left;height: 144px;width:720px; border-style: solid; border-width: thin; resize: both;">
-  <font size=-1>Press submit to process data</font>
-  </div>
-  </div> 
-  <div id="block_02d" style="display:none">
-  <br />
-  <label for="lrl_web_help_02">Tool Help:</label><br />
-  <div name="lrl_web_help_02" id="lrl_web_help_02" style="overflow-y: auto;text-align: left;height: 144px;width:720px; border-style: solid; border-width: thin; resize: both;">
-]]]LRLWEBCHECKINPUT([[[<font size=-1>]]],[[[<br />]]],[[[</font>]]])[[[
-  </div>
-  </div>
-  </td>
-  </tr>
-  <tr>
-  <td colspan=3 align=center>
-  <div name="hrule_03" id="hrule_03" style="display:none">
-  <img src=http://]]]LRLWEBHOST[[[/~]]]LRLWEBUSER[[[/lrl_web/sep5.svg>
-  </div></td></tr>
-  <tr>
-  <td valign=top>
-  <a name="mark_03" id="mark_03" />
-  <div  id="block_03" style="display:none">
-  <h1 align=left>03</h1><br />
-  <label for="chain_03">Source of data:</label><br />
-  <select name="chain_03" id="chain_03" size="1"  onchange="setchaininput('3')">
-  <option value="new_input">use new input</option>
-  <option selected value="chain_input">use prior output</option>
-  </select>
-  <br />
-  <br /> 
-  <label for="submit_03">Submit all data:</label><br />
-  <INPUT type="submit" id="submit_03" onsubmit="return running('03')">
-  <br />
-  <br />
-  </div>
-LRLWEBRUNNING([[[  ]]],[[[]]],[[[]]],[[[03]]],LRLWEBHOST/~LRLWEBUSER)
-  </td>
-  <td align=left>
-  <div id="block_03a" style="display:none"> 
-  <label for="operation_03">Select an operation:</label><br />
-  <select name="operation_03" id="operation_03" size="34" onchange="changeoperation('03')">
-  <optgroup label="Information">
-  <option value="NoOp"><b>Check Input</b></option>
-  <option value="CmdDists"><b>Distances</b>: compute NCDist and CS<sup>6</sup>Dist distances</option>
-  <option value="CmdSauc"><b>Cell Search</b>: find similar unit cells</option>
-  <option value="CmdVolume"><b>Volume</b>:  compute volumes of listed cells</option>
-  </optgroup>
-  <optgroup label="Graphical Information">
-  <option value="CmdSella"><b>Sella</b>:  apply Sella algorithm</option>
-  <option value="PlotC3"><b>PlotC3</b>: draw C<sup>3</sup> plot of listed cells</option>
-  <option value="PlotPolar"><b>PlotPolar</b>: draw polar plot of listed cells</option>
-  <option value="Dirichlet"><b>Dirichlet</b>: draw Dirichlet cell of listed cells</option>
-  <option value="Follow"><b>Follow</b>: draw results of following various small transitions</option>
-  </optgroup>
-  <optgroup label="Output Only">
-  <option value="CmdGen"><b>Generate cells</b>: Generate cells of a particular type or types</option>
-  </optgroup>
-  <optgroup label="Type Conversion">
-  <option value="CmdInverse"><b>To Inverse</b>: compute reciprocal cells of input cells</option>
-  <option value="CmdPrim"><b>To Primitive</b>: compute primitive versions of input cells</option>
-  <option value="CmdToB4"><b>To B4</b>: compute Bravais tetrahedron (B4)</option>
-  <option value="CmdToC3"><b>To C<sup>3</sup></b>: compute complex cell presentation (C<sup>3</sup>)</option>
-  <option value="CmdToCell"><b>To Cell</b>: compute H<sup>6</sup> side-angle cells (a, b, c, &alpha;, &beta;, &gamma;)</option>
-  <option value="CmdToG6"><b>To G<sup>6</sup></b>: compute G<sup>6</sup> version of cells</option>
-  <option value="CmdToP3"><b>To P<sup>3</sup></b>: compute P<sup>3</sup> version of cells</option>
-  <option value="CmdToS6"><b>To S<sup>6</sup></b>: compute S<sup>6</sup> version of cells</option>
-  <option value="CmdToS6L"><b>To S6L</b>: compute linearized S<sup>6</sup> or Root Invariant version of cells</option>
-  <option value="CmdToU"><b>To Dirichlet (unsorted)</b>: compute unsorted Dirichlet cells (dc7unsrt)</option>
-  <option value="CmdToV7"><b>To V<sup>7</sup></b>: compute V<sup>7</sup> version of cells</option>
-  </optgroup>
-  <optgroup label="Reduction">
-  <option value="CmdDelone"><b>Delone</b>: compute Selling-reduced primitive cells</option>
-  <option selected value="CmdNiggli"><b>Niggli</b>: compute Niggli-reduced primitive cells</option>
-  </optgroup>
-  <optgroup label="Modify Input">
-  <option value="CmdLM"><b>Matching</b>:apply Lattice Matching algorithm to listed cells</option>
-  <option value="CmdPath"><b>Path</b>:compute path between pairs of cells</option>
-  <option value="CmdPerturb"><b>Perturb</b>:compute perturbed versions of input cells</option>
-  <option value="CmdS6Refl"><b>S<sup>6</sup>Reflections</b>:apply S<sup>6</sup> reflections to input cells</option>
-  <option value="CmdScale"><b>Scale</b>: rescale cells to reference cell</option>
-  </optgroup>
-  </select>
-  </div>
-  </td>
-  <td align=left>
-  <div id="block_03b_cmdgen" style="display:none">
-  <label for="lrl_web_data_03_cmdgen_ngen">Number of each type:</label>&nbsp;
-  <input id="lrl_web_data_03_cmdgen_ngen" name="lrl_web_data_03_cmdgen_ngen" type="number" value="1" />&nbsp;&nbsp;
-  <label for="lrl_web_data_03_cmdgen_ltype">Lattice type:</label>&nbsp;
-  <input id="lrl_web_data_03_cmdgen_ltype" name="lrl_web_data_03_cmdgen_ltype" type="text" value="all" />
-  <br />
-  </div>
-  <div id="block_03b_cmdpath" style="display:none">
-  <label for="lrl_web_data_03_cmdpath_npath">Number of steps in the path:</label>&nbsp;
-  <input id="lrl_web_data_03_cmdpath_npath" name="lrl_web_data_03_cmdpath_npath" type="number" value="20" min="1"/>&nbsp;&nbsp;
-  <br />
-  </div>
-  <div id="block_03b_cmdperturb" style="display:none">
-  <label for="lrl_web_data_03_cmdperturb_npert">Number of perturbations:</label>&nbsp;
-  <input id="lrl_web_data_03_cmdperturb_npert" name="lrl_web_data_03_cmdperturb_npert" type="number" value="20" min="1"/>&nbsp;&nbsp;
-  <label for="lrl_web_data_03_cmdperturb_ppk">Parts per 1000:</label>&nbsp;
-  <input id="lrl_web_data_03_cmdperturb_ppk" name="lrl_web_data_03_cmdperturb_ppk" type="number" value="1" min="1" max="1000"/>
-  <br />
-  </div>
-  <div id="block_03b_cmdscale" style="display:none">
-  <label for="lrl_web_data_03_cmdscale_type">Type of scaled cells: S<sup>6</sup>, V<sup>7</sup>, DC7u, or RI</label>&nbsp;
-  <select id="lrl_web_data_03_cmdscale_type" name="lrl_web_data_03_cmdscale_type">&nbsp;&nbsp;
-  <option selected value="S<sup>6</sup>">S<sup>6</sup></option>
-  <option value="V<sup>7</sup>">V<sup>7</sup></option>
-  <option value="DC7u">DC7u</option>
-  <option value="RI">RI</option>
-  </select>
-  <br />
-  </div>
-  <div id="block_03b_cmdtos6l" style="display:none">
-  <label for="lrl_web_data_03_cmdtos6l_type">Type of linearized S<sup>6</sup>: S6L, RI or blank for both:</label>&nbsp;
-  <select id="lrl_web_data_03_cmdtos6l_type" name="lrl_web_data_03_cmdtos6l_type">&nbsp;
-  <option selected value="S6L">linearized S<sup>6</sup></option>
-  <option value="RI">root invariant</option>
-  <option value="  ">both S6L and RI</option>
-  </select>
-  <br />
-  </div>
-  <div id="block_03b" style="display:none"> 
-  <label for="lrl_web_data_03">Input data:</label><br />
-  <textarea name="lrl_web_data_03" id="lrl_web_data_03" rows="9" cols="100" placeholder="command input ... followed by end"></textarea>
-  </div>
-  <div id="block_03c" style="display:none">
-  <br />
-  <label for="lrl_web_output_03">Tool Output:</label><br />
-  <div name="lrl_web_output_03" id="lrl_web_output_03" style="overflow-y: auto;text-align: left;height: 144px;width:720px; border-style: solid; border-width: thin; resize: both;">
-  <font size=-1>Press submit to process data</font>
-  </div>
-  </div>
-  <div id="block_03d" style="display:none">
-  <br />
-  <label for="lrl_web_help_03">Tool Help:</label><br />
-  <div name="lrl_web_help_03" id="lrl_web_help_03" style="overflow-y: auto;text-align: left;height: 144px;width:720px; border-style: solid; border-width: thin; resize: both;">
-]]]LRLWEBCHECKINPUT([[[<font size=-1>]]],[[[<br />]]],[[[</font>]]])[[[
-  </div>
-  </div>
-  </td>
-  </tr>
-  <tr><td colspan=3 align=center><div name="hrule_04" id="hrule_04" style="display:none">
-  <img src=http://]]]LRLWEBHOST[[[/~]]]LRLWEBUSER[[[/lrl_web/sep5.svg>
-  </div></td></tr>
-  <tr>
-  <td valign=top>
-  <a name="mark_04" id="mark_04" />
-  <div id="block_04" style="display:none"> 
-  <h1 align=left>04</h1><br />
-  <label for="chain_04">Source of data:</label><br />
-  <select name="chain_04" id="chain_04" size="1" onchange="setchaininput('4')">
-  <option value="new_input">use new input</option>
-  <option selected value="chain_input">use prior output</option>
-  </select>
-  <br />
-  <br />
-  <label for="submit_04">Submit all data:</label><br />
-  <INPUT type="submit" id="submit_04" /onsubmit="return running('04')">
-  <br />
-  <br />
-  </div>
-LRLWEBRUNNING([[[  ]]],[[[]]],[[[]]],[[[04]]],LRLWEBHOST/~LRLWEBUSER)
-  </td>
-  <td align=left>
-  <div id="block_04a" style="display:none"> 
-  <label for="operation_04">Select an operation:</label><br />
-  <select name="operation_04" id="operation_04" size="34" onchange="changeoperation('04')">
-  <optgroup label="Information">
-  <option value="NoOp"><b>Check Input</b></option>
-  <option value="CmdDists"><b>Distances</b>: compute NCDist and CS<sup>6</sup>Dist distances</option>
-  <option value="CmdSauc"><b>Cell Search</b>: find similar unit cells</option>
-  <option value="CmdVolume"><b>Volume</b>:  compute volumes of listed cells</option>
-  </optgroup>
-  <optgroup label="Graphical Information">
-  <option value="CmdSella"><b>Sella</b>:  apply Sella algorithm</option>
-  <option value="PlotC3"><b>PlotC3</b>: draw C<sup>3</sup> plot of listed cells</option>
-  <option value="PlotPolar"><b>PlotPolar</b>: draw polar plot of listed cells</option>
-  <option value="Dirichlet"><b>Dirichlet</b>: draw Dirichlet cell of listed cells</option>
-  <option value="Follow"><b>Follow</b>: draw results of following various small transitions</option>
-  </optgroup>
-  <optgroup label="Output Only">
-  <option value="CmdGen"><b>Generate cells</b>: Generate cells of a particular type or types</option>
-  </optgroup>
-  <optgroup label="Type Conversion">
-  <option value="CmdInverse"><b>To Inverse</b>: compute reciprocal cells of input cells</option>
-  <option value="CmdPrim"><b>To Primitive</b>: compute primitive versions of input cells</option>
-  <option value="CmdToB4"><b>To B4</b>: compute Bravais tetrahedron (B4)</option>
-  <option value="CmdToC3"><b>To C<sup>3</sup></b>: compute complex cell presentation (C<sup>3</sup>)</option>
-  <option value="CmdToCell"><b>To Cell</b>: compute H<sup>6</sup> side-angle cells (a, b, c, &alpha;, &beta;, &gamma;)</option>
-  <option value="CmdToG6"><b>To G<sup>6</sup></b>: compute G<sup>6</sup> version of cells</option>
-  <option value="CmdToP3"><b>To P<sup>3</sup></b>: compute P<sup>3</sup> version of cells</option>
-  <option value="CmdToS6"><b>To S<sup>6</sup></b>: compute S<sup>6</sup> version of cells</option>
-  <option value="CmdToS6L"><b>To S6L</b>: compute linearized S<sup>6</sup> or Root Invariant version of cells</option>
-  <option value="CmdToU"><b>To Dirichlet (unsorted)</b>: compute unsorted Dirichlet cells (dc7unsrt)</option>
-  <option value="CmdToV7"><b>To V<sup>7</sup></b>: compute V<sup>7</sup> version of cells</option>
-  </optgroup>
-  <optgroup label="Reduction">
-  <option value="CmdDelone"><b>Delone</b>: compute Selling-reduced primitive cells</option>
-  <option selected value="CmdNiggli"><b>Niggli</b>: compute Niggli-reduced primitive cells</option>
-  </optgroup>
-  <optgroup label="Modify Input">
-  <option value="CmdLM"><b>Matching</b>:apply Lattice Matching algorithm to listed cells</option>
-  <option value="CmdPath"><b>Path</b>:compute path between pairs of cells</option>
-  <option value="CmdPerturb"><b>Perturb</b>:compute perturbed versions of input cells</option>
-  <option value="CmdS6Refl"><b>S<sup>6</sup>Reflections</b>:apply S<sup>6</sup> reflections to input cells</option>
-  <option value="CmdScale"><b>Scale</b>: rescale cells to reference cell</option>
-  </optgroup>
-  </select>
-  </div>
-  </td>
-  <td align=left>
-  <div id="block_04b_cmdgen" style="display:none">
-  <label for="lrl_web_data_04_cmdgen_ngen">Number of each type:</label>&nbsp;
-  <input id="lrl_web_data_04_cmdgen_ngen" name="lrl_web_data_04_cmdgen_ngen" type="number" value="1" />&nbsp;&nbsp;
-  <label for="lrl_web_data_04_cmdgen_ltype">Lattice type:</label>&nbsp;
-  <input id="lrl_web_data_04_cmdgen_ltype" name="lrl_web_data_04_cmdgen_ltype" type="text" value="all" />
-  <br />
-  </div>
-  <div id="block_04b_cmdperturb" style="display:none">
-  <label for="lrl_web_data_04_cmdperturb_npert">Number of perturbations:</label>&nbsp;
-  <input id="lrl_web_data_04_cmdperturb_npert" name="lrl_web_data_04_cmdperturb_npert" type="number" value="20" min="1"/>&nbsp;&nbsp;
-  <label for="lrl_web_data_04_cmdperturb_ppk">Parts per 1000:</label>&nbsp;
-  <input id="lrl_web_data_04_cmdperturb_ppk" name="lrl_web_data_04_cmdperturb_ppk" type="number" value="1" min="1" max="1000"/>
-  <br />
-  </div>
-  <div id="block_04b_cmdpath" style="display:none">
-  <label for="lrl_web_data_04_cmdpath_npath">Number of steps in the path:</label>&nbsp;
-  <input id="lrl_web_data_04_cmdpath_npath" name="lrl_web_data_04_cmdpath_npath" type="number" value="20" min="1"/>&nbsp;&nbsp;
-  <br />
-  </div>
-  <div id="block_04b_cmdscale" style="display:none">
-  <label for="lrl_web_data_04_cmdscale_type">Type of scaled cells: S<sup>6</sup>, V<sup>7</sup>, DC7u, or RI</label>&nbsp;
-  <select id="lrl_web_data_04_cmdscale_type" name="lrl_web_data_04_cmdscale_type">&nbsp;&nbsp;
-  <option selected value="S<sup>6</sup>">S<sup>6</sup></option>
-  <option value="V<sup>7</sup>">V<sup>7</sup></option>
-  <option value="DC7u">DC7u</option>
-  <option value="RI">RI</option>
-  </select>
-  <br />
-  </div>
-  <div id="block_04b_cmdtos6l" style="display:none">
-  <label for="lrl_web_data_04_cmdtos6l_type">Type of linearized S<sup>6</sup>: S6L, RI or blank for both:</label>&nbsp;
-  <select id="lrl_web_data_04_cmdtos6l_type" name="lrl_web_data_04_cmdtos6l_type">&nbsp;&nbsp;
-  <option selected value="S6L">linearized S<sup>6</sup></option>
-  <option value="RI">root invariant</option>
-  <option value="  ">both S6L and RI</option>
-  </select>
-  <br />
-  </div>
-  <div id="block_04b" style="display:none"> 
-  <label for="lrl_web_data_04">Input data:</label><br />
-  <textarea name="lrl_web_data_04" id="lrl_web_data_04" rows="9" cols="100" placeholder="command input ... followed by end"></textarea>
-  </div>
-  <div id="block_04c" style="display:none">
-  <br />
-  <label for="lrl_web_output_04">Tool Output:</label><br />
-  <div name="lrl_web_output_04" id="lrl_web_output_04" style="overflow-y: auto;text-align: left;height: 144px;width:720px; border-style: solid; border-width: thin; resize: both;">
-  <font size=-1>Press submit to process data</font>
-  </div>
-  </div>
-  <div id="block_04d" style="display:none">
-  <br />
-  <label for="lrl_web_help_04">Tool Help:</label><br />
-  <div name="lrl_web_help_04" id="lrl_web_help_04" style="overflow-y: auto;text-align: left;height: 144px;width:720px; border-style: solid; border-width: thin; resize: both;">
-]]]LRLWEBCHECKINPUT([[[<font size=-1>]]],[[[<br />]]],[[[</font>]]])[[[
-  </div>
-  </div>
-  </td>
-  </tr>
-  <tr><td colspan=3 align=center><div name="hrule_05" id="hrule_05" style="display:none">
-  <img src=http://]]]LRLWEBHOST[[[/~]]]LRLWEBUSER[[[/lrl_web/sep5.svg>
-  </div></td></tr>
-  <tr>
-  <td valign=top>
-  <a name="mark_05" id="mark_05" />
-  <div id="block_05" style="display:none"> 
-  <h1 align=left>05</h1><br />
-  <label for="chain_05">Source of data:</label><br />
-  <select name="chain_05" id="chain_05" size="1" onchange="setchaininput('5')">
-  <option value="new_input">use new input</option>
-  <option selected value="chain_input">use prior output</option>
-  </select>
-  <br />
-  <br />
-  <label for="submit_05">Submit all data:</label><br />
-  <INPUT type="submit" id="submit_05"  onsubmit="return running('05')">
-  <br />
-  <br />
-  </div>
-LRLWEBRUNNING([[[  ]]],[[[]]],[[[]]],[[[05]]],LRLWEBHOST/~LRLWEBUSER)
-  </td>
-  <td align=left>
-  <div id="block_05a" style="display:none"> 
-  <label for="operation_05">Select an operation:</label><br />
-  <select name="operation_05" id="operation_05" size="34" onchange="changeoperation('05')">
-  <optgroup label="Information">
-  <option value="NoOp"><b>Check Input</b></option>
-  <option value="CmdDists"><b>Distances</b>: compute NCDist and CS<sup>6</sup>Dist distances</option>
-  <option value="CmdSauc"><b>Cell Search</b>: find similar unit cells</option>
-  <option value="CmdVolume"><b>Volume</b>:  compute volumes of listed cells</option>
-  </optgroup>
-  <optgroup label="Graphical Information">
-  <option value="CmdSella"><b>Sella</b>:  apply Sella algorithm</option>
-  <option value="PlotC3"><b>PlotC3</b>: draw C<sup>3</sup> plot of listed cells</option>
-  <option value="PlotPolar"><b>PlotPolar</b>: draw polar plot of listed cells</option>
-  <option value="Dirichlet"><b>Dirichlet</b>: draw Dirichlet cell of listed cells</option>
-  <option value="Follow"><b>Follow</b>: draw results of following various small transitions</option>
-  </optgroup>
-  <optgroup label="Output Only">
-  <option value="CmdGen"><b>Generate cells</b>: Generate cells of a particular type or types</option>
-  </optgroup>
-  <optgroup label="Type Conversion">
-  <option value="CmdInverse"><b>To Inverse</b>: compute reciprocal cells of input cells</option>
-  <option value="CmdPrim"><b>To Primitive</b>: compute primitive versions of input cells</option>
-  <option value="CmdToB4"><b>To B4</b>: compute Bravais tetrahedron (B4)</option>
-  <option value="CmdToC3"><b>To C<sup>3</sup></b>: compute complex cell presentation (C<sup>3</sup>)</option>
-  <option value="CmdToCell"><b>To Cell</b>: compute H<sup>6</sup> side-angle cells (a, b, c, &alpha;, &beta;, &gamma;)</option>
-  <option value="CmdToG6"><b>To G<sup>6</sup></b>: compute G<sup>6</sup> version of cells</option>
-  <option value="CmdToP3"><b>To P<sup>3</sup></b>: compute P<sup>3</sup> version of cells</option>
-  <option value="CmdToS6"><b>To S<sup>6</sup></b>: compute S<sup>6</sup> version of cells</option>
-  <option value="CmdToS6L"><b>To S6L</b>: compute linearized S<sup>6</sup> or Root Invariant version of cells</option>
-  <option value="CmdToU"><b>To Dirichlet (unsorted)</b>: compute unsorted Dirichlet cells (dc7unsrt)</option>
-  <option value="CmdToV7"><b>To V<sup>7</sup></b>: compute V<sup>7</sup> version of cells</option>
-  </optgroup>
-  <optgroup label="Reduction">
-  <option value="CmdDelone"><b>Delone</b>: compute Selling-reduced primitive cells</option>
-  <option selected value="CmdNiggli"><b>Niggli</b>: compute Niggli-reduced primitive cells</option>
-  </optgroup>
-  <optgroup label="Modify Input">
-  <option value="CmdLM"><b>Matching</b>:apply Lattice Matching algorithm to listed cells</option>
-  <option value="CmdPath"><b>Path</b>:compute path between pairs of cells</option>
-  <option value="CmdPerturb"><b>Perturb</b>:compute perturbed versions of input cells</option>
-  <option value="CmdS6Refl"><b>S<sup>6</sup>Reflections</b>:apply S<sup>6</sup> reflections to input cells</option>
-  <option value="CmdScale"><b>Scale</b>: rescale cells to reference cell</option>
-  </optgroup>
-  </select>
-  </div>
-  </td>
-  <td align=left>
-  <div id="block_05b_cmdgen" style="display:none">
-  <label for="lrl_web_data_05_cmdgen_ngen">Number of each type:</label>&nbsp;
-  <input id="lrl_web_data_05_cmdgen_ngen" name="lrl_web_data_05_cmdgen_ngen" type="number" value="1" />&nbsp;&nbsp;
-  <label for="lrl_web_data_05_cmdgen_ltype">Lattice type:</label>&nbsp;
-  <input id="lrl_web_data_05_cmdgen_ltype" name="lrl_web_data_05_cmdgen_ltype" type="text" value="all" />
-  <br />
-  </div>
-  <div id="block_05b_cmdperturb" style="display:none">
-  <label for="lrl_web_data_05_cmdperturb_npert">Number of perturbations:</label>&nbsp;
-  <input id="lrl_web_data_05_cmdperturb_npert" name="lrl_web_data_05_cmdperturb_npert" type="number" value="20" min="1"/>&nbsp;&nbsp;
-  <label for="lrl_web_data_05_cmdperturb_ppk">Parts per 1000:</label>&nbsp;
-  <input id="lrl_web_data_05_cmdperturb_ppk" name="lrl_web_data_05_cmdperturb_ppk" type="number" value="1" min="1" max="1000"/>
-  <br />
-  </div>
-  <div id="block_05b_cmdpath" style="display:none">
-  <label for="lrl_web_data_05_cmdpath_npath">Number of steps in the path:</label>&nbsp;
-  <input id="lrl_web_data_05_cmdpath_npath" name="lrl_web_data_05_cmdpath_npath" type="number" value="20" min="1"/>&nbsp;&nbsp;
-  <br />
-  </div>
-  <div id="block_05b_cmdscale" style="display:none">
-  <label for="lrl_web_data_05_cmdscale_type">Type of scaled cells: S<sup>6</sup>, V<sup>7</sup>, DC7u, or RI</label>&nbsp;
-  <select id="lrl_web_data_05_cmdscale_type" name="lrl_web_data_05_cmdscale_type">&nbsp;&nbsp;
-  <option selected value="S<sup>6</sup>">S<sup>6</sup></option>
-  <option value="V<sup>7</sup>">V<sup>7</sup></option>
-  <option value="DC7u">DC7u</option>
-  <option value="RI">RI</option>
-  </select>
-  <br />
-  </div>
-  <div id="block_05b_cmdtos6l" style="display:none">
-  <label for="lrl_web_data_05_cmdtos6l_type">Type of linearized S<sup>6</sup>: S6L, RI or blank for both:</label>&nbsp;
-  <select id="lrl_web_data_05_cmdtos6l_type" name="lrl_web_data_05_cmdtos6l_type">&nbsp;&nbsp;
-  <option selected value="S6L">linearized S<sup>6</sup></option>
-  <option value="RI">root invariant</option>
-  <option value="  ">both S6L and RI</option>
-  </select>
-  <br />
-  </div>
-  <div id="block_05b" style="display:none"> 
-  <label for="lrl_web_data_05">Input data:</label><br />
-  <textarea name="lrl_web_data_05" id="lrl_web_data_05" rows="9" cols="100" placeholder="command input ... followed by end"></textarea>
-  </div>
-  <div id="block_05c" style="display:none">
-  <br />
-  <label for="lrl_web_output_05">Tool Output:</label><br />
-  <div name="lrl_web_output_05" id="lrl_web_output_05" style="overflow-y: auto;text-align: left;height: 144px;width:720px; border-style: solid; border-width: thin; resize: both;">
-  <font size=-1>Press submit to process data</font>
-  </div>
-  </div>
-  <div id="block_05d" style="display:none">
-  <br />
-  <label for="lrl_web_help_05">Tool Help:</label><br />
-  <div name="lrl_web_help_05" id="lrl_web_help_05" style="overflow-y: auto;text-align: left;height: 144px;width:720px; border-style: solid; border-width: thin; resize: both;">
-]]]LRLWEBCHECKINPUT([[[<font size=-1>]]],[[[<br />]]],[[[</font>]]])[[[
-  </div>
-  </div>
-  </td>
-  </tr>
-  <tr><td colspan=3 align=center><div name="hrule_06" id="hrule_06" style="display:none">
-  <img src=http://]]]LRLWEBHOST[[[/~]]]LRLWEBUSER[[[/lrl_web/sep5.svg>
-  </div></td></tr>
-  <tr>
-  <td valign=top>
-  <a name="mark_06" id="mark_06" />
-  <div id="block_06" style="display:none"> 
-  <h1 align=left>06</h1><br />
-  <label for="chain_06">Source of data:</label><br />
-  <select name="chain_06" id="chain_06" size="1" onchange="setchaininput('5')">
-  <option value="new_input">use new input</option>
-  <option selected value="chain_input">use prior output</option>
-  </select>
-  <br />
-  <br />
-  <label for="submit_06">Submit all data:</label><br />
-  <INPUT type="submit" id="submit_06"  onsubmit="return running('06')">
-  <br />
-  <br />
-  </div>
-LRLWEBRUNNING([[[  ]]],[[[]]],[[[]]],[[[06]]],LRLWEBHOST/~LRLWEBUSER)
-  </td>
-  <td align=left>
-  <div id="block_06a" style="display:none"> 
-  <label for="operation_06">Select an operation:</label><br />
-  <select name="operation_06" id="operation_06" size="34" onchange="changeoperation('06')">
-  <optgroup label="Information">
-  <option value="NoOp"><b>Check Input</b></option>
-  <option value="CmdDists"><b>Distances</b>: compute NCDist and CS<sup>6</sup>Dist distances</option>
-  <option value="CmdSauc"><b>Cell Search</b>: find similar unit cells</option>
-  <option value="CmdVolume"><b>Volume</b>:  compute volumes of listed cells</option>
-  </optgroup>
-  <optgroup label="Graphical Information">
-  <option value="CmdSella"><b>Sella</b>:  apply Sella algorithm</option>
-  <option value="PlotC3"><b>PlotC3</b>: draw C<sup>3</sup> plot of listed cells</option>
-  <option value="PlotPolar"><b>PlotPolar</b>: draw polar plot of listed cells</option>
-  <option value="Dirichlet"><b>Dirichlet</b>: draw Dirichlet cell of listed cells</option>
-  <option value="Follow"><b>Follow</b>: draw results of following various small transitions</option>
-  </optgroup>
-  <optgroup label="Output Only">
-  <option value="CmdGen"><b>Generate cells</b>: Generate cells of a particular type or types</option>
-  </optgroup>
-  <optgroup label="Type Conversion">
-  <option value="CmdInverse"><b>To Inverse</b>: compute reciprocal cells of input cells</option>
-  <option value="CmdPrim"><b>To Primitive</b>: compute primitive versions of input cells</option>
-  <option value="CmdToB4"><b>To B4</b>: compute Bravais tetrahedron (B4)</option>
-  <option value="CmdToC3"><b>To C<sup>3</sup></b>: compute complex cell presentation (C<sup>3</sup>)</option>
-  <option value="CmdToCell"><b>To Cell</b>: compute H<sup>6</sup> side-angle cells (a, b, c, &alpha;, &beta;, &gamma;)</option>
-  <option value="CmdToG6"><b>To G<sup>6</sup></b>: compute G<sup>6</sup> version of cells</option>
-  <option value="CmdToP3"><b>To P<sup>3</sup></b>: compute P<sup>3</sup> version of cells</option>
-  <option value="CmdToS6"><b>To S<sup>6</sup></b>: compute S<sup>6</sup> version of cells</option>
-  <option value="CmdToS6L"><b>To S6L</b>: compute linearized S<sup>6</sup> or Root Invariant version of cells</option>
-  <option value="CmdToU"><b>To Dirichlet (unsorted)</b>: compute unsorted Dirichlet cells (dc7unsrt)</option>
-  <option value="CmdToV7"><b>To V<sup>7</sup></b>: compute V<sup>7</sup> version of cells</option>
-  </optgroup>
-  <optgroup label="Reduction">
-  <option value="CmdDelone"><b>Delone</b>: compute Selling-reduced primitive cells</option>
-  <option selected value="CmdNiggli"><b>Niggli</b>: compute Niggli-reduced primitive cells</option>
-  </optgroup>
-  <optgroup label="Modify Input">
-  <option value="CmdLM"><b>Matching</b>:apply Lattice Matching algorithm to listed cells</option>
-  <option value="CmdPath"><b>Path</b>:compute path between pairs of cells</option>
-  <option value="CmdPerturb"><b>Perturb</b>:compute perturbed versions of input cells</option>
-  <option value="CmdS6Refl"><b>S<sup>6</sup>Reflections</b>:apply S<sup>6</sup> reflections to input cells</option>
-  <option value="CmdScale"><b>Scale</b>: rescale cells to reference cell</option>
-  </optgroup>
-  </select>
-  </div>
-  </td>
-  <td align=left>
-  <div id="block_06b_cmdgen" style="display:none">
-  <label for="lrl_web_data_06_cmdgen_ngen">Number of each type:</label>&nbsp;
-  <input id="lrl_web_data_06_cmdgen_ngen" name="lrl_web_data_06_cmdgen_ngen" type="number" value="1" />&nbsp;&nbsp;
-  <label for="lrl_web_data_06_cmdgen_ltype">Lattice type:</label>&nbsp;
-  <input id="lrl_web_data_06_cmdgen_ltype" name="lrl_web_data_06_cmdgen_ltype" type="text" value="all" />
-  <br />
-  </div>
-  <div id="block_06b_cmdperturb" style="display:none">
-  <label for="lrl_web_data_06_cmdperturb_npert">Number of perturbations:</label>&nbsp;
-  <input id="lrl_web_data_06_cmdperturb_npert" name="lrl_web_data_06_cmdperturb_npert" type="number" value="20" min="1"/>&nbsp;&nbsp;
-  <label for="lrl_web_data_06_cmdperturb_ppk">Parts per 1000:</label>&nbsp;
-  <input id="lrl_web_data_06_cmdperturb_ppk" name="lrl_web_data_06_cmdperturb_ppk" type="number" value="1" min="1" max="1000"/>
-  <br />
-  </div>
-  <div id="block_06b_cmdpath" style="display:none">
-  <label for="lrl_web_data_06_cmdpath_npath">Number of steps in the path:</label>&nbsp;
-  <input id="lrl_web_data_06_cmdpath_npath" name="lrl_web_data_06_cmdpath_npath" type="number" value="20" min="1"/>&nbsp;&nbsp;
-  <br />
-  </div>
-  <div id="block_06b_cmdscale" style="display:none">
-  <label for="lrl_web_data_06_cmdscale_type">Type of scaled cells: S<sup>6</sup>, V<sup>7</sup>, DC7u, or RI</label>&nbsp;
-  <select id="lrl_web_data_06_cmdscale_type" name="lrl_web_data_06_cmdscale_type">&nbsp;&nbsp;
-  <option selected value="S<sup>6</sup>">S<sup>6</sup></option>
-  <option value="V<sup>7</sup>">V<sup>7</sup></option>
-  <option value="DC7u">DC7u</option>
-  <option value="RI">RI</option>
-  </select>
-  <br />
-  </div>
-  <div id="block_06b_cmdtos6l" style="display:none">
-  <label for="lrl_web_data_06_cmdtos6l_type">Type of linearized S<sup>6</sup>: S6L, RI or blank for both:</label>&nbsp;
-  <select id="lrl_web_data_06_cmdtos6l_type" name="lrl_web_data_06_cmdtos6l_type">&nbsp;&nbsp;
-  <option selected value="S6L">linearized S<sup>6</sup></option>
-  <option value="RI">root invariant</option>
-  <option value="  ">both S6L and RI</option>
-  </select>
-  <br />
-  </div>
-  <div id="block_06b" style="display:none"> 
-  <label for="lrl_web_data_06">Input data:</label><br />
-  <textarea name="lrl_web_data_06" id="lrl_web_data_06" rows="9" cols="100" placeholder="command input ... followed by end"></textarea>
-  </div>
-  <div id="block_06c" style="display:none">
-  <br />
-  <label for="lrl_web_output_06">Tool Output:</label><br />
-  <div name="lrl_web_output_06" id="lrl_web_output_06" style="overflow-y: auto;text-align: left;height: 144px;width:720px; border-style: solid; border-width: thin; resize: both;">
-  <font size=-1>Press submit to process data</font>
-  </div>
-  </div>
-  <div id="block_06d" style="display:none">
-  <br />
-  <label for="lrl_web_help_06">Tool Help:</label><br />
-  <div name="lrl_web_help_06" id="lrl_web_help_06" style="overflow-y: auto;text-align: left;height: 144px;width:720px; border-style: solid; border-width: thin; resize: both;">
-]]]LRLWEBCHECKINPUT([[[<font size=-1>]]],[[[<br />]]],[[[</font>]]])[[[
-  </div>
-  </div>
-  </td>
-  </tr>
-  <tr><td colspan=3 align=center><div name="hrule_07" id="hrule_07" style="display:none">
-  <img src=http://]]]LRLWEBHOST[[[/~]]]LRLWEBUSER[[[/lrl_web/sep5.svg>
-  </div></td></tr>
-  <tr>
-  <td valign=top>
-  <a name="mark_07" id="mark_07" />
-  <div id="block_07" style="display:none"> 
-  <h1 align=left>07</h1><br />
-  <label for="chain_07">Source of data:</label><br />
-  <select name="chain_07" id="chain_07" size="1" onchange="setchaininput('7')">
-  <option value="new_input">use new input</option>
-  <option selected value="chain_input">use prior output</option>
-  </select>
-  <br />
-  <br />
-  <label for="submit_07">Submit all data:</label><br />
-  <INPUT type="submit" id="submit_07" onsubmit="return running('07')">
-  <br />
-  <br />
-  </div>
-LRLWEBRUNNING([[[  ]]],[[[]]],[[[]]],[[[07]]],LRLWEBHOST/~LRLWEBUSER)
-  </td>
-  <td align=left>
-  <div id="block_07a" style="display:none"> 
-  <label for="operation_07">Select an operation:</label><br />
-  <select name="operation_07" id="operation_07" size="34" onchange="changeoperation('07')">
-  <optgroup label="Information">
-  <option value="NoOp"><b>Check Input</b></option>
-  <option value="CmdDists"><b>Distances</b>: compute NCDist and CS<sup>6</sup>Dist distances</option>
-  <option value="CmdSauc"><b>Cell Search</b>: find similar unit cells</option>
-  <option value="CmdVolume"><b>Volume</b>:  compute volumes of listed cells</option>
-  </optgroup>
-  <optgroup label="Graphical Information">
-  <option value="CmdSella"><b>Sella</b>:  apply Sella algorithm</option>
-  <option value="PlotC3"><b>PlotC3</b>: draw C<sup>3</sup> plot of listed cells</option>
-  <option value="PlotPolar"><b>PlotPolar</b>: draw polar plot of listed cells</option>
-  <option value="Dirichlet"><b>Dirichlet</b>: draw Dirichlet cell of listed cells</option>
-  <option value="Follow"><b>Follow</b>: draw results of following various small transitions</option>
-  </optgroup>
-  <optgroup label="Output Only">
-  <option value="CmdGen"><b>Generate cells</b>: Generate cells of a particular type or types</option>
-  </optgroup>
-  <optgroup label="Type Conversion">
-  <option value="CmdInverse"><b>To Inverse</b>: compute reciprocal cells of input cells</option>
-  <option value="CmdPrim"><b>To Primitive</b>: compute primitive versions of input cells</option>
-  <option value="CmdToB4"><b>To B4</b>: compute Bravais tetrahedron (B4)</option>
-  <option value="CmdToC3"><b>To C<sup>3</sup></b>: compute complex cell presentation (C<sup>3</sup>)</option>
-  <option value="CmdToCell"><b>To Cell</b>: compute H<sup>6</sup> side-angle cells (a, b, c, &alpha;, &beta;, &gamma;)</option>
-  <option value="CmdToG6"><b>To G<sup>6</sup></b>: compute G<sup>6</sup> version of cells</option>
-  <option value="CmdToP3"><b>To P<sup>3</sup></b>: compute P<sup>3</sup> version of cells</option>
-  <option value="CmdToS6"><b>To S<sup>6</sup></b>: compute S<sup>6</sup> version of cells</option>
-  <option value="CmdToS6L"><b>To S6L</b>: compute linearized S<sup>6</sup> or Root Invariant version of cells</option>
-  <option value="CmdToU"><b>To Dirichlet (unsorted)</b>: compute unsorted Dirichlet cells (dc7unsrt)</option>
-  <option value="CmdToV7"><b>To V<sup>7</sup></b>: compute V<sup>7</sup> version of cells</option>
-  </optgroup>
-  <optgroup label="Reduction">
-  <option value="CmdDelone"><b>Delone</b>: compute Selling-reduced primitive cells</option>
-  <option selected value="CmdNiggli"><b>Niggli</b>: compute Niggli-reduced primitive cells</option>
-  </optgroup>
-  <optgroup label="Modify Input">
-  <option value="CmdLM"><b>Matching</b>:apply Lattice Matching algorithm to listed cells</option>
-  <option value="CmdPath"><b>Path</b>:compute path between pairs of cells</option>
-  <option value="CmdPerturb"><b>Perturb</b>:compute perturbed versions of input cells</option>
-  <option value="CmdS6Refl"><b>S<sup>6</sup>Reflections</b>:apply S<sup>6</sup> reflections to input cells</option>
-  <option value="CmdScale"><b>Scale</b>: rescale cells to reference cell</option>
-  </optgroup>
-  </select>
-  </div>
-  </td>
-  <td align=left>
-  <div id="block_07b_cmdgen" style="display:none">
-  <label for="lrl_web_data_07_cmdgen_ngen">Number of each type:</label>&nbsp;
-  <input id="lrl_web_data_07_cmdgen_ngen" name="lrl_web_data_07_cmdgen_ngen" type="number" value="1" />&nbsp;&nbsp;
-  <label for="lrl_web_data_07_cmdgen_ltype">Lattice type:</label>&nbsp;
-  <input id="lrl_web_data_07_cmdgen_ltype" name="lrl_web_data_07_cmdgen_ltype" type="text" value="all" />
-  <br />
-  </div>
-  <div id="block_07b_cmdperturb" style="display:none">
-  <label for="lrl_web_data_07_cmdperturb_npert">Number of perturbations:</label>&nbsp;
-  <input id="lrl_web_data_07_cmdperturb_npert" name="lrl_web_data_07_cmdperturb_npert" type="number" value="20" min="1"/>&nbsp;&nbsp;
-  <label for="lrl_web_data_07_cmdperturb_ppk">Parts per 1000:</label>&nbsp;
-  <input id="lrl_web_data_07_cmdperturb_ppk" name="lrl_web_data_07_cmdperturb_ppk" type="number" value="1" min="1" max="1000"/>
-  <br />
-  </div>
-  <div id="block_07b_cmdpath" style="display:none">
-  <label for="lrl_web_data_07_cmdpath_npath">Number of steps in the path:</label>&nbsp;
-  <input id="lrl_web_data_07_cmdpath_npath" name="lrl_web_data_07_cmdpath_npath" type="number" value="20" min="1"/>&nbsp;&nbsp;
-  <br />
-  </div>
-  <div id="block_07b_cmdscale" style="display:none">
-  <label for="lrl_web_data_07_cmdscale_type">Type of scaled cells: S<sup>6</sup>, V<sup>7</sup>, DC7u, or RI</label>&nbsp;
-  <select id="lrl_web_data_07_cmdscale_type" name="lrl_web_data_07_cmdscale_type">&nbsp;&nbsp;
-  <option selected value="S<sup>6</sup>">S<sup>6</sup></option>
-  <option value="V<sup>7</sup>">V<sup>7</sup></option>
-  <option value="DC7u">DC7u</option>
-  <option value="RI">RI</option>
-  </select>
-  <br />
-  </div>
-  <div id="block_07b_cmdscale" style="display:none">
-  <label for="lrl_web_data_07_cmdscale_type">Type of scaled cells: S<sup>6</sup>, V<sup>7</sup>, DC7u, or RI</label>&nbsp;
-  <select id="lrl_web_data_07_cmdscale_type" name="lrl_web_data_07_cmdscale_type">&nbsp;&nbsp;
-  <option selected value="S<sup>6</sup>">S<sup>6</sup></option>
-  <option value="V<sup>7</sup>">V<sup>7</sup></option>
-  <option value="DC7u">DC7u</option>
-  <option value="RI">RI</option>
-  </select>
-  <br />
-  </div>
-  <div id="block_07b_cmdtos6l" style="display:none">
-  <label for="lrl_web_data_07_cmdtos6l_type">Type of linearized S<sup>6</sup>: S6L, RI or blank for both:</label>&nbsp;
-  <select id="lrl_web_data_07_cmdtos6l_type" name="lrl_web_data_07_cmdtos6l_type">&nbsp;&nbsp;
-  <option selected value="S6L">linearized S<sup>6</sup></option>
-  <option value="RI">root invariant</option>
-  <option value="  ">both S6L and RI</option>
-  </select>
-  <br />
-  </div>
-  <div id="block_07b" style="display:none"> 
-  <label for="lrl_web_data_07">Input data:</label><br />
-  <textarea name="lrl_web_data_07" id="lrl_web_data_07" rows="9" cols="100" placeholder="command input ... followed by end"></textarea>
-  </div>
-  <div id="block_07c" style="display:none">
-  <br />
-  <label for="lrl_web_output_07">Tool Output:</label><br />
-  <div name="lrl_web_output_07" id="lrl_web_output_07" style="overflow-y: auto;text-align: left;height: 144px;width:720px; border-style: solid; border-width: thin; resize: both;">
-  <font size=-1>Press submit to process data</font>
-  </div>
-  </div>
-  <div id="block_07d" style="display:none">
-  <br />
-  <label for="lrl_web_help_07">Tool Help:</label><br />
-  <div name="lrl_web_help_07" id="lrl_web_help_07" style="overflow-y: auto;text-align: left;height: 144px;width:720px; border-style: solid; border-width: thin; resize: both;">
-]]]LRLWEBCHECKINPUT([[[<font size=-1>]]],[[[<br />]]],[[[</font>]]])[[[
-  </div>
-  </div>
-  </td>
-  </tr>
-  <tr><td colspan=3 align=center><div name="hrule_08" id="hrule_08" style="display:none">
-  <img src=http://]]]LRLWEBHOST[[[/~]]]LRLWEBUSER[[[/lrl_web/sep5.svg>
-  </div></td></tr>
-  <tr>
-  <td valign=top>
-  <a name="mark_08" id="mark_08" />
-  <div id="block_08" style="display:none"> 
-  <h1 align=left>08</h1><br />
-  <label for="chain_08">Source of data:</label><br />
-  <select name="chain_08" id="chain_08" size="1" onchange="setchaininput('8')">
-  <option value="new_input">use new input</option>
-  <option selected value="chain_input">use prior output</option>
-  </select>
-  <br />
-  <br />
-  <label for="submit_08">Submit all data:</label><br />
-  <INPUT type="submit" id="submit_08" onsubmit="return running('08')">
-  <br />
-  <br />
-  </div>
-LRLWEBRUNNING([[[  ]]],[[[]]],[[[]]],[[[08]]],LRLWEBHOST/~LRLWEBUSER)
-  </td>
-  <td align=left>
-  <div id="block_08a" style="display:none"> 
-  <label for="operation_08">Select an operation:</label><br />
-  <select name="operation_08" id="operation_08" size="34" onchange="changeoperation('08')">
-  <optgroup label="Information">
-  <option value="NoOp"><b>Check Input</b></option>
-  <option value="CmdDists"><b>Distances</b>: compute NCDist and CS<sup>6</sup>Dist distances</option>
-  <option value="CmdSauc"><b>Cell Search</b>: find similar unit cells</option>
-  <option value="CmdVolume"><b>Volume</b>:  compute volumes of listed cells</option>
-  </optgroup>
-  <optgroup label="Graphical Information">
-  <option value="CmdSella"><b>Sella</b>:  apply Sella algorithm</option>
-  <option value="PlotC3"><b>PlotC3</b>: draw C<sup>3</sup> plot of listed cells</option>
-  <option value="PlotPolar"><b>PlotPolar</b>: draw polar plot of listed cells</option>
-  <option value="Dirichlet"><b>Dirichlet</b>: draw Dirichlet cell of listed cells</option>
-  <option value="Follow"><b>Follow</b>: draw results of following various small transitions</option>
-  </optgroup>
-  <optgroup label="Output Only">
-  <option value="CmdGen"><b>Generate cells</b>: Generate cells of a particular type or types</option>
-  </optgroup>
-  <optgroup label="Type Conversion">
-  <option value="CmdInverse"><b>To Inverse</b>: compute reciprocal cells of input cells</option>
-  <option value="CmdPrim"><b>To Primitive</b>: compute primitive versions of input cells</option>
-  <option value="CmdToB4"><b>To B4</b>: compute Bravais tetrahedron (B4)</option>
-  <option value="CmdToC3"><b>To C<sup>3</sup></b>: compute complex cell presentation (C<sup>3</sup>)</option>
-  <option value="CmdToCell"><b>To Cell</b>: compute H<sup>6</sup> side-angle cells (a, b, c, &alpha;, &beta;, &gamma;)</option>
-  <option value="CmdToG6"><b>To G<sup>6</sup></b>: compute G<sup>6</sup> version of cells</option>
-  <option value="CmdToP3"><b>To P<sup>3</sup></b>: compute P<sup>3</sup> version of cells</option>
-  <option value="CmdToS6"><b>To S<sup>6</sup></b>: compute S<sup>6</sup> version of cells</option>
-  <option value="CmdToS6L"><b>To S6L</b>: compute linearized S<sup>6</sup> or Root Invariant version of cells</option>
-  <option value="CmdToU"><b>To Dirichlet (unsorted)</b>: compute unsorted Dirichlet cells (dc7unsrt)</option>
-  <option value="CmdToV7"><b>To V<sup>7</sup></b>: compute V<sup>7</sup> version of cells</option>
-  </optgroup>
-  <optgroup label="Reduction">
-  <option value="CmdDelone"><b>Delone</b>: compute Selling-reduced primitive cells</option>
-  <option selected value="CmdNiggli"><b>Niggli</b>: compute Niggli-reduced primitive cells</option>
-  </optgroup>
-  <optgroup label="Modify Input">
-  <option value="CmdLM"><b>Matching</b>:apply Lattice Matching algorithm to listed cells</option>
-  <option value="CmdPath"><b>Path</b>:compute path between pairs of cells</option>
-  <option value="CmdPerturb"><b>Perturb</b>:compute perturbed versions of input cells</option>
-  <option value="CmdS6Refl"><b>S<sup>6</sup>Reflections</b>:apply S<sup>6</sup> reflections to input cells</option>
-  <option value="CmdScale"><b>Scale</b>: rescale cells to reference cell</option>
-  </optgroup>
-  </select>
-  </div>
-  </td>
-  <td align=left>
-  <div id="block_08b_cmdgen" style="display:none">
-  <label for="lrl_web_data_08_cmdgen_ngen">Number of each type:</label>&nbsp;
-  <input id="lrl_web_data_08_cmdgen_ngen" name="lrl_web_data_08_cmdgen_ngen" type="number" value="1" />&nbsp;&nbsp;
-  <label for="lrl_web_data_08_cmdgen_ltype">Lattice type:</label>&nbsp;
-  <input id="lrl_web_data_08_cmdgen_ltype" name="lrl_web_data_08_cmdgen_ltype" type="text" value="all" />
-  <br />
-  </div>
-  <div id="block_08b_cmdperturb" style="display:none">
-  <label for="lrl_web_data_08_cmdperturb_npert">Number of perturbations:</label>&nbsp;
-  <input id="lrl_web_data_08_cmdperturb_npert" name="lrl_web_data_08_cmdperturb_npert" type="number" value="20" min="1"/>&nbsp;&nbsp;
-  <label for="lrl_web_data_08_cmdperturb_ppk">Parts per 1000:</label>&nbsp;
-  <input id="lrl_web_data_08_cmdperturb_ppk" name="lrl_web_data_08_cmdperturb_ppk" type="number" value="1" min="1" max="1000"/>
-  <br />
-  </div>
-  <div id="block_08b_cmdpath" style="display:none">
-  <label for="lrl_web_data_08_cmdpath_npath">Number of steps in the path:</label>&nbsp;
-  <input id="lrl_web_data_08_cmdpath_npath" name="lrl_web_data_08_cmdpath_npath" type="number" value="20" min="1"/>&nbsp;&nbsp;
-  <br />
-  </div>
-  <div id="block_08b_cmdscale" style="display:none">
-  <label for="lrl_web_data_08_cmdscale_type">Type of scaled cells: S<sup>6</sup>, V<sup>7</sup>, DC7u, or RI</label>&nbsp;
-  <select id="lrl_web_data_08_cmdscale_type" name="lrl_web_data_08_cmdscale_type">&nbsp;&nbsp;
-  <option selected value="S<sup>6</sup>">S<sup>6</sup></option>
-  <option value="V<sup>7</sup>">V<sup>7</sup></option>
-  <option value="DC7u">DC7u</option>
-  <option value="RI">RI</option>
-  </select>
-  <br />
-  </div>
-  <div id="block_08b_cmdtos6l" style="display:none">
-  <label for="lrl_web_data_08_cmdtos6l_type">Type of linearized S<sup>6</sup>: S6L, RI or blank for both:></label>&nbsp;
-  <select id="lrl_web_data_08_cmdtos6l_type" name="lrl_web_data_08_cmdtos6l_type">&nbsp;&nbsp;
-  <option selected value="S6L">linearized S<sup>6</sup></option>
-  <option value="RI">root invariant</option>
-  <option value="  ">both S6L and RI</option>
-  </select>
-  <br />
-  </div>
-  <div id="block_08b" style="display:none"> 
-  <label for="lrl_web_data_08">Input data:</label><br />
-  <textarea name="lrl_web_data_08" id="lrl_web_data_08" rows="9" cols="100" placeholder="command input ... followed by end"></textarea>
-  </div>
-  <div id="block_08c" style="display:none">
-  <br />
-  <label for="lrl_web_output_08">Tool Output:</label><br />
-  <div name="lrl_web_output_08" id="lrl_web_output_08" style="overflow-y: auto;text-align: left;height: 144px;width:720px; border-style: solid; border-width: thin; resize: both;">
-  <font size=-1>Press submit to process data</font>
-  </div>
-  </div>
-  <div id="block_08d" style="display:none">
-  <br />
-  <label for="lrl_web_help_08">Tool Help:</label><br />
-  <div name="lrl_web_help_08" id="lrl_web_help_08" style="overflow-y: auto;text-align: left;height: 144px;width:720px; border-style: solid; border-width: thin; resize: both;">
-]]]LRLWEBCHECKINPUT([[[<font size=-1>]]],[[[<br />]]],[[[</font>]]])[[[
-  </div>
-  </div>
-  </td>
-  </tr>
-  </td>
-  </tr>
-  </table>
-</td>
-<tr>
-<td>
-<center>
-<INPUT type="hidden" NAME="Flush" VALUE="DUMMY">
-<label for="numops2">Number of operation windows: </label>
-<select name="numops2" id="numops2" onchange="changenumops2()" size="1">
-<option selected value="1">1</option>
-<option value="2">2</option>
-<option value="3">3</option>
-<option value="4">4</option>
-<option value="5">5</option>
-<option value="6">6</option>
-<option value="7">7</option>
-<option value="8">8</option>
-</select>&nbsp;&nbsp;
-<INPUT type="submit" id="submit_000" onsubmit="return running('000')">
-<INPUT type="reset">
-</Form> <hr>
-</center>
-</td>
-</tr>
-<tr>
-<td>
-<a name="notice"><H2 align="center">NOTICE</H2></a>
-<center>
-<table border=0>
-<tr><td width=160>
-<font size="2">
-<P>
-You may redistribute this program under the terms of the <a href="gpl.txt">GPL</a>.
-<p>
-Alternatively you may redistribute the functions
-and subroutines of this program as an API under the
-terms of the <a href="lgpl.txt">LGPL</a>.
-<p>
-</td>
-<td>
-<div style="width:720px;height:150px;overflow:scroll;border:2px solid #0000FF;">
-<font size="2">
-<table border=2>
-<tr>
-<th align="center">GPL NOTICES</th>
-<th align="center">LGPL NOTICES</th></tr>
-<tr><td><font size="2">
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License as
-published by the Free Software Foundation; either version 2 of
-(the License, or (at your option) any later version.
-<p>
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-<p>
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-02111-1307  USA</font>
-</td>
-<td><font size="2">
-This library is free software; you can redistribute it and/or
-modify it under the terms of the GNU Lesser General Public
-License as published by the Free Software Foundation; either
-version 2.1 of the License, or (at your option) any later version.
-<p>
-This library is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-Lesser General Public License for more details.
-<p>
-You should have received a copy of the GNU Lesser General Public
-License along with this library; if not, write to the Free
-Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston,
-MA  02110-1301  USA</font>
-</td>
-</tr>
-</table>
-
-
-<P>
-<STRONG>
-
-Some of the software and documents included within this software package are the intellectual property of 
-various parties, and placement in this package does not in anyway imply that any such rights have in any 
-way been waived or diminished.
-
-<P>
-
-With respect to any software or documents for which a copyright exists, ALL RIGHTS ARE RESERVED TO THE 
-OWNERS OF SUCH COPYRIGHT.
-
-<P>
-
-Even though the authors of the various documents and software found here have made a good faith effort to 
-ensure that the documents are correct and that the software performs according to its documentation, and 
-we would greatly appreciate hearing of any problems you may encounter, the programs and documents any 
-files created by the programs are provided **AS IS** without any warrantee as to correctness, 
-merchantability or fitness for any particular or general use.
-
-<P>
-
-THE RESPONSIBILITY FOR ANY ADVERSE CONSEQUENCES FROM THE USE OF PROGRAMS OR DOCUMENTS OR ANY FILE OR FILES 
-CREATED BY USE OF THE PROGRAMS OR DOCUMENTS LIES SOLELY WITH THE USERS OF THE PROGRAMS OR DOCUMENTS OR 
-FILE OR FILES AND NOT WITH AUTHORS OF THE PROGRAMS OR DOCUMENTS.
-
-</STRONG>
-</font>
-</div>
-</td>
-</tr>
-</table>
-</center>
-<P>
-<hr>
-</font>
-<a name="source"></a>
-<H2>Access to the source of LRL_WEB</H2>
-
-This open source software is maintained on github:
-<p>
-<center>
-<a href="http://github.com/duck10/LatticeRepLib">http://github.com/duck10/LatticeRepLib</a>
-</center>
-<p>
-If you are interested in contributing, please make your own fork and writeup an issue when
-you think you have something to suggest for a pull request.
-<p>
-<img src=http://]]]LRLWEBHOST[[[/~]]]LRLWEBUSER[[[/lrl_web/sep6.svg>
-<h2>History</h2>
-<p>Human fascination with crystals has a long history. 105,000 years ago, someone had a collection 
-of calcite crystals (Iceland spar) <a href="#Wilkins2021">[Wilkins <i>et al.</i> 2021]</a>. 
-Theophrastus (ca. 372-287 B.C.), a 
-student of Plato and successor to Aristotle, wrote the first known treatise on gems (“On Stones”) 
-<a href="#Wikipedia2022">[Wikipedia contributors 2022]</a>.
-
-Figure 1 notes a few key events in cataloging crystal properties. We start with <a href="#Kepler1611">[Kepler 1611]</a> 
-(translated in <a href="#Kepler1966">[Kepler <i>et al.</i> 1966]) and Steno (see <a href="#Authier2013">[Authier 2013]</a> who conjectured on the structures 
-of crystals. <a name=Hauey1784>[Ha&uuml;y 1784]</a> is considered the father of modern crystallography, and we name the
-6-dimensional space H<sup>6</sup> of [a, b, c, &alpha;, &beta;, &gamma;] after him. <a name="Hauey1800">[Ha&uuml;y 1800]</a> created the first catalog of minerals.
-<p>
-<center>
-<a name="timeline"><img src=/~]]]LRLWEBUSER[[[/images/timeline.jpg /></a>
-<p>
-Fig. 1. Some key dates in the history of modern crystallography
-</center>
-<p>
-<img src=http://]]]LRLWEBHOST[[[/~]]]LRLWEBUSER[[[/lrl_web/sep6.svg>
-<p>
-
-<a name=DeloneChars></a><h2>Table of Delone Characters</h2>
-<P>
-<center>
-<img src="/~]]]LRLWEBUSER[[[/lrl_web/HorizontalDeloneGrid.svg" alt="Table of Delone Characters" />
-</center>
-<p>
-<img src=http://]]]LRLWEBHOST[[[/~]]]LRLWEBUSER[[[/lrl_web/sep6.svg>
-</center>
-<p>
-
-<a name=NiggliFams></a><h2>Table of Niggli Lattice Families</h2>
-<P>
-<center>
-<img src="/~]]]LRLWEBUSER[[[/lrl_web/NiggliGrid-2.svg" alt="Niggli Lattice Families" />
-</center>
-
-<p>
-<img src=http://]]]LRLWEBHOST[[[/~]]]LRLWEBUSER[[[/lrl_web/sep6.svg>
-
-<h2>References to Sources for Information about the Calculations</h2>
-<ol>
-<li>Check Input: simply check the input for errors</li>
-<li>compute Selling-reduced primitive cells: Delone/Delaunay/Selling reduction <a href="#Delaunay1933">[Delaunay 1933]</a>
-<a href="#Delone1975">[Delone <i>et al.</i> 1975]</a> <a href="#Andrews2019a">[Andrews <i>et al.</i> 2019a]</a></li>
-<li>compute NCDist and CS<sup>6</sup>Dist distances <a href="#Andrews2014">[Andrews and Bernstein 2014]</a>
-<a href="#Andrews2019b">[Andrews <i>et al.</i> 2019b]</a></li>
-<li>Generate cells of a particular type or types</li>
-<li>apply Lattice Matching algorithm to listed cells <a href="#Mighell2002">[Mighell 2002]</a>
-<a href="#Andrews2021">[Andrews and Bernstein 2021]</a></li>
-<li>compute Niggli-reduced primitive cells <a href="#Niggli1928">[Niggli 1928] <a href="#Roof1967">[Roof 1967]</a></li>
-<li>compute path between pairs of cells
-<a href="#Andrews2023a">[Andrews and Bernstein 2023a]</a></li>
-<li>compute perturbed versions of input cells <a href="#Andrews2022">[Andrews and Bernstein 2022]</a></li>
-<li>apply S<sup>6</sup> reflections to input cells <a href="#Andrews2019b">[Andrews <i>et al.</i> 2019b]</a></li>
-<li>apply Sella algorithm <a href="#Andrews2023b">[Andrews <i>et al.</i> 2023b]</a></li>
-<li>compute Bravais tetrahedron (B<sup>4</sup>) <a href="#Delone1975">[Delone <i>et al.</i> 1975]</a></li>
-<li>compute Selling-reduced complex cell presentation (C<sup>3</sup>) <a href="#Andrews2019b">[Andrews <i>et al.</i> 2019b]</a></li>
-<li>compute side-angle (H<sup>6</sup>) cells (a, b, c, &alpha;, &beta;, &gamma;) </li>
-<li>compute raw Dirichlet cells (DC13)</li>
-<li>computed sorted Dirichlet cells (DC) <a href=#Andrews2021>[Andrews and Bernstein 2021]</a></li>
-<li>compute G<sup>6</sup> version of cells (G<sup>6</sup>) <a href=#Andrews1988>[Andrews and Bernstein 1988]</a></li>
-<li>compute Selling-reduced cells (S<sup>6</sup>)</li>
-<li>compute unsorted Dirichlet cells (dc7unsrt) <a href="Bernstein2023">[Bernstein <i>et al.</i> 2023]</a></li>
-<li>compute volumes of listed cells</li>
-</ol>
-<p>
-<img src=http://]]]LRLWEBHOST[[[/~]]]LRLWEBUSER[[[/lrl_web/sep6.svg>
-<p>
-<a name="references"></a>
-<h2>References</h2>
-<p>
-<div style="margin-bottom:-0.1em;margin-top:-0.1em;">
-<a name="Andrews1988">[Andrews and Bernstein 1988]</a> L. C. Andrews and H. J. Bernstein (1988) Lattices and reduced cells as points in 
-6-space and selection of Bravais lattice type by projections. Acta Cryst., A44:6 1009 -- 1018.<br />
-</p><p>
-<a name="Andrews2014">[Andrews and Bernstein 2014]</a> L. C. Andrews and H. J. Bernstein (2014). 
-The geometry of Niggli reduction: BGAOL–embedding Niggli reduction and analysis of boundaries.
-J. Appl. Cryst., 47(1), 346 -- 359.
-</p><p>
-<a name="Andrews2021">[Andrews and Bernstein 2021]</a> L. C. Andrews and H. J. Bernstein (2021). 
-DC 7, a very efficient lattice comparison metric. Acta Cryst. A77(a2), C809.
-</p><p>
-<a name="Andrews2022">[Andrews and Bernstein 2022]</a> L. C. Andrews and H. J. Bernstein (2022).
-Generating random unit cells.  J. Appl. Cryst. 55(4) 782 -- 786.
-</p><p>
-<a name="Andrews2023a">[Andrews and Bernstein 2023a]</a> L. C. Andrews and H. J. Bernstein (2023).  
-The Follower algorithm and a program using it to explore spaces, Cambridge Open Engage preprint
-<a href=
-"https://web.archive.org/web/20230308145808id_/https://www.cambridge.org/engage/api-gateway/coe/assets/orp/resource/item/63f41c579da0bc6b3344e7f3/original/the-follower-algorithm-and-a-program-using-it-to-explore-spaces.pdf">
-https://web.archive.org/web/20230308145808id_/https://www.cambridge.org/engage/api-gateway/coe/assets/orp/resource/item/63f41c579da0bc6b3344e7f3/original/the-follower-algorithm-and-a-program-using-it-to-explore-spaces.pdf</a>
-</p><p>
-<a name="Andrews2019a">[Andrews <i>et al.</i> 2019a]</a> L. C. Andrews, H. J. Bernstein, H. J. and N. K. Sauter (2019).
-Selling reduction versus Niggli reduction for crystallographic lattices. Acta Cryst.  A75, 115 -- 120.
-</p><p>
-<a name="Andrews2019b">[Andrews <i>et al.</i> 2019b]</a> L. C. Andrews, H. J. Bernstein and N. K.Sauter (2019).
-A space for lattice representation and clustering. Acta Cryst. A75(3), 593 -- 599. 
-</p><p>
-<a name="Andrews2023b">[Andrews <i>et al.</i> 2023b]</a> L. C. Andrews, H. J. Bernstein and N. K. Sauter (2023).
-SELLA - A Program for Determining Bravais Lattice Types. arXiv preprint
-<a href="https://arxiv.org/pdf/2303.03122.pdf">
-https://arxiv.org/pdf/2303.03122.pdf</a>.
-</p><p>
-<a name="Authier2013">[Authier 2013]</a> A. Authier  (2013). Early days of X-ray crystallography. OUP Oxford.
-</p><p>
-<a name="Bernstein2023">[Bernstein <i>et al.</i> 2023]</a> H. J. Bernstein, L. C. Andrews and M. Xerri (2023).
-An invertible seven-dimensional Dirichlet cell characterization of lattices. Acta Cryst. A79(4), 369 -- 380.
-</p><p>
-<a name="Delaunay1933">[Delaunay 1933]</a> B. N. Delaunay (1933).
-Neue Darstellung der geometrischen Kristallographie: Erste Abhandlung.
- Z. Krist. 84, 109 -- 149.
-</p><p>
-<a name="Delone1975">[Delone <i>et al.</i> 1975]</a> B. N. Delone, R. V. Galiulin and M. I. Shtogrin, (1975).
-On the Bravais types of lattices.
- J. Sov. Math. 4(1), 79 -- 156.
-</p><p>
-<a name="Hauey1784">[Ha&uuml;y 1784]</a>  R. J. Ha&uuml;y (1784). Essai d'une th&eacute;orie sur la structure 
-des crystaux: appliqu&eacute;e &agrave; plusieurs genres de substances crystallis&eacute;es
-</p><p>
-<a name="Hauey1800">[Ha&uuml;y 1800]</a>  R. J. Ha&uuml;y (1800). Addition au m&eacute;moire sur l’arragonite: 
-ins&eacute;r&eacute; dans le tome XI des annnales (p. 241 et suiv.).
-</p><p>
-<a name="Kepler1611">[Kepler 1611]</a> Kepler, J. (1611). Strena Seude Niue Sexangula. Godefridum Tampach.
-</p><p>
-<a name="Kepler1966">[Kepler <i>et al.</i> 1966]</a> J. Kepler,C. G. Hardie, B. J. Mason and L. L. Whyte  (1966). 
-The Six-cornered Snowflake.[Edited and Translated by Colin Hardie. With Essays by L. L. Whyte and B. J. Mason. 
-With Illustrations.] Lat. & Eng. Clarendon Press.
-</p><p>
-<a name="Mighell2002">[Mighell 2002]</a> A. D. Mighell (2002).
-Lattice Matching (LM) -- Prevention of Inadvertent Duplicate Publications of Crystal Structures.
-J. Res. Natl. Inst. Stand. Technol. 107(5), 425 – 430.
-</p><p>
-<a name="Niggli1928">[Niggli 1928]</a> P. Niggli (1928). Krystallographische und Strukturtheoretische Grundbegriffe, 
-Handbuch der Experimentalphysik, Vol. 7, part 1. Akademische Verlagsgesellschaft, Leipzig.
-</p><p>
-<a name="Roof1967">[Roof 1967]</a> R. B. Roof Jr, (1967). Theoretical Extension of the Reduced-Cell Concept in 
-in Crystallography (No. LA-4038). Los Alamos National Lab.(LANL), Los Alamos, NM (United States).
-<a href="https://permalink.lanl.gov/object/tr?what=info:lanl-repo/lareport/LA-04038">https://permalink.lanl.gov/object/tr?what=info:lanl-repo/lareport/LA-04038</a>
-</p><p>
-<a name="Wikipedia2022">[Wikipedia contributors 2022]</a> Wikipedia contributors, (2022). Theophrastus — Wikipedia, the 
-free encyclopedia. [Online; accessed 17-October-2022]. https://en.wikipedia.org/w/index.php?title=Theophrastus&oldid=1114534722
-</p><p>
-<a name="Wilkins2021">[Wilkins <i>et al.</i> 2021]</a> J. Wilkins, B. J. Schoville, R. Pickering, L. Gliganic, B. Collins,
-K. S.  Brown, J. von der Meden, W. Khumalo, M. C. Meyer, S. Maape, and A. F. Blackwood (2021). Innovative 
-Homo sapiens behaviours 105,000 years ago in a wetter Kalahari. Nature, 592(7853), 248 -- 252.
-</p><p>
-<a name="Zimmermann1985">[Zimmermann and Burzlaff 1985]</a> H. Zimmermann and H. Burzlaff. DELOS A computer program for the 
-determination of a unique conventional cell. Zeitschrift f&uuml;r Kristallographie, 170:241 246, 1985.
-</div>
-<p>
-<img src=http://]]]LRLWEBHOST[[[/~]]]LRLWEBUSER[[[/lrl_web/sep6.svg>
-
-<p>
-<hr />
-Updated 8 December 2024.
-</font>
-</body>
-</html>]]])
+ 

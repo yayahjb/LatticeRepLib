@@ -224,23 +224,124 @@ define([[[LRLWEB_CmdInverse]]],[[[[[[$1 ]]]]]]dnl
 [[[[[[$3]]]]]]dnl
 dnl
 )dnl--------------------------------------------------
-dnl Command:  CmdLM
+dnl Command:  CmdLMP3
 dnl -------------------
-define([[[LRLWEB_CmdLM]]],[[[[[[$1 ]]]]]]dnl
-[[[[[[<strong>Command: ]]]]]]dnl
-[[[[[[apply Lattice Matching algorithm to listed cells</strong>$2]]]]]]dnl
+define([[[LRLWEB_CmdLMP3]]],[[[[[[$1 ]]]]]]dnl
+[[[[[[<strong>Command: </strong>]]]]]]dnl
+[[[[[[Lattice matching in 3D using <strong>P<sup>3</sup></strong> distances for measuring fit.$2]]]]]]dnl
 [[[[[[<em><u>Purpose:</u></em> ]]]]]]dnl
-[[[[[[Taking the first input cells as the &quot;REFERENCE&quot;, the ]]]]]]dnl
+[[[[[[Lattice matching that finds transformation matrices between crystal lattices$2]]]]]]dnl
+[[[[[[The first cell input is treated as the reference that following &quot;mobiles&quot; will be$2]]]]]]dnl
+[[[[[[matched to. The output includes the <strong>P<sup>3</sup></strong> distances and ]]]]]]dnl
+[[[[[[<strong>S<sup>6</sup></strong> angle measures of fit. If ]]]]]]dnl
+[[[[[[more than one mobile is input, then &quot;comparison mode&quot; is output, which$2]]]]]]dnl
+[[[[[[is more compact. Output include the transformation matrices that operate on$2]]]]]]dnl
+[[[[[[the base vectors of the unit cell (this is important). Note, there are likely$2]]]]]]dnl
+[[[[[[to be more than one transformation listed, but they are listed in order of$2]]]]]]dnl
+[[[[[[of worsening fit.$2]]]]]]dnl
+[[[[[[<em><u>Output type:</u></em> ]]]]]]dnl
+[[[[[[</em> transformation matrices, distance metrics (<strong>P<sup>3</sup></strong> and ]]]]]]dnl
+[[[[[[<strong>S<sup>6</sup></strong> angles), and transformed $2]]]]]]dnl
+[[[[[[lattice parameters with detailed quality assessment and multiple solution rankings.$2]]]]]]dnl 
+[[[[[[<em><u>Example:</u></em>$2]]]]]]dnl
+[[[[[[p 10.25 10.74 21.08 87.72 75.97 61.53$2]]]]]]dnl
+[[[[[[p 10.25 10.74 21.08 78.96 75.97 61.49$2]]]]]]dnl
+[[[[[[end$2]]]]]]dnl
+[[[[[[; Production Lattice Matcher Results$2]]]]]]dnl
+[[[[[[Found 500 results$2]]]]]]dnl
+[[[[[[Result 1:$2]]]]]]dnl
+[[[[[[&nbsp;&nbsp;Matrix: [-1.0 0.0 0.0 -1.0 1.0 0.0 0.0 0.0 -1.0]$2]]]]]]dnl
+[[[[[[&nbsp;&nbsp;Determinant: 1.000000$2]]]]]]dnl
+[[[[[[&nbsp;&nbsp;P<SUP>3</SUP> distance: 1.025e-02$2]]]]]]dnl
+[[[[[[&nbsp;&nbsp;S6 angle: 0.01°$2]]]]]]dnl
+[[[[[[&nbsp;&nbsp;Transformed: 10.250 10.739 21.080 87.714 75.970 61.502$2]]]]]]dnl
+[[[[[[end$2]]]]]]dnl
+[[[[[[<em><u>Parameters:</u></em>]]]]]]dnl
+[[[[[[NA$2]]]]]]dnl
+[[[[[[$2]]]]]]dnl
+[[[[[[<em><u>Control Parameters</u></em>$2]]]]]]dnl
+[[[[[[Control information is NOT case sensitive, and control names can be abbreviated.$2]]]]]]dnl
+[[[[[[<em>COMPARISONMODE:</em> enable comparison mode for multiple input processing (default: true)$2]]]]]]dnl
+[[[[[[<em>TEST:</em> run test suite to verify system functionality$2]]]]]]dnl
+[[[[[[&emsp;TEST (no number): run all available tests$2]]]]]]dnl
+[[[[[[&emsp;TEST n: run specific test number n$2]]]]]]dnl
+[[[[[[&emsp;TEST -1 (or any negative): show list of available tests$2]]]]]]dnl
+[[[[[[&emsp;TEST 999: show list of available tests$2]]]]]]dnl
+[[[[[[$2]]]]]]dnl
+[[[[[[<em><u>Test Suite</u></em>$2]]]]]]dnl
+[[[[[[The system includes a comprehensive test suite with the following tests:$2]]]]]]dnl
+[[[[[[&emsp;Test 1: Hawaiian- Nearly identical cells with known transformation$2]]]]]]dnl
+[[[[[[&emsp;Test 2: TrulyIdentical - Identical cells should give perfect quality metrics$2]]]]]]dnl
+[[[[[[&emsp;Test 3: SmallDifference - Small parameter differences should give good quality$2]]]]]]dnl
+[[[[[[&emsp;Test 4: ManualCheck - Complex case for manual verification$2]]]]]]dnl
+[[[[[[&emsp;Test 5: LargeDifference - Very relaxed limits$2]]]]]]dnl
+[[[[[[&emsp;Test 6: DifferentCentered - Identical lattices with different centering$2]]]]]]dnl
+[[[[[[&emsp;Test 7: DuplicateDetection - Ensure no duplicate transformation matrices in results$2]]]]]]dnl
+[[[[[[&emsp;Test 8: HighSymmetryDuplicates - High symmetry case prone to generating duplicates$2]]]]]]dnl
+[[[[[[&emsp;Test 9: MultipleValidTransforms - Case where multiple valid transformations exist$2]]]]]]dnl
+[[[[[[$2]]]]]]dnl
+[[[[[[Usage: $2]]]]]]dnl
+[[[[[[  test 0 or test >=10 : Run all tests$2]]]]]]dnl
+[[[[[[  test 1-9 : Run specific test$2]]]]]]dnl
+[[[[[[  test 999 : Show this test list$2]]]]]]dnl
+[[[[[[$2]]]]]]dnl
+[[[[[[<em><u>Sample control input</u></em>$2]]]]]]dnl
+[[[[[[&emsp;test 1$2]]]]]]dnl
+[[[[[[$2]]]]]]dnl
+[[[[[[<em><u>Sample input</u></em>$2]]]]]]dnl
+[[[[[[; identical lattices created from one random cell by LCA 2025-05-04$2]]]]]]dnl
+[[[[[[C    12.770    21.235    14.411   136.017    84.071   111.795$2]]]]]]dnl
+[[[[[[F    33.151    18.241    20.218    83.054   144.781   120.639$2]]]]]]dnl
+[[[[[[end$2]]]]]]dnl
+[[[[[[$2]]]]]]dnl
+[[[[[[<hr>]]]]]]dnl
+[[[[[[<strong>Command: Check Input</strong>$2]]]]]]dnl
+[[[[[[<em><u>Purpose:</u></em> Verify input lattice types and parameters$2]]]]]]dnl
+[[[[[[<em><u>Output type:</u></em> Valid input is reported as H<sup>6</sup> unit cell a, b, c, &alpha;, &beta;, &gamma;.$2]]]]]]dnl
+[[[[[[Warnings are output for invalid inputs.$2]]]]]]dnl
+[[[[[[<em><u>Parameters:</u></em> NA$2]]]]]]dnl
+[[[[[[<hr />]]]]]]dnl
+[[[[[[LRL_Web Data Inputs:  There are 5 types of input lines.]]]]]]dnl
+[[[[[[ Except for 'END', they can be combined in any order.$2]]]]]]dnl
+[[[[[[ All these are case-insensitive. If a particular input lattice is invalid, it is rejected<br /> with a message.$2]]]]]]dnl
+[[[[[[---  RANDOM: Random (valid) unit cell;$2]]]]]]dnl
+[[[[[[---  Crystal lattice input: 'A', 'B', 'C',]]]]]]dnl
+[[[[[[ 'P', 'R', 'F', 'I' followed by three axis lengths]]]]]]dnl
+[[[[[[ and three angles (in degrees);$2]]]]]]dnl
+[[[[[[---  semicolon: lines beginning with a semicolon are treated as comments$2]]]]]]dnl
+[[[[[[---  Vector Input: g (or v or g6) for G6 vectors; s (or s6) for S6, Delone/Selling scalars,]]]]]]dnl
+[[[[[[ C3 for C3 input (without parentheses<br />or commas, 'C' would be interpreted as a C-centered unit cell),]]]]]]dnl
+[[[[[[ u for unsorted Dirichlet 7-cells.$2]]]]]]dnl
+[[[[[[---  END: ends the data input section$2]]]]]]dnl
+[[[[[[Examples of unit cell inputs$2]]]]]]dnl
+[[[[[[P 10 20 30 90 111 90$2]]]]]]dnl
+[[[[[[G 100 400 900 0 -215.02 0$2]]]]]]dnl
+[[[[[[S6 0 -107.51 0 7.51 -400 -792.49 $2]]]]]]dnl
+[[[[[[; this is a comment$2]]]]]]dnl
+[[[[[[end$2]]]]]]dnl
+[[[[[[$3]]]]]]dnl
+dnl
+)dnl--------------------------------------------------
+dnl Command:  CmdLMS6
+dnl -------------------
+define([[[LRLWEB_CmdLMS6]]],[[[[[[$1 ]]]]]]dnl
+[[[[[[<strong>Command: ]]]]]]dnl
+[[[[[[apply Lattice Matching algorithm to listed cells</strong> using using <strong>S<sup>6</sup></strong>distances ]]]]]]dnl
+[[[[[[for measuring fit$2]]]]]]dnl
+[[[[[[<em><u>Purpose:</u></em> ]]]]]]dnl
+[[[[[[Taking the first input cell as the &quot;REFERENCE&quot;, the ]]]]]]dnl
 [[[[[[alternative cells of$2]]]]]]dnl
 [[[[[[each succeeding cell are examined to find a ]]]]]]dnl
 [[[[[[closest match to the reference lattice. $2]]]]]]dnl
+[[[[[[Matching is done in the space <strong>S<sup>6</sup></strong>, so 3D ]]]]]]dnl
+[[[[[[transformations are not computed.$2]]]]]]dnl
 [[[[[[<p style=margin-left:40px>Andrews, Lawrence C., Herbert ]]]]]]dnl
 [[[[[[J. Bernstein, and Nicholas K. Sauter. $2]]]]]]dnl
 [[[[[[&quot;Approximating ]]]]]]dnl
 [[[[[[lattice similarity.&quot; ]]]]]]dnl
 [[[[[[Acta Crystallographica Section A: ]]]]]]dnl
 [[[[[[Foundations and Advances 79.5, 480-484 (2023).</p> ]]]]]]dnl
-[[[[[[<em><u>Output type:</u></em> (H<sup>6</sup>) a, b, c &alpha;, &beta;, &gamma;, with the ]]]]]]dnl
+[[[[[[<em><u>Output type:</u></em>  a, b, c, &alpha;, &beta;, &gamma;, with the ]]]]]]dnl
 [[[[[[lattice centering$2]]]]]]dnl
 [[[[[[chosen to be the same as that of the reference ]]]]]]dnl
 [[[[[[cell.$2]]]]]]dnl

@@ -21,8 +21,27 @@ public:
    LatticeCell(const G6& c, const std::string& type = "P", const std::string& inputReadIn = "")
       : cell(c)
       , latticeType(type)
-   , inputtext(inputReadIn)
-   {}
+      , inputtext(inputReadIn)
+   {
+   }
+
+   LatticeCell( const std::string& type, const G6& c, const std::string& inputReadIn = "")
+      : cell(c)
+      , latticeType(type)
+      , inputtext(inputReadIn)
+   {
+   }
+
+   LatticeCell(const B4& b4) {
+      cell = LRL_Cell(b4);
+      latticeType = "P";
+   }
+
+   friend std::ostream& operator<< (std::ostream& o, const LatticeCell& c) {
+      o << c.getLatticeType() << " ";
+      o << c.getCell() << std::endl;
+      return o;
+   }
 
    G6 getNiggliReducedCell() const {
       G6 primitive = toPrimitive();
@@ -77,6 +96,11 @@ public:
    operator S6() {
       return (this->getCell());
 
+   }
+
+   bool operator==(const LatticeCell& c) const {
+      const LatticeCell& a(*this);
+      return (a.getCell() == c.getCell() && (a.getLatticeType() == c.getLatticeType()));
    }
 
 };
