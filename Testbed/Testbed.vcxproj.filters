@@ -18,33 +18,18 @@
     <ClCompile Include="MAIN_Testbed.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Investigate_S6_Boundaries.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="S6BoundaryTransforms.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\LRL_Tools\LinearAxis.cpp">
-      <Filter>Header Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\LRL_Tools\TNear.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\LRL_Tools\triple.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Investigate_S6_Boundaries.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="S6BoundaryTransforms.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="WilkinsonScale.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\LRL_Tools\LinearAxis.h">
+    <ClInclude Include="ReduceTransformsTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Matrix_3x3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MultiTransformFinderControls.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

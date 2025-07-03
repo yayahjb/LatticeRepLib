@@ -165,6 +165,7 @@
     <ClInclude Include="LRL_RandTools.h" />
     <ClInclude Include="LRL_StringTools.h" />
     <ClInclude Include="LRL_ToString.h" />
+    <ClInclude Include="LRL_Vector3.h" />
     <ClInclude Include="Mat.h" />
     <ClInclude Include="PairReporter.h" />
     <ClInclude Include="RGB.h" />
