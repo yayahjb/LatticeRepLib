@@ -1,6 +1,7 @@
-#ifndef PlotPolar_H
-#define PlotPolar_H
+#ifndef PLOTPOLAR_H
+#define PLOTPOLAR_H
 
+#include <cmath>
 #include <string>
 #include <vector>
 
@@ -16,12 +17,10 @@ public:
    std::string GetFoot() const { return m_svgFoot; }
    double CellScale(const std::vector<Polar>& v);
    double CellScaleFactor() const;
-   std::string DrawCells(const size_t scalar, const std::vector<Polar>& v, const ColorRange& colRange);
    double GetWx() const { return m_wx; }
    double GetWy() const { return m_wy; }
    double GetGx() const { return m_gx; }
    double GetGy() const { return m_gy; }
-   std::vector<S6> PrepareCells() const;
    void SendFrameToFile(const std::string& sFileName, const std::string& data) const;
 
 private:
@@ -31,12 +30,11 @@ private:
    const int m_gy;
 
    int m_color;
-   int m_deltaColor;
 
    std::string m_svgIntro;
    std::string m_svgFoot;
 
-   double m_maxScalar;
+   double m_maxScalar = -DBL_MAX;
 
    std::string BuildIntro(const std::string& filename) const;
 };
@@ -72,4 +70,5 @@ public:
 
 };
 
-#endif  // PlotPolar_H
+#endif  // PLOTPOLAR_H
+
