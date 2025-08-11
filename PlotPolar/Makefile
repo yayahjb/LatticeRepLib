@@ -7,6 +7,7 @@ all:	$(COMMAND)
 
 $(COMMAND):	MAIN_PlotPolar.cpp \
 	PlotPolar.cpp PlotPolar.h IndividualPlot.h IndividualPlot.cpp InsetData.h InsetData.cpp \
+	Stereo3DData.cpp Stereo3DPlot.cpp Stereo3DData.h Stereo3DPlot.h \
 	../InputHandler/BaseControlVariables.h ../InputHandler/BaseControlVariables.cpp ../InputHandler/BlockLimits.h \
 	../InputHandler/ControlFeature.h \
 	../InputHandler/DistanceTypes.h ../InputHandler/DistanceTypes.cpp ../InputHandler/DistanceTypesUtils.h \
@@ -49,6 +50,7 @@ $(COMMAND):	MAIN_PlotPolar.cpp \
 	../LatticeRepresentationLib/WebIO.h ../LatticeRepresentationLib/WebIO.cpp
 	$(CXX) -I . -I ../LatticeRepresentationLib -I ../LRL_Tools -I ../InputHandler -o $(COMMAND) MAIN_PlotPolar.cpp \
         PlotPolar.cpp  IndividualPlot.cpp InsetData.cpp \
+	Stereo3DData.cpp Stereo3DPlot.cpp \
 	../InputHandler/BaseControlVariables.cpp  \
 	../InputHandler/DistanceTypes.cpp \
 	../InputHandler/InputHandler.cpp \

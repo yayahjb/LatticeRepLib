@@ -2,8 +2,9 @@
 #define VECTOR_2_H
 #include <iostream>
 #include <vector>
+#include <cmath>
 
-#include "Radial.h"
+//#include "Radial.h"
 
 class Vector_2 {
 public:
@@ -33,6 +34,7 @@ public:
    double angleDegrees(const Vector_2& v2) const;
    double norm(const Vector_2& v) const;
    double norm() const;
+   double Norm() const;
    Vector_2 Rotate(const double radians) const;
    static std::vector<Vector_2> Rotate(const double radians, const std::vector<Vector_2>& vv);
    Vector_2 RotateDegrees(const double degrees) const;
