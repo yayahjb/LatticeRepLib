@@ -13,7 +13,9 @@ struct LineStyle {
    std::string color;
    std::string dashArray;
    std::string markerType;
-   static std::vector<LineStyle> getStyles(size_t count);
+   // Updated method signature to accept distance functions
+   static std::vector<LineStyle> getStyles(size_t count,
+      const std::vector<std::unique_ptr<Distance>>* distfuncs = nullptr);
 };
 
 class ColorTables {

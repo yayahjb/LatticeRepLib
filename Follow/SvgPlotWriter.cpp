@@ -15,9 +15,10 @@
 #include <iostream>
 #include <sstream>
 
-std::vector<LineStyle> LineStyle::getStyles(size_t count) {
+std::vector<LineStyle> LineStyle::getStyles(size_t count,
+   const std::vector<std::unique_ptr<Distance>>* distfuncs) {
    std::vector<LineStyle> styles;
-   static const std::vector<std::string> colors = {
+   static const std::vector<std::string> fallbackColors = {
        "#000000", "#E69F00", "#56B4E9", "#009E73",
        "#FFA07A", "#0072B2", "#D55E00", "#CC79A7"
    };
@@ -38,8 +39,18 @@ std::vector<LineStyle> LineStyle::getStyles(size_t count) {
    };
 
    for (size_t i = 0; i < count; ++i) {
+      std::string color;
+
+      // Use Distance colors if available, otherwise fall back to hardcoded colors
+      if (distfuncs != nullptr && i < distfuncs->size()) {
+         color = (*distfuncs)[i]->getColor();
+      }
+      else {
+         color = fallbackColors[i % fallbackColors.size()];
+      }
+
       styles.push_back({
-          colors[i % colors.size()],
+          color,
           dashPatterns[i % dashPatterns.size()],
           markers[i % markers.size()]
          });
@@ -47,10 +58,12 @@ std::vector<LineStyle> LineStyle::getStyles(size_t count) {
    return styles;
 }
 
+
 SvgPlotWriter::SvgPlotWriter(std::ofstream& outSvg, const FollowControls& controls)
    : svg(outSvg)
    , controls(controls)
-   , glitches() {}
+   , glitches() {
+}
 
 std::string SvgPlotWriter::reportGlitches(const int n) {
    std::vector<std::pair<double, size_t>> sorted;
@@ -298,7 +311,7 @@ void SvgPlotWriter::writePlotData(int width, int height, int margin, double maxD
    const std::vector<std::unique_ptr<Distance>>& distfuncs) {
 
    PlotDimensions dims = calculatePlotDimensions(width, height, margin, allDistances);
-   auto styles = LineStyle::getStyles(allDistances.size());
+   auto styles = LineStyle::getStyles(allDistances.size(), &distfuncs);  // Pass address
 
    for (size_t i = 0; i < allDistances.size(); ++i) {
       if (allDistances[i].empty()) continue;
@@ -311,11 +324,11 @@ void SvgPlotWriter::writeLegend(int width, int margin,
    const std::vector<std::vector<double>>& allDistances,
    const std::vector<std::unique_ptr<Distance>>& distfuncs) {
 
-   auto styles = LineStyle::getStyles(distfuncs.size());
+   auto styles = LineStyle::getStyles(distfuncs.size(), &distfuncs);  // Pass address
    const int plotWidth = width - 2 * margin;
    const int xOffset = margin + plotWidth + 20;
    const int yOffset = margin + 20;
-   const int lineLength = 80;  // Increased from 40
+   const int lineLength = 80;
 
    svg << "\n<g class=\"LEGEND\" transform=\"translate(" << xOffset << "," << yOffset << ")\">\n"
       << "<rect x=\"-5\" y=\"-15\" width=\"140\" height=\""
@@ -344,6 +357,7 @@ void SvgPlotWriter::writeLegend(int width, int margin,
    }
    svg << "</g>\n\n";
 }
+
 
 void SvgPlotWriter::writeMetadata(int trial, int perturbation, const std::string& datetime) {
    svg << "<metadata>\n"

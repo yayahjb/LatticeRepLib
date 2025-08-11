@@ -38,6 +38,9 @@ $(COMMAND): MAIN_Follow.cpp \
 	../LRL_Tools/spline_under_tension.hpp ../LRL_Tools/spline_under_tension.cpp \
 	../LatticeRepresentationLib/GenerateLatticeTypeExamples.cpp \
 	../LatticeRepresentationLib/GrimmerTree.h ../LatticeRepresentationLib/GrimmerTree.h \
+	../LatticeRepresentationLib/P3_Reduce.h ../LatticeRepresentationLib/P3.h \
+	../LatticeRepresentationLib/P3_Reduce.cpp ../LatticeRepresentationLib/P3Utilities.h \
+	../LatticeRepresentationLib/P3.cpp ../LatticeRepresentationLib/P3Dist.h \
 	../LatticeRepresentationLib/Polar.h ../LatticeRepresentationLib/Polar.cpp \
 	../LatticeRepresentationLib/G6.cpp ../LatticeRepresentationLib/G6.h \
 	../LatticeRepresentationLib/S6.cpp ../LatticeRepresentationLib/S6.h \
@@ -89,6 +92,8 @@ $(COMMAND): MAIN_Follow.cpp \
 	../LatticeRepresentationLib/MatD13.cpp \
 	../LatticeRepresentationLib/MatD7.cpp ../LatticeRepresentationLib/MatG6.cpp ../LatticeRepresentationLib/MatMN.cpp \
 	../LatticeRepresentationLib/MatN.cpp ../LatticeRepresentationLib/MatS6.cpp ../LatticeRepresentationLib/Niggli.cpp \
+	../LatticeRepresentationLib/P3_Reduce.cpp \
+	../LatticeRepresentationLib/P3.cpp ../LatticeRepresentationLib/P3Dist.h \
 	../LatticeRepresentationLib/Polar.cpp \
 	../LatticeRepresentationLib/RI.cpp \
 	../LatticeRepresentationLib/S6.cpp ../LatticeRepresentationLib/S6Dist.cpp \
