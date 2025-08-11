@@ -1409,6 +1409,64 @@ define([[[LRLWEB_Follow]]],[[[[[[$1]]]]]]dnl
 [[[[[[end$3]]]]]]dnl
 dnl
 )dnl--------------------------------------------------
+dnl Command:  HR_info
+dnl -------------------
+define([[[LRLWEB_HR_info]]],[[[[[[$1 ]]]]]]dnl
+[[[[[[<strong>Command: ]]]]]]dnl
+[[[[[[HR_info</strong>$2]]]]]]dnl
+[[[[[[<em><u>Purpose:</u></em> Navigating the Hexagonal crystal family. $2]]]]]]dnl
+[[[[[[This program was partly written by the AI Kimi (http://www.kimi.org).  Kimi used the Wikipedia page for the $2]]]]]]dnl
+[[[[[[Hexagonal crystal family for the source data.  See https://en.wikipedia.org/wiki/Hexagonal_crystal_family. $2]]]]]]dnl
+[[[[[[Some of the logic, especially for controls was written with the aid of Claude.ai (http://claude.ai). $2]]]]]]dnl
+[[[[[[One should note that both of these AI's contributed a substantial number of coding errors. $2]]]]]]dnl
+[[[[[[<em><u>Output type:</u></em> ]]]]]]dnl
+[[[[[[Various equivalent settings $2]]]]]]dnl
+[[[[[[<em><u>Parameters:</u></em> $2]]]]]]dnl
+[[[[[[  sg &lt;number&gt;      Show the hexagonal family space-group whose number is &lt;number&gt;. $2]]]]]]dnl
+[[[[[[                   Examples: sg 186, spacegroup 152, spg 194 $2]]]]]]dnl
+[[[[[[ $2]]]]]]dnl
+[[[[[[  bravais hP       List every space-group whose Bravais lattice is hP. $2]]]]]]dnl
+[[[[[[  bravais hR       List every space-group whose Bravais lattice is hR. $2]]]]]]dnl
+[[[[[[  bravais          List every space-group whose Bravais lattice is hR or hP. $2]]]]]]dnl
+[[[[[[                   Examples: bravais hp, bravais hr $2]]]]]]dnl
+[[[[[[ $2]]]]]]dnl
+[[[[[[  system Trigonal  List every space-group belonging to the Trigonal system. $2]]]]]]dnl
+[[[[[[  system Hexagonal List every space-group belonging to the Hexagonal system. $2]]]]]]dnl
+[[[[[[                   Examples: sys Trigonal, system hex, crystal hexagonal $2]]]]]]dnl
+[[[[[[ $2]]]]]]dnl
+[[[[[[  family Hexagonal List every space-group that belongs to the Hexagonal family. $2]]]]]]dnl
+[[[[[[                   Examples: fam Hexagonal, family hex, hexagonal family $2]]]]]]dnl
+[[[[[[ $2]]]]]]dnl
+[[[[[[  r_settings       some information about rhombohedral lattices including $2]]]]]]dnl
+[[[[[[                   obverse/reverse and indexing. $2]]]]]]dnl
+[[[[[[  P/R/I/F/etc.     unit cell information $2]]]]]]dnl
+[[[[[[<hr>]]]]]]dnl
+[[[[[[<strong>Command: Check Input</strong>$2]]]]]]dnl
+[[[[[[<em><u>Purpose:</u></em> Verify input lattice types and parameters$2]]]]]]dnl
+[[[[[[<em><u>Output type:</u></em> Valid input is reported as H<sup>6</sup> unit cell a, b, c, &alpha;, &beta;, &gamma;.$2]]]]]]dnl
+[[[[[[Warnings are output for invalid inputs.$2]]]]]]dnl
+[[[[[[<em><u>Parameters:</u></em> NA$2]]]]]]dnl
+[[[[[[<hr />]]]]]]dnl
+[[[[[[LRL_Web Data Inputs:  There are 5 types of input lines.]]]]]]dnl
+[[[[[[ Except for 'END', they can be combined in any order.$2]]]]]]dnl
+[[[[[[ All these are case-insensitive. If a particular input lattice is invalid, it is rejected<br /> with a message.$2]]]]]]dnl
+[[[[[[---  RANDOM: Random (valid) unit cell;$2]]]]]]dnl
+[[[[[[---  Crystal lattice input: 'A', 'B', 'C',]]]]]]dnl
+[[[[[[ 'P', 'R', 'F', 'I' followed by three axis lengths]]]]]]dnl
+[[[[[[ and three angles (in degrees);$2]]]]]]dnl
+[[[[[[---  semicolon: lines beginning with a semicolon are treated as comments$2]]]]]]dnl
+[[[[[[---  Vector Input: g (or v or g6) for G6 vectors; s (or s6) for S6, Delone/Selling scalars,]]]]]]dnl
+[[[[[[ C3 for C3 input (without parentheses<br />or commas, 'C' would be interpreted as a C-centered unit cell),]]]]]]dnl
+[[[[[[ u for unsorted Dirichlet 7-cells.$2]]]]]]dnl
+[[[[[[---  END: ends the data input section$2]]]]]]dnl
+[[[[[[Examples of unit cell inputs$2]]]]]]dnl
+[[[[[[P 10 20 30 90 111 90$2]]]]]]dnl
+[[[[[[G 100 400 900 0 -215.02 0$2]]]]]]dnl
+[[[[[[S6 0 -107.51 0 7.51 -400 -792.49 $2]]]]]]dnl
+[[[[[[; this is a comment$2]]]]]]dnl
+[[[[[[end$3]]]]]]dnl
+dnl
+)dnl--------------------------------------------------
 dnl Command:  PlotC3
 dnl -------------------
 define([[[LRLWEB_PlotC3]]],[[[[[[$1 ]]]]]]dnl
