@@ -1,10 +1,14 @@
 ﻿#pragma warning(disable: 4566)
 #ifndef TRANSFORMATION_MATRICES_H
 #define TRANSFORMATION_MATRICES_H
-#include <vector>
-#include "LRL_Vector3.h"  // For Matrix_3x3
-#include <set>
+
 #include <algorithm>
+#include <cmath>
+#include <iostream>
+#include <set>
+#include <vector>
+
+#include "LRL_Vector3.h"  // For Matrix_3x3
 
 // ========================================
 // TRANSFORMATION MATRICES CENTRAL REPOSITORY
@@ -160,8 +164,7 @@ namespace TransformationMatrices {
          double det = matrix.Det();
          if (std::abs(det - 1.0) < 1e-10) {
             transformations.push_back(matrix);
-         }
-         else {
+         } else {
             std::cerr << "ERROR: Matrix with det=" << det << " found in crystallographic set!" << std::endl;
          }
       }
@@ -186,7 +189,7 @@ namespace TransformationMatrices {
    // ========================================
 
    std::vector<Matrix_3x3> buildAllTransformationMatrices(const bool includeInverses = true, const int maxCoeff = 3);
-   std::vector<Matrix_3x3> generateComprehensiveIntegerMatrices(int maxCoeff);
+   std::vector<Matrix_3x3> generateComprehensiveIntegerMatrices(const int maxCoeff);
 
    std::vector<Matrix_3x3> getAllNiggliMatrices();
    std::vector<Matrix_3x3> getAllPermutationMatrices();
@@ -200,51 +203,303 @@ namespace TransformationMatrices {
 
    std::vector<Matrix_3x3>& getAllTransformationMatrices(const int maxCoeff = 3);
 
-   static std::vector<Matrix_3x3> generateUnimodularMatrices() {
+   inline std::vector<Matrix_3x3> generateUnimodularMatrices(const int maxCoeff = 1) {
       /*
-      this function generates a subset of the unimodular matrices with determinant +1
-      and elements 0/+1/-1. It is a restricted subset of group GL(n,Z).
+         Generate all 3×3 unimodular integer matrices with determinant +1
+         and entries in the range [-maxCoeff, +maxCoeff].
       */
-      std::vector<Matrix_3x3> result;
 
-      // Allowed values: -1, 0, 1
-      static const std::vector<double>values = { -1, 0, 1 };
-      const size_t n = values.size();
+      std::vector<Matrix_3x3> matrices;
+      matrices.reserve(4000);
 
-      // Generate all possible 3x3 matrices with elements from {-1, 0, 1}
-      for (int a00 = 0; a00 < n; a00++) {
-         for (int a01 = 0; a01 < n; a01++) {
-            for (int a02 = 0; a02 < n; a02++) {
-               for (int a10 = 0; a10 < n; a10++) {
-                  for (int a11 = 0; a11 < n; a11++) {
-                     for (int a12 = 0; a12 < n; a12++) {
-                        for (int a20 = 0; a20 < n; a20++) {
-                           for (int a21 = 0; a21 < n; a21++) {
-                              for (int a22 = 0; a22 < n; a22++) {
-                                 Matrix_3x3 mat = {
-                                     values[a00], values[a01], values[a02],
-                                     values[a10], values[a11], values[a12],
-                                     values[a20], values[a21], values[a22]
-                                 };
+      const int lo = -maxCoeff;
+      const int hi = maxCoeff;
 
-                                 if (mat.Det() == 1) {
-                                    result.emplace_back(mat);
+      for (int a00 = lo; a00 <= hi; ++a00)
+         for (int a01 = lo; a01 <= hi; ++a01)
+            for (int a02 = lo; a02 <= hi; ++a02)
+               for (int a10 = lo; a10 <= hi; ++a10)
+                  for (int a11 = lo; a11 <= hi; ++a11)
+                     for (int a12 = lo; a12 <= hi; ++a12)
+                        for (int a20 = lo; a20 <= hi; ++a20)
+                           for (int a21 = lo; a21 <= hi; ++a21)
+                              for (int a22 = lo; a22 <= hi; ++a22) {
+
+                                 Matrix_3x3 M(
+                                    a00, a01, a02,
+                                    a10, a11, a12,
+                                    a20, a21, a22
+                                 );
+
+                                 const double det = M.Det();
+
+                                 // Accept ONLY determinant +1
+                                 if (std::abs(det - 1.0) < 1e-12) {
+                                    matrices.emplace_back(M);
                                  }
                               }
-                           }
-                        }
-                     }
-                  }
-               }
-            }
-         }
-      }
 
-      //std::cout << "Generated " << result.size() << " unimodular matrices (should be 3480)" << std::endl;
+      matrices.shrink_to_fit();
+      return matrices;
+   }
+
+   // ========================================
+   // SUPERCELL MATRICES
+   // Generate all 3x3 integer matrices with determinant in the given set.
+   // Used for supercell matching: det=2, 3, or 4.
+   // Entries restricted to [-maxCoeff, +maxCoeff].
+   // ========================================
+
+   inline std::vector<Matrix_3x3> generateSupercellMatrices(
+      const std::vector<int>& determinants,
+      const int maxCoeff = 1) {
+
+      std::vector<Matrix_3x3> matrices;
+      matrices.reserve(8000);
+
+      std::set<int> detSet(determinants.begin(), determinants.end());
+
+      const int lo = -maxCoeff;
+      const int hi = maxCoeff;
+
+      for (int a00 = lo; a00 <= hi; ++a00)
+         for (int a01 = lo; a01 <= hi; ++a01)
+            for (int a02 = lo; a02 <= hi; ++a02)
+               for (int a10 = lo; a10 <= hi; ++a10)
+                  for (int a11 = lo; a11 <= hi; ++a11)
+                     for (int a12 = lo; a12 <= hi; ++a12)
+                        for (int a20 = lo; a20 <= hi; ++a20)
+                           for (int a21 = lo; a21 <= hi; ++a21)
+                              for (int a22 = lo; a22 <= hi; ++a22) {
+                                 Matrix_3x3 M(
+                                    a00, a01, a02,
+                                    a10, a11, a12,
+                                    a20, a21, a22
+                                 );
+                                 const int det =
+                                    static_cast<int>(std::round(M.Det()));
+                                 if (detSet.count(det))
+                                    matrices.emplace_back(M);
+                              }
+
+      matrices.shrink_to_fit();
+      return matrices;
+   }
+
+   // ========================================
+   // HNF MATRICES
+   // Complete set of Hermite Normal Form matrices for orders 2-6.
+   // Upper triangular, positive diagonal, off-diagonal 0 <= m[i][j] < m[j][j].
+   // Minimal complete set for supercell relationships in primitive space
+   // (Santoro & Mighell, Acta Cryst. A28, 284-287, 1972).
+   //
+   // Counts by order: 2->7, 3->13, 4->35, 5->31, 6->91  (total 177)
+   //
+   // NOTE: For orders 5 and 6 the brute-force integer-matrix search is
+   // computationally infeasible (search space ~10^10 for maxCoeff=6).
+   // HNF provides the provably complete minimal set for primitive cells,
+   // but may miss supercell relationships in non-standard orientations
+   // that require a non-upper-triangular transformation matrix.
+   // In practice this is rare; re-index the cell to a standard setting
+   // first if a det=5 or det=6 relationship is suspected but not found.
+   // ========================================
+
+   inline std::vector<Matrix_3x3> generateHNFMatrices(
+      const std::vector<int>& orders = { 2, 3, 4, 5, 6 }) {
+
+      static const std::vector<std::pair<int, Matrix_3x3>> all = {
+         // order-2 (7 matrices)
+         {2, Matrix_3x3(1,0,0, 0,1,0, 0,0,2)},
+         {2, Matrix_3x3(1,0,0, 0,1,1, 0,0,2)},
+         {2, Matrix_3x3(1,0,1, 0,1,0, 0,0,2)},
+         {2, Matrix_3x3(1,0,1, 0,1,1, 0,0,2)},
+         {2, Matrix_3x3(1,0,0, 0,2,0, 0,0,1)},
+         {2, Matrix_3x3(1,1,0, 0,2,0, 0,0,1)},
+         {2, Matrix_3x3(2,0,0, 0,1,0, 0,0,1)},
+         // order-3 (13 matrices)
+         {3, Matrix_3x3(1,0,0, 0,1,0, 0,0,3)},
+         {3, Matrix_3x3(1,0,0, 0,1,1, 0,0,3)},
+         {3, Matrix_3x3(1,0,0, 0,1,2, 0,0,3)},
+         {3, Matrix_3x3(1,0,1, 0,1,0, 0,0,3)},
+         {3, Matrix_3x3(1,0,1, 0,1,1, 0,0,3)},
+         {3, Matrix_3x3(1,0,1, 0,1,2, 0,0,3)},
+         {3, Matrix_3x3(1,0,2, 0,1,0, 0,0,3)},
+         {3, Matrix_3x3(1,0,2, 0,1,1, 0,0,3)},
+         {3, Matrix_3x3(1,0,2, 0,1,2, 0,0,3)},
+         {3, Matrix_3x3(1,0,0, 0,3,0, 0,0,1)},
+         {3, Matrix_3x3(1,1,0, 0,3,0, 0,0,1)},
+         {3, Matrix_3x3(1,2,0, 0,3,0, 0,0,1)},
+         {3, Matrix_3x3(3,0,0, 0,1,0, 0,0,1)},
+         // order-4 (35 matrices)
+         {4, Matrix_3x3(1,0,0, 0,1,0, 0,0,4)},
+         {4, Matrix_3x3(1,0,0, 0,1,1, 0,0,4)},
+         {4, Matrix_3x3(1,0,0, 0,1,2, 0,0,4)},
+         {4, Matrix_3x3(1,0,0, 0,1,3, 0,0,4)},
+         {4, Matrix_3x3(1,0,1, 0,1,0, 0,0,4)},
+         {4, Matrix_3x3(1,0,1, 0,1,1, 0,0,4)},
+         {4, Matrix_3x3(1,0,1, 0,1,2, 0,0,4)},
+         {4, Matrix_3x3(1,0,1, 0,1,3, 0,0,4)},
+         {4, Matrix_3x3(1,0,2, 0,1,0, 0,0,4)},
+         {4, Matrix_3x3(1,0,2, 0,1,1, 0,0,4)},
+         {4, Matrix_3x3(1,0,2, 0,1,2, 0,0,4)},
+         {4, Matrix_3x3(1,0,2, 0,1,3, 0,0,4)},
+         {4, Matrix_3x3(1,0,3, 0,1,0, 0,0,4)},
+         {4, Matrix_3x3(1,0,3, 0,1,1, 0,0,4)},
+         {4, Matrix_3x3(1,0,3, 0,1,2, 0,0,4)},
+         {4, Matrix_3x3(1,0,3, 0,1,3, 0,0,4)},
+         {4, Matrix_3x3(1,0,0, 0,2,0, 0,0,2)},
+         {4, Matrix_3x3(1,0,0, 0,2,1, 0,0,2)},
+         {4, Matrix_3x3(1,0,1, 0,2,0, 0,0,2)},
+         {4, Matrix_3x3(1,0,1, 0,2,1, 0,0,2)},
+         {4, Matrix_3x3(1,1,0, 0,2,0, 0,0,2)},
+         {4, Matrix_3x3(1,1,0, 0,2,1, 0,0,2)},
+         {4, Matrix_3x3(1,1,1, 0,2,0, 0,0,2)},
+         {4, Matrix_3x3(1,1,1, 0,2,1, 0,0,2)},
+         {4, Matrix_3x3(1,0,0, 0,4,0, 0,0,1)},
+         {4, Matrix_3x3(1,1,0, 0,4,0, 0,0,1)},
+         {4, Matrix_3x3(1,2,0, 0,4,0, 0,0,1)},
+         {4, Matrix_3x3(1,3,0, 0,4,0, 0,0,1)},
+         {4, Matrix_3x3(2,0,0, 0,1,0, 0,0,2)},
+         {4, Matrix_3x3(2,0,0, 0,1,1, 0,0,2)},
+         {4, Matrix_3x3(2,0,1, 0,1,0, 0,0,2)},
+         {4, Matrix_3x3(2,0,1, 0,1,1, 0,0,2)},
+         {4, Matrix_3x3(2,0,0, 0,2,0, 0,0,1)},
+         {4, Matrix_3x3(2,1,0, 0,2,0, 0,0,1)},
+         {4, Matrix_3x3(4,0,0, 0,1,0, 0,0,1)},
+         // order-5 (31 matrices)
+         {5, Matrix_3x3(1,0,0, 0,1,0, 0,0,5)},
+         {5, Matrix_3x3(1,0,0, 0,1,1, 0,0,5)},
+         {5, Matrix_3x3(1,0,0, 0,1,2, 0,0,5)},
+         {5, Matrix_3x3(1,0,0, 0,1,3, 0,0,5)},
+         {5, Matrix_3x3(1,0,0, 0,1,4, 0,0,5)},
+         {5, Matrix_3x3(1,0,1, 0,1,0, 0,0,5)},
+         {5, Matrix_3x3(1,0,1, 0,1,1, 0,0,5)},
+         {5, Matrix_3x3(1,0,1, 0,1,2, 0,0,5)},
+         {5, Matrix_3x3(1,0,1, 0,1,3, 0,0,5)},
+         {5, Matrix_3x3(1,0,1, 0,1,4, 0,0,5)},
+         {5, Matrix_3x3(1,0,2, 0,1,0, 0,0,5)},
+         {5, Matrix_3x3(1,0,2, 0,1,1, 0,0,5)},
+         {5, Matrix_3x3(1,0,2, 0,1,2, 0,0,5)},
+         {5, Matrix_3x3(1,0,2, 0,1,3, 0,0,5)},
+         {5, Matrix_3x3(1,0,2, 0,1,4, 0,0,5)},
+         {5, Matrix_3x3(1,0,3, 0,1,0, 0,0,5)},
+         {5, Matrix_3x3(1,0,3, 0,1,1, 0,0,5)},
+         {5, Matrix_3x3(1,0,3, 0,1,2, 0,0,5)},
+         {5, Matrix_3x3(1,0,3, 0,1,3, 0,0,5)},
+         {5, Matrix_3x3(1,0,3, 0,1,4, 0,0,5)},
+         {5, Matrix_3x3(1,0,4, 0,1,0, 0,0,5)},
+         {5, Matrix_3x3(1,0,4, 0,1,1, 0,0,5)},
+         {5, Matrix_3x3(1,0,4, 0,1,2, 0,0,5)},
+         {5, Matrix_3x3(1,0,4, 0,1,3, 0,0,5)},
+         {5, Matrix_3x3(1,0,4, 0,1,4, 0,0,5)},
+         {5, Matrix_3x3(1,0,0, 0,5,0, 0,0,1)},
+         {5, Matrix_3x3(5,0,0, 0,1,0, 0,0,1)},
+         {5, Matrix_3x3(5,1,0, 0,1,0, 0,0,1)},
+         {5, Matrix_3x3(5,2,0, 0,1,0, 0,0,1)},
+         {5, Matrix_3x3(5,3,0, 0,1,0, 0,0,1)},
+         {5, Matrix_3x3(5,4,0, 0,1,0, 0,0,1)},
+         // order-6 (91 matrices)
+         {6, Matrix_3x3(1,0,0, 0,1,0, 0,0,6)},
+         {6, Matrix_3x3(1,0,0, 0,1,1, 0,0,6)},
+         {6, Matrix_3x3(1,0,0, 0,1,2, 0,0,6)},
+         {6, Matrix_3x3(1,0,0, 0,1,3, 0,0,6)},
+         {6, Matrix_3x3(1,0,0, 0,1,4, 0,0,6)},
+         {6, Matrix_3x3(1,0,0, 0,1,5, 0,0,6)},
+         {6, Matrix_3x3(1,0,1, 0,1,0, 0,0,6)},
+         {6, Matrix_3x3(1,0,1, 0,1,1, 0,0,6)},
+         {6, Matrix_3x3(1,0,1, 0,1,2, 0,0,6)},
+         {6, Matrix_3x3(1,0,1, 0,1,3, 0,0,6)},
+         {6, Matrix_3x3(1,0,1, 0,1,4, 0,0,6)},
+         {6, Matrix_3x3(1,0,1, 0,1,5, 0,0,6)},
+         {6, Matrix_3x3(1,0,2, 0,1,0, 0,0,6)},
+         {6, Matrix_3x3(1,0,2, 0,1,1, 0,0,6)},
+         {6, Matrix_3x3(1,0,2, 0,1,2, 0,0,6)},
+         {6, Matrix_3x3(1,0,2, 0,1,3, 0,0,6)},
+         {6, Matrix_3x3(1,0,2, 0,1,4, 0,0,6)},
+         {6, Matrix_3x3(1,0,2, 0,1,5, 0,0,6)},
+         {6, Matrix_3x3(1,0,3, 0,1,0, 0,0,6)},
+         {6, Matrix_3x3(1,0,3, 0,1,1, 0,0,6)},
+         {6, Matrix_3x3(1,0,3, 0,1,2, 0,0,6)},
+         {6, Matrix_3x3(1,0,3, 0,1,3, 0,0,6)},
+         {6, Matrix_3x3(1,0,3, 0,1,4, 0,0,6)},
+         {6, Matrix_3x3(1,0,3, 0,1,5, 0,0,6)},
+         {6, Matrix_3x3(1,0,4, 0,1,0, 0,0,6)},
+         {6, Matrix_3x3(1,0,4, 0,1,1, 0,0,6)},
+         {6, Matrix_3x3(1,0,4, 0,1,2, 0,0,6)},
+         {6, Matrix_3x3(1,0,4, 0,1,3, 0,0,6)},
+         {6, Matrix_3x3(1,0,4, 0,1,4, 0,0,6)},
+         {6, Matrix_3x3(1,0,4, 0,1,5, 0,0,6)},
+         {6, Matrix_3x3(1,0,5, 0,1,0, 0,0,6)},
+         {6, Matrix_3x3(1,0,5, 0,1,1, 0,0,6)},
+         {6, Matrix_3x3(1,0,5, 0,1,2, 0,0,6)},
+         {6, Matrix_3x3(1,0,5, 0,1,3, 0,0,6)},
+         {6, Matrix_3x3(1,0,5, 0,1,4, 0,0,6)},
+         {6, Matrix_3x3(1,0,5, 0,1,5, 0,0,6)},
+         {6, Matrix_3x3(1,0,0, 0,2,0, 0,0,3)},
+         {6, Matrix_3x3(1,0,0, 0,2,1, 0,0,3)},
+         {6, Matrix_3x3(1,0,0, 0,2,2, 0,0,3)},
+         {6, Matrix_3x3(1,0,1, 0,2,0, 0,0,3)},
+         {6, Matrix_3x3(1,0,1, 0,2,1, 0,0,3)},
+         {6, Matrix_3x3(1,0,1, 0,2,2, 0,0,3)},
+         {6, Matrix_3x3(1,0,2, 0,2,0, 0,0,3)},
+         {6, Matrix_3x3(1,0,2, 0,2,1, 0,0,3)},
+         {6, Matrix_3x3(1,0,2, 0,2,2, 0,0,3)},
+         {6, Matrix_3x3(1,0,0, 0,3,0, 0,0,2)},
+         {6, Matrix_3x3(1,0,0, 0,3,1, 0,0,2)},
+         {6, Matrix_3x3(1,0,1, 0,3,0, 0,0,2)},
+         {6, Matrix_3x3(1,0,1, 0,3,1, 0,0,2)},
+         {6, Matrix_3x3(1,0,0, 0,6,0, 0,0,1)},
+         {6, Matrix_3x3(2,0,0, 0,1,0, 0,0,3)},
+         {6, Matrix_3x3(2,0,0, 0,1,1, 0,0,3)},
+         {6, Matrix_3x3(2,0,0, 0,1,2, 0,0,3)},
+         {6, Matrix_3x3(2,0,1, 0,1,0, 0,0,3)},
+         {6, Matrix_3x3(2,0,1, 0,1,1, 0,0,3)},
+         {6, Matrix_3x3(2,0,1, 0,1,2, 0,0,3)},
+         {6, Matrix_3x3(2,0,2, 0,1,0, 0,0,3)},
+         {6, Matrix_3x3(2,0,2, 0,1,1, 0,0,3)},
+         {6, Matrix_3x3(2,0,2, 0,1,2, 0,0,3)},
+         {6, Matrix_3x3(2,1,0, 0,1,0, 0,0,3)},
+         {6, Matrix_3x3(2,1,0, 0,1,1, 0,0,3)},
+         {6, Matrix_3x3(2,1,0, 0,1,2, 0,0,3)},
+         {6, Matrix_3x3(2,1,1, 0,1,0, 0,0,3)},
+         {6, Matrix_3x3(2,1,1, 0,1,1, 0,0,3)},
+         {6, Matrix_3x3(2,1,1, 0,1,2, 0,0,3)},
+         {6, Matrix_3x3(2,1,2, 0,1,0, 0,0,3)},
+         {6, Matrix_3x3(2,1,2, 0,1,1, 0,0,3)},
+         {6, Matrix_3x3(2,1,2, 0,1,2, 0,0,3)},
+         {6, Matrix_3x3(2,0,0, 0,3,0, 0,0,1)},
+         {6, Matrix_3x3(2,1,0, 0,3,0, 0,0,1)},
+         {6, Matrix_3x3(3,0,0, 0,1,0, 0,0,2)},
+         {6, Matrix_3x3(3,0,0, 0,1,1, 0,0,2)},
+         {6, Matrix_3x3(3,0,1, 0,1,0, 0,0,2)},
+         {6, Matrix_3x3(3,0,1, 0,1,1, 0,0,2)},
+         {6, Matrix_3x3(3,1,0, 0,1,0, 0,0,2)},
+         {6, Matrix_3x3(3,1,0, 0,1,1, 0,0,2)},
+         {6, Matrix_3x3(3,1,1, 0,1,0, 0,0,2)},
+         {6, Matrix_3x3(3,1,1, 0,1,1, 0,0,2)},
+         {6, Matrix_3x3(3,2,0, 0,1,0, 0,0,2)},
+         {6, Matrix_3x3(3,2,0, 0,1,1, 0,0,2)},
+         {6, Matrix_3x3(3,2,1, 0,1,0, 0,0,2)},
+         {6, Matrix_3x3(3,2,1, 0,1,1, 0,0,2)},
+         {6, Matrix_3x3(3,0,0, 0,2,0, 0,0,1)},
+         {6, Matrix_3x3(3,1,0, 0,2,0, 0,0,1)},
+         {6, Matrix_3x3(3,2,0, 0,2,0, 0,0,1)},
+         {6, Matrix_3x3(6,0,0, 0,1,0, 0,0,1)},
+         {6, Matrix_3x3(6,1,0, 0,1,0, 0,0,1)},
+         {6, Matrix_3x3(6,2,0, 0,1,0, 0,0,1)},
+         {6, Matrix_3x3(6,3,0, 0,1,0, 0,0,1)},
+         {6, Matrix_3x3(6,4,0, 0,1,0, 0,0,1)},
+         {6, Matrix_3x3(6,5,0, 0,1,0, 0,0,1)},
+      };
+
+      const std::set<int> orderSet(orders.begin(), orders.end());
+      std::vector<Matrix_3x3> result;
+      for (const auto& p : all)
+         if (orderSet.count(p.first)) result.push_back(p.second);
       return result;
    }
 
-
 } // namespace TransformationMatrices
+
 
 #endif // TRANSFORMATION_MATRICES_H

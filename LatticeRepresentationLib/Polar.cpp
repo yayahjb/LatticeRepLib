@@ -5,8 +5,6 @@
 #include "Polar.h"
 #include "StoreResults.h"
 
-RHrand ran;
-
 std::ostream& operator<< (std::ostream& os, const Polar& p) {
    os << std::setprecision(4) << "(" << p[0] << "), (" << p[1] << "), (" << p[2] << ")";
    return os;
@@ -66,6 +64,9 @@ Vector_2 XYtoV2(const Vector_2& v) {
 
 RHrand ranx;
 
+void Polar::SetSeed(const int n) {
+   ranx.srandom(n);
+}
 Vector_2 GeneratePolarProjection() {
    const Vector_2 v(2.0 * (ranx.urand() - 0.5), ranx.urand());
    return v;
@@ -146,7 +147,7 @@ bool Polar::CheckValid(const double a, const double b, const double c,
    if (a == 0.0) return false;
    static const double pi = 4.0 * atan(1.0);
    static const double twopi = 2.0 * pi;
-   static const double rad = 180.0 / pi;
+   static const double rad_CheckValid = 180.0 / pi;
 
    const bool radianInput = alpha < pi && beta < pi && gamma < pi;
 

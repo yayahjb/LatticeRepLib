@@ -5,7 +5,7 @@
 #include "LabeledDeloneTypeMatrices.h"
 #include "S6Dist.h"
 #include "DeloneTypeList.h"
-#include "Sella.h"
+//#include "Sella.h"
 
 #include <cmath>
 #include <string>
@@ -89,15 +89,15 @@ MatS6 LabeledDeloneTypeMatrices::ToCanon(const EnhancedS6& s) {
    return m;
 }
 
-std::vector<MatS6> LabeledDeloneTypeMatrices::GetPrj(const std::string& s) {
+std::vector<MatS6> LabeledDeloneTypeMatrices::GetPrj(const std::string& s) const {
    return m_prjs;
 }
 
-std::vector<MatS6> LabeledDeloneTypeMatrices::GetPerp(const std::string& s) {
+std::vector<MatS6> LabeledDeloneTypeMatrices::GetPerp(const std::string& s) const {
    return m_perps;
 }
 
-std::vector<MatS6> LabeledDeloneTypeMatrices::GetTocanon(const std::string& s) {
+std::vector<MatS6> LabeledDeloneTypeMatrices::GetTocanon(const std::string& s) const {
    return m_toCanons;
 }
 

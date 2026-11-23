@@ -170,6 +170,7 @@
     <ClInclude Include="PairReporter.h" />
     <ClInclude Include="RGB.h" />
     <ClInclude Include="rhrand.h" />
+    <ClInclude Include="ScoredReservoir.h" />
     <ClInclude Include="spline_under_tension.hpp" />
     <ClInclude Include="StoreResults.h" />
     <ClInclude Include="StringMatcher.h" />
@@ -177,6 +178,7 @@
     <ClInclude Include="SVG_Tools.h" />
     <ClInclude Include="TensionSpline.h" />
     <ClInclude Include="Theta.h" />
+    <ClInclude Include="ThetaInsensitive.h" />
     <ClInclude Include="TNear.h" />
     <ClInclude Include="TriangleAreaFromSides.h" />
     <ClInclude Include="triple.h" />

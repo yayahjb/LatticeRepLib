@@ -15,13 +15,28 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="TransformationMatrices.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="TransformerUtilities.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CmdLMP3.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DisplayLMP3.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DisplayUtilities.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DisplayLayer2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Displaydispatch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MatchPresentation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SearchMatrixbuilder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -38,22 +53,13 @@
     <ClInclude Include="MatrixCellOperator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MatrixSimplicityRanker.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="MobileComparisonResult.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MultiTransformFinderControls.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="NiggliReducer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="P3RelativeThresholds .h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PrimitiveConverter.h">
+    <ClInclude Include="P3RelativeThresholds.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ProductionCommon.h">
@@ -65,14 +71,54 @@
     <ClInclude Include="QualityAssessment.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TransformationMatrices.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="TransformerUtilities.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="UnifiedReservoir.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="DisplayLMP3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MatchPair.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HelpLMP3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MatrixScore.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CompareMatchResults.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Layer2Result.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DisplayUtilities.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DisplayLayer2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Displaydispatch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MatchPresentation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Programheader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Searchmatrixbuilder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="O3_test.txt" />
+    <Text Include="TestSuite.txt">
+      <Filter>Header Files</Filter>
+    </Text>
+    <Text Include="RatioTest.txt" />
   </ItemGroup>
 </Project>

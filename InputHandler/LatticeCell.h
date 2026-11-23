@@ -1,9 +1,13 @@
 #ifndef LATTICECELL_H
 #define LATTICECELL_H
 
+#include <set>
+#include <sstream>
 #include <string>
+#include <vector>
 
 #include "G6.h"
+#include "C3.h"
 #include "LatticeConverter.h"
 #include "LRL_Cell.h"
 #include "LRL_Cell_Degrees.h"
@@ -18,6 +22,12 @@ private:
    std::string inputtext;
 
 public:
+   template <typename T> LatticeCell(const std::string& s, const T& t) {
+      latticeType = s[0];
+      cell = G6(t);
+      inputtext = "from constructor";
+   }
+
    LatticeCell(const G6& c, const std::string& type = "P", const std::string& inputReadIn = "")
       : cell(c)
       , latticeType(type)
@@ -25,12 +35,29 @@ public:
    {
    }
 
-   LatticeCell( const std::string& type, const G6& c, const std::string& inputReadIn = "")
+   LatticeCell(const std::string& type, const G6& c, const std::string& inputReadIn = "")
       : cell(c)
       , latticeType(type)
       , inputtext(inputReadIn)
    {
    }
+
+   // Single-string constructor -- accepts either
+   //   "P 10 10 10 90 90 90"   (leading lattice designator)
+   // or
+   //   "10 10 10 90 90 90"     (no designator -- P is assumed)
+   // Six cell parameters (a, b, c, alpha, beta, gamma) are expected either
+   // way; LRL_Cell's own string constructor does the actual numeric parse.
+
+   LatticeCell(const std::string & s);   // implementation moved to LatticeCell.cpp
+   // -- delegates to InputHandler::processSingleLatticeInput,
+   // which already handles every designator (P/A/B/C/F/I/H,
+   // S/S6, G/G6, RANDOM, P3, DC7U) correctly. Kept out-of-line
+   // here specifically to avoid LatticeCell.h needing to
+   // #include InputHandler.h (InputHandler.h already needs a
+   // complete LatticeCell for its std::vector<LatticeCell>&
+   // parameters -- an in-header delegation here would create a
+   // circular include).
 
    LatticeCell(const B4& b4) {
       cell = LRL_Cell(b4);
@@ -51,7 +78,11 @@ public:
    }
 
    const LRL_Cell getCell() const {
-      return LRL_Cell(cell); 
+      return LRL_Cell(cell);
+   }
+
+   const LRL_Cell GetCell() const {
+      return LRL_Cell(cell);
    }
 
    std::string getLatticeType() const { return latticeType; }

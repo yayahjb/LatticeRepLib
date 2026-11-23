@@ -14,24 +14,44 @@
     <ClCompile Include="CmdSella.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\LatticeRepresentationLib\Sella.cpp">
+    <ClCompile Include="VCPVector..cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\LatticeRepresentationLib\BravaisHeirarchy.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CmdSellaControls.cpp">
+    <ClCompile Include="Cmdsellatests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\LatticeRepresentationLib\Sella.h">
+    <ClInclude Include="VCPVector.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\LatticeRepresentationLib\BravaisHeirarchy.h">
+    <ClInclude Include="FlexibleSellaTestMode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CmdSellaControls.h">
+    <ClInclude Include="ExpandAcrossBoundaryZeros.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ExploreReductionTies.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CheckABReflection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="../SellaLib/TestRemediationOnBoundaryCandidates.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="../SellaLib/RemediatedFit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectClassify.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="../SellaLib/TestHarness.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HelpSella.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

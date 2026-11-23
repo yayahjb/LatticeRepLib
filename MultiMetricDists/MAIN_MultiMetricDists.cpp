@@ -1,28 +1,70 @@
-
 #include <algorithm>
 #include <string>
 #include <vector>
 
-//#include "stdafx.h"
-
 #include "CS6Dist.h"
 #include "CS6Dist.cpp"
-#include "D7.h"
 #include "G6.h"
 #include "S6.h"
-#include "D7Dist.h"
 #include "S6Dist.h"
+#include "LatticeCell.h"
 #include "LatticeConverter.h"
+#include "LRL_Cell.h"
+#include "LRL_Cell_Degrees.h"
+#include "LRL_MaximaTools.h"
+#include "MultiMetricDistsControls.h"
 #include "NCDist.h"
 #include "PairReporter.h"
 #include "PrintTable.h"
-#include "LRL_ReadLatticeData.h"
+#include "ProgramSetup.h"
 #include "LRL_StringTools.h"
 #include "LRL_ToString.h"
 #include "Selling.h"
-#include "Triangle.h"
-#include "TriangleAreaFromSides.h"
 
+
+// Local replacements for the LatticeConverter::TextOutput/MaximaOutput/Output/
+// *ReducedOutput family, which were removed from LatticeConverter itself since
+// most consumers don't need C3/D7. MultiMetricDists still uses C3 (reflection
+// matrices below); D7 is no longer used at all.
+
+static bool g_useMaxima = false;
+
+static void LocalTextOutput(const std::string& label, const std::string& lattice, const LRL_Cell& cell) {
+   std::cout << label << std::endl;
+   std::cout << "lattice " << lattice << std::endl;
+   std::cout << "LRL_Cell_Degrees  " << LRL_ToString(LRL_Cell_Degrees(cell)) << std::endl;
+   std::cout << "G6 " << LRL_ToString(G6(cell)) << std::endl;
+   std::cout << "S6 " << LRL_ToString(S6(cell)) << std::endl;
+   std::cout << "C3 " << LRL_ToString(C3(cell)) << std::endl;
+}
+
+static void LocalMaximaOutput(const std::string& label, const std::string& lattice, const LRL_Cell& cell) {
+   std::cout << label << std::endl;
+   std::cout << "lattice " << lattice << std::endl;
+   std::cout << "LRL_Cell  " << LRL_MaximaTools::MaximaFromString(LRL_ToString(cell)) << std::endl;
+   std::cout << "G6 " << LRL_MaximaTools::MaximaFromString(LRL_ToString(G6(cell))) << std::endl;
+   std::cout << "S6 " << LRL_MaximaTools::MaximaFromString(LRL_ToString(S6(cell))) << std::endl;
+   std::cout << "C3 " << LRL_MaximaTools::MaximaFromString(LRL_ToString(C3(cell))) << std::endl;
+}
+
+static void LocalOutput(const std::string& label, const std::string& lattice, const LRL_Cell& cell) {
+   g_useMaxima ? LocalMaximaOutput(label, lattice, LRL_Cell(cell)) : LocalTextOutput(label, lattice, LRL_Cell(cell));
+}
+
+static void LocalNiggliReducedOutput(const std::string& label, const std::string& lattice, const LRL_Cell& cell) {
+   const LRL_Cell reducedCell = LatticeConverter::NiggliReduceCell(lattice, cell);
+   LocalOutput(label, "P", reducedCell);
+}
+
+static void LocalDeloneReducedOutput(const std::string& label, const std::string& lattice, const LRL_Cell& cell) {
+   const LRL_Cell reducedCell = LatticeConverter::DeloneReduceCell(lattice, cell);
+   LocalOutput(label, "P", reducedCell);
+}
+
+static void LocalSellingReducedOutput(const std::string& label, const std::string& lattice, const LRL_Cell& cell) {
+   const LRL_Cell reducedCell = LatticeConverter::SellingReduceCell(lattice, cell);
+   LocalOutput(label, "P", reducedCell);
+}
 
 void Header(void) {
    std::cout << "Input:" << std::endl;
@@ -38,33 +80,22 @@ std::string Letters(void) {
    return "V,G,D,S,P,A,B,C,I,F,R,C3,G6,S6,B4,D7,H";
 }
 
-std::string OutputIntialInput(const std::vector<LRL_ReadLatticeData>& cellDataList) {
+std::string OutputIntialInput(const std::vector<LatticeCell>& cellDataList) {
    std::string s;
    for (size_t i = 0; i < cellDataList.size(); ++i) {
-      const std::vector<std::pair<std::string, std::string > > boundaryCases = D7(cellDataList[i].GetCell()).ClassifyVector(0.5);
-      std::string boundary;
-      for (size_t k = 0; k < boundaryCases.size(); ++k) {
-         boundary += " " + boundaryCases[k].second;
-      }
-      s += LRL_ToString("Input ", i, ":  ") + cellDataList[i].GetStrCell() + boundary + "\n";
+      s += LRL_ToString("Input ", i, ":  ") + cellDataList[i].getInputLine() + "\n";
    }
 
    for (size_t i = 0; i < cellDataList.size(); ++i) {
-      const std::vector<std::pair<std::string, std::string > > boundaryCases = D7(cellDataList[i].GetCell()).ClassifyVector(0.5);
-      std::string boundary;
-      for (size_t k = 0; k < boundaryCases.size(); ++k) {
-         boundary += " " + boundaryCases[k].second;
-      }
-      s += LRL_ToString("Input ", i, ":  ") + LRL_ToString(C3(cellDataList[i].GetCell())) + "\n";
+      s += LRL_ToString("Input ", i, ":  ") + LRL_ToString(C3(cellDataList[i].getCell())) + "\n";
    }
 
    return s;
 }
 
-void PrintModifiedTable(const PrintTable& tbl, const bool labelColumns, const bool labelRows, const char rowSeparator, const std::string& colSeparator) {
+void PrintModifiedTable(const PrintTable& tbl, const bool labelColumns, const char rowSeparator, const std::string& colSeparator) {
    PrintTable tblX(tbl);
    tblX.SetNumberColumns(labelColumns);
-   tblX.SetNumberRows(labelRows);
    tblX.SetRowSeparator(rowSeparator);
    tblX.SetColumnSeparator(colSeparator);
    std::cout << std::endl;
@@ -72,135 +103,67 @@ void PrintModifiedTable(const PrintTable& tbl, const bool labelColumns, const bo
 
 }
 
-void ReduceAll(const LRL_ReadLatticeData& cellDataList, S6& s6, D7& d7, G6& g6) {
+void ReduceAll(const LatticeCell& cellData, S6& s6, G6& g6) {
    LatticeConverter converter;
-   g6 = LatticeConverter::NiggliReduceCell(cellDataList.GetLattice(), cellDataList.GetCell());
-   d7 = LatticeConverter::DeloneReduceCell(cellDataList.GetLattice(), cellDataList.GetCell());
-   s6 = LatticeConverter::SellingReduceCell(cellDataList.GetLattice(), cellDataList.GetCell());
+   g6 = LatticeConverter::NiggliReduceCell(cellData.getLatticeType(), cellData.getCell());
+   s6 = LatticeConverter::SellingReduceCell(cellData.getLatticeType(), cellData.getCell());
 }
 
-std::vector<LRL_ReadLatticeData> GetInputCells(void) {
-   const std::string letters = Letters();
-   std::string lattice;
-   std::vector<LRL_ReadLatticeData> cellDataList;
-   LRL_ReadLatticeData rcd;
-   while (lattice != "EOF") {
-      rcd.read();
-      lattice = rcd.GetLattice();
-      if ((!lattice.empty()) && (letters.find(toupper(lattice[0]))) != std::string::npos)
-         cellDataList.push_back(rcd);
-   }
-
-   return cellDataList;
-}
-
-
-static double SqrtTriangleAreaFromSides(const double a, const double b, const double c)
-{
-   const double trialValue = TriangleAreaFromSides(a, b, c);
-   const double sign = (trialValue >= 0.0) ? 1.0 : -1.0;
-   return sign * std::sqrt(std::abs(trialValue));
-}
-
-static double TriangleAreaFromPoints( const Vector_3& a, const Vector_3& b, const Vector_3& c) {
-   const double dab = (a - b).Norm();
-   const double dac = (a - c).Norm();
-   const double dbc = (b - c).Norm();
-   const double area = TriangleAreaFromSides(dab, dac, dbc);
-   return area;
-}
-
-template<typename T>
-void TriangleArea(const T& t, double& area1, double& area2, double& area3, double& area4) {
-   const B4 tet(t);
-   const Vector_3 v1(tet[0]);
-   const Vector_3 v2(tet[1]);
-   const Vector_3 v3(tet[2]);
-   const Vector_3 v4(tet[3]);
-   area1 = TriangleAreaFromPoints(v1, v2, v3);
-   area2 = TriangleAreaFromPoints(v1, v2, v4);
-   area3 = TriangleAreaFromPoints(v1, v3, v4);
-   area4 = TriangleAreaFromPoints(v2, v3, v4);
-}
-
-template<typename T>
-void ComputeFaceAreasOfBravaisTetrahedron (const T& tin, double& a1, double& a2, double& a3, double& a4) {
-   const S6 s(tin);
-   const double& s1 = s[0];
-   const double& s2 = s[1];
-   const double& s3 = s[2];
-   const double& s4 = s[3];
-   const double& s5 = s[4];
-   const double& s6 = s[5];
-   a1 = TriangleAreaFromSides(s1, s2, s3);
-   a2 = TriangleAreaFromSides(s3, s4, s5);
-   a3 = TriangleAreaFromSides(s2, s4, s6);
-   a4 = TriangleAreaFromSides(s1, s5, s6);
-}
-
-void OutputCellData(LatticeConverter& converter, const std::vector<LRL_ReadLatticeData>& cellDataList) {
+void OutputCellData(LatticeConverter& converter, const std::vector<LatticeCell>& cellDataList) {
    const std::string letters = Letters();
    for (size_t i1 = 0; i1 < cellDataList.size(); ++i1) {
-      const LRL_ReadLatticeData& rcd = cellDataList[i1];
-      const std::string lattice = rcd.GetLattice();
+      const LatticeCell& rcd = cellDataList[i1];
+      const std::string lattice = rcd.getLatticeType();
 
-	  if (letters.find(LRL_StringTools::strToupper(lattice)) == std::string::npos) continue;
+      if (letters.find(LRL_StringTools::strToupper(lattice)) == std::string::npos) continue;
       std::cout << std::endl;
       std::cout << "LRL_Cell # " << i1 << "  *******************************" << std::endl;
-      converter.Output("Input Data", lattice, rcd.GetCell());
+      LocalOutput("Input Data", lattice, rcd.getCell());
       std::cout << std::endl;
-      converter.NiggliReducedOutput("Niggli Reduced", lattice, rcd.GetCell());
+      LocalNiggliReducedOutput("Niggli Reduced", lattice, rcd.getCell());
       std::cout << std::endl;
-      converter.DeloneReducedOutput("Delone (D7) Reduced", lattice, rcd.GetCell());
+      LocalDeloneReducedOutput("Delone Reduced", lattice, rcd.getCell());
       std::cout << std::endl;
-      converter.SellingReducedOutput("Selling Reduced", lattice, rcd.GetCell());
+      LocalSellingReducedOutput("Selling Reduced", lattice, rcd.getCell());
       std::cout << std::endl;
       double f1, f2, f3, f4;
-      const LRL_Cell reducedCell = converter.DeloneReduceCell(lattice, rcd.GetCell());
+      const LRL_Cell reducedCell = converter.DeloneReduceCell(lattice, rcd.getCell());
    }
 }
 
-void PrintDistanceData(const std::vector<LRL_ReadLatticeData>& cellDataList) {
+void PrintDistanceData(const std::vector<LatticeCell>& cellDataList) {
    PrintTable gtbl(cellDataList.size(), cellDataList.size(), 13);
-   PrintTable dtbl(cellDataList.size(), cellDataList.size(), 13);
    PrintTable stbl(cellDataList.size(), cellDataList.size(), 13);
    PrintTable ctbl(cellDataList.size(), cellDataList.size(), 13);
    G6 g6red1;
    S6 s6red1;
-   D7 d7red1;
    G6 g6red2;
    S6 s6red2;
-   D7 d7red2;
    if (cellDataList.size() > 1) {
-      std::cout << "Distance_Summary  NCDist(23) D7Dist(23) S6Dist(23)" << std::endl;
+      std::cout << "Distance_Summary  NCDist(23) S6Dist(23)" << std::endl;
       S6Dist s6dist(10000.0);
       for (size_t i1 = 0; i1 < cellDataList.size(); ++i1) {
-         ReduceAll(cellDataList[i1], s6red1, d7red1, g6red1);
+         ReduceAll(cellDataList[i1], s6red1, g6red1);
          s6dist.SetDebug(true);
          for (size_t i2 = i1; i2 < cellDataList.size(); ++i2) {
-            ReduceAll(cellDataList[i2], s6red2, d7red2, g6red2);
+            ReduceAll(cellDataList[i2], s6red2, g6red2);
             const double g12 = NCDist(g6red1.GetVector().data(), g6red2.GetVector().data());
-            const double d12 = D7Dist(d7red1.GetVector().data(), d7red2.GetVector().data());
             const double s12 = s6dist.DistanceBetween(s6red1, s6red2);
             const double c12 = CS6Dist(s6red1.data(), s6red2.data());
             gtbl.insert_center(i1, i2, g12);
-            dtbl.insert_center(i1, i2, d12);
             stbl.insert_center(i1, i2, s12);
             ctbl.insert_center(i1, i2, c12);
 
-            std::cout << " (" << i1 << "," << i2 << ")   " << g12 << "   " << d12 << "   " << s12 << std::endl;
-            /* ++d7dist; */
+            std::cout << " (" << i1 << "," << i2 << ")   " << g12 << "   " << s12 << std::endl;
          }
       }
    }
    std::cout << G6::GetName();
-   PrintModifiedTable(gtbl, true, false, '#', " | ");
-   std::cout << D7::GetName();
-   PrintModifiedTable(dtbl, true, false, '#', " | ");
+   PrintModifiedTable(gtbl, true, '#', " | ");
    std::cout << S6::GetName();
-   PrintModifiedTable(stbl, true, false, '#', " | ");
+   PrintModifiedTable(stbl, true, '#', " | ");
    std::cout << "CSDist";
-   PrintModifiedTable(ctbl, true, false, '#', " | ");
+   PrintModifiedTable(ctbl, true, '#', " | ");
 }
 
 void ListReflections(const S6& s) {
@@ -230,28 +193,37 @@ void ListReflectionsByC3() {
 }
 
 int main(int argc, char* argv[]) {
-   std::string doMaxima = "";
-   if (argc > 1) {
-      const std::string strtest = argv[1];
-      doMaxima = strtest;
+   std::cout << "; MultiMetricDists" << std::endl;
+
+   try {
+      std::string doMaxima = "";
+      if (argc > 1) {
+         const std::string strtest = argv[1];
+         doMaxima = strtest;
+      }
+      LatticeConverter converter;
+      Header();
+
+      if (LRL_StringTools::strToupper(doMaxima.substr(0, 1))[0] == 'Y') g_useMaxima = true;
+
+      MultiMetricDistsControls controls;
+      const BasicProgramInput<MultiMetricDistsControls> dc_setup("CmdMultiMetricDists", controls);
+
+      if (controls.getShowControls()) {
+         std::cout << controls << std::endl;
+      }
+
+      const std::vector<LatticeCell>& cellDataList = dc_setup.getInputList();
+
+      OutputCellData(converter, cellDataList);
+
+      std::cout << OutputIntialInput(cellDataList) << std::endl;
+      if (!cellDataList.empty()) PrintDistanceData(cellDataList);
+
+      return 0;
    }
-   LatticeConverter converter;
-   Header();
-   const std::string letters = Letters();
-
-   if (LRL_StringTools::strToupper(doMaxima.substr(0, 1))[0] == 'Y') converter.SetOutputMaxima();
-
-   const std::vector<LRL_ReadLatticeData> cellDataList = GetInputCells();
-
-   std::string lattice;
-   OutputCellData(converter, cellDataList);
-
-   std::cout << OutputIntialInput(cellDataList) << std::endl;
-   if (!cellDataList.empty())PrintDistanceData(cellDataList);
-
-   Triangle triangle(cellDataList);
-   const size_t violations = triangle.Test();
-   std::cout << "Triangle violation count = " << violations << std::endl;
-
-   return 0;
+   catch (const std::exception& e) {
+      std::cerr << "; An error occurred: " << e.what() << std::endl;
+      return 1;
+   }
 }

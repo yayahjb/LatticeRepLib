@@ -6185,7 +6185,7 @@ long K_Far (
             dDR = DistanceBetween( t, objectStore[pt->m_ptRight]);
             if ( dDR >= dRadius )
             {   size_t collide;
-                tFarthest.insert( tFarthest.end(), make_triple( -dDR, objectStore[pt->m_ptRight], pt->m_pt_Right ) );
+                tFarthest.insert( tFarthest.end(), make_triple( -dDR, objectStore[pt->m_ptRight], pt->m_ptRight ) );
                 if( tFarthest.size( ) > 2*k ) K_Resize( k, t, tFarthest, dRadius );
                 collide = pt->m_ptRight;
                 while (objectCollide[collide] != ULONG_MAX ) {
@@ -6630,7 +6630,7 @@ long LeftK_Far (
             const DistanceTypeNode dDR =  DistanceBetween( t, objectStore[pt->m_ptRight] );
             if ( dDR >= dRadius )
             {   size_t collide;
-                tFarthest.insert( tFarthest.end(), make_triple( -dDR, objectStore[pt->m_ptRight], pt->m_pt_Right ) );
+                tFarthest.insert( tFarthest.end(), make_triple( -dDR, objectStore[pt->m_ptRight], pt->m_ptRight ) );
                 if( tFarthest.size( ) > 2*k ) K_Resize( k, t, tFarthest, dRadius );
                 collide = pt->m_ptRight;
                 while (objectCollide[collide] != ULONG_MAX ) {

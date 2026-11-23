@@ -5,20 +5,23 @@
 #include "BlockUtils.h"
 #include "DistanceTypes.h"
 #include "DistanceTypesUtils.h"
-#include "FollowerMode.h" 
+#include "FollowerMode.h"
 #include "FollowerPointsUtils.h"
 #include "GlitchUtils.h"
 #include "InputHandler.h"
 #include "PerturbationUtils.h"
 #include "LRL_StringTools.h"
 
-#include <memory>
-#include <string>
-#include <vector>
+#include <algorithm>
 #include <atomic>
+#include <iostream>
+#include <limits>
+#include <memory>
 #include <set>
 #include <sstream>
+#include <string>
 #include <unordered_set>
+#include <vector>
 
 class FollowControls : public BaseControlVariables {
 public:
@@ -95,6 +98,11 @@ public:
             printDistanceData = (value == "1" || LRL_StringTools::strToupper(value) == "TRUE" || value.empty());
          });
 
+      InputHandler::registerHandler("PRINTDetails", 0.35,
+         [this](BaseControlVariables&, const std::string& value) {
+            printDetails = (value == "1" || LRL_StringTools::strToupper(value) == "TRUE" || value.empty());
+         });
+
       InputHandler::registerHandler("GLITCHTHRESHOLD", 0.35,
          [this](BaseControlVariables&, const std::string& value) {
             glitchThresholdPercent = GlitchUtils::validateGlitchThresholdPercent(value);
@@ -125,13 +133,13 @@ public:
 
    }
 
-   std::string  getFilePrefix() const {return prefix;}
+   std::string  getFilePrefix() const { return prefix; }
 
-   DistanceTypes getDistanceTypes() const { 
+   DistanceTypes getDistanceTypes() const {
       DistanceTypes dt;
       dt.setEnabledTypes(getEnabledTypes());
       return dt;
-      }
+   }
 
 
    void setBlockSize(int size) {
@@ -225,6 +233,7 @@ public:
    double getGlitchThreshold() const { return glitchThresholdPercent; }
    bool shouldShowMarkers() const { return showDataMarkers; }
    int getNumPoints() const { return numFollowerPoints; }
+   bool getShouldPrintDetails() const { return printDetails; }
 
    size_t getBlockStart() const { return blockstart; }
    size_t getBlockSize() const { return blocksize; }
@@ -244,7 +253,7 @@ public:
             << ";Perturb By: " << perturbBy << "\n";
       }
       oss << ";Follower Mode: " << FollowerModeUtils::toString(followerMode) << "\n"
-          << ";Number of Follower Points: " << numFollowerPoints << "\n"
+         << ";Number of Follower Points: " << numFollowerPoints << "\n"
          << ";Print Distance Data: " << (printDistanceData ? "Yes" : "No") << "\n"
          << ";Glitches Only: " << (glitchesOnly ? "Yes" : "No") << "\n"
          << ";Should Detect Glitches: " << (shouldDetectGlitches ? "Yes" : "No") << "\n"
@@ -253,7 +262,8 @@ public:
          << ";File Prefix: " << prefix << "\n\n"
          << ";Web run: " << ((this->getHasWebInput()) ? "true" : "false") << "\n"
          << ";Blockstart: " << blockstart << "\n"
-         << ";Blocksize: " << blocksize << "\n\n"
+         << ";Blocksize: " << ((blocksize == std::numeric_limits<size_t>::max())
+            ? std::string("all") : std::to_string(blocksize)) << "\n\n"
          << ";Enabled Distances: ";
       for (const auto& type : enabledTypes) {
          oss << type << " ";
@@ -268,7 +278,12 @@ private:
    static constexpr size_t MAX_BLOCKSIZE = BlockUtils::MAX_BLOCKSIZE;
    static constexpr size_t DEFAULT_BLOCKSIZE = BlockUtils::MAX_BLOCKSIZE;
    size_t blockstart = 0;
-   size_t blocksize = DEFAULT_BLOCKSIZE;
+
+   // Default block size: no limit (Oct 2026). Web runs are capped to
+   // WEB_MAX_BLOCKSIZE by WebIO::ApplyBlockLimits; desktop runs process
+   // everything unless BLOCKSIZE is given. Previously this defaulted to 20,
+   // which silently capped desktop runs too.
+   size_t blocksize = std::numeric_limits<size_t>::max();
 
    // File prefix member
    const std::string prefix = "FOL";
@@ -282,6 +297,7 @@ private:
    double perturbBy = 0.1;
    int numFollowerPoints = 100;
    bool printDistanceData = false;
+   bool printDetails = false;
    bool glitchesOnly = false;
    bool shouldDetectGlitches = true;
    double glitchThresholdPercent = 4.0;
@@ -291,4 +307,3 @@ private:
 
 
 #endif // FOLLOW_CONTROLS_H
-

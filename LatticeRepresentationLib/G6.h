@@ -10,7 +10,6 @@
 #include "rhrand.h"
 #endif
 
-#include "BasisBase.h"
 #include "VecN.h"
 #include "LRL_indices.h"
 
@@ -24,11 +23,12 @@ class DC7u;
 #include <ostream>
 #include <string>
 
-class G6 : private BasisBase<G6> {
+class G6 {
 public:
    friend std::ostream& operator<< (std::ostream&, const G6&);
    friend G6 operator* (const double d, const G6& v);
    friend class S6;
+   class D13;
 
    G6(void);
    G6(const G6& v);
@@ -83,7 +83,25 @@ public:
    double* data() const { return const_cast<double*>(m_vec.data()); }
    void SetVector(const std::vector<double>& v) { m_vec = v; }
    bool GetValid(void) const { return m_valid; }
-   bool IsValid(void) const { return m_valid; }
+
+   // Check if G6 represents a valid metric tensor (positive determinant)
+   inline bool IsValid(const double tolerance = 1.0e-10) const {
+      const double g1 = (*this)[0];
+      const double g2 = (*this)[1];
+      const double g3 = (*this)[2];
+      const double g4 = (*this)[3];
+      const double g5 = (*this)[4];
+      const double g6 = (*this)[5];
+
+      const double det = g1 * g2 * g3
+         + 0.25 * g4 * g5 * g6     // Divide by 4, not multiply by 2!
+         - 0.25 * g1 * g4 * g4
+         - 0.25 * g2 * g5 * g5
+         - 0.25 * g3 * g6 * g6;
+
+      return det > tolerance;
+   }
+
    void SetValid(const bool b) { m_valid = b; }
 
    double at(const size_t n) const { return m_vec[n]; }

@@ -111,6 +111,7 @@
       <AdditionalIncludeDirectories>..\LRL_Tools; ..\InputHandler</AdditionalIncludeDirectories>
       <OpenMPSupport>false</OpenMPSupport>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalOptions>/FS %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -151,6 +152,7 @@
       <OpenMPSupport>true</OpenMPSupport>
       <AdditionalIncludeDirectories>..\LRL_Tools; ..\InputHandler</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalOptions>/FS %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -160,15 +162,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="BravaisHeirarchy.cpp" />
     <ClCompile Include="C3.cpp" />
     <ClCompile Include="C3Plot.cpp" />
+    <ClCompile Include="C3_FromB4.cpp" />
+    <ClCompile Include="C3_FromD7.cpp" />
     <ClCompile Include="C6.cpp" />
     <ClCompile Include="ColorTables.cpp" />
     <ClCompile Include="CS6Dist.c" />
     <ClCompile Include="CS6Dist.cpp" />
     <ClCompile Include="D13.cpp" />
-    <ClCompile Include="dbscan.cpp" />
+    <ClCompile Include="D7_FromB4.cpp" />
+    <ClCompile Include="D7_FromC3.cpp" />
     <ClCompile Include="DC.cpp" />
     <ClCompile Include="DC7u.cpp" />
     <ClCompile Include="DC7uBoundaryMatrices.cpp" />
@@ -177,8 +181,12 @@
     <ClCompile Include="EnhancedS6.cpp" />
     <ClCompile Include="FollowerConstants.cpp" />
     <ClCompile Include="FollowerPathGenerator.cpp" />
+    <ClCompile Include="G6_FromB4.cpp" />
+    <ClCompile Include="G6_FromC3.cpp" />
+    <ClCompile Include="G6_FromD13.cpp" />
+    <ClCompile Include="G6_FromD7.cpp" />
+    <ClCompile Include="G6_FromDC7u.cpp" />
     <ClCompile Include="GenerateLatticeTypeExamples.cpp" />
-    <ClCompile Include="GrimmerTree.cpp" />
     <ClCompile Include="IT_TypeList.cpp" />
     <ClCompile Include="LabeledDeloneTypeMatrices.cpp" />
     <ClCompile Include="LabeledSellaMatrices.cpp" />
@@ -188,6 +196,11 @@
     <ClCompile Include="LRL_Cell.cpp" />
     <ClCompile Include="CellInputData.cpp" />
     <ClCompile Include="LRL_Cell_Degrees.cpp" />
+    <ClCompile Include="LRL_Cell_FromB4.cpp" />
+    <ClCompile Include="LRL_Cell_FromC3.cpp" />
+    <ClCompile Include="LRL_Cell_FromD13.cpp" />
+    <ClCompile Include="LRL_Cell_FromD7.cpp" />
+    <ClCompile Include="LRL_Cell_FromP3.cpp" />
     <ClCompile Include="LRL_CoordinateConversionMatrices.cpp" />
     <ClCompile Include="LRL_LatticeMatcher.cpp" />
     <ClCompile Include="LRL_WriteLatticeData.cpp" />
@@ -226,26 +239,24 @@
     <ClCompile Include="S6L.cpp" />
     <ClCompile Include="S6_Matrices.cpp" />
     <ClCompile Include="S6_Ordinals.cpp" />
-    <ClCompile Include="SellaBuild.cpp" />
     <ClCompile Include="Selling.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="TransformationMatrices.cpp" />
     <ClCompile Include="Transformations.cpp" />
     <ClCompile Include="V7.cpp" />
+    <ClCompile Include="VCPVector.cpp" />
     <ClCompile Include="VecN.cpp" />
     <ClCompile Include="Vector_2.cpp" />
     <ClCompile Include="WebIO.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BasisBase.h" />
-    <ClInclude Include="BravaisHeirarchy.h" />
     <ClInclude Include="C3.h" />
     <ClInclude Include="C3Plot.h" />
     <ClInclude Include="C6.h" />
     <ClInclude Include="ColorTables.h" />
     <ClInclude Include="CS6Dist.h" />
     <ClInclude Include="D13.h" />
-    <ClInclude Include="dbscan.h" />
     <ClInclude Include="DC.h" />
     <ClInclude Include="DC7u.h" />
     <ClInclude Include="DC7uBoundaryMatrices.h" />
@@ -261,8 +272,8 @@
     <ClInclude Include="FollowerPathGenerator.h" />
     <ClInclude Include="GenerateLatticeTypeExamples.h" />
     <ClInclude Include="GenerateRandomLattice.h" />
-    <ClInclude Include="GrimmerTree.h" />
     <ClInclude Include="IT_TypeList.h" />
+    <ClInclude Include="KrivyGruberG6.h" />
     <ClInclude Include="LabeledDeloneTypeMatrices.h" />
     <ClInclude Include="LabeledSellaMatrices.h" />
     <ClInclude Include="DeloneTypeList.h" />
@@ -270,7 +281,6 @@
     <ClInclude Include="LatticeConverter.h" />
     <ClInclude Include="LRL_Cell.h" />
     <ClInclude Include="CellInputData.h" />
-    <ClInclude Include="CoordinateConversionMatrices.h" />
     <ClInclude Include="LRL_Cell_Degrees.h" />
     <ClInclude Include="LRL_CoordinateConversionMatrices.h" />
     <ClInclude Include="LRL_GetCommandArgs.h" />
@@ -280,7 +290,11 @@
     <ClInclude Include="MatD13.h" />
     <ClInclude Include="MatDC7u.h" />
     <ClInclude Include="MatricesForOneDeloneType.h" />
+    <ClInclude Include="MatrixCellOperator.h" />
     <ClInclude Include="NCDist.h" />
+    <ClInclude Include="NCDist_HJB.h" />
+    <ClInclude Include="NCDist_McColl.h" />
+    <ClInclude Include="NCDist_Mccoy_2.h" />
     <ClInclude Include="Niggli_Types.h" />
     <ClInclude Include="NullOps.h" />
     <ClInclude Include="P3.h" />
@@ -321,13 +335,14 @@
     <ClInclude Include="S6M_SellingReduce.h" />
     <ClInclude Include="S6_Matrices.h" />
     <ClInclude Include="S6_Ordinals.h" />
-    <ClInclude Include="SellaBuild.h" />
     <ClInclude Include="Selling.h" />
     <ClInclude Include="svd.h" />
+    <ClInclude Include="TestKrivyGruber.h" />
     <ClInclude Include="TransformationMatrices.h" />
     <ClInclude Include="Transformations.h" />
     <ClInclude Include="V7.h" />
     <ClInclude Include="V7Dist.h" />
+    <ClInclude Include="VCPVector.h" />
     <ClInclude Include="VecN.h" />
     <ClInclude Include="Vector_2.h" />
     <ClInclude Include="WebIO.h" />

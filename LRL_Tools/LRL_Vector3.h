@@ -13,7 +13,9 @@
 #include <set>
 #include <vector>
 
+#ifdef _MSC_VER
 #pragma warning( disable : 4505) // unreferenced local function has been removed
+#endif
 
 // forward declarations
 class Vector_3;

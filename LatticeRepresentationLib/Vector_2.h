@@ -2,7 +2,6 @@
 #define VECTOR_2_H
 #include <iostream>
 #include <vector>
-#include <cmath>
 
 //#include "Radial.h"
 

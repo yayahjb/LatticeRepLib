@@ -1,7 +1,6 @@
 #ifndef S6_H
 #define S6_H
 
-#include "BasisBase.h"
 #include "MatS6.h"
 #include "VecN.h"
 
@@ -61,9 +60,9 @@ public:
    double DistanceBetween( const S6& v1, const S6& v2 );
    static double AngleBetween( const S6& v1, const S6& v2 );
    double norm() const { return m_vec.norm(); }
-   double norm(const S6& s6) const { return norm(s6); }
+   double norm(const S6& s6) const { return s6.norm(); }
    double Norm() const { return m_vec.norm(); }
-   double Norm(const S6& s6) const { return norm(s6); }
+   double Norm(const S6& s6) const { return s6.norm(); }
    double Dot(const S6& s6) const;
 
    std::vector<double> GetVector(void) const { return m_vec.GetVector(); }

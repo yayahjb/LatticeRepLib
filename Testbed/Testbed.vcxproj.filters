@@ -20,16 +20,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="WilkinsonScale.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ReduceTransformsTest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Matrix_3x3.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MultiTransformFinderControls.h">
+    <ClInclude Include="generateUnimodularMatrices.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

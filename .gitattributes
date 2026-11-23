@@ -48,3 +48,4 @@
 #*.rtf   diff=astextplain
 #*.RTF   diff=astextplain
 /Follow/Follow filter=lfs diff=lfs merge=lfs -text
+/TestNiggli_LCA/niggliTest.txt filter=lfs diff=lfs merge=lfs -text

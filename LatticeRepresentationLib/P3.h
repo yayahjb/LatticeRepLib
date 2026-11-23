@@ -3,10 +3,11 @@
 
 #include <array>
 #include <cmath>
+#include <concepts>
 #include <iostream>
+#include <type_traits>
 #include <utility>
 
-#include "BasisBase.h"
 #include "LRL_Cell.h"
 #include "Vector_2.h"
 #include "rhrand.h"
@@ -19,7 +20,7 @@ public:
    using const_iterator = Container::const_iterator;
 
    P3();  // Default constructor
-   explicit P3(const LRL_Cell& cell);  // Construct from cell geometry
+   P3(const LRL_Cell& cell);  // Construct from cell geometry
 
    explicit P3(const std::vector<Vector_2>& vecs) {
       if (vecs.size() != 3) {
@@ -54,7 +55,25 @@ public:
          m_p3[i] = std::make_pair(vecs[i][0], vecs[i][1]);
    }
 
-   static double EucledianDistance(const P3& p1, const P3& p2);
+   template<typename T>
+      requires (!std::convertible_to<T, std::string>)
+   P3(const T& t) {
+      P3& p(*this);
+      const LRL_Cell cell(t);
+      const double& a = cell[0];
+      const double& b = cell[1];
+      const double& c = cell[2];
+      const double& alpha = cell[3];
+      const double& beta = cell[4];
+      const double& gamma = cell[5];
+      p[0] = { a * cos(alpha), a * sin(alpha) };
+      p[1] = { b * cos(beta), b * sin(beta) };
+      p[2] = { c * cos(gamma), c * sin(gamma) };
+      m_valid = cell.CheckValid(LRL_Cell(p));
+   }
+
+
+   static double EuclideanDistance(const P3& p1, const P3& p2);
 
    std::array<Vector_2, 3> GetVectorTriplet() const {
       std::array<Vector_2, 3> out;
@@ -232,6 +251,8 @@ public:
 
       return ortho;
    }
+
+   static std::string GetName() { return "P3"; }
 
 
    friend std::ostream& operator<< (std::ostream& o, const P3& p3);

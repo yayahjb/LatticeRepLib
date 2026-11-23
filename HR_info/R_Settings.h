@@ -7,7 +7,7 @@
 #include <array>
 #include <vector>
 
-static const double myPI = 4.0 *atan(1.0);
+static const double M_PI = 4.0F * ::atan(1.0F);
 
 enum class RhomboSetting {
    OBVERSE,  // Standard setting, rhombo axes along +c body diagonals
@@ -53,14 +53,14 @@ RhombohedralCell hexToRhombo(const HexagonalCell& hex, RhomboSetting setting = R
    const double cos_alpha_r = (2.0 * hex.c * hex.c - 3.0 * hex.a * hex.a) /
       (2.0 * (hex.c * hex.c + 3.0 * hex.a * hex.a));
 
-   rhombo.alpha = acos(cos_alpha_r) * 180.0 / myPI;
+   rhombo.alpha = acos(cos_alpha_r) * 180.0 / M_PI;
 
    return rhombo;
 }
 
 // Convert from rhombohedral to hexagonal setting (inverse transformation)
 HexagonalCell rhomboToHex(const RhombohedralCell& rhombo) {
-   const double alpha_rad = rhombo.alpha * myPI / 180.0;
+   const double alpha_rad = rhombo.alpha * M_PI / 180.0;
    const double cos_alpha = cos(alpha_rad);
    const double sin_half_alpha = sin(alpha_rad / 2.0);
 

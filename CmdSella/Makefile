@@ -1,16 +1,19 @@
-CXX	=	g++-9 -g -O3 -std=gnu++17 -fpermissive
+CXX	=	g++ -g -O3 -std=gnu++17 -fpermissive
 COMMAND = CmdSella
 
 all:	$(COMMAND)
 
 $(COMMAND):	$(COMMAND).cpp \
-	../InputHandler/BaseControlVariables.h ../InputHandler/BaseControlVariables.cpp ../InputHandler/BlockLimits.h \
+	Cmdsellatests.cpp VCPVector.cpp \
+	CheckABReflection.h DirectClassify.h ExpandAcrossBoundaryZeros.h \
+	ExploreReductionTies.h FlexibleSellaTestMode.h HelpSella.h \
+	TestHarness.h VCPVector.cpp VCPVector.h\
+	../InputHandler/BlockLimits.h \
 	../InputHandler/ControlFeature.h \
-	../InputHandler/DistanceTypes.h ../InputHandler/DistanceTypes.cpp ../InputHandler/DistanceTypesUtils.h \
  	../InputHandler/InputHandler.h ../InputHandler/InputHandler.cpp \
  	../InputHandler/LatticeCell.h \
 	../LatticeRepresentationLib/B4.cpp \
-	../LatticeRepresentationLib/BravaisHeirarchy.cpp ../LatticeRepresentationLib/C3.cpp \
+	../LatticeRepresentationLib/C3.cpp \
 	../LatticeRepresentationLib/C3Plot.cpp ../LatticeRepresentationLib/CellInputData.cpp \
 	../LatticeRepresentationLib/ColorTables.h ../LatticeRepresentationLib/ColorTables.cpp \
 	../LatticeRepresentationLib/DC7u.cpp \
@@ -23,7 +26,6 @@ $(COMMAND):	$(COMMAND).cpp \
 	../LRL_Tools/FileOperations.cpp ../LRL_Tools/LRL_CreateFileName.cpp ../LatticeRepresentationLib/G6.cpp \
 	../LRL_Tools/HSV.cpp ../LRL_Tools/RGB.cpp \
 	../LatticeRepresentationLib/GenerateLatticeTypeExamples.cpp \
-	../LatticeRepresentationLib/GrimmerTree.h ../LatticeRepresentationLib/GrimmerTree.h \
 	../LatticeRepresentationLib/LabeledSellaMatrices.cpp \
 	../LatticeRepresentationLib/LatticeConverter.cpp ../LatticeRepresentationLib/LRL_Cell.cpp  \
 	../LatticeRepresentationLib/LRL_Cell_Degrees.cpp ../LatticeRepresentationLib/LRL_CoordinateConversionMatrices.cpp \
@@ -36,16 +38,28 @@ $(COMMAND):	$(COMMAND).cpp \
 	../LatticeRepresentationLib/S6.cpp ../LatticeRepresentationLib/S6Dist.cpp \
 	../LatticeRepresentationLib/S6_Matrices.cpp ../LatticeRepresentationLib/Selling.cpp \
 	../LatticeRepresentationLib/S6BoundaryTransforms.h ../LatticeRepresentationLib/S6BoundaryTransforms.cpp \
-	../LatticeRepresentationLib/Sella.cpp \
 	../LatticeRepresentationLib/VecN.cpp  ../LatticeRepresentationLib/V7.cpp ../LRL_Tools/LRL_Vector3.cpp \
 	../LatticeRepresentationLib/Vector_2.h ../LatticeRepresentationLib/Vector_2.cpp \
-	../LatticeRepresentationLib/WebIO.h ../LatticeRepresentationLib/WebIO.cpp
-	$(CXX) -I ../LatticeRepresentationLib -I ../LRL_Tools -I ../InputHandler -o $(COMMAND) $(COMMAND).cpp \
-	../InputHandler/BaseControlVariables.cpp \
-	../InputHandler/DistanceTypes.cpp \
+	../LatticeRepresentationLib/WebIO.h ../LatticeRepresentationLib/WebIO.cpp \
+	../SellaLib/BravaisHeirarchy.cpp ../SellaLib/BravaisHeirarchy.h \
+	../SellaLib/CmdSellaControls.h ../SellaLib/CmdSellaControls.h \
+	../SellaLib/CmdSellaControls.h ../SellaLib/ConventionalCell.h \
+	../SellaLib/DeloneFitComputation.cpp ../SellaLib/DeloneFitComputation.h \
+	../SellaLib/Deloneparentagetest.h ../SellaLib/DiagnoseBoundaryCandidates.h \
+	../SellaLib/DiagnoseO1BCoverage.h ../SellaLib/DiagnoseO2Gap.h \
+	../SellaLib/FaceCrossedArrangements.h ../SellaLib/framework.h \
+	../SellaLib/GrimmerDeloneTree.cpp ../SellaLib/GrimmerDeloneTree.h \
+	../SellaLib/GrimmerTree.cpp ../SellaLib/GrimmerTree.h \
+	../SellaLib/NestingCheckResults.h ../SellaLib/RemediatedFit.h \
+	../SellaLib/SearchBoundaryNeighborsByTransform.h \
+	../SellaLib/Sella.cpp ../SellaLib/Sella.h ../SellaLib/SellaLib.cpp
+	$(CXX) -o $(COMMAND) -I . -I ../SellaLib -I ../LatticeRepresentationLib \
+	-I ../LRL_Tools -I ../InputHandler $(COMMAND).cpp \
+	Cmdsellatests.cpp VCPVector.cpp \
+	VCPVector.cpp \
 	../InputHandler/InputHandler.cpp \
 	../LatticeRepresentationLib/B4.cpp \
-	../LatticeRepresentationLib/BravaisHeirarchy.cpp ../LatticeRepresentationLib/C3.cpp \
+	../LatticeRepresentationLib/C3.cpp \
 	../LatticeRepresentationLib/C3Plot.cpp ../LatticeRepresentationLib/CellInputData.cpp \
 	../LatticeRepresentationLib/ColorTables.cpp \
 	../LatticeRepresentationLib/DC7u.cpp \
@@ -56,9 +70,8 @@ $(COMMAND):	$(COMMAND).cpp \
 	../LatticeRepresentationLib/DeloneFitResults.cpp \
 	../LatticeRepresentationLib/EnhancedS6.cpp \
 	../LRL_Tools/FileOperations.cpp ../LRL_Tools/LRL_CreateFileName.cpp ../LatticeRepresentationLib/G6.cpp \
-	../LRL_Tools/HSV.cpp ../LRL_Tools/HSV.h ../LRL_Tools/RGB.cpp ../LRL_Tools/RGB.h \
+	../LRL_Tools/HSV.cpp ../LRL_Tools/RGB.cpp  \
 	../LatticeRepresentationLib/GenerateLatticeTypeExamples.cpp \
-	../LatticeRepresentationLib/GrimmerTree.cpp \
 	../LatticeRepresentationLib/LabeledSellaMatrices.cpp \
 	../LatticeRepresentationLib/LatticeConverter.cpp ../LatticeRepresentationLib/LRL_Cell.cpp  \
 	../LatticeRepresentationLib/LRL_Cell_Degrees.cpp ../LatticeRepresentationLib/LRL_CoordinateConversionMatrices.cpp \
@@ -71,9 +84,14 @@ $(COMMAND):	$(COMMAND).cpp \
 	../LatticeRepresentationLib/S6.cpp ../LatticeRepresentationLib/S6Dist.cpp \
 	../LatticeRepresentationLib/S6_Matrices.cpp ../LatticeRepresentationLib/Selling.cpp \
 	../LatticeRepresentationLib/S6BoundaryTransforms.cpp \
-	../LatticeRepresentationLib/Sella.cpp \
+	../SellaLib/Sella.cpp \
 	../LatticeRepresentationLib/VecN.cpp  ../LatticeRepresentationLib/V7.cpp ../LRL_Tools/LRL_Vector3.cpp \
 	../LatticeRepresentationLib/Vector_2.cpp \
 	../LatticeRepresentationLib/WebIO.cpp
+	../SellaLib/BravaisHeirarchy.cpp \
+	../SellaLib/DeloneFitComputation.cpp \
+	../SellaLib/GrimmerDeloneTree.cpp \
+	../SellaLib/GrimmerTree.cpp \
+	../SellaLib/Sella.cpp ../SellaLib/SellaLib.cpp
 clean:
 	rm -rf $(COMMAND)

@@ -350,9 +350,6 @@ int main(int argc,
       std::cout << " } else if (operation==\"Follow\") {" << std::endl;
       std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("LRLWEB_Follow([[[\"<font size=-1>]]],[[[<br />")
       +std::string("]]],[[[<br /></font>\"")]]])+std::string(";") << std::endl; 
-      std::cout << " } else if (operation==\"HR_info\") {" << std::endl;
-      std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("LRLWEB_HR_info([[[\"<font size=-1>]]],[[[<br />")
-      +std::string("]]],[[[<br /></font>\"")]]])+std::string(";") << std::endl; 
       std::cout << " } else if (operation==\"CmdDelone\") {" << std::endl;
       std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("LRLWEB_CmdDelone([[[\"<font size=-1>]]],[[[<br />")
       +std::string("]]],[[[<br /></font>\"")]]])+std::string(";") << std::endl;
@@ -370,11 +367,8 @@ int main(int argc,
       std::cout << "   document.getElementById(\"block_\"+tdrownum+\"b_cmdtos6l\").style=\"display:none\";" << std::endl;
       std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("LRLWEB_CmdGen([[[\"<font size=-1>]]],[[[<br />")
       +std::string("]]],[[[<br /></font>\"")]]])+std::string(";") << std::endl; 
-      std::cout << " } else if (operation==\"CmdLMP3\") {" << std::endl;
-      std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("LRLWEB_CmdLMP3([[[\"<font size=-1>]]],[[[<br />")
-      +std::string("]]],[[[<br /></font>\"")]]])+std::string(";") << std::endl; 
-      std::cout << " } else if (operation==\"CmdLMS6\") {" << std::endl;
-      std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("LRLWEB_CmdLMS6([[[\"<font size=-1>]]],[[[<br />")
+      std::cout << " } else if (operation==\"CmdLM\") {" << std::endl;
+      std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("LRLWEB_CmdLM([[[\"<font size=-1>]]],[[[<br />")
       +std::string("]]],[[[<br /></font>\"")]]])+std::string(";") << std::endl; 
       std::cout << " } else if (operation==\"CmdNiggli\") {" << std::endl;
       std::cout << std::string("   document.getElementById(\"lrl_web_help_\"+tdrownum).innerHTML=")+std::string("LRLWEB_CmdNiggli([[[\"<font size=-1>]]],[[[<br />")
@@ -1346,8 +1340,6 @@ std::string plaintext2html(std::string & dst, std::string src){
       std::string lrl_web_data_dirichlet_htmlprefix;
       std::string lrl_web_data_follow_rawprefix;
       std::string lrl_web_data_follow_htmlprefix;
-      std::string lrl_web_data_hrinfo_rawprefix;
-      std::string lrl_web_data_hrinfo_htmlprefix;
       std::string lrl_web_data_plotc3_rawprefix;
       std::string lrl_web_data_plotc3_htmlprefix;
       std::string lrl_web_data_plotpolar_rawprefix;
@@ -1396,8 +1388,6 @@ std::string plaintext2html(std::string & dst, std::string src){
       lrl_web_data_dirichlet_htmlprefix=html_tmp_lrl_web+std::string("/");
       lrl_web_data_follow_rawprefix=tmp_lrl_web+std::string("/");
       lrl_web_data_follow_htmlprefix=html_tmp_lrl_web+std::string("/");
-      lrl_web_data_hrinfo_rawprefix=tmp_lrl_web+std::string("/");
-      lrl_web_data_hrinfo_htmlprefix=html_tmp_lrl_web+std::string("/");
       lrl_web_data_plotc3_rawprefix=tmp_lrl_web+std::string("/");
       lrl_web_data_plotc3_htmlprefix=html_tmp_lrl_web+std::string("/");
       lrl_web_data_plotpolar_rawprefix=tmp_lrl_web+std::string("/");
@@ -1466,13 +1456,6 @@ std::string plaintext2html(std::string & dst, std::string src){
           +std::string(" --rawprefix ")+std::string(lrl_web_data_follow_rawprefix)
           +std::string(" --htmlprefix ")+std::string(lrl_web_data_follow_htmlprefix));
         // std::cout << "<tr><td colspan=\"3\">" << "lrl_web_data_"+twodig_array[numop]+"_follow_prefixes" << (opmod).c_str() <<"</td></tr>" << std::endl;
-      } else if (operation=="HR_info") {
-        lrl_web_data_hrinfo_rawprefix = tmp_lrl_web+std::string("/");
-        lrl_web_data_hrinfo_htmlprefix = html_tmp_lrl_web+std::string("/");
-        opmod=(std::string(" --host ]]]LRLWEBHOST[[[ ")
-          +std::string(" --rawprefix ")+std::string(lrl_web_data_hrinfo_rawprefix)
-          +std::string(" --htmlprefix ")+std::string(lrl_web_data_hrinfo_htmlprefix));
-        // std::cout << "<tr><td colspan=\"3\">" << "lrl_web_data_"+twodig_array[numop]+"_follow_prefixes" << (opmod).c_str() <<"</td></tr>" << std::endl;
       }
       std::string oppath=std::string(tmp_lrl_web+"/operation_"+twodig_array[numop]);
       if(string_to_file(at.c_str(), oppath.c_str(), (operation+opmod).c_str())) {
@@ -1527,7 +1510,7 @@ LRLWEBRUNNING([[[      std::cout << "  ]]],[[[\]]],[[[" << std::endl;]]],[[["+tw
       std::cout << "  <td align=left>" << std::endl;
       std::cout << "  <div id=\"block_"+twodig_array[numop]+"a\" style="+active+">" << std::endl; 
       std::cout << "  <label for=\"operation_"+twodig_array[numop]+"\">Select an operation:</label><br />" << std::endl;
-      std::cout << "  <select name=\"operation_"+twodig_array[numop]+"\" id=\"operation_"+twodig_array[numop]+"\" size=\"36\" onchange=\"changeoperation(\'"+twodig_array[numop]+"')\">" << std::endl;
+      std::cout << "  <select name=\"operation_"+twodig_array[numop]+"\" id=\"operation_"+twodig_array[numop]+"\" size=\"34\" onchange=\"changeoperation(\'"+twodig_array[numop]+"')\">" << std::endl;
       std::cout << "  <optgroup label=\"Information\">" << std::endl;
       selected=operation.compare("NoOp")==0?"selected ":"";
       std::cout << "  <option "+selected+"value=\"NoOp\"><b>Check Input</b></option>" << std::endl;
@@ -1535,10 +1518,8 @@ LRLWEBRUNNING([[[      std::cout << "  ]]],[[[\]]],[[[" << std::endl;]]],[[["+tw
       std::cout << "  <option "+selected+"value=\"CmdDists\"><b>Distances</b>: compute NCDist and CS6Dist distances</option>" << std::endl;
       selected=operation.compare("CmdSauc")==0?"selected ":"";
       std::cout << "  <option "+selected+"value=\"CmdSauc\"><b>Cell Search</b>: find similar unit cells</option>" << std::endl;
-      selected=operation.compare("CmdVolume")==0?"selected ":"";
+      selected=(operation.compare("CmdVolume")==0)?"selected ":"";
       std::cout << "  <option "+selected+"value=\"CmdVolume\"><b>Volume</b>:  compute volumes of listed cells</option>" << std::endl;
-      selected=operation.compare("HR_info")==0?"selected ":"";
-      std::cout << "  <option "+selected+"value=\"HR_info\"><b>HR_info</b>:  hexagonal and rhombohedral lattice information</option>" << std::endl;
       std::cout << "  </optgroup>" << std::endl;
       std::cout << "  <optgroup label=\"Graphical Information\">"  << std::endl;
       selected=operation.compare("CmdSella")==0?"selected ":"";
@@ -1587,10 +1568,8 @@ LRLWEBRUNNING([[[      std::cout << "  ]]],[[[\]]],[[[" << std::endl;]]],[[["+tw
       std::cout << "  <option "+selected+"value=\"CmdNiggli\"><b>Niggli</b>:compute Niggli-reduced primitive cells</option>" << std::endl;
       std::cout << "  </optgroup>" << std::endl;
       std::cout << "  <optgroup label=\"Modify Input\">" << std::endl;
-      selected=operation.compare("CmdLMP3")==0?"selected ":"";
-      std::cout << "  <option "+selected+"value=\"CmdLMP3\"><b>Matching</b>: apply Lattice Matching algorithm to listed cells using P3 distance</option>" << std::endl;
       selected=operation.compare("CmdLM")==0?"selected ":"";
-      std::cout << "  <option "+selected+"value=\"CmdLMS6\"><b>Matching</b>: apply Lattice Matching algorithm to listed cells using S6 distance</option>" << std::endl;
+      std::cout << "  <option "+selected+"value=\"CmdLM\"><b>Matching</b>: apply Lattice Matching algorithm to listed cells</option>" << std::endl;
       selected=operation.compare("CmdPath")==0?"selected ":"";
       std::cout << "  <option "+selected+"value=\"CmdPath\"><b>Path</b>: compute path between pairs of cells</option>" << std::endl;
       selected=operation.compare("CmdPerturb")==0?"selected ":"";
@@ -2577,7 +2556,7 @@ LRLWEBRUNNING([[[      std::cout << "  ]]],[[[\]]],[[[" << std::endl;]]],[[["+tw
     std::cout << "<p>" << std::endl;
     std::cout << "<p><img src=http://]]]LRLWEBHOST[[[/~]]]LRLWEBUSER[[[/lrl_web/sep6.svg>" << std::endl;
     std::cout << "<hr />" << std::endl;
-    std::cout << "Updated 10 August 2025." << std::endl;
+    std::cout << "Updated 17 July 2024." << std::endl;
     std::cout << "</font>" << std::endl;
  }
 ]]]) dnl end of lrl_web.cpp
@@ -2779,8 +2758,6 @@ function changeoperation(rownum) {
   }
   if (operation=="Follow") {
     document.getElementById("lrl_web_help_"+tdrownum).innerHTML=LRLWEB_Follow([[["<font size=-1>]]],[[[<br />]]],[[[<br /></font>"]]]);
-  } else if (operation=="HR_info") {
-    document.getElementById("lrl_web_help_"+tdrownum).innerHTML=LRLWEB_HR_info([[["<font size=-1>]]],[[[<br />]]],[[[<br /></font>"]]]);
   } else if (operation=="Dirichlet") {
     document.getElementById("lrl_web_help_"+tdrownum).innerHTML=LRLWEB_Dirichlet([[["<font size=-1>]]],[[[<br />]]],[[[<br /></font>"]]]);
   } else if (operation=="CmdDelone") {
@@ -2796,10 +2773,8 @@ function changeoperation(rownum) {
     document.getElementById("block_"+tdrownum+"b_cmdscale").style="display:none";
     document.getElementById("block_"+tdrownum+"b_cmdtos6l").style="display:none";
     document.getElementById("lrl_web_help_"+tdrownum).innerHTML=LRLWEB_CmdGen([[["<font size=-1>]]],[[[<br />]]],[[[<br /></font>"]]]);
- } else if (operation=="CmdLMP3") {
-    document.getElementById("lrl_web_help_"+tdrownum).innerHTML=LRLWEB_CmdLMP3([[["<font size=-1>]]],[[[<br />]]],[[[<br /></font>"]]]);
- } else if (operation=="CmdLMS6") {
-    document.getElementById("lrl_web_help_"+tdrownum).innerHTML=LRLWEB_CmdLMS6([[["<font size=-1>]]],[[[<br />]]],[[[<br /></font>"]]]);
+ } else if (operation=="CmdLM") {
+    document.getElementById("lrl_web_help_"+tdrownum).innerHTML=LRLWEB_CmdLM([[["<font size=-1>]]],[[[<br />]]],[[[<br /></font>"]]]);
  } else if (operation=="CmdNiggli") {
     document.getElementById("lrl_web_help_"+tdrownum).innerHTML=LRLWEB_CmdNiggli([[["<font size=-1>]]],[[[<br />]]],[[[<br /></font>"]]]);
  } else if (operation=="CmdPath") {
@@ -3049,13 +3024,12 @@ LRLWEBRUNNING([[[  ]]],[[[]]],[[[]]],[[[01]]],LRLWEBHOST/~LRLWEBUSER)
   <td align=left>
   <div id="block_01a" style="display:inline"> 
   <label for="operation_01">Select an operation:</label><br />
-  <select name="operation_01" id="operation_01" size="36" onchange="changeoperation('01')">
+  <select name="operation_01" id="operation_01" size="34" onchange="changeoperation('01')">
   <optgroup label="Information">
   <option value="NoOp"><b>Check Input</b></option>
   <option value="CmdDists"><b>Distances</b>: compute NCDist and CS<sup>6</sup>Dist distances</option>
   <option value="CmdSauc"><b>Cell Search</b>: find similar unit cells</option>
   <option value="CmdVolume"><b>Volume</b>:  compute volumes of listed cells</option>
-  <option value="HR_info"><b>HR_info</b>: hexagonal and rhombohedral information</option>
   </optgroup>
   <optgroup label="Graphical Information">
   <option value="CmdSella"><b>Sella</b>:  apply Sella algorithm</option>
@@ -3085,8 +3059,7 @@ LRLWEBRUNNING([[[  ]]],[[[]]],[[[]]],[[[01]]],LRLWEBHOST/~LRLWEBUSER)
   <option selected value="CmdNiggli"><b>Niggli</b>: compute Niggli-reduced primitive cells</option>
   </optgroup>
   <optgroup label="Modify Input">
-  <option value="CmdLMP3"><b>Matching</b>:apply Lattice Matching algorithm to listed cells using P3 distance</option>
-  <option value="CmdLMS6"><b>Matching</b>:apply Lattice Matching algorithm to listed cells using S6 distance</option>
+  <option value="CmdLM"><b>Matching</b>:apply Lattice Matching algorithm to listed cells</option>
   <option value="CmdPath"><b>Path</b>:compute path between pairs of cells</option>
   <option value="CmdPerturb"><b>Perturb</b>:compute perturbed versions of input cells</option>
   <option value="CmdS6Refl"><b>S<sup>6</sup>Reflections</b>:apply S<sup>6</sup> reflections to input cells</option>
@@ -3179,13 +3152,12 @@ LRLWEBRUNNING([[[ ]]],[[[]]],[[[]]],[[[02]]],LRLWEBHOST/~LRLWEBUSER)
   <td align=left>
   <div id="block_02a" style="display:none">
   <label for="operation_02">Select an operation:</label><br />
-  <select name="operation_02" id="operation_02" size="36" onchange="changeoperation('02')">
+  <select name="operation_02" id="operation_02" size="34" onchange="changeoperation('02')">
   <optgroup label="Information">
   <option value="NoOp"><b>Check Input</b></option>
   <option value="CmdDists"><b>Distances</b>: compute NCDist and CS<sup>6</sup>Dist distances</option>
   <option value="CmdSauc"><b>Cell Search</b>: find similar unit cells</option>
   <option value="CmdVolume"><b>Volume</b>: compute volumes of listed cells</option>
-  <option value="HR_info"><b>HR_info</b>: hexagonal and rhombohedral information</option>
   </optgroup>
   <optgroup label="Graphical Information">
   <option value="CmdSella"><b>Sella</b>: apply Sella algorithm</option> 
@@ -3215,8 +3187,7 @@ LRLWEBRUNNING([[[ ]]],[[[]]],[[[]]],[[[02]]],LRLWEBHOST/~LRLWEBUSER)
   <option selected value="CmdNiggli"><b>Niggli</b>: compute Niggli-reduced primitive cells</option>
   </optgroup>
   <optgroup label="Modify Input">
-  <option value="CmdLMP3"><b>Matching</b>:apply Lattice Matching algorithm to listed cells using P3 distance</option>
-  <option value="CmdLMS6"><b>Matching</b>:apply Lattice Matching algorithm to listed cells using S6 distance</option>
+  <option value="CmdLM"><b>Matching</b>:apply Lattice Matching algorithm to listed cells</option>
   <option value="CmdPath"><b>Path</b>:compute path between pairs of cells</option>
   <option value="CmdPerturb"><b>Perturb</b>:compute perturbed versions of input cells</option>
   <option value="CmdS6Refl"><b>S<sup>6</sup>Reflections</b>:apply S<sup>6</sup> reflections to input cells</option>
@@ -3311,13 +3282,12 @@ LRLWEBRUNNING([[[  ]]],[[[]]],[[[]]],[[[03]]],LRLWEBHOST/~LRLWEBUSER)
   <td align=left>
   <div id="block_03a" style="display:none"> 
   <label for="operation_03">Select an operation:</label><br />
-  <select name="operation_03" id="operation_03" size="36" onchange="changeoperation('03')">
+  <select name="operation_03" id="operation_03" size="34" onchange="changeoperation('03')">
   <optgroup label="Information">
   <option value="NoOp"><b>Check Input</b></option>
   <option value="CmdDists"><b>Distances</b>: compute NCDist and CS<sup>6</sup>Dist distances</option>
   <option value="CmdSauc"><b>Cell Search</b>: find similar unit cells</option>
   <option value="CmdVolume"><b>Volume</b>:  compute volumes of listed cells</option>
-  <option value="HR_info"><b>HR_info</b>: hexagonal and rhombohedral information</option>
   </optgroup>
   <optgroup label="Graphical Information">
   <option value="CmdSella"><b>Sella</b>:  apply Sella algorithm</option>
@@ -3347,8 +3317,7 @@ LRLWEBRUNNING([[[  ]]],[[[]]],[[[]]],[[[03]]],LRLWEBHOST/~LRLWEBUSER)
   <option selected value="CmdNiggli"><b>Niggli</b>: compute Niggli-reduced primitive cells</option>
   </optgroup>
   <optgroup label="Modify Input">
-  <option value="CmdLMP3"><b>Matching</b>:apply Lattice Matching algorithm to listed cells using P3 distance</option>
-  <option value="CmdLMS6"><b>Matching</b>:apply Lattice Matching algorithm to listed cells using S6 distance</option>
+  <option value="CmdLM"><b>Matching</b>:apply Lattice Matching algorithm to listed cells</option>
   <option value="CmdPath"><b>Path</b>:compute path between pairs of cells</option>
   <option value="CmdPerturb"><b>Perturb</b>:compute perturbed versions of input cells</option>
   <option value="CmdS6Refl"><b>S<sup>6</sup>Reflections</b>:apply S<sup>6</sup> reflections to input cells</option>
@@ -3441,13 +3410,12 @@ LRLWEBRUNNING([[[  ]]],[[[]]],[[[]]],[[[04]]],LRLWEBHOST/~LRLWEBUSER)
   <td align=left>
   <div id="block_04a" style="display:none"> 
   <label for="operation_04">Select an operation:</label><br />
-  <select name="operation_04" id="operation_04" size="36" onchange="changeoperation('04')">
+  <select name="operation_04" id="operation_04" size="34" onchange="changeoperation('04')">
   <optgroup label="Information">
   <option value="NoOp"><b>Check Input</b></option>
   <option value="CmdDists"><b>Distances</b>: compute NCDist and CS<sup>6</sup>Dist distances</option>
   <option value="CmdSauc"><b>Cell Search</b>: find similar unit cells</option>
   <option value="CmdVolume"><b>Volume</b>:  compute volumes of listed cells</option>
-  <option value="HR_info"><b>HR_info</b>: hexagonal and rhombohedral information</option>
   </optgroup>
   <optgroup label="Graphical Information">
   <option value="CmdSella"><b>Sella</b>:  apply Sella algorithm</option>
@@ -3477,8 +3445,7 @@ LRLWEBRUNNING([[[  ]]],[[[]]],[[[]]],[[[04]]],LRLWEBHOST/~LRLWEBUSER)
   <option selected value="CmdNiggli"><b>Niggli</b>: compute Niggli-reduced primitive cells</option>
   </optgroup>
   <optgroup label="Modify Input">
-  <option value="CmdLMP3"><b>Matching</b>:apply Lattice Matching algorithm to listed cells using P3 distance</option>
-  <option value="CmdLMS6"><b>Matching</b>:apply Lattice Matching algorithm to listed cells using S6 distance</option>
+  <option value="CmdLM"><b>Matching</b>:apply Lattice Matching algorithm to listed cells</option>
   <option value="CmdPath"><b>Path</b>:compute path between pairs of cells</option>
   <option value="CmdPerturb"><b>Perturb</b>:compute perturbed versions of input cells</option>
   <option value="CmdS6Refl"><b>S<sup>6</sup>Reflections</b>:apply S<sup>6</sup> reflections to input cells</option>
@@ -3571,13 +3538,12 @@ LRLWEBRUNNING([[[  ]]],[[[]]],[[[]]],[[[05]]],LRLWEBHOST/~LRLWEBUSER)
   <td align=left>
   <div id="block_05a" style="display:none"> 
   <label for="operation_05">Select an operation:</label><br />
-  <select name="operation_05" id="operation_05" size="36" onchange="changeoperation('05')">
+  <select name="operation_05" id="operation_05" size="34" onchange="changeoperation('05')">
   <optgroup label="Information">
   <option value="NoOp"><b>Check Input</b></option>
   <option value="CmdDists"><b>Distances</b>: compute NCDist and CS<sup>6</sup>Dist distances</option>
   <option value="CmdSauc"><b>Cell Search</b>: find similar unit cells</option>
   <option value="CmdVolume"><b>Volume</b>:  compute volumes of listed cells</option>
-  <option value="HR_info"><b>HR_info</b>: hexagonal and rhombohedral information</option>
   </optgroup>
   <optgroup label="Graphical Information">
   <option value="CmdSella"><b>Sella</b>:  apply Sella algorithm</option>
@@ -3607,8 +3573,7 @@ LRLWEBRUNNING([[[  ]]],[[[]]],[[[]]],[[[05]]],LRLWEBHOST/~LRLWEBUSER)
   <option selected value="CmdNiggli"><b>Niggli</b>: compute Niggli-reduced primitive cells</option>
   </optgroup>
   <optgroup label="Modify Input">
-  <option value="CmdLMP3"><b>Matching</b>:apply Lattice Matching algorithm to listed cells using P3 distance</option>
-  <option value="CmdLMS6"><b>Matching</b>:apply Lattice Matching algorithm to listed cells using S6 distance</option>
+  <option value="CmdLM"><b>Matching</b>:apply Lattice Matching algorithm to listed cells</option>
   <option value="CmdPath"><b>Path</b>:compute path between pairs of cells</option>
   <option value="CmdPerturb"><b>Perturb</b>:compute perturbed versions of input cells</option>
   <option value="CmdS6Refl"><b>S<sup>6</sup>Reflections</b>:apply S<sup>6</sup> reflections to input cells</option>
@@ -3701,13 +3666,12 @@ LRLWEBRUNNING([[[  ]]],[[[]]],[[[]]],[[[06]]],LRLWEBHOST/~LRLWEBUSER)
   <td align=left>
   <div id="block_06a" style="display:none"> 
   <label for="operation_06">Select an operation:</label><br />
-  <select name="operation_06" id="operation_06" size="36" onchange="changeoperation('06')">
+  <select name="operation_06" id="operation_06" size="34" onchange="changeoperation('06')">
   <optgroup label="Information">
   <option value="NoOp"><b>Check Input</b></option>
   <option value="CmdDists"><b>Distances</b>: compute NCDist and CS<sup>6</sup>Dist distances</option>
   <option value="CmdSauc"><b>Cell Search</b>: find similar unit cells</option>
-  <option value="CmdVolume"><b>Volume</b>: compute volumes of listed cells</option>
-  <option value="HR_info"><b>HR_info</b>: hexagonal and rhombohedral information</option>
+  <option value="CmdVolume"><b>Volume</b>:  compute volumes of listed cells</option>
   </optgroup>
   <optgroup label="Graphical Information">
   <option value="CmdSella"><b>Sella</b>:  apply Sella algorithm</option>
@@ -3737,8 +3701,7 @@ LRLWEBRUNNING([[[  ]]],[[[]]],[[[]]],[[[06]]],LRLWEBHOST/~LRLWEBUSER)
   <option selected value="CmdNiggli"><b>Niggli</b>: compute Niggli-reduced primitive cells</option>
   </optgroup>
   <optgroup label="Modify Input">
-  <option value="CmdLMP3"><b>Matching</b>:apply Lattice Matching algorithm to listed cells using P3 distance</option>
-  <option value="CmdLMS6"><b>Matching</b>:apply Lattice Matching algorithm to listed cells using S6 distance</option>
+  <option value="CmdLM"><b>Matching</b>:apply Lattice Matching algorithm to listed cells</option>
   <option value="CmdPath"><b>Path</b>:compute path between pairs of cells</option>
   <option value="CmdPerturb"><b>Perturb</b>:compute perturbed versions of input cells</option>
   <option value="CmdS6Refl"><b>S<sup>6</sup>Reflections</b>:apply S<sup>6</sup> reflections to input cells</option>
@@ -3831,13 +3794,12 @@ LRLWEBRUNNING([[[  ]]],[[[]]],[[[]]],[[[07]]],LRLWEBHOST/~LRLWEBUSER)
   <td align=left>
   <div id="block_07a" style="display:none"> 
   <label for="operation_07">Select an operation:</label><br />
-  <select name="operation_07" id="operation_07" size="36" onchange="changeoperation('07')">
+  <select name="operation_07" id="operation_07" size="34" onchange="changeoperation('07')">
   <optgroup label="Information">
   <option value="NoOp"><b>Check Input</b></option>
   <option value="CmdDists"><b>Distances</b>: compute NCDist and CS<sup>6</sup>Dist distances</option>
   <option value="CmdSauc"><b>Cell Search</b>: find similar unit cells</option>
   <option value="CmdVolume"><b>Volume</b>:  compute volumes of listed cells</option>
-  <option value="HR_info"><b>HR_info</b>: hexagonal and rhombohedral information</option>
   </optgroup>
   <optgroup label="Graphical Information">
   <option value="CmdSella"><b>Sella</b>:  apply Sella algorithm</option>
@@ -3867,8 +3829,7 @@ LRLWEBRUNNING([[[  ]]],[[[]]],[[[]]],[[[07]]],LRLWEBHOST/~LRLWEBUSER)
   <option selected value="CmdNiggli"><b>Niggli</b>: compute Niggli-reduced primitive cells</option>
   </optgroup>
   <optgroup label="Modify Input">
-  <option value="CmdLMP3"><b>Matching</b>:apply Lattice Matching algorithm to listed cells using P3 distance</option>
-  <option value="CmdLMS6"><b>Matching</b>:apply Lattice Matching algorithm to listed cells using S6 distance</option>
+  <option value="CmdLM"><b>Matching</b>:apply Lattice Matching algorithm to listed cells</option>
   <option value="CmdPath"><b>Path</b>:compute path between pairs of cells</option>
   <option value="CmdPerturb"><b>Perturb</b>:compute perturbed versions of input cells</option>
   <option value="CmdS6Refl"><b>S<sup>6</sup>Reflections</b>:apply S<sup>6</sup> reflections to input cells</option>
@@ -3971,13 +3932,12 @@ LRLWEBRUNNING([[[  ]]],[[[]]],[[[]]],[[[08]]],LRLWEBHOST/~LRLWEBUSER)
   <td align=left>
   <div id="block_08a" style="display:none"> 
   <label for="operation_08">Select an operation:</label><br />
-  <select name="operation_08" id="operation_08" size="36" onchange="changeoperation('08')">
+  <select name="operation_08" id="operation_08" size="34" onchange="changeoperation('08')">
   <optgroup label="Information">
   <option value="NoOp"><b>Check Input</b></option>
   <option value="CmdDists"><b>Distances</b>: compute NCDist and CS<sup>6</sup>Dist distances</option>
   <option value="CmdSauc"><b>Cell Search</b>: find similar unit cells</option>
   <option value="CmdVolume"><b>Volume</b>:  compute volumes of listed cells</option>
-  <option value="HR_info"><b>HR_info</b>: hexagonal and rhombohedral information</option>
   </optgroup>
   <optgroup label="Graphical Information">
   <option value="CmdSella"><b>Sella</b>:  apply Sella algorithm</option>
@@ -4007,8 +3967,7 @@ LRLWEBRUNNING([[[  ]]],[[[]]],[[[]]],[[[08]]],LRLWEBHOST/~LRLWEBUSER)
   <option selected value="CmdNiggli"><b>Niggli</b>: compute Niggli-reduced primitive cells</option>
   </optgroup>
   <optgroup label="Modify Input">
-  <option value="CmdLMP3"><b>Matching</b>:apply Lattice Matching algorithm to listed cells using P3 distance</option>
-  <option value="CmdLMS6"><b>Matching</b>:apply Lattice Matching algorithm to listed cells usinf S6 distance</option>
+  <option value="CmdLM"><b>Matching</b>:apply Lattice Matching algorithm to listed cells</option>
   <option value="CmdPath"><b>Path</b>:compute path between pairs of cells</option>
   <option value="CmdPerturb"><b>Perturb</b>:compute perturbed versions of input cells</option>
   <option value="CmdS6Refl"><b>S<sup>6</sup>Reflections</b>:apply S<sup>6</sup> reflections to input cells</option>
@@ -4362,7 +4321,7 @@ determination of a unique conventional cell. Zeitschrift f&uuml;r Kristallograph
 
 <p>
 <hr />
-Updated 10 August 2025.
+Updated 8 December 2024.
 </font>
 </body>
 </html>]]])

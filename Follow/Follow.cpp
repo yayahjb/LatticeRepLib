@@ -98,6 +98,10 @@ bool Follow::processPerturbation(int trialNum,
          if (Path::PathPointIsValid(S6(point1.getCell())) && Path::PathPointIsValid(S6(point2.getCell()))) {
             pathDists.emplace_back(dist->dist(static_cast<S6>(point1.getCell()),
                static_cast<S6>(point2.getCell())));
+            if (controls.getShouldPrintDetails())
+            {
+               std::cout << " " << LRL_Cell_Degrees(point1.getCell()) << "   " << LRL_Cell_Degrees(point2.getCell()) << " dist " << pathDists.back() << std::endl;
+            }
          }
          else {
             pathDists.emplace_back(-19191.0);  // This is happening at index 28
@@ -221,10 +225,15 @@ void Follow::assignFilenamesToInstances(
    const std::vector<std::string>& rawNames,
    const std::vector<std::string>& basicNames,
    const std::vector<std::string>& fullNames,
+   const size_t blockStart,
    std::vector<FollowInstance>& instances)
 {
-   for (size_t i = 0; i < instances.size() && i < rawNames.size(); ++i) {
-      instances[i].AddFileNames(rawNames[i], basicNames[i], fullNames[i]);
+   // The name lists hold only the current block: entry k belongs to
+   // instance blockStart + k (see LRL_CreateFileName::CreateListOfFilenames).
+   for (size_t k = 0; k < rawNames.size(); ++k) {
+      const size_t i = blockStart + k;
+      if (i >= instances.size()) break;
+      instances[i].AddFileNames(rawNames[k], basicNames[k], fullNames[k]);
    }
 }
 
