@@ -3,20 +3,20 @@ C     The Program formerly known as ITERATE
 C
 C     Lawrence C Andrews[1] and Herbert J. Bernstein[2,*]
 C
-C     [1] Micro Encoder Inc., 11533 NE 118th St, #200,
-C         Kirkland, WA 98034-7111 USA
-C     [2] Dowling College, 1300 William Floyd Parkway,
-C         Shirley, NY 11967 USA
+C     [1] Ronin Institute for Independent Scholarship 2.0,
+C         Kirkland, WA USA
+C     [2] Ronin Institute for Independent Scholarship 2.0,
+C         New York, NY USA
 C     [*] To whom correspondence should be addressed.
-C         Email: yaya@dowling.edu
+C         Email: yayahjb@gmail.com
 C
-C     Copyright 1996, 2012, all rights reserved
+C     Copyright 1996, 2026, all rights reserved
 C
 C*******************************************************
 C    You may redistribute this program under the terms
 C    of the GPL.
 C
-C    ALternatively you may redistribute this functions
+C    ALternatively you may redistribute the functions
 C    and subroutines of this program as an API under the
 C    terms of the LGPL
 C*******************************************************
@@ -465,7 +465,7 @@ C              write(*,*)"DCURR, VDIST",IV,DCURR,VDIST(IV)
      3            HTMLSTR(1:LHTMLSTR),I,IABS(ITDESG(I)),
      4            sprefix,"REDUCED ",CHRLAT(I), TITLE
                ENDIF
-               WRITE (*,'(6X,a,F5.1,1X,a,F5.2)')
+               WRITE (*,'(6X,a,F5.3,1X,a,F5.4)')
      *             "G6 Distance: ",
      2             BEST(I), " G6 Distance/Error: ",
      3             BEST(I)/ERRSIZ
@@ -1674,16 +1674,71 @@ C----------------------------------------------------------------------C
       NCBMODE = .true.
       HTMLOUT = .false.
       QUITFLG = .false.
+      MODEC = ' '
+      TITLE = ' '
  1000 CONTINUE
       WRITE (*,"(a,$)") ' Centering: '
       READ (*,"(A102)", END=9000, ERR=9000 ) INPUTLINE
       LATSYM = INPUTLINE(1:1)
+
       IF (LATSYM.EQ.1H;) THEN
         WRITE (*,"(a)") INPUTLINE
         GO TO 1000
       ENDIF
-      MODEC = INPUTLINE(2:2)
-      TITLE = INPUTLINE(3:102)
+
+      IF (INPUTLINE(1:5).EQ.5HMODEC.OR.INPUTLINE(1:5).EQ.5Hmodec) THEN
+        MODEC = INPUTLINE(7:7)
+        IF (MODEC .EQ. 1Hb) MODEC = 1HB
+        IF (MODEC .EQ. 1Hi) MODEC = 1HI
+        GO TO 1000
+      ENDIF
+
+      IF (INPUTLINE(1:5).EQ.5HTITLE .OR.INPUTLINE(1:5).EQ.5Htitle) THEN
+        TITLE = INPUTLINE(7:102)
+        GO TO 1000
+      ENDIF
+
+      IF (INPUTLINE(1:4).EQ.4HHELP .OR.INPUTLINE(1:4).EQ.4Hhelp) THEN
+        WRITE (*,*) "bgaol\n"
+        WRITE (*,*) "{\\n[;comment]*},"
+        WRITE (*,*) "{\\n[;help]*},"
+        WRITE (*,*) "{\\n[;help+]*},"
+        WRITE (*,*) "{\\n[;modec [' '|'I'|'i'|'B'|'b']*]"
+        WRITE (*,*) "{\\n['X'|'x'|'Q'|'q'|'.']}"
+        WRITE (*,*) "<centerig symbol>\\n"
+        WRITE (*,*) "<cell parameters a,b,c,alpha,beta,gamma>\\n"
+        WRItE (*,*) "<cell parameter errors>\\n"
+        if (INPUTLINE(5:5).eq.1H+) THEN
+        WRITE (*,*) " "
+        WRITE (*,*) "In simple terms, what this program does is to find"
+        WRITE (*,*) "the cells which are 'close' to the cell given, in"
+        WRITE (*,*) "order to help find the Bravais lattice of highest"
+        WRITE (*,*) "symmetry consistent with the cell."
+        WRITE (*,*) " "
+        WRITE (*,*) "A central problem in the solution of every crystal"
+        WRITE (*,*) "structure is to determine the correct Bravais"
+        WRITE (*,*) "lattice of the crystal. The Bravais lattices as"
+        WRITE (*,*) "they are usually listed are:"
+        WRITE (*,*) " "
+        WRITE (*,*) " aP  triclinic (anorthic) primitive"
+        WRITE (*,*) " mP  monoclinic primitive"
+        WRITE (*,*) " mS  monoclinic side-centered (C-centered)"
+        WRITE (*,*) " oP  orthorhombic primitive"
+        WRITE (*,*) " oC  orthorhombic side-centered (C-centered)"
+        WRITE (*,*) " oF  orthorhombic face-centered"
+        WRITE (*,*) " oI  orthorhombic body-centered"
+        WRITE (*,*) " hP  hexagonal primitive"
+        WRITE (*,*) " hR  hexagonal rhombohedrally-centered"
+        WRITE (*,*) " tP  tetragonal primitive"
+        WRITE (*,*) " tI  tetragonal body-centered"
+        WRITE (*,*) " cP  cubic primitive"
+        WRITE (*,*) " cF  cubic face-centered"
+        WRITE (*,*) " cI  cubic body-centered"
+        ENDIF
+        GO TO 1000
+      ENDIF
+C      MODEC = INPUTLINE(2:2)
+C      TITLE = INPUTLINE(3:102)
 
       if (MODEC.eq.'I' .or. MODEC.eq.'i') THEN
         MODEC = 'I'
@@ -1696,7 +1751,6 @@ C----------------------------------------------------------------------C
         COMBMODE = .false.
         NCBMODE = .true.
       ENDIF
-
       IF (ICHAR(LATSYM) .GE. ICHAR('a')
      2 .AND. ICHAR(LATSYM) .LE. ICHAR('z'))
      2 LATSYM = CHAR(ICHAR(LATSYM)-ICHAR('a')+ICHAR('A'))
