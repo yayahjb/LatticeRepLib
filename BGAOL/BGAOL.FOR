@@ -465,7 +465,7 @@ C              write(*,*)"DCURR, VDIST",IV,DCURR,VDIST(IV)
      3            HTMLSTR(1:LHTMLSTR),I,IABS(ITDESG(I)),
      4            sprefix,"REDUCED ",CHRLAT(I), TITLE
                ENDIF
-               WRITE (*,'(6X,a,F5.3,1X,a,F5.4)')
+               WRITE (*,'(6X,a,G12.3,1X,a,G12.4)')
      *             "G6 Distance: ",
      2             BEST(I), " G6 Distance/Error: ",
      3             BEST(I)/ERRSIZ
@@ -1626,17 +1626,22 @@ C
 C     INPCEL
 C
 C     Inputs the parameters for a run
-C     The first line has
+C     The first line has one of the following:
+C         ; following in the same line by a comment
+C         help or 'help+' for a short or long help message
+C         modec [' '|'i'|'-']
+C         title <title>
 C         LATSYM  the lattice symbol as the first character
-C         MODEC   a blank, I, B or - was the second character
-C         TITLE   100 characters of title as chars 3-102
 C                 LATSYM "X" or "Q" cause an immediate exit
+C     Until a LATSYM is given, any of the above except LATSYM
+C     may be given in any order. Once LATSYM is given, we
+C     move on to the second line.
 C     The second line is
 C         CV      The input cell (a, b, c, alpha, beta, gamma)
 C                 if the lattice symbol is not V
 C                 or the g6 vector for lattice symbol V
 C     The third line is
-C         CE      The errors in the input cell
+C         CE      The errors in the input cell.  
 C     If MODEC is '-' or '.' then the following logical variables are input
 C         EMBDIST -- report embedding distance
 C         COMBMODE -- do combinatorial mode search 
@@ -1677,7 +1682,7 @@ C----------------------------------------------------------------------C
       MODEC = ' '
       TITLE = ' '
  1000 CONTINUE
-      WRITE (*,"(a,$)") ' Centering: '
+      WRITE (*,"(a,$)") ''
       READ (*,"(A102)", END=9000, ERR=9000 ) INPUTLINE
       LATSYM = INPUTLINE(1:1)
 
@@ -1756,13 +1761,13 @@ C      TITLE = INPUTLINE(3:102)
      2 LATSYM = CHAR(ICHAR(LATSYM)-ICHAR('a')+ICHAR('A'))
       IF (LATSYM .EQ. 'X' .OR. LATSYM.EQ.'Q') GO TO 9000
       WRITE (*,*) LATSYM
-      WRITE (*,"(a,$)") ' Cell Parameters: '
+      WRITE (*,"(a,$)") ''
       READ (*,*, END=9000) CV
       INPCEL = OKCELL(LATSYM,CV)
       IF (.NOT. INPCEL) GO TO 1000
       CALL WLABV6(" ",CV)
 
-      WRITE (*,"(a,$)") ' Standard Deviations of Cell Parameters: '
+      WRITE (*,"(a,$)") ' '
       READ (*,*, END=9000) CE
       CALL WLABV6(" ",CE)
 
