@@ -1112,6 +1112,10 @@ C      character*20 SEEDLAB
       integer i, ip
       real*8 anorm, gerr
       logical NEARRED,NEAR2RED
+      real*8 cprj(36,25), cprjperp(36,25), cprjhat(36,15)
+      integer cms(36,18)
+      common /projectors/ cprj,cprjperp,cprjhat,cms
+
 C----------------------------------------------------------------------C
 
 C     Compute the seeds and the seed distances
@@ -1140,7 +1144,7 @@ C        write(*,'(A,i2/,6(6F9.3/))'),"PRJPERP",
 C     *  ip,(PRJPERP(i,ip),i=1,36)
         a = anorm(6,vtemp)
         if (((GVEC(4)-1.d-6*sqrt(GVEC(2)*GVEC(3)))*
-     *     (GVEC(5)-1.d-6*sqrt(GVEC(1)*GVEC(3)))*
+     *     (GVEC(5)-1.d-6*sqrt(GVEC(1)*GVEC(2)))*
      *     (GVEC(6)-1.d-6*sqrt(GVEC(1)*GVEC(3)))
      *     .le. 0.D0
      *        .and. (ip .eq. 6 .or. ip .eq. 7
@@ -1192,13 +1196,19 @@ C       3.5 times the errorbox
 
         SEEDDIST(ip) = a
         GOODSEED(ip) = NEARRED(SEEDS(1,ip),1.0D-6,'NEARRED')
+C       A seed on g4=0, g5=0 or g6=0 projected from a +++ vector
+C       has mixed signs.  Its reduced (---) form is M_ip applied to
+C       it, and MKGAOL adds that image, so keep the seed unchanged.
+        if (.NOT.GOODSEED(ip) .AND. ip.ge.3 .AND. ip.le.5) then
+          call imv6(SEEDS(1,ip),CMS(1,ip),vtemp)
+          GOODSEED(ip) = NEARRED(vtemp,1.0D-6,'NEARRED')
+        endif
         if (.NOT.GOODSEED(ip)) then
           GOODSEED(ip) = NEAR2RED(SEEDS(1,ip),gerr,
      *    vtemp,dred,'NEAR2RED')
           call CPYVN(6,vtemp,SEEDS(1,ip))
-C         call printg6("Non-reduced projection",seeds(1,ip))
-
         endif
+
         do i = 1,6
           if (abs(GVEC(i)-SEEDS(i,ip)) .gt.
      *      3.5D0*GE(i)) GOODSEED(ip) = .false.
@@ -1738,11 +1748,11 @@ C     BF
       if (fdists1(i1,2)+fdists2(i2,2).lt.NCEDIST) then
 C        if (xdebug) then
 C          write(7,*)"BF shortcut 1",
-C     *     fdists1(i1,1),fdists2(i2,1),
-C     *     g456dist(fpgs1(1,i1,1),fpgs2(1,i2,1))
+C     *     fdists1(i1,2),fdists2(i2,2),
+C     *     g456dist(fpgs1(1,i1,2),fpgs2(1,i2,2))
 C        endif
         NCEDIST = min(NCEDIST,
-     *    dsqrt((fdists1(i1,1)+fdists2(i2,1))**2
+     *    dsqrt((fdists1(i1,2)+fdists2(i2,2))**2
      *      + g456dist(fpgs1(1,i1,1),fpgs2(1,i2,1))**2))
       endif
       if (fdists1(i1,2)+fdists2(i2,5).lt.NCEDIST) then

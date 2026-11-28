@@ -1682,6 +1682,7 @@ C----------------------------------------------------------------------C
       MODEC = ' '
       TITLE = ' '
  1000 CONTINUE
+      WRITE (*,*)'BGAOL'
       WRITE (*,"(a,$)") ''
       READ (*,"(A102)", END=9000, ERR=9000 ) INPUTLINE
       LATSYM = INPUTLINE(1:1)
